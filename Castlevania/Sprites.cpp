@@ -2,9 +2,9 @@
 #include "Game.h"
 #include "debug.h"
 
-CSprite::CSprite(int id, int left, int top, int right, int bottom, LPDIRECT3DTEXTURE9 tex)
+CSprite::CSprite(string idSprite, int left, int top, int right, int bottom, LPDIRECT3DTEXTURE9 tex)
 {
-	this->id = id;
+	this->idSprite = idSprite;
 	this->left = left;
 	this->top = top;
 	this->right = right;
@@ -26,20 +26,20 @@ void CSprite::Draw(float x, float y, int alpha)
 	game->Draw(x, y, texture, left, top, right, bottom, alpha);
 }
 
-void CSprites::Add(int id, int left, int top, int right, int bottom, LPDIRECT3DTEXTURE9 tex)
+void CSprites::Add(string idSprite, int left, int top, int right, int bottom, LPDIRECT3DTEXTURE9 tex)
 {
-	LPSPRITE s = new CSprite(id, left, top, right, bottom, tex);
-	sprites[id] = s;
+	LPSPRITE s = new CSprite(idSprite, left, top, right, bottom, tex);
+	sprites[idSprite] = s;
 }
 
-LPSPRITE CSprites::Get(int id)
+LPSPRITE CSprites::Get(string idSprite)
 {
-	return sprites[id];
+	return sprites[idSprite];
 }
 
 
 
-void CAnimation::Add(int spriteId, DWORD time)
+void CAnimation::Add(string spriteId, DWORD time)
 {
 	int t = time;
 	if (time == 0) t=this->defaultTime;
@@ -80,12 +80,12 @@ CAnimations * CAnimations::GetInstance()
 	return __instance;
 }
 
-void CAnimations::Add(int id, LPANIMATION ani)
+void CAnimations::Add(string idAni, LPANIMATION ani)
 {
-	animations[id] = ani;
+	animations.insert({ idAni, ani });
 }
 
-LPANIMATION CAnimations::Get(int id)
+LPANIMATION CAnimations::Get(string idAni)
 {
-	return animations[id];
+	return animations[idAni];
 }

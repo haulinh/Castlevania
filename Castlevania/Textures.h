@@ -1,5 +1,5 @@
 #pragma once
-#include <unordered_map>
+#include <map>
 #include <d3dx9.h>
 
 using namespace std;
@@ -11,12 +11,12 @@ class CTextures
 {
 	static CTextures * __instance;
 
-	unordered_map<int, LPDIRECT3DTEXTURE9> textures;
+	map<string, LPDIRECT3DTEXTURE9> textures;
 
 public: 
 	CTextures();
-	void Add(int id, LPCWSTR filePath, D3DCOLOR transparentColor);
-	LPDIRECT3DTEXTURE9 Get(unsigned int i);
+	void Add(string idTex, LPCWSTR filePath, D3DCOLOR transparentColor);
+	LPDIRECT3DTEXTURE9 Get(string idTex);
 
 	static CTextures * GetInstance();
 };

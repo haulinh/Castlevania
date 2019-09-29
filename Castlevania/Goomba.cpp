@@ -34,7 +34,7 @@ void CGoomba::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 void CGoomba::Render()
 {
-	int ani = GOOMBA_ANI_WALKING;
+	string ani = GOOMBA_ANI_WALKING;
 	if (state == GOOMBA_STATE_DIE) {
 		ani = GOOMBA_ANI_DIE;
 	}
