@@ -18,6 +18,7 @@ class CSprite
 public: 
 	CSprite(string idSprite, int left, int top, int right, int bottom, LPDIRECT3DTEXTURE9 tex);
 
+	void Draw(int nx, float x, float y, int alpha = 255);
 	void Draw(float x, float y, int alpha = 255);
 };
 
@@ -65,7 +66,8 @@ class CAnimation
 public:
 	CAnimation(int defaultTime) { this->defaultTime = defaultTime; lastFrameTime = -1; currentFrame = -1; }
 	void Add(string spriteId, DWORD time = 0);
-	void Render(float x, float y, int alpha=255);
+	void Render(int nx, float x, float y, int alpha=255);
+	void Render(float x, float y, int alpha = 255);
 };
 
 typedef CAnimation *LPANIMATION;

@@ -1,6 +1,7 @@
 #pragma once
 #include <map>
 #include <d3dx9.h>
+#include <string>
 
 using namespace std;
 

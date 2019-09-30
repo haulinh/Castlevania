@@ -5,8 +5,9 @@
 #include "Game.h"
 
 #include "Goomba.h"
+#include "Brick.h"
 
-void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
+void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	// Calculate dx, dy 
 	CGameObject::Update(dt);
@@ -54,34 +55,14 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		{
 			LPCOLLISIONEVENT e = coEventsResult[i];
 
-			if (dynamic_cast<CGoomba *>(e->obj)) // if e->obj is Goomba 
+			if (dynamic_cast<CBrick*>(e->obj)) // if e->obj is Goomba 
 			{
-				CGoomba *goomba = dynamic_cast<CGoomba *>(e->obj);
+				CBrick* brick = dynamic_cast<CBrick*>(e->obj);
 
 				// jump on top >> kill Goomba and deflect a bit 
 				if (e->ny < 0)
 				{
-					if (goomba->GetState() != GOOMBA_STATE_DIE)
-					{
-						goomba->SetState(GOOMBA_STATE_DIE);
-						vy = -SIMON_JUMP_DEFLECT_SPEED;
-					}
-				}
-				else if (e->nx != 0)
-				{
-					if (untouchable == 0)
-					{
-						if (goomba->GetState() != GOOMBA_STATE_DIE)
-						{
-							if (level > SIMON_LEVEL_SMALL)
-							{
-								level = SIMON_LEVEL_SMALL;
-								StartUntouchable();
-							}
-							else
-								SetState(SIMON_STATE_DIE);
-						}
-					}
+					isJumping = false;
 				}
 			}
 		}
@@ -95,36 +76,34 @@ void CSimon::Render()
 {
 	string ani;
 	if (state == SIMON_STATE_DIE)
-		ani = "simon_idle_left";
+		ani = "simon_idle";
+	else if (state == SIMON_STATE_SIT)
+		ani = "simon_sit";	
+	else if (state == SIMON_STATE_JUMP)
+		ani = "simon_sit";
 	else
-		if (level == SIMON_LEVEL_BIG)
+		if (vx == 0)
 		{
-			if (vx == 0)
-			{
-				if (nx > 0) ani = "simon_idle_left";
-				else ani = "simon_idle_left";
-			}
-			else if (vx > 0)
-				ani = "simon_left";
-			else ani = "simon_left";
+			if (nx > 0) ani = "simon_idle";
+			else ani = "simon_idle";
 		}
-		else if (level == SIMON_LEVEL_SMALL)
+		else if (vx > 0)
 		{
-			if (vx == 0)
-			{
-				if (nx > 0) ani = "simon_idle_left";
-				else ani = "simon_idle_left";
-			}
-			else if (vx > 0)
-				ani = "simon_left";
-			else ani = "simon_left";
+			ani = "simon_walk";
+			nx = 1;
+		}
+		else
+		{
+			ani = "simon_walk";
+			nx = -1;
 		}
 
 	int alpha = 255;
 	if (untouchable) alpha = 128;
-	animations[ani]->Render(x, y, alpha);
+	animations[ani]->Render(nx, x, y, alpha);
 
 	RenderBoundingBox();
+	DebugOut(L"vy = %d\n", vy);
 }
 
 void CSimon::SetState(int state)
@@ -143,6 +122,10 @@ void CSimon::SetState(int state)
 		break;
 	case SIMON_STATE_JUMP:
 		vy = -SIMON_JUMP_SPEED_Y;
+		isJumping = true;
+		break;
+	case SIMON_STATE_SIT:
+		break;
 	case SIMON_STATE_IDLE:
 		vx = 0;
 		break;
@@ -152,7 +135,8 @@ void CSimon::SetState(int state)
 	}
 }
 
-void CSimon::GetBoundingBox(float &left, float &top, float &right, float &bottom)
+
+void CSimon::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
 	left = x;
 	top = y;
@@ -161,11 +145,6 @@ void CSimon::GetBoundingBox(float &left, float &top, float &right, float &bottom
 	{
 		right = x + SIMON_BIG_BBOX_WIDTH;
 		bottom = y + SIMON_BIG_BBOX_HEIGHT;
-	}
-	else
-	{
-		right = x + SIMON_SMALL_BBOX_WIDTH;
-		bottom = y + SIMON_SMALL_BBOX_HEIGHT;
 	}
 }
 
