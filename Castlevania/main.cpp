@@ -199,9 +199,6 @@ void Update(DWORD dt)
 	{
 		objects[i]->Update(dt,&coObjects);
 	}
-	DebugOut(L"[INFO] Simon: %d\n", simon->GetState());
-	DebugOut(L"[INFO] Simon Y: %d\n", simon->GetY());
-	DebugOut(L"[INFO] Simon Vy: %d\n", simon->GetVy());
 
 	/* Update camera to follow simon*/
 	float cx, cy;
