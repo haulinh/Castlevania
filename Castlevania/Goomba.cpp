@@ -1,15 +1,15 @@
 #include "Goomba.h"
 
-void CGoomba::GetBoundingBox(float &left, float &top, float &right, float &bottom)
+void CGoomba::GetBoundingBox(float &left, float &top, float &width, float &height)
 {
 	left = x;
 	top = y;
-	right = x + GOOMBA_BBOX_WIDTH;
+	width = GOOMBA_BBOX_WIDTH;
 
 	if (state == GOOMBA_STATE_DIE)
-		bottom = y + GOOMBA_BBOX_HEIGHT_DIE;
+		height = GOOMBA_BBOX_HEIGHT_DIE;
 	else 	
-		bottom = y + GOOMBA_BBOX_HEIGHT;
+		height = GOOMBA_BBOX_HEIGHT;
 }
 
 void CGoomba::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)

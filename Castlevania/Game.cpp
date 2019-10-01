@@ -55,7 +55,7 @@ void CGame::Init(HWND hWnd)
 /*
 	Utility function to wrap LPD3DXSPRITE::Draw 
 */
-void CGame::Draw(int nx, float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom, int alpha)
+void CGame::Draw(int nx, float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top, int width, int height, int alpha)
 {
 
 //D3DXVECTOR3 p(floor(x), floor(y), 0); // https://docs.microsoft.com/vi-vn/windows/desktop/direct3d9/directly-mapping-texels-to-pixels
@@ -65,8 +65,8 @@ void CGame::Draw(int nx, float x, float y, LPDIRECT3DTEXTURE9 texture, int left,
 	RECT r; 
 	r.left = left;
 	r.top = top;
-	r.right = right;
-	r.bottom = bottom;
+	r.right = left + width;
+	r.bottom = top + height;
 
 
 	// flip sprite, using nx parameter
@@ -75,7 +75,7 @@ void CGame::Draw(int nx, float x, float y, LPDIRECT3DTEXTURE9 texture, int left,
 
 	spriteHandler->GetTransform(&oldTransform);
 
-	D3DXVECTOR2 center = D3DXVECTOR2(p.x + (right - left) / 2, p.y + (bottom - top) / 2);
+	D3DXVECTOR2 center = D3DXVECTOR2(p.x + width / 2, p.y + height / 2);
 	D3DXVECTOR2 rotate = D3DXVECTOR2(nx > 0 ? -1 : 1, 1);
 
 	// Xây dựng một ma trận 2D lưu thông tin biến đổi (scale, rotate)
@@ -91,15 +91,15 @@ void CGame::Draw(int nx, float x, float y, LPDIRECT3DTEXTURE9 texture, int left,
 	
 }
 
-void CGame::Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom, int alpha)
+void CGame::Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top, int width, int height, int alpha)
 {
 	D3DXVECTOR3 p(floor(x - cam_x), floor(y - cam_y), 0);
 
 	RECT r;
 	r.left = left;
 	r.top = top;
-	r.right = right;
-	r.bottom = bottom;
+	r.right = left + width;
+	r.bottom = top + height;
 
 	spriteHandler->Draw(texture, &r, NULL, &p, D3DCOLOR_ARGB(alpha, 255, 255, 255));
 }

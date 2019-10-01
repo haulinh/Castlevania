@@ -11,12 +11,12 @@ class CSprite
 
 	int left; 
 	int top;
-	int right;
-	int bottom;
+	int width;
+	int height;
 
 	LPDIRECT3DTEXTURE9 texture;
 public: 
-	CSprite(string idSprite, int left, int top, int right, int bottom, LPDIRECT3DTEXTURE9 tex);
+	CSprite(string idSprite, int left, int top, int width, int height, LPDIRECT3DTEXTURE9 tex);
 
 	void Draw(int nx, float x, float y, int alpha = 255);
 	void Draw(float x, float y, int alpha = 255);
@@ -34,7 +34,7 @@ class CSprites
 	unordered_map<string, LPSPRITE> sprites;
 
 public:
-	void Add(string idSprite, int left, int top, int right, int bottom, LPDIRECT3DTEXTURE9 tex);
+	void Add(string idSprite, int left, int top, int width, int height, LPDIRECT3DTEXTURE9 tex);
 	LPSPRITE Get(string idSprite);
 	LPSPRITE &operator[](string idSprite) {return sprites[idSprite];}
 

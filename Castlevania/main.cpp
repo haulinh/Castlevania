@@ -131,11 +131,11 @@ void LoadResources()
 	sprites->Add("brick", 0, 0, 32, 32, texBrick); 
 
 	auto texSimon = textures->Get("id_tex_simon");
-	sprites->Add("simon_idle", 0, 0, 60, 64, texSimon); // idle
-	sprites->Add("simon_walk1", 60, 0, 60*2, 64, texSimon); // walking 1
-	sprites->Add("simon_walk2", 60*2, 0, 60*3, 64, texSimon); // walking 2
-	sprites->Add("simon_walk3", 60*3, 0, 60*4, 64, texSimon); // walking 3
-	sprites->Add("simon_sit", 60*4, 0, 60*5, 64, texSimon); // sit
+	sprites->Add("simon_idle", 206, 61, 32, 62, texSimon); // idle
+	sprites->Add("simon_walk1", 87, 123, 24, 62, texSimon); // walking 1
+	sprites->Add("simon_walk2", 174, 61, 30, 62, texSimon); // walking 2
+	sprites->Add("simon_walk3", 1, 123, 24, 62, texSimon); // walking 3
+	sprites->Add("simon_sit", 47, 1, 32, 46, texSimon); // sit
 
 	LPANIMATION ani;
 

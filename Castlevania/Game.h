@@ -45,22 +45,22 @@ class CGame
 public:
 	void InitKeyboard(LPKEYEVENTHANDLER handler);
 	void Init(HWND hWnd);
-	void Draw(int nx, float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom, int alpha = 255);
-	void Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom, int alpha = 255);
+	void Draw(int nx, float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top, int width, int height, int alpha = 255);
+	void Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top, int width, int height, int alpha = 255);
 	int IsKeyDown(int KeyCode);
 	void ProcessKeyboard();
 
 	static void SweptAABB(
 		float ml,			// move left 
 		float mt,			// move top
-		float mr,			// move right 
-		float mb,			// move bottom
+		float mw,			// move width
+		float mh,			// move height 
 		float dx,			// 
 		float dy,			// 
 		float sl,			// static left
 		float st, 
-		float sr, 
-		float sb,
+		float sw, 
+		float sh,
 		float &t, 
 		float &nx, 
 		float &ny);
