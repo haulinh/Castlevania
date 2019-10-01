@@ -118,7 +118,8 @@ void LoadResources()
 {
 	CTextures * textures = CTextures::GetInstance();
 
-	textures->Add("id_tex_simon", L"textures\\simon.png", D3DCOLOR_XRGB(255, 0, 255));
+	//textures->Add("id_tex_simon", L"textures\\simon.png", D3DCOLOR_XRGB(255, 0, 255));
+	textures->Add("id_tex_simon", L"textures\\simon2.png", D3DCOLOR_XRGB(255, 0, 255));
 	textures->Add("id_tex_brick", L"textures\\brick.png", D3DCOLOR_XRGB(255, 0, 255));
 	textures->Add("-100", L"textures\\bbox.png", D3DCOLOR_XRGB(255, 255, 255));
 
@@ -130,12 +131,19 @@ void LoadResources()
 	auto texBrick = textures->Get("id_tex_brick");
 	sprites->Add("brick", 0, 0, 32, 32, texBrick); 
 
+	//auto texSimon = textures->Get("id_tex_simon");
+	//sprites->Add("simon_idle", 0, 0, 60, 66, texSimon); // idle
+	//sprites->Add("simon_walk1", 60, 0, 60, 66, texSimon); // walking 1
+	//sprites->Add("simon_walk2", 120, 0, 60, 66, texSimon); // walking 2
+	//sprites->Add("simon_walk3", 180, 0, 60, 66, texSimon); // walking 3
+	//sprites->Add("simon_sit", 47, 0, 60, 66, texSimon); // sit
+
 	auto texSimon = textures->Get("id_tex_simon");
-	sprites->Add("simon_idle", 206, 61, 32, 62, texSimon); // idle
-	sprites->Add("simon_walk1", 87, 123, 24, 62, texSimon); // walking 1
-	sprites->Add("simon_walk2", 174, 61, 30, 62, texSimon); // walking 2
-	sprites->Add("simon_walk3", 1, 123, 24, 62, texSimon); // walking 3
-	sprites->Add("simon_sit", 47, 1, 32, 46, texSimon); // sit
+	sprites->Add("simon_idle", 125, 1, 60, 66, texSimon); // idle
+	sprites->Add("simon_walk1", 1, 409, 60, 66, texSimon); // walking 1
+	sprites->Add("simon_walk2", 63, 69, 60, 66, texSimon); // walking 2
+	sprites->Add("simon_walk3", 63, 205, 60, 66, texSimon); // walking 3
+	sprites->Add("simon_sit", 1, 341, 60, 66, texSimon); // sit
 
 	LPANIMATION ani;
 
