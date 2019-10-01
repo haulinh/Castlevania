@@ -2,6 +2,10 @@
 #include <Windows.h>
 #include <d3dx9.h>
 #include <unordered_map>
+#include <rapidxml/rapidxml.hpp>
+#include <rapidxml/rapidxml_utils.hpp>
+
+using namespace rapidxml;
 
 using namespace std;
 
@@ -35,6 +39,7 @@ class CSprites
 
 public:
 	void Add(string idSprite, int left, int top, int width, int height, LPDIRECT3DTEXTURE9 tex);
+	void LoadSpriteSheet(const char* filePath, LPDIRECT3DTEXTURE9 tex);
 	LPSPRITE Get(string idSprite);
 	LPSPRITE &operator[](string idSprite) {return sprites[idSprite];}
 

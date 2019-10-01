@@ -39,7 +39,7 @@
 #define SCREEN_WIDTH 640 
 #define SCREEN_HEIGHT 480 
 
-#define MAX_FRAME_RATE 60
+#define MAX_FRAME_RATE 120
 
 CGame *game;
 
@@ -95,6 +95,7 @@ void CSampleKeyHander::KeyState(BYTE* states)
 		simon->SetState(SIMON_STATE_IDLE);
 }
 
+#pragma region WinProc
 LRESULT CALLBACK WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	switch (message) {
@@ -107,6 +108,7 @@ LRESULT CALLBACK WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 	return 0;
 }
+#pragma endregion WinProc
 
 /*
 	Load all game resources 
@@ -118,32 +120,21 @@ void LoadResources()
 {
 	CTextures * textures = CTextures::GetInstance();
 
-	//textures->Add("id_tex_simon", L"textures\\simon.png", D3DCOLOR_XRGB(255, 0, 255));
-	textures->Add("id_tex_simon", L"textures\\simon2.png", D3DCOLOR_XRGB(255, 0, 255));
-	textures->Add("id_tex_brick", L"textures\\brick.png", D3DCOLOR_XRGB(255, 0, 255));
+	textures->Add("id_tex_simon", L"textures\\simon\\simon2.png", D3DCOLOR_XRGB(255, 0, 255));
+	textures->Add("id_tex_brick", L"textures\\ground\\brick.png", D3DCOLOR_XRGB(255, 0, 255));
 	textures->Add("-100", L"textures\\bbox.png", D3DCOLOR_XRGB(255, 255, 255));
 
 
 	CSprites * sprites = CSprites::GetInstance();
 	CAnimations * animations = CAnimations::GetInstance();
 
-	//sprite simon
+	
 	auto texBrick = textures->Get("id_tex_brick");
-	sprites->Add("brick", 0, 0, 32, 32, texBrick); 
-
-	//auto texSimon = textures->Get("id_tex_simon");
-	//sprites->Add("simon_idle", 0, 0, 60, 66, texSimon); // idle
-	//sprites->Add("simon_walk1", 60, 0, 60, 66, texSimon); // walking 1
-	//sprites->Add("simon_walk2", 120, 0, 60, 66, texSimon); // walking 2
-	//sprites->Add("simon_walk3", 180, 0, 60, 66, texSimon); // walking 3
-	//sprites->Add("simon_sit", 47, 0, 60, 66, texSimon); // sit
+	sprites->LoadSpriteSheet("textures\\ground\\brick.xml", texBrick);
 
 	auto texSimon = textures->Get("id_tex_simon");
-	sprites->Add("simon_idle", 125, 1, 60, 66, texSimon); // idle
-	sprites->Add("simon_walk1", 1, 409, 60, 66, texSimon); // walking 1
-	sprites->Add("simon_walk2", 63, 69, 60, 66, texSimon); // walking 2
-	sprites->Add("simon_walk3", 63, 205, 60, 66, texSimon); // walking 3
-	sprites->Add("simon_sit", 1, 341, 60, 66, texSimon); // sit
+
+	sprites->LoadSpriteSheet("textures\\simon\\simon2.xml", texSimon);
 
 	LPANIMATION ani;
 
@@ -154,20 +145,20 @@ void LoadResources()
 
 	//simon walk
 	ani = new CAnimation(100);
-	ani->Add("simon_idle");
-	ani->Add("simon_walk1");
-	ani->Add("simon_walk2");
-	ani->Add("simon_walk3");
+	ani->Add("simon000");
+	ani->Add("simon001");
+	ani->Add("simon002");
+	ani->Add("simon003");
 	animations->Add("simon_walk", ani);
 
 	//simon idle
 	ani = new CAnimation(100);
-	ani->Add("simon_idle");
+	ani->Add("simon000");
 	animations->Add("simon_idle", ani);
 
 	//simon sit
 	ani = new CAnimation(500);
-	ani->Add("simon_sit");
+	ani->Add("simon004");
 	animations->Add("simon_sit", ani);
 
 
@@ -176,7 +167,7 @@ void LoadResources()
 	simon->AddAnimation("simon_walk");		// walk
 	simon->AddAnimation("simon_sit");		// sit
 
-	simon->SetPosition(0.0f, 0);
+	simon->SetPosition(0.0f, 300-60-32);
 	objects.push_back(simon);
 
 	for (int i = 0; i < 30; i++)
@@ -245,6 +236,7 @@ void Render()
 	d3ddv->Present(NULL, NULL, NULL, NULL);
 }
 
+#pragma region CreateGameWindow
 HWND CreateGameWindow(HINSTANCE hInstance, int nCmdShow, int ScreenWidth, int ScreenHeight)
 {
 	WNDCLASSEX wc;
@@ -279,7 +271,7 @@ HWND CreateGameWindow(HINSTANCE hInstance, int nCmdShow, int ScreenWidth, int Sc
 			hInstance,
 			NULL);
 
-	if (!hWnd) 
+	if (!hWnd)
 	{
 		OutputDebugString(L"[ERROR] CreateWindow failed");
 		DWORD ErrCode = GetLastError();
@@ -291,6 +283,8 @@ HWND CreateGameWindow(HINSTANCE hInstance, int nCmdShow, int ScreenWidth, int Sc
 
 	return hWnd;
 }
+#pragma endregion CreateGameWindow
+
 
 int Run()
 {

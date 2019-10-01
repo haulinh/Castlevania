@@ -102,8 +102,7 @@ void CSimon::Render()
 	if (untouchable) alpha = 128;
 	animations[ani]->Render(nx, x, y, alpha);
 
-	RenderBoundingBox();
-	DebugOut(L"vy = %d\n", vy);
+	//RenderBoundingBox();
 }
 
 void CSimon::SetState(int state)

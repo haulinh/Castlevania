@@ -38,6 +38,34 @@ void CSprites::Add(string idSprite, int left, int top, int width, int height, LP
 	sprites[idSprite] = s;
 }
 
+void CSprites::LoadSpriteSheet(const char* filePath, LPDIRECT3DTEXTURE9 tex)
+{
+	rapidxml::file<> xmlFile(filePath);
+	rapidxml::xml_document<> doc;
+	doc.parse<0>(xmlFile.data());
+	xml_node<>* rootNode = doc.first_node("TextureAtlas");
+	xml_node<>* spriteSheetNode = rootNode->first_node("sprite");
+	int i = 0;
+	for (xml_node<>* spriteNode = rootNode->first_node("sprite"); spriteNode; spriteNode = spriteNode->next_sibling()) {
+
+		string idSprite;
+		int left;
+		int top;
+		int width;
+		int height;
+
+		idSprite = spriteNode->first_attribute("n")->value();
+		left = atoi(spriteNode->first_attribute("x")->value());
+		top = atoi(spriteNode->first_attribute("y")->value());
+		width = atoi(spriteNode->first_attribute("w")->value());
+		height = atoi(spriteNode->first_attribute("h")->value());
+
+		DebugOut(L"id = %s left = %d", idSprite, left);
+
+		Add(idSprite, left, top, width, height, tex);
+	}
+}
+
 LPSPRITE CSprites::Get(string idSprite)
 {
 	return sprites[idSprite];
