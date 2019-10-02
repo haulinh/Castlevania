@@ -12,6 +12,7 @@ CSprite::CSprite(string idSprite, int left, int top, int width, int height, LPDI
 	this->texture = tex;
 }
 
+
 CSprites * CSprites::__instance = NULL;
 
 CSprites *CSprites::GetInstance()
@@ -32,6 +33,8 @@ void CSprite::Draw(float x, float y, int alpha)
 	game->Draw(x, y, texture, left, top, width, height, alpha);
 }
 
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void CSprites::Add(string idSprite, int left, int top, int width, int height, LPDIRECT3DTEXTURE9 tex)
 {
 	LPSPRITE s = new CSprite(idSprite, left, top, width, height, tex);
@@ -70,7 +73,7 @@ LPSPRITE CSprites::Get(string idSprite)
 }
 
 
-
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void CAnimation::Add(string spriteId, DWORD time)
 {
 	int t = time;
@@ -83,6 +86,7 @@ void CAnimation::Add(string spriteId, DWORD time)
 
 void CAnimation::Render(int nx, float x, float y, int alpha)
 {
+	doneCycle = false;
 	DWORD now = GetTickCount();
 	if (currentFrame == -1) 
 	{
@@ -96,7 +100,11 @@ void CAnimation::Render(int nx, float x, float y, int alpha)
 		{
 			currentFrame++;
 			lastFrameTime = now;
-			if (currentFrame == frames.size()) currentFrame = 0;
+			if (currentFrame >= frames.size())
+			{
+				currentFrame = 0;
+				doneCycle = true;
+			}
 		}
 		
 	}
@@ -106,6 +114,7 @@ void CAnimation::Render(int nx, float x, float y, int alpha)
 
 void CAnimation::Render(float x, float y, int alpha)
 {
+	doneCycle = false;
 	DWORD now = GetTickCount();
 	if (currentFrame == -1)
 	{
@@ -119,7 +128,12 @@ void CAnimation::Render(float x, float y, int alpha)
 		{
 			currentFrame++;
 			lastFrameTime = now;
-			if (currentFrame == frames.size()) currentFrame = 0;
+			if (currentFrame >= frames.size())
+			{
+				
+				currentFrame = 0;
+				doneCycle = true;
+			}
 		}
 
 	}
@@ -127,6 +141,7 @@ void CAnimation::Render(float x, float y, int alpha)
 	frames[currentFrame]->GetSprite()->Draw(x, y, alpha);
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 CAnimations * CAnimations::__instance = NULL;
 
 CAnimations * CAnimations::GetInstance()

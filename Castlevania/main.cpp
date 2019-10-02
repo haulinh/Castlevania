@@ -39,7 +39,7 @@
 #define SCREEN_WIDTH 640 
 #define SCREEN_HEIGHT 480 
 
-#define MAX_FRAME_RATE 120
+#define MAX_FRAME_RATE  60
 
 CGame *game;
 
@@ -61,11 +61,13 @@ CSampleKeyHander * keyHandler;
 void CSampleKeyHander::OnKeyDown(int KeyCode)
 {
 	DebugOut(L"[INFO] KeyDown: %d\n", KeyCode);
-	DebugOut(L"[INFO] KeyDown: %d\n", KeyCode);
 	switch (KeyCode)
 	{
-	case DIK_SPACE:
+	case DIK_F:
 		simon->SetState(SIMON_STATE_JUMP);
+		break;
+	case DIK_D:
+		simon->SetState(SIMON_STATE_ATTACK);
 		break;
 		
 	//case DIK_A: // reset
@@ -85,8 +87,9 @@ void CSampleKeyHander::OnKeyUp(int KeyCode)
 
 void CSampleKeyHander::KeyState(BYTE* states)
 {
-
+	DebugOut(L"attacking %d\n", simon->IsAttacking());
 	if (simon->IsJumping()) return;
+	if (!simon->IsAttacking()) return;
 	else if (game->IsKeyDown(DIK_DOWN))
 	{
 		simon->SetState(SIMON_STATE_SIT);
@@ -98,6 +101,7 @@ void CSampleKeyHander::KeyState(BYTE* states)
 		simon->SetState(SIMON_STATE_WALKING_LEFT);
 	else 
 		simon->SetState(SIMON_STATE_IDLE);
+
 }
 
 #pragma region WinProc
@@ -153,6 +157,7 @@ void LoadResources()
 	simon->AddAnimation("simon_ani_idle");		// idle
 	simon->AddAnimation("simon_ani_walking");		// walk
 	simon->AddAnimation("simon_ani_sitting");		// sit
+	simon->AddAnimation("simon_ani_attacking");		// attacking
 
 	simon->SetPosition(0.0f, 300-60-32);
 	objects.push_back(simon);

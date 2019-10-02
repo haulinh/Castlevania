@@ -14,6 +14,7 @@
 #define SIMON_STATE_JUMP			300
 #define SIMON_STATE_DIE				400
 #define SIMON_STATE_SIT				500
+#define SIMON_STATE_ATTACK		600
 
 #define SIMON_ANI_BIG_IDLE_RIGHT		0
 #define SIMON_ANI_BIG_IDLE_LEFT			0
@@ -40,26 +41,36 @@ class CSimon : public CGameObject
 {
 	int level;
 	int untouchable;
-	bool isJumping;
-	bool isSitting;
+
+	bool jumping = false;
+	bool sitting = false;
+	bool attacking = false;
+
 	DWORD untouchable_start;
+
+	
+
 public:
+	DWORD attackStart;
 	CSimon() : CGameObject()
 	{
 		level = SIMON_LEVEL_BIG;
 		untouchable = 0;
 	}
+
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *colliable_objects = NULL);
 	virtual void Render();
+	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
+
 	void SetState(int state);
 	void SetLevel(int l) { level = l; }
 	void StartUntouchable() { untouchable = 1; untouchable_start = GetTickCount(); }
 	int GetY() { return y; }
 	int GetVy() { return vy; }
 
-	bool IsJumping() { return isJumping; }
-	bool IsSitting() { return isSitting; }
-	void Sit() { isSitting = true; }
+	bool IsJumping() { return jumping; }
+	bool IsSitting() { return sitting; }
+	bool IsAttacking() { return attacking; }
 
-	virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom);
+	
 };

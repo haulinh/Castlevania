@@ -8,6 +8,7 @@
 #include "Brick.h"
 
 #pragma region Update 
+string ani;
 void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	// Calculate dx, dy 
@@ -63,7 +64,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				// jump on top >> kill Goomba and deflect a bit 
 				if (e->ny < 0)
 				{
-					isJumping = false;
+					jumping = false;
 				}
 			}
 		}
@@ -71,24 +72,33 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 	// clean up collision events
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
+
 }
 #pragma endregion Simon 
 
 
 void CSimon::Render()
 {
-	string ani;
+
+	int alpha = 255;
+	if (untouchable) alpha = 128;
+
 	if (state == SIMON_STATE_DIE)
 		ani = "simon_ani_idle";
 	else if (state == SIMON_STATE_SIT)
 	{
-		ani = "simon_ani_sitting";	
+		ani = "simon_ani_sitting";
 		vx = 0;
 	}
-	else if (state == SIMON_STATE_JUMP) {
+	else if (state == SIMON_STATE_JUMP)
+	{
 		ani = "simon_ani_sitting";
 	}
-	
+	else if (state == SIMON_STATE_ATTACK)
+	{
+		ani = "simon_ani_attacking";
+		//attacking = false;
+	}
 	else
 		if (vx == 0)
 		{
@@ -106,11 +116,9 @@ void CSimon::Render()
 			nx = -1;
 		}
 
-	int alpha = 255;
-	if (untouchable) alpha = 128;
 	animations[ani]->Render(nx, x, y, alpha);
-
-	RenderBoundingBox();
+	attacking = animations[ani]->IsDoneCyle();
+		//RenderBoundingBox();
 }
 
 void CSimon::SetState(int state)
@@ -120,25 +128,29 @@ void CSimon::SetState(int state)
 	switch (state)
 	{
 	case SIMON_STATE_WALKING_RIGHT:
-		isSitting = false;
+		sitting = false;
 		vx = SIMON_WALKING_SPEED;
 		nx = 1;
 		break;
 	case SIMON_STATE_WALKING_LEFT:
-		isSitting = false;
+		sitting = false;
 		vx = -SIMON_WALKING_SPEED;
 		nx = -1;
 		break;
 	case SIMON_STATE_JUMP:
 		vy = -SIMON_JUMP_SPEED_Y;
-		isSitting = false;
-		isJumping = true;
+		sitting = false;
+		jumping = true;
+		break;
+	case SIMON_STATE_ATTACK:
+		//attacking = true;
+		vx = 0;
 		break;
 	case SIMON_STATE_SIT:
-		isSitting = true;
+		sitting = true;
 		break;
 	case SIMON_STATE_IDLE:
-		isSitting = false;
+		sitting = false;
 		vx = 0;
 		break;
 	case SIMON_STATE_DIE:
@@ -150,10 +162,10 @@ void CSimon::SetState(int state)
 
 void CSimon::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
-		left = x;
-		top = y;
-		right = x + SIMON_BIG_BBOX_WIDTH;
-		bottom = y + SIMON_BIG_BBOX_HEIGHT;
+	left = x;
+	top = y;
+	right = x + SIMON_BIG_BBOX_WIDTH;
+	bottom = y + SIMON_BIG_BBOX_HEIGHT;
 
 }
 
