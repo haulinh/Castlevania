@@ -41,6 +41,7 @@ class CSimon : public CGameObject
 	int level;
 	int untouchable;
 	bool isJumping;
+	bool isSitting;
 	DWORD untouchable_start;
 public:
 	CSimon() : CGameObject()
@@ -55,7 +56,10 @@ public:
 	void StartUntouchable() { untouchable = 1; untouchable_start = GetTickCount(); }
 	int GetY() { return y; }
 	int GetVy() { return vy; }
+
 	bool IsJumping() { return isJumping; }
+	bool IsSitting() { return isSitting; }
+	void Sit() { isSitting = true; }
 
 	virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom);
 };

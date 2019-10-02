@@ -44,7 +44,7 @@ void CSprites::LoadSpriteSheet(const char* filePath, LPDIRECT3DTEXTURE9 tex)
 	rapidxml::xml_document<> doc;
 	doc.parse<0>(xmlFile.data());
 	xml_node<>* rootNode = doc.first_node("TextureAtlas");
-	for (xml_node<>* spriteNode = rootNode->first_node("sprite"); spriteNode; spriteNode = spriteNode->next_sibling()) {
+	for (xml_node<>* spriteNode = rootNode->first_node(); spriteNode; spriteNode = spriteNode->next_sibling()) {
 
 		string idSprite;
 		int left;

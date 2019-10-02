@@ -138,7 +138,6 @@ void LoadResources()
 	sprites->LoadSpriteSheet("textures\\ground\\brick.xml", texBrick);
 
 	auto texSimon = textures->Get("id_tex_simon");
-
 	sprites->LoadSpriteSheet("textures\\simon\\simon.xml", texSimon);
 
 	LPANIMATION ani;
