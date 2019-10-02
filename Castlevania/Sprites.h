@@ -2,22 +2,27 @@
 #include <Windows.h>
 #include <d3dx9.h>
 #include <unordered_map>
+#include <rapidxml/rapidxml.hpp>
+#include <rapidxml/rapidxml_utils.hpp>
+
+using namespace rapidxml;
 
 using namespace std;
 
 class CSprite
 {
-	int id;				// Sprite ID in the sprite database
+	string idSprite;				// Sprite ID in the sprite database
 
 	int left; 
 	int top;
-	int right;
-	int bottom;
+	int width;
+	int height;
 
 	LPDIRECT3DTEXTURE9 texture;
 public: 
-	CSprite(int id, int left, int top, int right, int bottom, LPDIRECT3DTEXTURE9 tex);
+	CSprite(string idSprite, int left, int top, int width, int height, LPDIRECT3DTEXTURE9 tex);
 
+	void Draw(int nx, float x, float y, int alpha = 255);
 	void Draw(float x, float y, int alpha = 255);
 };
 
@@ -30,12 +35,13 @@ class CSprites
 {
 	static CSprites * __instance;
 
-	unordered_map<int, LPSPRITE> sprites;
+	unordered_map<string, LPSPRITE> sprites;
 
 public:
-	void Add(int id, int left, int top, int right, int bottom, LPDIRECT3DTEXTURE9 tex);
-	LPSPRITE Get(int id);
-	LPSPRITE &operator[](int id) {return sprites[id];}
+	void Add(string idSprite, int left, int top, int width, int height, LPDIRECT3DTEXTURE9 tex);
+	void LoadSpriteSheet(const char* filePath, LPDIRECT3DTEXTURE9 tex);
+	LPSPRITE Get(string idSprite);
+	LPSPRITE &operator[](string idSprite) {return sprites[idSprite];}
 
 	static CSprites * GetInstance();
 };
@@ -64,8 +70,9 @@ class CAnimation
 	vector<LPANIMATION_FRAME> frames;
 public:
 	CAnimation(int defaultTime) { this->defaultTime = defaultTime; lastFrameTime = -1; currentFrame = -1; }
-	void Add(int spriteId, DWORD time = 0);
-	void Render(float x, float y, int alpha=255);
+	void Add(string spriteId, DWORD time = 0);
+	void Render(int nx, float x, float y, int alpha=255);
+	void Render(float x, float y, int alpha = 255);
 };
 
 typedef CAnimation *LPANIMATION;
@@ -74,11 +81,12 @@ class CAnimations
 {
 	static CAnimations * __instance;
 
-	unordered_map<int, LPANIMATION> animations;
+	unordered_map<string, LPANIMATION> animations;
 
 public:
-	void Add(int id, LPANIMATION ani);
-	LPANIMATION Get(int id);
+	void Add(string idAni, LPANIMATION ani);
+	void LoadAnimations(const char* filePath);
+	LPANIMATION Get(string idAni);
 
 	static CAnimations * GetInstance();
 };

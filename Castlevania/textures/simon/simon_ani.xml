@@ -1,0 +1,74 @@
+<animations name="simon">
+    <animation ID="simon_ani_idle" defaultTime="100">
+        <frame spriteID="simon000" />
+    </animation>
+
+    <animation ID="simon_ani_walking" defaultTime="100">
+        <frame spriteID="simon000" />
+        <frame spriteID="simon001" />
+        <frame spriteID="simon002" />
+        <frame spriteID="simon003" />
+    </animation>
+
+    <animation ID="simon_ani_sitting" defaultTime="100">
+        <frame spriteID="simon004" />
+    </animation>
+    
+    <!-- <animation ID="simon_ani_stand_attack" defaulttime="100">
+        <frame spriteID="simon_stand_attack_01" />
+        <frame spriteID="simon_stand_attack_02" />
+        <frame spriteID="simon_stand_attack_03" />
+        <frame spriteID="simon_stand_attack_03" />
+    </animation>
+    <animation ID="simon_ani_sit_attack" defaulttime="100">
+        <frame spriteID="simon_sitting_attack_01" />
+        <frame spriteID="simon_sitting_attack_02" />
+        <frame spriteID="simon_sitting_attack_03" />
+        <frame spriteID="simon_sitting_attack_03" />
+    </animation>
+
+    <animation ID="simon_ani_deflect" defaulttime="100">
+        <frame spriteID="simon_stand_deflect" />
+    </animation>
+
+    <animation ID="simon_ani_idle_upwhip" defaulttime="100">
+        <frame spriteID="simon_idle_upwhip_01" />
+        <frame spriteID="simon_idle_upwhip_02" />
+        <frame spriteID="simon_idle_upwhip_03" />
+    </animation>
+
+    <animation ID="simon_ani_enter_castle" defaulttime="100">
+        <frame spriteID="simon_enter_castle" />
+    </animation>
+
+    <animation ID="simon_ani_idle_upstair" defaulttime="100">
+        <frame spriteID="simon_upstair_02" />
+    </animation>
+
+    <animation ID="simon_ani_step_upstair" defaulttime="100">
+        <frame spriteID="simon_upstair_01" />
+        <frame spriteID="simon_upstair_02" />
+    </animation>
+
+    <animation ID="simon_ani_idle_downstair" defaulttime="100">
+        <frame spriteID="simon_downstair_02" />
+    </animation>
+    <animation ID="simon_ani_step_downstair" defaulttime="100">
+        <frame spriteID="simon_downstair_01" />
+        <frame spriteID="simon_downstair_02" />
+    </animation>
+
+    <animation ID="simon_ani_upstair_attack" defaulttime="100">
+        <frame spriteID="simon_upstair_attack_01" />
+        <frame spriteID="simon_upstair_attack_02" />
+        <frame spriteID="simon_upstair_attack_03" />
+        <frame spriteID="SIMON_UPSTAIR_ATTACK_03" />
+    </animation>
+    <animation ID="simon_ani_downstair_attack" defaulttime="100">
+        <frame spriteID="simon_downstair_attack_01" />
+        <frame spriteID="simon_downstair_attack_02" />
+        <frame spriteID="simon_downstair_attack_03" />
+        <frame spriteID="simon_downstair_attack_03" />
+    </animation> -->
+
+</animations>

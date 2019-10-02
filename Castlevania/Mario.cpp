@@ -93,7 +93,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 void CMario::Render()
 {
-	int ani;
+	string ani;
 	if (state == MARIO_STATE_DIE)
 		ani = MARIO_ANI_DIE;
 	else
@@ -101,7 +101,7 @@ void CMario::Render()
 	{
 		if (vx == 0)
 		{
-			if (nx>0) ani = MARIO_ANI_BIG_IDLE_RIGHT;
+			if (nx>0) ani = "MARIO_ANI_BIG_IDLE_RIGHT";
 			else ani = MARIO_ANI_BIG_IDLE_LEFT;
 		}
 		else if (vx > 0) 
