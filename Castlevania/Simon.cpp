@@ -99,22 +99,17 @@ void CSimon::Render()
 		ani = "simon_ani_attacking";
 		//attacking = false;
 	}
-	else
-		if (vx == 0)
-		{
-			if (nx > 0) ani = "simon_ani_idle";
-			else ani = "simon_ani_idle";
-		}
-		else if (vx > 0)
-		{
-			ani = "simon_ani_walking";
-			nx = 1;
-		}
-		else
-		{
-			ani = "simon_ani_walking";
-			nx = -1;
-		}
+	else if (state == SIMON_STATE_WALKING_LEFT)
+	{
+		ani = "simon_ani_walking";
+		nx = -1;
+	}
+	else if (state == SIMON_STATE_WALKING_RIGHT)
+	{
+		ani = "simon_ani_walking";
+		nx = 1;
+	}
+	else ani = "simon_ani_idle";
 
 	animations[ani]->Render(nx, x, y, alpha);
 	attacking = animations[ani]->IsDoneCyle();

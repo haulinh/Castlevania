@@ -89,7 +89,7 @@ void CSampleKeyHander::KeyState(BYTE* states)
 {
 	DebugOut(L"attacking %d\n", simon->IsAttacking());
 	if (simon->IsJumping()) return;
-	if (!simon->IsAttacking()) return;
+	//if (!simon->IsAttacking()) return;
 	else if (game->IsKeyDown(DIK_DOWN))
 	{
 		simon->SetState(SIMON_STATE_SIT);
