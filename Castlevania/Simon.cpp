@@ -7,6 +7,7 @@
 #include "Goomba.h"
 #include "Brick.h"
 
+#pragma region Update 
 void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	// Calculate dx, dy 
@@ -71,30 +72,35 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	// clean up collision events
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 }
+#pragma endregion Simon 
+
 
 void CSimon::Render()
 {
 	string ani;
 	if (state == SIMON_STATE_DIE)
-		ani = "simon_idle";
+		ani = "simon_ani_idle";
 	else if (state == SIMON_STATE_SIT)
-		ani = "simon_sit";	
+	{
+		ani = "simon_ani_sitting";	
+		vx = 0;
+	}
 	else if (state == SIMON_STATE_JUMP)
-		ani = "simon_sit";
+		ani = "simon_ani_sitting";
 	else
 		if (vx == 0)
 		{
-			if (nx > 0) ani = "simon_idle";
-			else ani = "simon_idle";
+			if (nx > 0) ani = "simon_ani_idle";
+			else ani = "simon_ani_idle";
 		}
 		else if (vx > 0)
 		{
-			ani = "simon_walk";
+			ani = "simon_ani_walking";
 			nx = 1;
 		}
 		else
 		{
-			ani = "simon_walk";
+			ani = "simon_ani_walking";
 			nx = -1;
 		}
 
@@ -102,7 +108,7 @@ void CSimon::Render()
 	if (untouchable) alpha = 128;
 	animations[ani]->Render(nx, x, y, alpha);
 
-	//RenderBoundingBox();
+	RenderBoundingBox();
 }
 
 void CSimon::SetState(int state)

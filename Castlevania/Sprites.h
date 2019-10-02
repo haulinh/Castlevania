@@ -85,6 +85,7 @@ class CAnimations
 
 public:
 	void Add(string idAni, LPANIMATION ani);
+	void LoadAnimations(const char* filePath);
 	LPANIMATION Get(string idAni);
 
 	static CAnimations * GetInstance();

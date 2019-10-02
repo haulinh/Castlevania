@@ -44,8 +44,6 @@ void CSprites::LoadSpriteSheet(const char* filePath, LPDIRECT3DTEXTURE9 tex)
 	rapidxml::xml_document<> doc;
 	doc.parse<0>(xmlFile.data());
 	xml_node<>* rootNode = doc.first_node("TextureAtlas");
-	xml_node<>* spriteSheetNode = rootNode->first_node("sprite");
-	int i = 0;
 	for (xml_node<>* spriteNode = rootNode->first_node("sprite"); spriteNode; spriteNode = spriteNode->next_sibling()) {
 
 		string idSprite;
@@ -140,6 +138,33 @@ CAnimations * CAnimations::GetInstance()
 void CAnimations::Add(string idAni, LPANIMATION ani)
 {
 	animations.insert({ idAni, ani });
+}
+
+void CAnimations::LoadAnimations(const char* filePath)
+{
+	rapidxml::file<> xmlFile(filePath);
+	rapidxml::xml_document<> doc;
+	doc.parse<0>(xmlFile.data());
+	xml_node<>* rootNode = doc.first_node("animations");
+	//xml_node<>* animationNode = rootNode->first_node("animation");
+	int i = 0;
+	for (xml_node<>* animationNode = rootNode->first_node(); animationNode; animationNode = animationNode->next_sibling()) {
+
+		LPANIMATION ani;
+
+		int defaultTime = atoi(animationNode->first_attribute("defaultTime")->value());
+		ani = new CAnimation(defaultTime);
+
+		xml_node<>* frameNode = rootNode->first_node("frame");
+		for (xml_node<>* frameNode = animationNode->first_node("frame"); frameNode; frameNode = frameNode->next_sibling())
+		{
+			string spriteId = string(frameNode->first_attribute("spriteID")->value());
+			ani->Add(spriteId);
+		}
+
+		string aniId = string(animationNode->first_attribute("ID")->value());
+		Add(aniId, ani);
+	}
 }
 
 LPANIMATION CAnimations::Get(string idAni)

@@ -87,6 +87,11 @@ void CSampleKeyHander::KeyState(BYTE* states)
 {
 
 	if (simon->IsJumping()) return;
+	else if (game->IsKeyDown(DIK_DOWN))
+	{
+		simon->SetState(SIMON_STATE_SIT);
+		return;
+	}
 	else if (game->IsKeyDown(DIK_RIGHT))
 		simon->SetState(SIMON_STATE_WALKING_RIGHT);
 	else if (game->IsKeyDown(DIK_LEFT))
@@ -120,7 +125,7 @@ void LoadResources()
 {
 	CTextures * textures = CTextures::GetInstance();
 
-	textures->Add("id_tex_simon", L"textures\\simon\\simon2.png", D3DCOLOR_XRGB(255, 0, 255));
+	textures->Add("id_tex_simon", L"textures\\simon\\simon.png", D3DCOLOR_XRGB(255, 0, 255));
 	textures->Add("id_tex_brick", L"textures\\ground\\brick.png", D3DCOLOR_XRGB(255, 0, 255));
 	textures->Add("-100", L"textures\\bbox.png", D3DCOLOR_XRGB(255, 255, 255));
 
@@ -134,7 +139,7 @@ void LoadResources()
 
 	auto texSimon = textures->Get("id_tex_simon");
 
-	sprites->LoadSpriteSheet("textures\\simon\\simon2.xml", texSimon);
+	sprites->LoadSpriteSheet("textures\\simon\\simon.xml", texSimon);
 
 	LPANIMATION ani;
 
@@ -143,29 +148,12 @@ void LoadResources()
 	ani->Add("brick");
 	animations->Add("brick", ani);
 
-	//simon walk
-	ani = new CAnimation(100);
-	ani->Add("simon000");
-	ani->Add("simon001");
-	ani->Add("simon002");
-	ani->Add("simon003");
-	animations->Add("simon_walk", ani);
-
-	//simon idle
-	ani = new CAnimation(100);
-	ani->Add("simon000");
-	animations->Add("simon_idle", ani);
-
-	//simon sit
-	ani = new CAnimation(500);
-	ani->Add("simon004");
-	animations->Add("simon_sit", ani);
-
+	animations->LoadAnimations("textures\\simon\\simon_ani.xml");
 
 	simon = new CSimon();
-	simon->AddAnimation("simon_idle");		// idle
-	simon->AddAnimation("simon_walk");		// walk
-	simon->AddAnimation("simon_sit");		// sit
+	simon->AddAnimation("simon_ani_idle");		// idle
+	simon->AddAnimation("simon_ani_walking");		// walk
+	simon->AddAnimation("simon_ani_sitting");		// sit
 
 	simon->SetPosition(0.0f, 300-60-32);
 	objects.push_back(simon);
