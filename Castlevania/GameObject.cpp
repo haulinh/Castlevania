@@ -118,7 +118,7 @@ void CGameObject::RenderBoundingBox()
 	D3DXVECTOR3 p(x, y, 0);
 	RECT rect;
 
-	LPDIRECT3DTEXTURE9 bbox = CTextures::GetInstance()->Get(ID_TEX_BBOX);
+	LPDIRECT3DTEXTURE9 bbox = CTextures::GetInstance()->Get("-100");
 
 	float l,t,r,b; 
 
@@ -131,10 +131,10 @@ void CGameObject::RenderBoundingBox()
 	CGame::GetInstance()->Draw(x, y, bbox, rect.left, rect.top, rect.right, rect.bottom, 32);
 }
 
-void CGameObject::AddAnimation(int aniId)
+void CGameObject::AddAnimation(string aniId)
 {
 	LPANIMATION ani = CAnimations::GetInstance()->Get(aniId);
-	animations.push_back(ani);
+	animations.insert({aniId, ani});
 }
 
 

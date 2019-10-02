@@ -3,6 +3,7 @@
 #include <Windows.h>
 #include <d3dx9.h>
 #include <vector>
+#include <unordered_map>
 
 #include "Sprites.h"
 
@@ -49,7 +50,8 @@ public:
 
 	DWORD dt; 
 
-	vector<LPANIMATION> animations;
+	// vector<LPANIMATION> animations;
+	unordered_map<string, LPANIMATION> animations;
 
 public: 
 	void SetPosition(float x, float y) { this->x = x, this->y = y; }
@@ -71,11 +73,11 @@ public:
 		float &nx, 
 		float &ny);
 
-	void AddAnimation(int aniId);
+	void AddAnimation(string aniId);
 
 	CGameObject();
 
-	virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom) = 0;
+	virtual void GetBoundingBox(float &left, float &top, float &width, float &height) = 0;
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects = NULL);
 	virtual void Render() = 0;
 	virtual void SetState(int state) { this->state = state; }

@@ -20,7 +20,7 @@ CTextures *CTextures::GetInstance()
 	return __instance;
 }
 
-void CTextures::Add(int id, LPCWSTR filePath, D3DCOLOR transparentColor)
+void CTextures::Add(string idTex, LPCWSTR filePath, D3DCOLOR transparentColor)
 {
 	D3DXIMAGE_INFO info;
 	HRESULT result = D3DXGetImageInfoFromFile(filePath, &info);
@@ -55,14 +55,15 @@ void CTextures::Add(int id, LPCWSTR filePath, D3DCOLOR transparentColor)
 		return;
 	}
 
-	textures[id] = texture;
+	//textures[idTex] = texture;
+	textures.insert({ idTex, texture });
 
-	DebugOut(L"[INFO] Texture loaded Ok: id=%d, %s \n", id, filePath);
+	//DebugOut(L"[INFO] Texture loaded OK: id=%s, %s \n", idTex, filePath);
 }
 
-LPDIRECT3DTEXTURE9 CTextures::Get(unsigned int i) 
+LPDIRECT3DTEXTURE9 CTextures::Get(string idTex) 
 {
-	return textures[i];
+	return textures[idTex];
 }
 
 
