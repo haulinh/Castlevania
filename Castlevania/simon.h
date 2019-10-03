@@ -61,6 +61,7 @@ public:
 		nx = -1;
 		whip = new Whip();
 		whip->AddAnimation("whip");
+		whip->SetN(nx);
 		whip->SetPosition(x - 94, y);
 	}
 

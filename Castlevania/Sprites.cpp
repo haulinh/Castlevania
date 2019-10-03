@@ -178,7 +178,8 @@ void CAnimations::LoadAnimations(const char* filePath)
 		for (xml_node<>* frameNode = animationNode->first_node("frame"); frameNode; frameNode = frameNode->next_sibling())
 		{
 			string spriteId = string(frameNode->first_attribute("spriteID")->value());
-			ani->Add(spriteId);
+			int time = atoi(frameNode->first_attribute("time")->value());
+			ani->Add(spriteId, time);
 		}
 
 		string aniId = string(animationNode->first_attribute("ID")->value());

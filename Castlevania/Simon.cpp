@@ -75,6 +75,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 
 	whip->SetPosition(x - 94, y);
+	whip->SetN(nx);
 
 }
 #pragma endregion Simon 
@@ -101,7 +102,7 @@ void CSimon::Render()
 	{
 		ani = "simon_ani_attacking";
 		//attacking = false;	
-	/*	whip->Render();*/
+		whip->Render();
 	}
 	else if (state == SIMON_STATE_WALKING_LEFT)
 	{

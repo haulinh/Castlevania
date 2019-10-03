@@ -20,8 +20,8 @@ verticesUV => points in sheet coordinate system (x0,y0,x1,y1,x2,y2, ...)
 triangles  => sprite triangulation, 3 vertex indices per triangle
 -->
 <TextureAtlas imagePath="whip.png" width="720" height="396">
-    <sprite n="WHIP_1" x="81" y="0" w="240" h="66"/>
-    <sprite n="WHIP_2" x="332" y="0" w="240" h="66"/>
+    <sprite n="WHIP_1" x="0" y="0" w="240" h="66"/>
+    <sprite n="WHIP_2" x="240" y="0" w="240" h="66"/>
     <sprite n="WHIP_3" x="480" y="0" w="240" h="66"/>
     <sprite n="WHIP_4" x="0" y="66" w="240" h="66"/>
     <sprite n="WHIP_5" x="240" y="66" w="240" h="66"/>

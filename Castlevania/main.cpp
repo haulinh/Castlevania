@@ -157,7 +157,7 @@ void LoadResources()
 	animations->Add("brick", ani);
 
 	//whip
-	ani = new CAnimation(1000);
+	ani = new CAnimation(100);
 	ani->Add("WHIP_1");
 	ani->Add("WHIP_2");
 	ani->Add("WHIP_3");

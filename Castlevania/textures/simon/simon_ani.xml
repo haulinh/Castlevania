@@ -1,23 +1,23 @@
 <animations name="simon">
     <animation ID="simon_ani_idle" defaultTime="100">
-        <frame spriteID="simon000" />
+        <frame spriteID="simon000" time="100"/>
     </animation>
 
     <animation ID="simon_ani_walking" defaultTime="100">
-        <frame spriteID="simon000" />
-        <frame spriteID="simon001" />
-        <frame spriteID="simon002" />
-        <frame spriteID="simon003" />
+        <frame spriteID="simon000" time="100"/>
+        <frame spriteID="simon001" time="100"/>
+        <frame spriteID="simon002" time="100"/>
+        <frame spriteID="simon003" time="100"/>
     </animation>
 
     <animation ID="simon_ani_sitting" defaultTime="100">
-        <frame spriteID="simon004" />
+        <frame spriteID="simon004" time="100"/>
     </animation>
 
-     <animation ID="simon_ani_attacking" defaultTime="1000">
-        <frame spriteID="simon005" />
-        <frame spriteID="simon006" />
-        <frame spriteID="simon007" />
+     <animation ID="simon_ani_attacking" defaultTime="100">
+        <frame spriteID="simon005" time="100"/>
+        <frame spriteID="simon006" time="100"/>
+        <frame spriteID="simon007" time="100"/>
     </animation>
     
     <!-- <animation ID="simon_ani_stand_attack" defaulttime="100">
