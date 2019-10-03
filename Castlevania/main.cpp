@@ -31,6 +31,7 @@
 #include "simon.h"
 #include "Brick.h"
 #include "Goomba.h"
+#include "Whip.h"
 
 #define WINDOW_CLASS_NAME L"SampleWindow"
 #define MAIN_WINDOW_TITLE L"04 - Collision"
@@ -61,9 +62,10 @@ CSampleKeyHander * keyHandler;
 void CSampleKeyHander::OnKeyDown(int KeyCode)
 {
 	DebugOut(L"[INFO] KeyDown: %d\n", KeyCode);
+	if (simon->IsJumping()) return;
 	switch (KeyCode)
 	{
-	case DIK_F:
+	case DIK_SPACE:
 		simon->SetState(SIMON_STATE_JUMP);
 		break;
 	case DIK_D:
@@ -130,6 +132,7 @@ void LoadResources()
 
 	textures->Add("id_tex_simon", L"textures\\simon\\simon.png", D3DCOLOR_XRGB(255, 0, 255));
 	textures->Add("id_tex_brick", L"textures\\ground\\brick.png", D3DCOLOR_XRGB(255, 0, 255));
+	textures->Add("id_tex_whip", L"textures\\whip\\whip.png", D3DCOLOR_XRGB(255, 0, 255));
 	textures->Add("-100", L"textures\\bbox.png", D3DCOLOR_XRGB(255, 255, 255));
 
 
@@ -143,12 +146,22 @@ void LoadResources()
 	auto texSimon = textures->Get("id_tex_simon");
 	sprites->LoadSpriteSheet("textures\\simon\\simon.xml", texSimon);
 
+	auto texWhip= textures->Get("id_tex_whip");
+	sprites->LoadSpriteSheet("textures\\whip\\whip.xml", texWhip);
+
 	LPANIMATION ani;
 
 	//brick
 	ani = new CAnimation(100);
 	ani->Add("brick");
 	animations->Add("brick", ani);
+
+	//whip
+	ani = new CAnimation(1000);
+	ani->Add("WHIP_1");
+	ani->Add("WHIP_2");
+	ani->Add("WHIP_3");
+	animations->Add("whip", ani);
 
 	animations->LoadAnimations("textures\\simon\\simon_ani.xml");
 
@@ -205,6 +218,7 @@ void Update(DWORD dt)
 */
 void Render()
 {
+	CTextures* textures = CTextures::GetInstance();
 	auto d3ddv = game->GetDirect3DDevice();
 	auto bb = game->GetBackBuffer();
 	auto spriteHandler = game->GetSpriteHandler();

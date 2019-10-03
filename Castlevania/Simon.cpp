@@ -11,6 +11,7 @@
 string ani;
 void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
+	DebugOut(L"[INFO] Simon Y: %f\n", y);
 	// Calculate dx, dy 
 	CGameObject::Update(dt);
 
@@ -73,6 +74,8 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	// clean up collision events
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 
+	whip->SetPosition(x - 94, y);
+
 }
 #pragma endregion Simon 
 
@@ -97,7 +100,8 @@ void CSimon::Render()
 	else if (state == SIMON_STATE_ATTACK)
 	{
 		ani = "simon_ani_attacking";
-		//attacking = false;
+		//attacking = false;	
+	/*	whip->Render();*/
 	}
 	else if (state == SIMON_STATE_WALKING_LEFT)
 	{
@@ -113,7 +117,7 @@ void CSimon::Render()
 
 	animations[ani]->Render(nx, x, y, alpha);
 	attacking = !animations[ani]->IsDoneCyle();
-		//RenderBoundingBox();
+	RenderBoundingBox();
 }
 
 void CSimon::SetState(int state)
@@ -152,6 +156,11 @@ void CSimon::SetState(int state)
 		vy = -SIMON_DIE_DEFLECT_SPEED;
 		break;
 	}
+}
+
+bool CSimon::IsJumping()
+{
+	return (state == SIMON_STATE_JUMP && jumping);
 }
 
 bool CSimon::IsAttacking()

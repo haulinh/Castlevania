@@ -1,5 +1,6 @@
 #pragma once
 #include "GameObject.h"
+#include "Whip.h"
 
 #define SIMON_WALKING_SPEED		0.15f 
 //0.1f
@@ -45,6 +46,7 @@ class CSimon : public CGameObject
 	bool jumping = false;
 	bool sitting = false;
 	bool attacking = false;
+	Whip* whip;
 
 	DWORD untouchable_start;
 
@@ -56,6 +58,10 @@ public:
 	{
 		level = SIMON_LEVEL_BIG;
 		untouchable = 0;
+		nx = -1;
+		whip = new Whip();
+		whip->AddAnimation("whip");
+		whip->SetPosition(x - 94, y);
 	}
 
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *colliable_objects = NULL);
@@ -68,7 +74,7 @@ public:
 	int GetY() { return y; }
 	int GetVy() { return vy; }
 
-	bool IsJumping() { return jumping; }
+	bool IsJumping();
 	bool IsSitting() { return sitting; }
 	bool IsAttacking();
 	

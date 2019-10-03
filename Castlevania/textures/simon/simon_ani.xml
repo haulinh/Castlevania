@@ -14,11 +14,10 @@
         <frame spriteID="simon004" />
     </animation>
 
-     <animation ID="simon_ani_attacking" defaultTime="100">
+     <animation ID="simon_ani_attacking" defaultTime="1000">
         <frame spriteID="simon005" />
         <frame spriteID="simon006" />
         <frame spriteID="simon007" />
-        <frame spriteID="simon000" />
     </animation>
     
     <!-- <animation ID="simon_ani_stand_attack" defaulttime="100">
