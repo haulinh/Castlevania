@@ -102,17 +102,17 @@ void CSimon::Render()
 	else if (state == SIMON_STATE_WALKING_LEFT)
 	{
 		ani = "simon_ani_walking";
-		nx = -1;
 	}
 	else if (state == SIMON_STATE_WALKING_RIGHT)
 	{
 		ani = "simon_ani_walking";
-		nx = 1;
 	}
+	else if (state == SIMON_STATE_DIE)
+		ani = "simon_ani_idle";
 	else ani = "simon_ani_idle";
 
 	animations[ani]->Render(nx, x, y, alpha);
-	attacking = animations[ani]->IsDoneCyle();
+	attacking = !animations[ani]->IsDoneCyle();
 		//RenderBoundingBox();
 }
 
@@ -152,6 +152,11 @@ void CSimon::SetState(int state)
 		vy = -SIMON_DIE_DEFLECT_SPEED;
 		break;
 	}
+}
+
+bool CSimon::IsAttacking()
+{
+	return (state == SIMON_STATE_ATTACK && attacking);
 }
 
 

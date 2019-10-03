@@ -70,7 +70,6 @@ public:
 
 	bool IsJumping() { return jumping; }
 	bool IsSitting() { return sitting; }
-	bool IsAttacking() { return attacking; }
-
+	bool IsAttacking();
 	
 };

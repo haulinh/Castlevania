@@ -100,14 +100,18 @@ void CAnimation::Render(int nx, float x, float y, int alpha)
 		{
 			currentFrame++;
 			lastFrameTime = now;
-			if (currentFrame >= frames.size())
+			if (currentFrame == frames.size() - 1)
+			{
+				doneCycle = true;
+			}
+			if (currentFrame == frames.size())
 			{
 				currentFrame = 0;
-				doneCycle = true;
 			}
 		}
 		
 	}
+	DebugOut(L"fame %d \n", currentFrame);
 
 	frames[currentFrame]->GetSprite()->Draw(nx, x, y, alpha);
 }
