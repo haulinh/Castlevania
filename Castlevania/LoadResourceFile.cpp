@@ -1,6 +1,7 @@
 #include "LoadResourceFile.h"
 #include <rapidxml\rapidxml_utils.hpp>
 #include "Sprites.h"
+#include "Textures.h"
 
 LoadResourceFile* LoadResourceFile::_instance = NULL;
 
@@ -64,7 +65,17 @@ void LoadResourceFile::LoadAnimationsFile(const char* filePath)
 	}
 }
 
-vector<string> LoadResourceFile::LoadAnimationsToObject(const char* filePath)
+void LoadResourceFile::LoadTextures()
+{
+	CTextures * textures = CTextures::GetInstance();
+
+	textures->Add("id_tex_simon", L"resources\\simon\\simon.png", D3DCOLOR_XRGB(255, 0, 255));
+	textures->Add("id_tex_brick", L"resources\\ground\\brick.png", D3DCOLOR_XRGB(255, 0, 255));
+	textures->Add("id_tex_whip", L"resources\\whip\\whip.png", D3DCOLOR_XRGB(255, 0, 255));
+	textures->Add("-100", L"resources\\bbox.png", D3DCOLOR_XRGB(255, 255, 255));
+}
+
+vector<string> LoadResourceFile::GetAnimations(const char* filePath)
 {
 	vector<string> animationsList;
 
@@ -81,4 +92,24 @@ vector<string> LoadResourceFile::LoadAnimationsToObject(const char* filePath)
 	}
 
 	return animationsList;
+}
+
+void LoadResourceFile::LoadAllResource()
+{
+	CTextures* textures = CTextures::GetInstance();
+	CSprites* sprites = CSprites::GetInstance();
+	CAnimations* animations = CAnimations::GetInstance();
+	LoadResourceFile* LoadResourceFile = LoadResourceFile::GetInstance();
+
+	LoadResourceFile->LoadTextures();
+	auto texBrick = textures->Get("id_tex_brick");
+	auto texSimon = textures->Get("id_tex_simon");
+	auto texWhip = textures->Get("id_tex_whip");
+
+	LoadResourceFile->LoadSpriteSheetFile("resources\\ground\\brick.xml", texBrick);
+	LoadResourceFile->LoadSpriteSheetFile("resources\\simon\\simon.xml", texSimon);
+	LoadResourceFile->LoadSpriteSheetFile("resources\\whip\\whip.xml", texWhip);
+
+	LoadResourceFile->LoadAnimationsFile("resources\\simon\\simon_ani.xml");
+	LoadResourceFile->LoadAnimationsFile("resources\\whip\\whip_ani.xml");
 }

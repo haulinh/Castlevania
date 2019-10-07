@@ -12,8 +12,8 @@ using namespace std;
 
 #define ID_TEX_BBOX -100		// special texture to draw object bounding box
 
-class CGameObject; 
-typedef CGameObject * LPGAMEOBJECT;
+class GameObject; 
+typedef GameObject * LPGAMEOBJECT;
 
 struct CCollisionEvent;
 typedef CCollisionEvent * LPCOLLISIONEVENT;
@@ -31,7 +31,7 @@ struct CCollisionEvent
 
 
 
-class CGameObject
+class GameObject
 {
 public:
 
@@ -77,7 +77,7 @@ public:
 
 	void AddAnimation(string aniId);
 
-	CGameObject();
+	GameObject();
 
 	virtual void GetBoundingBox(float &left, float &top, float &width, float &height) = 0;
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects = NULL);
@@ -85,6 +85,6 @@ public:
 	virtual void SetState(int state) { this->state = state; }
 
 
-	~CGameObject();
+	~GameObject();
 };
 

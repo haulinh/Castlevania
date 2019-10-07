@@ -20,9 +20,9 @@ public:
 
 typedef CKeyEventHandler * LPKEYEVENTHANDLER;
 
-class CGame
+class Game
 {
-	static CGame * __instance;
+	static Game * __instance;
 	HWND hWnd;									// Window handle
 
 	LPDIRECT3D9 d3d = NULL;						// Direct3D handle
@@ -72,9 +72,9 @@ public:
 
 	void SetCamPos(float x, float y) { cam_x = x; cam_y = y; }
 
-	static CGame * GetInstance();
+	static Game * GetInstance();
 
-	~CGame();
+	~Game();
 };
 
 

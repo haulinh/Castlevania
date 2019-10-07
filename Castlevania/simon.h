@@ -39,7 +39,7 @@
 #define SIMON_UNTOUCHABLE_TIME 5000
 
 
-class CSimon : public CGameObject
+class Simon : public GameObject
 {
 	int level;
 	int untouchable;
@@ -53,7 +53,7 @@ class CSimon : public CGameObject
 
 public:
 
-	CSimon();
+	Simon();
 
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *colliable_objects = NULL);
 	virtual void Render();

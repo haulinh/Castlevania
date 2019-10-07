@@ -10,31 +10,30 @@
 #pragma region Update 
 string ani;
 
-CSimon::CSimon() : CGameObject() {
+Simon::Simon() : GameObject() {
 
 
 
 	level = SIMON_LEVEL_BIG;
 	untouchable = 0;
 	whip = new Whip();
-	whip->AddAnimation("whip");
 	whip->SetN(nx);
 	whip->SetPosition(x - 94, y);
 
 
 	LoadResourceFile* loadResourceFile = LoadResourceFile::GetInstance();
 
-	vector<string> animationsSimon = loadResourceFile->LoadAnimationsToObject("resources\\simon\\simon_ani.xml");
+	vector<string> animationsSimon = loadResourceFile->GetAnimations("resources\\simon\\simon_ani.xml");
 	for each (string animation in animationsSimon)
 	{
 		AddAnimation(animation);
 	}
 }
 
-void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
+void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	// Calculate dx, dy 
-	CGameObject::Update(dt);
+	GameObject::Update(dt);
 
 	// Simple fall down
 	vy += SIMON_GRAVITY * dt;
@@ -102,7 +101,7 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 #pragma endregion Simon 
 
 
-void CSimon::Render()
+void Simon::Render()
 {
 
 	int alpha = 255;
@@ -140,9 +139,9 @@ void CSimon::Render()
 	attacking = !animations[ani]->IsDoneCyle();
 }
 
-void CSimon::SetState(int state)
+void Simon::SetState(int state)
 {
-	CGameObject::SetState(state);
+	GameObject::SetState(state);
 
 	switch (state)
 	{
@@ -178,18 +177,18 @@ void CSimon::SetState(int state)
 	}
 }
 
-bool CSimon::IsJumping()
+bool Simon::IsJumping()
 {
 	return (state == SIMON_STATE_JUMP && jumping);
 }
 
-bool CSimon::IsAttacking()
+bool Simon::IsAttacking()
 {
 	return (state == SIMON_STATE_ATTACK && attacking);
 }
 
 
-void CSimon::GetBoundingBox(float& left, float& top, float& right, float& bottom)
+void Simon::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
 	left = x;
 	top = y;

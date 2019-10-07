@@ -15,6 +15,9 @@ public:
 
 	void LoadSpriteSheetFile(const char* filePath, LPDIRECT3DTEXTURE9 tex);
 	void LoadAnimationsFile(const char* filePath);
-	vector<string> LoadAnimationsToObject(const char* filePath);
+	void LoadTextures();
+	vector<string> GetAnimations(const char* filePath);
+
+	void LoadAllResource();
 };
 

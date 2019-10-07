@@ -30,7 +30,7 @@ void CTextures::Add(string idTex, LPCWSTR filePath, D3DCOLOR transparentColor)
 		return;
 	}
 
-	LPDIRECT3DDEVICE9 d3ddv = CGame::GetInstance()->GetDirect3DDevice();
+	LPDIRECT3DDEVICE9 d3ddv = Game::GetInstance()->GetDirect3DDevice();
 	LPDIRECT3DTEXTURE9 texture;
 
 	result = D3DXCreateTextureFromFileEx(

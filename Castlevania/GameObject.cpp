@@ -8,14 +8,14 @@
 #include "GameObject.h"
 #include "Sprites.h"
 
-CGameObject::CGameObject()
+GameObject::GameObject()
 {
 	x = y = 0;
 	vx = vy = 0;
 	nx = 1;	
 }
 
-void CGameObject::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
+void GameObject::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
 	this->dt = dt;
 	dx = vx*dt;
@@ -25,7 +25,7 @@ void CGameObject::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 /*
 	Extension of original SweptAABB to deal with two moving objects
 */
-LPCOLLISIONEVENT CGameObject::SweptAABBEx(LPGAMEOBJECT coO)
+LPCOLLISIONEVENT GameObject::SweptAABBEx(LPGAMEOBJECT coO)
 {
 	float sl, st, sr, sb;		// static object bbox
 	float ml, mt, mr, mb;		// moving object bbox
@@ -45,7 +45,7 @@ LPCOLLISIONEVENT CGameObject::SweptAABBEx(LPGAMEOBJECT coO)
 
 	GetBoundingBox(ml, mt, mr, mb);
 
-	CGame::SweptAABB(
+	Game::SweptAABB(
 		ml, mt, mr, mb,
 		dx, dy,
 		sl, st, sr, sb,
@@ -62,7 +62,7 @@ LPCOLLISIONEVENT CGameObject::SweptAABBEx(LPGAMEOBJECT coO)
 	coObjects: the list of colliable objects
 	coEvents: list of potential collisions
 */
-void CGameObject::CalcPotentialCollisions(
+void GameObject::CalcPotentialCollisions(
 	vector<LPGAMEOBJECT> *coObjects, 
 	vector<LPCOLLISIONEVENT> &coEvents)
 {
@@ -79,7 +79,7 @@ void CGameObject::CalcPotentialCollisions(
 	std::sort(coEvents.begin(), coEvents.end(), CCollisionEvent::compare);
 }
 
-void CGameObject::FilterCollision(
+void GameObject::FilterCollision(
 	vector<LPCOLLISIONEVENT> &coEvents,
 	vector<LPCOLLISIONEVENT> &coEventsResult,
 	float &min_tx, float &min_ty, 
@@ -113,7 +113,7 @@ void CGameObject::FilterCollision(
 }
 
 
-void CGameObject::RenderBoundingBox()
+void GameObject::RenderBoundingBox()
 {
 	D3DXVECTOR3 p(x, y, 0);
 	RECT rect;
@@ -128,17 +128,17 @@ void CGameObject::RenderBoundingBox()
 	rect.right = (int)r - (int)l;
 	rect.bottom = (int)b - (int)t;
 
-	CGame::GetInstance()->Draw(x, y, bbox, rect.left, rect.top, rect.right, rect.bottom, 32);
+	Game::GetInstance()->Draw(x, y, bbox, rect.left, rect.top, rect.right, rect.bottom, 32);
 }
 
-void CGameObject::AddAnimation(string aniId)
+void GameObject::AddAnimation(string aniId)
 {
 	LPANIMATION ani = CAnimations::GetInstance()->Get(aniId);
 	animations.insert({aniId, ani});
 }
 
 
-CGameObject::~CGameObject()
+GameObject::~GameObject()
 {
 
 }

@@ -9,12 +9,12 @@
 		2/ Implement a simple (yet effective) collision frame work
 
 	Key functions: 
-		CGame::SweptAABB
-		CGameObject::SweptAABBEx
-		CGameObject::CalcPotentialCollisions
-		CGameObject::FilterCollision
+		Game::SweptAABB
+		GameObject::SweptAABBEx
+		GameObject::CalcPotentialCollisions
+		GameObject::FilterCollision
 
-		CGameObject::GetBoundingBox
+		GameObject::GetBoundingBox
 		
 ================================================================ */
 
@@ -42,11 +42,12 @@
 
 #define MAX_FRAME_RATE  60
 
-CGame *game;
+Game *game;
 
-CMario *mario;
-CGoomba *goomba;
-CSimon *simon;
+Mario *mario;
+Goomba *goomba;
+Simon *simon;
+Whip* whip;
 
 vector<LPGAMEOBJECT> objects;
 
@@ -101,7 +102,6 @@ void CSampleKeyHander::KeyState(BYTE* states)
 		simon->SetState(SIMON_STATE_IDLE);
 
 }
-
 #pragma region WinProc
 LRESULT CALLBACK WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
@@ -125,25 +125,10 @@ LRESULT CALLBACK WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 */
 void LoadResources()
 {
-	CTextures * textures = CTextures::GetInstance();
-	CSprites * sprites = CSprites::GetInstance();
 	CAnimations * animations = CAnimations::GetInstance();
 	LoadResourceFile* LoadResourceFile = LoadResourceFile::GetInstance();
 
-	textures->Add("id_tex_simon", L"resources\\simon\\simon.png", D3DCOLOR_XRGB(255, 0, 255));
-	textures->Add("id_tex_brick", L"resources\\ground\\brick.png", D3DCOLOR_XRGB(255, 0, 255));
-	textures->Add("id_tex_whip", L"resources\\whip\\whip.png", D3DCOLOR_XRGB(255, 0, 255));
-	textures->Add("-100", L"resources\\bbox.png", D3DCOLOR_XRGB(255, 255, 255));
-	
-	auto texBrick = textures->Get("id_tex_brick");
-	auto texSimon = textures->Get("id_tex_simon");
-	auto texWhip= textures->Get("id_tex_whip");
-
-	LoadResourceFile->LoadSpriteSheetFile("resources\\ground\\brick.xml", texBrick);
-	LoadResourceFile->LoadSpriteSheetFile("resources\\simon\\simon.xml", texSimon);
-	LoadResourceFile->LoadSpriteSheetFile("resources\\whip\\whip.xml", texWhip);
-
-	LoadResourceFile->LoadAnimationsFile("resources\\simon\\simon_ani.xml");
+	LoadResourceFile->LoadAllResource();
 
 	LPANIMATION ani;
 	//brick
@@ -151,19 +136,13 @@ void LoadResources()
 	ani->Add("brick");
 	animations->Add("brick", ani);
 
-	//whip
-	ani = new CAnimation(100);
-	ani->Add("WHIP_1");
-	ani->Add("WHIP_2");
-	ani->Add("WHIP_3");
-	ani->Add("WHIP_3");
-	animations->Add("whip", ani);
-
-	simon = new CSimon();
+	simon = new Simon();
 	simon->SetPosition(0.0f, 300-60-32);
 	objects.push_back(simon);
 
-	for (int i = 0; i < 30; i++)
+	whip = new Whip();
+
+	for (int i = 0; i < 100; i++)
 	{
 		CBrick *brick = new CBrick();
 		brick->AddAnimation("brick");
@@ -199,7 +178,7 @@ void Update(DWORD dt)
 	cx -= SCREEN_WIDTH / 2;
 	cy -= SCREEN_HEIGHT / 2;
 
-	CGame::GetInstance()->SetCamPos(cx, 0.0f /*cy*/);
+	Game::GetInstance()->SetCamPos(cx, 0.0f /*cy*/);
 }
 
 /*
@@ -323,7 +302,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 {
 	HWND hWnd = CreateGameWindow(hInstance, nCmdShow, SCREEN_WIDTH, SCREEN_HEIGHT);
 
-	game = CGame::GetInstance();
+	game = Game::GetInstance();
 	game->Init(hWnd);
 
 	keyHandler = new CSampleKeyHander();

@@ -6,10 +6,10 @@
 
 #include "Goomba.h"
 
-void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
+void Mario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
 	// Calculate dx, dy 
-	CGameObject::Update(dt);
+	GameObject::Update(dt);
 
 	// Simple fall down
 	vy += MARIO_GRAVITY*dt;
@@ -54,9 +54,9 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		{
 			LPCOLLISIONEVENT e = coEventsResult[i];
 
-			if (dynamic_cast<CGoomba *>(e->obj)) // if e->obj is Goomba 
+			if (dynamic_cast<Goomba *>(e->obj)) // if e->obj is Goomba 
 			{
-				CGoomba *goomba = dynamic_cast<CGoomba *>(e->obj);
+				Goomba *goomba = dynamic_cast<Goomba *>(e->obj);
 
 				// jump on top >> kill Goomba and deflect a bit 
 				if (e->ny < 0)
@@ -91,7 +91,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 }
 
-void CMario::Render()
+void Mario::Render()
 {
 	string ani;
 	if (state == MARIO_STATE_DIE)
@@ -127,9 +127,9 @@ void CMario::Render()
 	RenderBoundingBox();
 }
 
-void CMario::SetState(int state)
+void Mario::SetState(int state)
 {
-	CGameObject::SetState(state);
+	GameObject::SetState(state);
 
 	switch (state)
 	{
@@ -152,7 +152,7 @@ void CMario::SetState(int state)
 	}
 }
 
-void CMario::GetBoundingBox(float &left, float &top, float &right, float &bottom)
+void Mario::GetBoundingBox(float &left, float &top, float &right, float &bottom)
 {
 	left = x;
 	top = y; 

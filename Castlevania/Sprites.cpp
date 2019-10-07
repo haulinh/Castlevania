@@ -23,13 +23,13 @@ CSprites *CSprites::GetInstance()
 
 void CSprite::Draw(int nx, float x, float y, int alpha)
 {
-	CGame * game = CGame::GetInstance();
+	Game * game = Game::GetInstance();
 	game->Draw(nx, x, y, texture, left, top, width, height, alpha);
 }
 
 void CSprite::Draw(float x, float y, int alpha)
 {
-	CGame* game = CGame::GetInstance();
+	Game* game = Game::GetInstance();
 	game->Draw(x, y, texture, left, top, width, height, alpha);
 }
 
