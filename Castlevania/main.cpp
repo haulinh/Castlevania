@@ -37,8 +37,8 @@
 #define MAIN_WINDOW_TITLE L"04 - Collision"
 
 #define BACKGROUND_COLOR D3DCOLOR_XRGB(25, 25, 25)
-#define SCREEN_WIDTH 640 
-#define SCREEN_HEIGHT 480 
+#define SCREEN_WIDTH 578	
+#define SCREEN_HEIGHT 447
 
 #define MAX_FRAME_RATE  60
 
@@ -92,10 +92,7 @@ void CSampleKeyHander::KeyState(BYTE* states)
 	if (simon->IsJumping()) return;
 	if (simon->IsAttacking()) return;
 	else if (game->IsKeyDown(DIK_DOWN))
-	{
 		simon->SetState(SIMON_STATE_SIT);
-		return;
-	}
 	else if (game->IsKeyDown(DIK_RIGHT))
 		simon->SetState(SIMON_STATE_WALKING_RIGHT);
 	else if (game->IsKeyDown(DIK_LEFT))
@@ -129,28 +126,26 @@ LRESULT CALLBACK WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 void LoadResources()
 {
 	CTextures * textures = CTextures::GetInstance();
-
-	textures->Add("id_tex_simon", L"textures\\simon\\simon.png", D3DCOLOR_XRGB(255, 0, 255));
-	textures->Add("id_tex_brick", L"textures\\ground\\brick.png", D3DCOLOR_XRGB(255, 0, 255));
-	textures->Add("id_tex_whip", L"textures\\whip\\whip.png", D3DCOLOR_XRGB(255, 0, 255));
-	textures->Add("-100", L"textures\\bbox.png", D3DCOLOR_XRGB(255, 255, 255));
-
-
 	CSprites * sprites = CSprites::GetInstance();
 	CAnimations * animations = CAnimations::GetInstance();
+	LoadResourceFile* LoadResourceFile = LoadResourceFile::GetInstance();
 
+	textures->Add("id_tex_simon", L"resources\\simon\\simon.png", D3DCOLOR_XRGB(255, 0, 255));
+	textures->Add("id_tex_brick", L"resources\\ground\\brick.png", D3DCOLOR_XRGB(255, 0, 255));
+	textures->Add("id_tex_whip", L"resources\\whip\\whip.png", D3DCOLOR_XRGB(255, 0, 255));
+	textures->Add("-100", L"resources\\bbox.png", D3DCOLOR_XRGB(255, 255, 255));
 	
 	auto texBrick = textures->Get("id_tex_brick");
-	sprites->LoadSpriteSheet("textures\\ground\\brick.xml", texBrick);
-
 	auto texSimon = textures->Get("id_tex_simon");
-	sprites->LoadSpriteSheet("textures\\simon\\simon.xml", texSimon);
-
 	auto texWhip= textures->Get("id_tex_whip");
-	sprites->LoadSpriteSheet("textures\\whip\\whip.xml", texWhip);
+
+	LoadResourceFile->LoadSpriteSheetFile("resources\\ground\\brick.xml", texBrick);
+	LoadResourceFile->LoadSpriteSheetFile("resources\\simon\\simon.xml", texSimon);
+	LoadResourceFile->LoadSpriteSheetFile("resources\\whip\\whip.xml", texWhip);
+
+	LoadResourceFile->LoadAnimationsFile("resources\\simon\\simon_ani.xml");
 
 	LPANIMATION ani;
-
 	//brick
 	ani = new CAnimation(100);
 	ani->Add("brick");
@@ -161,16 +156,10 @@ void LoadResources()
 	ani->Add("WHIP_1");
 	ani->Add("WHIP_2");
 	ani->Add("WHIP_3");
+	ani->Add("WHIP_3");
 	animations->Add("whip", ani);
 
-	animations->LoadAnimations("textures\\simon\\simon_ani.xml");
-
 	simon = new CSimon();
-	simon->AddAnimation("simon_ani_idle");		// idle
-	simon->AddAnimation("simon_ani_walking");		// walk
-	simon->AddAnimation("simon_ani_sitting");		// sit
-	simon->AddAnimation("simon_ani_attacking");		// attacking
-
 	simon->SetPosition(0.0f, 300-60-32);
 	objects.push_back(simon);
 

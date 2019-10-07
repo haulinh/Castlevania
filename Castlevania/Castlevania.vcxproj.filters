@@ -19,6 +19,9 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
     </Filter>
+    <Filter Include="Ultiltes">
+      <UniqueIdentifier>{db08ed0e-d114-44eb-afa9-5f6f14d5d50a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="debug.h">
@@ -54,6 +57,9 @@
     <ClInclude Include="Whip.h">
       <Filter>Objects</Filter>
     </ClInclude>
+    <ClInclude Include="LoadResourceFile.h">
+      <Filter>Ultiltes</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="debug.cpp">
@@ -88,6 +94,9 @@
     </ClCompile>
     <ClCompile Include="Whip.cpp">
       <Filter>Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="LoadResourceFile.cpp">
+      <Filter>Ultiltes</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

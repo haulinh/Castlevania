@@ -40,7 +40,7 @@ class CSprites
 
 public:
 	void Add(string idSprite, int left, int top, int width, int height, LPDIRECT3DTEXTURE9 tex);
-	void LoadSpriteSheet(const char* filePath, LPDIRECT3DTEXTURE9 tex);
+	//void LoadSpriteSheet(const char* filePath, LPDIRECT3DTEXTURE9 tex);
 	LPSPRITE Get(string idSprite);
 	LPSPRITE &operator[](string idSprite) {return sprites[idSprite];}
 
@@ -96,7 +96,7 @@ class CAnimations
 
 public:
 	void Add(string idAni, LPANIMATION ani);
-	void LoadAnimations(const char* filePath);
+	//void LoadAnimations(const char* filePath);
 	LPANIMATION Get(string idAni);
 
 	static CAnimations * GetInstance();

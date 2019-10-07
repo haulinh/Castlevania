@@ -1,6 +1,7 @@
 #pragma once
 #include "GameObject.h"
 #include "Whip.h"
+#include "LoadResourceFile.h"
 
 #define SIMON_WALKING_SPEED		0.15f 
 //0.1f
@@ -50,20 +51,9 @@ class CSimon : public CGameObject
 
 	DWORD untouchable_start;
 
-	
-
 public:
-	DWORD attackStart;
-	CSimon() : CGameObject()
-	{
-		level = SIMON_LEVEL_BIG;
-		untouchable = 0;
-		nx = -1;
-		whip = new Whip();
-		whip->AddAnimation("whip");
-		whip->SetN(nx);
-		whip->SetPosition(x - 94, y);
-	}
+
+	CSimon();
 
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *colliable_objects = NULL);
 	virtual void Render();

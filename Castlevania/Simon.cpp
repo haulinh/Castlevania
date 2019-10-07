@@ -9,9 +9,30 @@
 
 #pragma region Update 
 string ani;
+
+CSimon::CSimon() : CGameObject() {
+
+
+
+	level = SIMON_LEVEL_BIG;
+	untouchable = 0;
+	whip = new Whip();
+	whip->AddAnimation("whip");
+	whip->SetN(nx);
+	whip->SetPosition(x - 94, y);
+
+
+	LoadResourceFile* loadResourceFile = LoadResourceFile::GetInstance();
+
+	vector<string> animationsSimon = loadResourceFile->LoadAnimationsToObject("resources\\simon\\simon_ani.xml");
+	for each (string animation in animationsSimon)
+	{
+		AddAnimation(animation);
+	}
+}
+
 void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	DebugOut(L"[INFO] Simon Y: %f\n", y);
 	// Calculate dx, dy 
 	CGameObject::Update(dt);
 
@@ -92,7 +113,6 @@ void CSimon::Render()
 	else if (state == SIMON_STATE_SIT)
 	{
 		ani = "simon_ani_sitting";
-		vx = 0;
 	}
 	else if (state == SIMON_STATE_JUMP)
 	{
@@ -118,7 +138,6 @@ void CSimon::Render()
 
 	animations[ani]->Render(nx, x, y, alpha);
 	attacking = !animations[ani]->IsDoneCyle();
-	RenderBoundingBox();
 }
 
 void CSimon::SetState(int state)
@@ -143,11 +162,11 @@ void CSimon::SetState(int state)
 		jumping = true;
 		break;
 	case SIMON_STATE_ATTACK:
-		//attacking = true;
 		vx = 0;
 		break;
 	case SIMON_STATE_SIT:
 		sitting = true;
+		vx = 0;
 		break;
 	case SIMON_STATE_IDLE:
 		sitting = false;
