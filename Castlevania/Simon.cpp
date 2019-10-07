@@ -8,17 +8,12 @@
 #include "Brick.h"
 
 #pragma region Update 
-string ani;
-
 Simon::Simon() : GameObject() {
 
-
-
-	level = SIMON_LEVEL_BIG;
 	untouchable = 0;
-	whip = new Whip();
-	whip->SetN(nx);
-	whip->SetPosition(x - 94, y);
+	//whip = new Whip();
+	//whip->SetN(nx);
+	//whip->SetPosition(x - 94, y);
 
 
 	LoadResourceFile* loadResourceFile = LoadResourceFile::GetInstance();
@@ -36,7 +31,7 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	GameObject::Update(dt);
 
 	// Simple fall down
-	vy += SIMON_GRAVITY * dt;
+	vy += simon_gravity * dt;
 
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
@@ -44,7 +39,7 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	coEvents.clear();
 
 	// turn off collision when die 
-	if (state != SIMON_STATE_DIE)
+	if (state != simon_state_die)
 		CalcPotentialCollisions(coObjects, coEvents);
 
 	// reset untouchable timer if untouchable time has passed
@@ -54,7 +49,7 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		untouchable = 0;
 	}
 
-	// No collision occured, proceed normally
+	// No collision occurred, proceed normally
 	if (coEvents.size() == 0)
 	{
 		x += dx;
@@ -94,8 +89,8 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	// clean up collision events
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 
-	whip->SetPosition(x - 94, y);
-	whip->SetN(nx);
+	//whip->SetPosition(x - 94, y);
+	//whip->SetN(nx);
 
 }
 #pragma endregion Simon 
@@ -104,39 +99,41 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 void Simon::Render()
 {
 
+	string ani;
 	int alpha = 255;
 	if (untouchable) alpha = 128;
 
-	if (state == SIMON_STATE_DIE)
+	if (state == simon_state_die)
 		ani = "simon_ani_idle";
-	else if (state == SIMON_STATE_SIT)
+	else if (state == simon_state_sit)
 	{
 		ani = "simon_ani_sitting";
 	}
-	else if (state == SIMON_STATE_JUMP)
+	else if (state == simon_state_jump)
 	{
 		ani = "simon_ani_sitting";
 	}
-	else if (state == SIMON_STATE_ATTACK)
+	else if (state == simon_state_attack)
 	{
 		ani = "simon_ani_attacking";
 		//attacking = false;	
-		whip->Render();
+	/*	whip->Render();*/
 	}
-	else if (state == SIMON_STATE_WALKING_LEFT)
+	else if (state == simon_state_walking_left)
 	{
 		ani = "simon_ani_walking";
 	}
-	else if (state == SIMON_STATE_WALKING_RIGHT)
+	else if (state == simon_state_walking_right)
 	{
 		ani = "simon_ani_walking";
 	}
-	else if (state == SIMON_STATE_DIE)
+	else if (state == simon_state_die)
 		ani = "simon_ani_idle";
 	else ani = "simon_ani_idle";
 
 	animations[ani]->Render(nx, x, y, alpha);
 	attacking = !animations[ani]->IsDoneCyle();
+	RenderBoundingBox();
 }
 
 void Simon::SetState(int state)
@@ -145,46 +142,46 @@ void Simon::SetState(int state)
 
 	switch (state)
 	{
-	case SIMON_STATE_WALKING_RIGHT:
+	case simon_state_walking_right:
 		sitting = false;
-		vx = SIMON_WALKING_SPEED;
+		vx = simon_walking_speed;
 		nx = 1;
 		break;
-	case SIMON_STATE_WALKING_LEFT:
+	case simon_state_walking_left:
 		sitting = false;
-		vx = -SIMON_WALKING_SPEED;
+		vx = -simon_walking_speed;
 		nx = -1;
 		break;
-	case SIMON_STATE_JUMP:
-		vy = -SIMON_JUMP_SPEED_Y;
+	case simon_state_jump:
+		vy = -simon_jump_speed_y;
 		sitting = false;
 		jumping = true;
 		break;
-	case SIMON_STATE_ATTACK:
+	case simon_state_attack:
 		vx = 0;
 		break;
-	case SIMON_STATE_SIT:
+	case simon_state_sit:
 		sitting = true;
 		vx = 0;
 		break;
-	case SIMON_STATE_IDLE:
+	case simon_state_idle:
 		sitting = false;
 		vx = 0;
 		break;
-	case SIMON_STATE_DIE:
-		vy = -SIMON_DIE_DEFLECT_SPEED;
+	case simon_state_die:
+		vy = -simon_die_deflect_speed;
 		break;
 	}
 }
 
 bool Simon::IsJumping()
 {
-	return (state == SIMON_STATE_JUMP && jumping);
+	return (state == simon_state_jump && jumping);
 }
 
 bool Simon::IsAttacking()
 {
-	return (state == SIMON_STATE_ATTACK && attacking);
+	return (state == simon_state_attack && attacking);
 }
 
 

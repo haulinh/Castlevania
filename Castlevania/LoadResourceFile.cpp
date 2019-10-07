@@ -69,10 +69,10 @@ void LoadResourceFile::LoadTextures()
 {
 	CTextures * textures = CTextures::GetInstance();
 
-	textures->Add("id_tex_simon", L"resources\\simon\\simon.png", D3DCOLOR_XRGB(255, 0, 255));
-	textures->Add("id_tex_brick", L"resources\\ground\\brick.png", D3DCOLOR_XRGB(255, 0, 255));
-	textures->Add("id_tex_whip", L"resources\\whip\\whip.png", D3DCOLOR_XRGB(255, 0, 255));
-	textures->Add("-100", L"resources\\bbox.png", D3DCOLOR_XRGB(255, 255, 255));
+	textures->Add(id_tex_simon, L"resources\\simon\\simon.png", D3DCOLOR_XRGB(255, 0, 255));
+	textures->Add(id_tex_brick, L"resources\\ground\\brick.png", D3DCOLOR_XRGB(255, 0, 255));
+	textures->Add(id_tex_whip, L"resources\\whip\\whip.png", D3DCOLOR_XRGB(255, 0, 255));
+	textures->Add(-100, L"resources\\bbox.png", D3DCOLOR_XRGB(255, 255, 255));
 }
 
 vector<string> LoadResourceFile::GetAnimations(const char* filePath)
@@ -102,9 +102,9 @@ void LoadResourceFile::LoadAllResource()
 	LoadResourceFile* LoadResourceFile = LoadResourceFile::GetInstance();
 
 	LoadResourceFile->LoadTextures();
-	auto texBrick = textures->Get("id_tex_brick");
-	auto texSimon = textures->Get("id_tex_simon");
-	auto texWhip = textures->Get("id_tex_whip");
+	auto texBrick = textures->Get(id_tex_brick);
+	auto texSimon = textures->Get(id_tex_simon);
+	auto texWhip = textures->Get(id_tex_whip);
 
 	LoadResourceFile->LoadSpriteSheetFile("resources\\ground\\brick.xml", texBrick);
 	LoadResourceFile->LoadSpriteSheetFile("resources\\simon\\simon.xml", texSimon);

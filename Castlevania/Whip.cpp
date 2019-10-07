@@ -14,7 +14,7 @@ Whip::Whip()
 
 void Whip::Update(int x, int y)
 {
-	SetPosition(x, y);
+	SetPosition(x - 90, y);
 }
 
 void Whip::Render()
@@ -22,6 +22,10 @@ void Whip::Render()
 	animations["whip"]->Render(nx, x, y);
 }
 
-void Whip::GetBoundingBox(float& l, float& t, float& r, float& b)
+void Whip::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
+	left = x + 20;
+	top = y + 18;
+	right = left + 60 + 20;
+	bottom = top + 18;
 }

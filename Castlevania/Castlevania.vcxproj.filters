@@ -24,9 +24,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="debug.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="GameObject.h">
       <Filter>Framework</Filter>
     </ClInclude>
@@ -51,20 +48,20 @@
     <ClInclude Include="Simon.h">
       <Filter>Objects</Filter>
     </ClInclude>
-    <ClInclude Include="resource.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Whip.h">
       <Filter>Objects</Filter>
     </ClInclude>
     <ClInclude Include="LoadResourceFile.h">
       <Filter>Ultiltes</Filter>
     </ClInclude>
+    <ClInclude Include="debug.h">
+      <Filter>Ultiltes</Filter>
+    </ClInclude>
+    <ClInclude Include="define.h">
+      <Filter>Ultiltes</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="debug.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -98,13 +95,11 @@
     <ClCompile Include="LoadResourceFile.cpp">
       <Filter>Ultiltes</Filter>
     </ClCompile>
+    <ClCompile Include="debug.cpp">
+      <Filter>Ultiltes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="Castlevania.rc">
-      <Filter>Resource Files</Filter>
-    </ResourceCompile>
   </ItemGroup>
 </Project>

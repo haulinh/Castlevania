@@ -118,7 +118,7 @@ void GameObject::RenderBoundingBox()
 	D3DXVECTOR3 p(x, y, 0);
 	RECT rect;
 
-	LPDIRECT3DTEXTURE9 bbox = CTextures::GetInstance()->Get("-100");
+	LPDIRECT3DTEXTURE9 bbox = CTextures::GetInstance()->Get(-100);
 
 	float l,t,r,b; 
 
@@ -128,7 +128,7 @@ void GameObject::RenderBoundingBox()
 	rect.right = (int)r - (int)l;
 	rect.bottom = (int)b - (int)t;
 
-	Game::GetInstance()->Draw(x, y, bbox, rect.left, rect.top, rect.right, rect.bottom, 32);
+	Game::GetInstance()->Draw(l, t, bbox, rect.left, rect.top, rect.right, rect.bottom, 32);
 }
 
 void GameObject::AddAnimation(string aniId)

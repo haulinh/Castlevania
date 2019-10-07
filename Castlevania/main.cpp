@@ -22,6 +22,8 @@
 #include <d3d9.h>
 #include <d3dx9.h>
 
+#include "define.h"
+
 #include "debug.h"
 #include "Game.h"
 #include "GameObject.h"
@@ -32,15 +34,6 @@
 #include "Brick.h"
 #include "Goomba.h"
 #include "Whip.h"
-
-#define WINDOW_CLASS_NAME L"SampleWindow"
-#define MAIN_WINDOW_TITLE L"04 - Collision"
-
-#define BACKGROUND_COLOR D3DCOLOR_XRGB(25, 25, 25)
-#define SCREEN_WIDTH 578	
-#define SCREEN_HEIGHT 447
-
-#define MAX_FRAME_RATE  60
 
 Game *game;
 
@@ -67,10 +60,10 @@ void CSampleKeyHander::OnKeyDown(int KeyCode)
 	switch (KeyCode)
 	{
 	case DIK_SPACE:
-		simon->SetState(SIMON_STATE_JUMP);
+		simon->SetState(simon_state_jump);
 		break;
 	case DIK_D:
-		simon->SetState(SIMON_STATE_ATTACK);
+		simon->SetState(simon_state_attack);
 		break;
 		
 	//case DIK_A: // reset
@@ -93,13 +86,13 @@ void CSampleKeyHander::KeyState(BYTE* states)
 	if (simon->IsJumping()) return;
 	if (simon->IsAttacking()) return;
 	else if (game->IsKeyDown(DIK_DOWN))
-		simon->SetState(SIMON_STATE_SIT);
+		simon->SetState(simon_state_sit);
 	else if (game->IsKeyDown(DIK_RIGHT))
-		simon->SetState(SIMON_STATE_WALKING_RIGHT);
+		simon->SetState(simon_state_walking_right);
 	else if (game->IsKeyDown(DIK_LEFT))
-		simon->SetState(SIMON_STATE_WALKING_LEFT);
+		simon->SetState(simon_state_walking_left);
 	else 
-		simon->SetState(SIMON_STATE_IDLE);
+		simon->SetState(simon_state_idle);
 
 }
 #pragma region WinProc
@@ -141,6 +134,7 @@ void LoadResources()
 	objects.push_back(simon);
 
 	whip = new Whip();
+	whip->SetPosition(simon->x, simon->y);
 
 	for (int i = 0; i < 100; i++)
 	{
@@ -171,6 +165,9 @@ void Update(DWORD dt)
 		objects[i]->Update(dt,&coObjects);
 	}
 
+	whip->Update(simon->x,simon->y);
+	whip->SetN(simon->nx);
+
 	/* Update camera to follow simon*/
 	float cx, cy;
 	simon->GetPosition(cx, cy);
@@ -200,6 +197,10 @@ void Render()
 
 		for (int i = 0; i < objects.size(); i++)
 			objects[i]->Render();
+
+		if (simon->GetState() == simon_state_attack)
+			whip->Render();
+		whip->RenderBoundingBox();
 
 		spriteHandler->End();
 		d3ddv->EndScene();

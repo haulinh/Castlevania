@@ -3,6 +3,8 @@
 #include <rapidxml/rapidxml.hpp>
 #include <rapidxml/rapidxml_utils.hpp>
 
+#include "define.h"
+
 using namespace std;
 
 using namespace rapidxml;
