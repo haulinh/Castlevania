@@ -54,16 +54,16 @@ public:
 	unordered_map<string, LPANIMATION> animations;
 
 public: 
+	GameObject();
+
 	void SetPosition(float x, float y) { this->x = x, this->y = y; }
 	void SetSpeed(float vx, float vy) { this->vx = vx, this->vy = vy; }
 	void SetN(int nx) { this->nx = nx; }
 
 	void GetPosition(float &x, float &y) { x = this->x; y = this->y; }
 	void GetSpeed(float &vx, float &vy) { vx = this->vx; vy = this->vy; }
-
 	int GetState() { return this->state; }
 
-	void RenderBoundingBox();
 
 	LPCOLLISIONEVENT SweptAABBEx(LPGAMEOBJECT coO);
 	void CalcPotentialCollisions(vector<LPGAMEOBJECT> *coObjects, vector<LPCOLLISIONEVENT> &coEvents);
@@ -75,11 +75,13 @@ public:
 		float &nx, 
 		float &ny);
 
+	bool isColliding(float left, float top, float right, float bottom, float otherLeft, float otherTop, float otherRight, float otherBottom);
+
 	void AddAnimation(string aniId);
 
-	GameObject();
 
 	virtual void GetBoundingBox(float &left, float &top, float &width, float &height) = 0;
+	void RenderBoundingBox();
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects = NULL);
 	virtual void Render() = 0;
 	virtual void SetState(int state) { this->state = state; }

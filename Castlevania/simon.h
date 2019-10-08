@@ -12,7 +12,6 @@ class Simon : public GameObject
 	bool jumping = false;
 	bool sitting = false;
 	bool attacking = false;
-	//Whip* whip;
 
 	DWORD untouchable_start;
 
@@ -24,11 +23,11 @@ public:
 	virtual void Render();
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 
+	//D3DXVECTOR3 GetPosition() { return D3DXVECTOR3(x, y, 0); }
+
 	void SetState(int state);
 	void SetLevel(int l) { level = l; }
 	void StartUntouchable() { untouchable = 1; untouchable_start = GetTickCount(); }
-	int GetY() { return y; }
-	int GetVy() { return vy; }
 
 	bool IsJumping();
 	bool IsSitting() { return sitting; }

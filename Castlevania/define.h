@@ -22,7 +22,8 @@ enum TexId
 {
 	id_tex_simon,
 	id_tex_whip,
-	id_tex_brick,
+	id_tex_ground,
+	id_bbox,
 };
 
 #pragma endregion
@@ -55,4 +56,8 @@ enum SimonState
 
 #pragma endregion
 
-
+#define isEnable 100
+//enum BrickState
+//{
+//	destroy,
+//};

@@ -73,9 +73,9 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		{
 			LPCOLLISIONEVENT e = coEventsResult[i];
 
-			if (dynamic_cast<CBrick*>(e->obj)) // if e->obj is Goomba 
+			if (dynamic_cast<Brick*>(e->obj)) // if e->obj is Goomba 
 			{
-				CBrick* brick = dynamic_cast<CBrick*>(e->obj);
+				Brick* brick = dynamic_cast<Brick*>(e->obj);
 
 				// jump on top >> kill Goomba and deflect a bit 
 				if (e->ny < 0)

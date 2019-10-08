@@ -112,6 +112,16 @@ void GameObject::FilterCollision(
 	if (min_iy>=0) coEventsResult.push_back(coEvents[min_iy]);
 }
 
+bool GameObject::isColliding(float objectLeft, float objectTop, float objectRight, float objectBottom, float otherLeft, float otherTop, float otherRight, float otherBottom)
+{
+	float left = otherLeft - objectRight;
+	float top = otherBottom - objectTop;
+	float right = otherRight - objectLeft;
+	float bottom = otherTop - objectBottom;
+
+	return !(left > 0 || right < 0 || top < 0 || bottom > 0);
+}
+
 
 void GameObject::RenderBoundingBox()
 {

@@ -1,15 +1,39 @@
 #include "Brick.h"
+#include "LoadResourceFile.h"
 
-void CBrick::Render()
+Brick::Brick()
 {
-	animations["brick"]->Render(x, y);
-	RenderBoundingBox();
+	LoadResourceFile* loadResourceFile = LoadResourceFile::GetInstance();
+
+	vector<string> animationsGround = loadResourceFile->GetAnimations("resources\\ground\\ground_ani.xml");
+	for each (string animation in animationsGround)
+	{
+		AddAnimation(animation);
+	}
 }
 
-void CBrick::GetBoundingBox(float &l, float &t, float &r, float &b)
+void Brick::Render()
+{
+	animations["ground_1"]->Render(x, y);
+}
+
+void Brick::GetBoundingBox(float &l, float &t, float &r, float &b)
 {
 	l = x;
 	t = y;
 	r = x + BRICK_BBOX_WIDTH;
 	b = y + BRICK_BBOX_HEIGHT;
+}
+
+void Brick::SetState(int state)
+{
+	GameObject::SetState(state);
+
+	switch (state)
+	{
+	case isEnable:
+
+	default:
+		break;
+	}
 }

@@ -34,6 +34,7 @@
 #include "Brick.h"
 #include "Goomba.h"
 #include "Whip.h"
+#include <iostream>
 
 Game *game;
 
@@ -55,7 +56,7 @@ CSampleKeyHander * keyHandler;
 
 void CSampleKeyHander::OnKeyDown(int KeyCode)
 {
-	DebugOut(L"[INFO] KeyDown: %d\n", KeyCode);
+	//DebugOut(L"[INFO] KeyDown: %d\n", KeyCode);
 	if (simon->IsJumping()) return;
 	switch (KeyCode)
 	{
@@ -78,7 +79,7 @@ void CSampleKeyHander::OnKeyDown(int KeyCode)
 
 void CSampleKeyHander::OnKeyUp(int KeyCode)
 {
-	DebugOut(L"[INFO] KeyUp: %d\n", KeyCode);
+	//DebugOut(L"[INFO] KeyUp: %d\n", KeyCode);
 }
 
 void CSampleKeyHander::KeyState(BYTE* states)
@@ -124,13 +125,9 @@ void LoadResources()
 	LoadResourceFile->LoadAllResource();
 
 	LPANIMATION ani;
-	//brick
-	ani = new CAnimation(100);
-	ani->Add("brick");
-	animations->Add("brick", ani);
 
 	simon = new Simon();
-	simon->SetPosition(0.0f, 300-60-32);
+	simon->SetPosition(200.0f, 300-60-32);
 	objects.push_back(simon);
 
 	whip = new Whip();
@@ -138,10 +135,16 @@ void LoadResources()
 
 	for (int i = 0; i < 100; i++)
 	{
-		CBrick *brick = new CBrick();
-		brick->AddAnimation("brick");
+		Brick *brick = new Brick();
 		brick->SetPosition(0 + i*16.0f, 300);
 		objects.push_back(brick);
+	}
+
+	for (int i = 0; i < 100; i++)
+	{
+		Brick* brick1 = new Brick();
+		brick1->SetPosition(0 + i*3*16.0f, simon->y + 30);
+		objects.push_back(brick1);
 	}
 }
 
@@ -153,7 +156,6 @@ void Update(DWORD dt)
 {
 	// We know that Mario is the first object in the list hence we won't add him into the colliable object list
 	// TO-DO: This is a "dirty" way, need a more organized way 
-
 	vector<LPGAMEOBJECT> coObjects;
 	for (int i = 1; i < objects.size(); i++)
 	{
@@ -162,10 +164,16 @@ void Update(DWORD dt)
 
 	for (int i = 0; i < objects.size(); i++)
 	{
+
 		objects[i]->Update(dt,&coObjects);
+		if (objects[i]->GetState() == isEnable)
+		{
+			DebugOut(L"ffffff\n");
+			objects.erase(objects.begin() + i);
+		}
 	}
 
-	whip->Update(simon->x,simon->y);
+	whip->Update(simon->x, simon->y, &coObjects);
 	whip->SetN(simon->nx);
 
 	/* Update camera to follow simon*/
