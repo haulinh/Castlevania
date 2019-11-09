@@ -22,6 +22,8 @@ typedef CKeyEventHandler * LPKEYEVENTHANDLER;
 
 class Game
 {
+
+#pragma region DX2D
 	static Game * __instance;
 	HWND hWnd;									// Window handle
 
@@ -41,6 +43,7 @@ class Game
 
 	float cam_x = 0.0f;
 	float cam_y = 0.0f;
+#pragma endregion DX2D
 
 public:
 	void InitKeyboard(LPKEYEVENTHANDLER handler);
@@ -65,12 +68,16 @@ public:
 		float &nx, 
 		float &ny);
 
+	static bool AABB(float objectLeft, float objectTop, float objectRight, float objectBottom, float otherLeft, float otherTop, float otherRight, float otherBottom);
+
 	LPDIRECT3DDEVICE9 GetDirect3DDevice() { return this->d3ddv; }
 	LPDIRECT3DSURFACE9 GetBackBuffer() { return backBuffer; }
 
 	LPD3DXSPRITE GetSpriteHandler() { return this->spriteHandler; }
 
 	void SetCamPos(float x, float y) { cam_x = x; cam_y = y; }
+
+	D3DXVECTOR2 GetCamPos() { D3DXVECTOR2 cam; cam.x = this->cam_x; cam.y = this->cam_y; return cam; };
 
 	static Game * GetInstance();
 

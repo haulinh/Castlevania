@@ -134,6 +134,8 @@
     <ClInclude Include="Simon.h" />
     <ClInclude Include="Sprites.h" />
     <ClInclude Include="Textures.h" />
+    <ClInclude Include="TileMap.h" />
+    <ClInclude Include="Torch.h" />
     <ClInclude Include="Whip.h" />
   </ItemGroup>
   <ItemGroup>
@@ -148,6 +150,8 @@
     <ClCompile Include="Simon.cpp" />
     <ClCompile Include="Sprites.cpp" />
     <ClCompile Include="Textures.cpp" />
+    <ClCompile Include="TileMap.cpp" />
+    <ClCompile Include="Torch.cpp" />
     <ClCompile Include="Whip.cpp" />
   </ItemGroup>
   <ItemGroup>

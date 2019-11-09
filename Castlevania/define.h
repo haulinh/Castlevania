@@ -8,8 +8,8 @@ using namespace std;
 #define MAIN_WINDOW_TITLE L"04 - Collision"
 
 #define BACKGROUND_COLOR D3DCOLOR_XRGB(25, 25, 25)
-#define SCREEN_WIDTH 578	
-#define SCREEN_HEIGHT 447
+#define SCREEN_WIDTH 640	 
+#define SCREEN_HEIGHT 480
 
 #define MAX_FRAME_RATE  60
 
@@ -23,6 +23,7 @@ enum TexId
 	id_tex_simon,
 	id_tex_whip,
 	id_tex_ground,
+	id_tex_torch,
 	id_bbox,
 };
 
@@ -37,6 +38,12 @@ constexpr float simon_jump_deflect_speed = 0.2f;
 constexpr float simon_gravity = 0.002f;
 constexpr float simon_die_deflect_speed = 0.5f;
 
+enum Torchstate
+{
+	torch,
+	torch_delete,
+};
+
 enum SimonState
 {
 	simon_state_idle,
@@ -49,9 +56,12 @@ enum SimonState
 };
 
 
-#define SIMON_BIG_BBOX_WIDTH 60 
-#define SIMON_BIG_BBOX_HEIGHT 63 
+#define SIMON_BIG_BBOX_WIDTH 30
+#define SIMON_BIG_BBOX_HEIGHT 60 
+#define TORCH_BBOX_WIDTH	32
+#define TORCH_BBOX_HEIGHT	64
 
+#define TILEMAP1_WIDTH 1536
 #define SIMON_UNTOUCHABLE_TIME 5000
 
 #pragma endregion

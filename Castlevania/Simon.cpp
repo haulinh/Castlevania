@@ -6,14 +6,15 @@
 
 #include "Goomba.h"
 #include "Brick.h"
+#include "Torch.h"
 
 #pragma region Update 
 Simon::Simon() : GameObject() {
 
 	untouchable = 0;
-	//whip = new Whip();
-	//whip->SetN(nx);
-	//whip->SetPosition(x - 94, y);
+	whip = new Whip();
+	whip->SetN(nx);
+	whip->SetPosition(x - 90, y);
 
 
 	LoadResourceFile* loadResourceFile = LoadResourceFile::GetInstance();
@@ -29,6 +30,8 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	// Calculate dx, dy 
 	GameObject::Update(dt);
+	this->whip->Update(dt, coObjects);
+
 
 	// Simple fall down
 	vy += simon_gravity * dt;
@@ -83,6 +86,15 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					jumping = false;
 				}
 			}
+			if (dynamic_cast<Torch*>(e->obj))
+			{
+				x += dx;
+				if (y <= 300 - 60 - 32)
+				{
+					y += dy;
+				}
+			}
+
 		}
 	}
 
@@ -116,8 +128,7 @@ void Simon::Render()
 	else if (state == simon_state_attack)
 	{
 		ani = "simon_ani_attacking";
-		//attacking = false;	
-	/*	whip->Render();*/
+		whip->Render();
 	}
 	else if (state == simon_state_walking_left)
 	{
@@ -146,11 +157,13 @@ void Simon::SetState(int state)
 		sitting = false;
 		vx = simon_walking_speed;
 		nx = 1;
+		whip->SetN(nx);
 		break;
 	case simon_state_walking_left:
 		sitting = false;
 		vx = -simon_walking_speed;
 		nx = -1;
+		whip->SetN(nx);
 		break;
 	case simon_state_jump:
 		vy = -simon_jump_speed_y;
@@ -158,6 +171,7 @@ void Simon::SetState(int state)
 		jumping = true;
 		break;
 	case simon_state_attack:
+		this->whip->SetPosition(this->x - 90, this->y + 3);
 		vx = 0;
 		break;
 	case simon_state_sit:

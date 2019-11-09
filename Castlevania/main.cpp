@@ -35,6 +35,8 @@
 #include "Goomba.h"
 #include "Whip.h"
 #include <iostream>
+#include "TileMap.h"
+#include "Torch.h"
 
 Game *game;
 
@@ -42,6 +44,7 @@ Mario *mario;
 Goomba *goomba;
 Simon *simon;
 Whip* whip;
+TileMap* tilemap;
 
 vector<LPGAMEOBJECT> objects;
 
@@ -119,12 +122,28 @@ LRESULT CALLBACK WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 */
 void LoadResources()
 {
+	CTextures* textures = CTextures::GetInstance();
+	textures->Add(400, L"resources\\Map\\map1.png", D3DCOLOR_XRGB(255, 0, 255));
+	auto texMap = textures->Get(400);
+	tilemap = new TileMap(L"resources\\Map\\map1.txt", 1536, 320, 32, 32);
+	tilemap->SetTileMap(texMap);
+	tilemap->LoadResources();
+
+
 	CAnimations * animations = CAnimations::GetInstance();
 	LoadResourceFile* LoadResourceFile = LoadResourceFile::GetInstance();
 
 	LoadResourceFile->LoadAllResource();
 
 	LPANIMATION ani;
+
+	for (int i = 0; i < 5; i++)
+	{
+		Torch* torch = new Torch();
+		torch->SetId(i);
+		torch->SetPosition(160 + i * 270, 320 - 64 - 32);
+		objects.push_back(torch);
+	}
 
 	simon = new Simon();
 	simon->SetPosition(200.0f, 300-60-32);
@@ -133,19 +152,17 @@ void LoadResources()
 	whip = new Whip();
 	whip->SetPosition(simon->x, simon->y);
 
-	for (int i = 0; i < 100; i++)
-	{
-		Brick *brick = new Brick();
-		brick->SetPosition(0 + i*16.0f, 300);
-		objects.push_back(brick);
-	}
+
+
 
 	for (int i = 0; i < 100; i++)
 	{
-		Brick* brick1 = new Brick();
-		brick1->SetPosition(0 + i*3*16.0f, simon->y + 30);
-		objects.push_back(brick1);
+		Brick* brick = new Brick();
+		brick->AddAnimation("brick");
+		brick->SetPosition(0 + i * 16.0f, 320 - 32);
+		objects.push_back(brick);
 	}
+
 }
 
 /*
@@ -168,22 +185,23 @@ void Update(DWORD dt)
 		objects[i]->Update(dt,&coObjects);
 		if (objects[i]->GetState() == isEnable)
 		{
-			DebugOut(L"ffffff\n");
 			objects.erase(objects.begin() + i);
 		}
 	}
 
-	whip->Update(simon->x, simon->y, &coObjects);
-	whip->SetN(simon->nx);
-
 	/* Update camera to follow simon*/
+	if (simon->x >= SCREEN_WIDTH / 2 && simon->x <= TILEMAP1_WIDTH - SCREEN_WIDTH/2)
+	{
+		game->SetCamPos(simon->x - 320, 0);
+	}
+	
 	float cx, cy;
-	simon->GetPosition(cx, cy);
-
-	cx -= SCREEN_WIDTH / 2;
-	cy -= SCREEN_HEIGHT / 2;
-
-	Game::GetInstance()->SetCamPos(cx, 0.0f /*cy*/);
+	cx = simon->x;
+	cy = simon->y;
+	if (cx > SCREEN_WIDTH / 2 && cx + SCREEN_WIDTH / 2 < tilemap->GetMapWidth())
+	{
+		game->SetCamPos(cx - SCREEN_WIDTH / 2, 0);
+	}
 }
 
 /*
@@ -203,12 +221,11 @@ void Render()
 
 		spriteHandler->Begin(D3DXSPRITE_ALPHABLEND);
 
+		tilemap->Draw(game->GetCamPos());
+
+
 		for (int i = 0; i < objects.size(); i++)
 			objects[i]->Render();
-
-		if (simon->GetState() == simon_state_attack)
-			whip->Render();
-		whip->RenderBoundingBox();
 
 		spriteHandler->End();
 		d3ddv->EndScene();

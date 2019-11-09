@@ -12,6 +12,7 @@ class Simon : public GameObject
 	bool jumping = false;
 	bool sitting = false;
 	bool attacking = false;
+	Whip *whip;
 
 	DWORD untouchable_start;
 

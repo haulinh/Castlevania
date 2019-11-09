@@ -337,6 +337,17 @@ void Game::SweptAABB(
 
 }
 
+bool Game::AABB(float objectLeft, float objectTop, float objectRight, float objectBottom, float otherLeft, float otherTop, float otherRight, float otherBottom)
+{
+	float left = otherLeft - objectRight;
+	float top = otherBottom - objectTop;
+	float right = otherRight - objectLeft;
+	float bottom = otherTop - objectBottom;
+
+	return !(left > 0 || right < 0 || top < 0 || bottom > 0);
+}
+
+
 Game *Game::GetInstance()
 {
 	if (__instance == NULL) __instance = new Game();

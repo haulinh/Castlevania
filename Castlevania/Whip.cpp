@@ -1,6 +1,7 @@
 #include "Whip.h"
 #include "LoadResourceFile.h"
 #include "Brick.h"
+#include "Torch.h"
 
 Whip::Whip()
 {
@@ -13,49 +14,55 @@ Whip::Whip()
 	}
 }
 
-void Whip::Update(float x, float y, vector<LPGAMEOBJECT>* coObjects)
+void Whip::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
  {
-	SetPosition(x - 90, y);
-	float objectLeft, objectTop, objectRight, objectBottom;
-	GetBoundingBox(objectLeft, objectTop, objectRight, objectBottom);
-	for (UINT i = 0; i < coObjects->size(); i++)
+	if (this->isLastFame)
 	{
-		if (dynamic_cast<Brick*>(coObjects->at(i))) 		{
-			Brick* brick = dynamic_cast<Brick*>(coObjects->at(i));
-			float otherLeft, otherTop, otherRight, otherBottom;
-			brick->GetBoundingBox(otherLeft, otherTop, otherRight, otherBottom);
-			if (isColliding(objectLeft, objectTop, objectRight, objectBottom, otherLeft, otherTop, otherRight, otherBottom))
+		for (UINT i = 0; i < coObjects->size(); i++)
+		{
+			GameObject* e = coObjects->at(i);
+			if (dynamic_cast<Torch*>(e))
 			{
-				brick->SetState(isEnable);
-				DebugOut(L"Shitttttttttttttttttttttt\n");
-				//coObjects->erase(coObjects->begin() + i);
-			}
-			else {
-				brick->SetState(300);
+				if (this->AABBx(e) == true)
+				{
+					DebugOut(L"Fuck");
+					if (e->GetState() != torch_delete)
+					{
+						e->SetState(torch_delete);
+					}
+					coObjects->at(i)->SetDie(true);
+				}
 			}
 		}
 	}
+	this->isLastFame = false;
 }
 
 void Whip::Render()
 {
 	animations["whip"]->Render(nx, x, y);
+	this->isLastFame = this->animations["whip"]->IsDoneCyle();
+	//if (isLastFame)
+	//{
+		RenderBoundingBox();
+	//}
+
 }
 
 void Whip::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
-	if (nx == -1)
+	if (nx == 1)
 	{
-		left = x + 50;
+		left = x + 140;
 		top = y + 15;
-		right = left + 55;
-		bottom = top + 15;
+		right = left + 85;
+		bottom = top + 18;
 	}
 	else
 	{
-		left = (240 - 20) - 55 + x;
+		left = x + 25;
 		top = y + 15;
-		right = left + 40;
-		bottom = top + 15;
+		right = left + 85;
+		bottom = top + 18;
 	}
 }

@@ -60,6 +60,12 @@
     <ClInclude Include="define.h">
       <Filter>Ultiltes</Filter>
     </ClInclude>
+    <ClInclude Include="TileMap.h">
+      <Filter>Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Torch.h">
+      <Filter>Objects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -97,6 +103,12 @@
     </ClCompile>
     <ClCompile Include="debug.cpp">
       <Filter>Ultiltes</Filter>
+    </ClCompile>
+    <ClCompile Include="TileMap.cpp">
+      <Filter>Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="Torch.cpp">
+      <Filter>Objects</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

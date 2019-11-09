@@ -47,6 +47,10 @@ public:
 	int nx;	 
 
 	int state;
+	int id;
+
+	bool die = false;
+	bool isLastFame = false;
 
 	DWORD dt; 
 
@@ -75,10 +79,9 @@ public:
 		float &nx, 
 		float &ny);
 
-	bool isColliding(float left, float top, float right, float bottom, float otherLeft, float otherTop, float otherRight, float otherBottom);
+	bool AABBx(LPGAMEOBJECT coO);
 
 	void AddAnimation(string aniId);
-
 
 	virtual void GetBoundingBox(float &left, float &top, float &width, float &height) = 0;
 	void RenderBoundingBox();
@@ -86,7 +89,10 @@ public:
 	virtual void Render() = 0;
 	virtual void SetState(int state) { this->state = state; }
 
+	void SetId(int a) { this->id = a; }
+	void SetDie(bool a) { this->die = a; }
 
+	int GetId() { return this->id; }
 	~GameObject();
 };
 

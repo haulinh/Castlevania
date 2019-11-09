@@ -112,14 +112,18 @@ void GameObject::FilterCollision(
 	if (min_iy>=0) coEventsResult.push_back(coEvents[min_iy]);
 }
 
-bool GameObject::isColliding(float objectLeft, float objectTop, float objectRight, float objectBottom, float otherLeft, float otherTop, float otherRight, float otherBottom)
+bool GameObject::AABBx(LPGAMEOBJECT coO)
 {
-	float left = otherLeft - objectRight;
-	float top = otherBottom - objectTop;
-	float right = otherRight - objectLeft;
-	float bottom = otherTop - objectBottom;
+	float objectLeft, objectTop, objectRight, objectBottom;
+	float otherLeft, otherTop, otherRight, otherBottom;
 
-	return !(left > 0 || right < 0 || top < 0 || bottom > 0);
+	coO->GetBoundingBox(objectLeft, objectTop, objectRight, objectBottom);
+	GetBoundingBox(otherLeft, otherTop, otherRight, otherBottom);
+
+	if (Game::AABB(objectLeft, objectTop, objectRight, objectBottom,
+		otherLeft, otherTop, otherRight, otherBottom))
+		return true;
+	return false;
 }
 
 
@@ -138,7 +142,7 @@ void GameObject::RenderBoundingBox()
 	rect.right = (int)r - (int)l;
 	rect.bottom = (int)b - (int)t;
 
-	Game::GetInstance()->Draw(l, t, bbox, rect.left, rect.top, rect.right, rect.bottom, 32);
+	Game::GetInstance()->Draw(l, t, bbox, rect.left, rect.top, rect.right, rect.bottom, 100);
 }
 
 void GameObject::AddAnimation(string aniId)
