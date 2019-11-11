@@ -50,6 +50,7 @@ const string Walking= "simon_ani_walking";
 const string Jump = "simon_ani_jumping";
 const string Sit = "simon_ani_sitting";
 const string Attack = "simon_ani_attacking";
+const string Throw = "simon_ani_throwing";
 const string Die = "simon_ani_die";
 
 const string MagicWhip = "magic_whip";

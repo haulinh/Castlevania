@@ -93,6 +93,12 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT*>* coObjects)
 					if (weapon->GetState() == MagicWhip) weapon->SetState(ShortChain);
 					else if (weapon->GetState() == ShortChain) weapon->SetState(LongChain);
 				}
+
+				else if (e->obj->GetState() == DAGGER)
+				{
+					vx = 0;
+					isPowered = true;
+				}
 			}
 
 		}
@@ -115,6 +121,7 @@ void Simon::Render()
 
 	animations[state]->Render(nx, x, y, alpha);
 	attacking = !animations[state]->IsDoneCyle();
+	throwing = !animations[state]->IsDoneCyle();
 }
 
 void Simon::SetState(string state)
@@ -167,6 +174,11 @@ bool Simon::IsJumping()
 bool Simon::IsAttacking()
 {
 	return (state == Attack && attacking);
+}
+
+bool Simon::IsThrowing()
+{
+	return (state == Throw && throwing);
 }
 
 

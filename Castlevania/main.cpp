@@ -36,12 +36,13 @@
 #include "TileMap.h"
 #include "Candle.h"
 #include "Items.h"
+#include "Dagger.h"
 
 Game *game;
 
 Simon *simon;
-Weapon* Weapon;
 TileMap* tilemap;
+Dagger* dagger;
 
 vector<LPGAMEOBJECT> objects;
 
@@ -66,9 +67,23 @@ void CSampleKeyHander::OnKeyDown(int KeyCode)
 	case DIK_SPACE:
 		simon->SetState(Jump);
 		break;
+
 	case DIK_D:
 		simon->SetState(Attack);
 		break;
+
+	case DIK_X:
+		if (!simon->isPowered)
+			return;
+		if (simon->GetState() == Idle)
+		{
+			float sx, sy;
+			simon->GetPosition(sx, sy);
+			dagger->SetPosition(sx, sy + 10);
+			dagger->nx = simon->nx;
+			dagger->isEnable = true;
+			simon->SetState(Throw);
+		}
 	}
 	
 }
@@ -83,6 +98,8 @@ void CSampleKeyHander::KeyState(BYTE* states)
 	if (simon->IsJumping()) return;
 	
 	if (simon->IsAttacking()) return;
+
+	if (simon->IsThrowing()) return;
 
 	else if (game->IsKeyDown(DIK_DOWN))
 		simon->SetState(Sit);
@@ -140,6 +157,10 @@ void LoadResources()
 	simon = new Simon();
 	simon->SetPosition(0.0f, 300-60-32);
 	objects.push_back(simon);
+
+	dagger = new Dagger();
+	dagger->isEnable = false;
+	objects.push_back(dagger);
 
 	for (int i = 0; i < 5; i++)
 	{

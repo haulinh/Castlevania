@@ -6,17 +6,22 @@
 
 class Simon : public GameObject
 {
+	Weapon *weapon;
+
+	DWORD untouchable_start;
+
+public:
+
+
 	int level;
 	int untouchable;
 
 	bool jumping = false;
 	bool sitting = false;
 	bool attacking = false;
-	Weapon *weapon;
+	bool throwing = false;
 
-	DWORD untouchable_start;
-
-public:
+	bool isPowered = false;
 
 	Simon();
 
@@ -32,5 +37,7 @@ public:
 	bool IsJumping();
 	bool IsSitting() { return sitting; }
 	bool IsAttacking();
+
+	bool IsThrowing();
 	
 };

@@ -63,6 +63,9 @@
     <ClInclude Include="weapon.h">
       <Filter>Objects</Filter>
     </ClInclude>
+    <ClInclude Include="Dagger.h">
+      <Filter>Objects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -102,6 +105,9 @@
       <Filter>Objects</Filter>
     </ClCompile>
     <ClCompile Include="weapon.cpp">
+      <Filter>Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="Dagger.cpp">
       <Filter>Objects</Filter>
     </ClCompile>
   </ItemGroup>
