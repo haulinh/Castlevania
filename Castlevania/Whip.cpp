@@ -1,7 +1,7 @@
 #include "Whip.h"
 #include "LoadResourceFile.h"
 #include "Brick.h"
-#include "Torch.h"
+#include "Candle.h"
 
 Whip::Whip()
 {
@@ -21,14 +21,13 @@ void Whip::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		for (UINT i = 0; i < coObjects->size(); i++)
 		{
 			GameObject* e = coObjects->at(i);
-			if (dynamic_cast<Torch*>(e))
+			if (dynamic_cast<Candle*>(e))
 			{
 				if (this->AABBx(e) == true)
 				{
-					DebugOut(L"Fuck");
-					if (e->GetState() != torch_delete)
+					if (e->GetState() != "Candle_delete")
 					{
-						e->SetState(torch_delete);
+						e->SetState("Candle_delete");
 					}
 					coObjects->at(i)->SetDie(true);
 				}

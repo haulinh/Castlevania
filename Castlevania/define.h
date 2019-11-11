@@ -23,7 +23,7 @@ enum TexId
 	id_tex_simon,
 	id_tex_whip,
 	id_tex_ground,
-	id_tex_torch,
+	id_tex_Candle,
 	id_bbox,
 };
 
@@ -38,28 +38,24 @@ constexpr float simon_jump_deflect_speed = 0.2f;
 constexpr float simon_gravity = 0.002f;
 constexpr float simon_die_deflect_speed = 0.5f;
 
-enum Torchstate
+enum Candlestate
 {
-	torch,
-	torch_delete,
+	candle,
+	Candle_delete,
 };
 
-enum SimonState
-{
-	simon_state_idle,
-	simon_state_walking_right,
-	simon_state_walking_left,
-	simon_state_jump,
-	simon_state_die,
-	simon_state_sit,
-	simon_state_attack,
-};
+const string Idle = "simon_ani_idle";
+const string Walking= "simon_ani_walking";
+const string Jump = "simon_ani_jumping";
+const string Sit = "simon_ani_sitting";
+const string Attack = "simon_ani_attacking";
+const string Die = "simon_ani_die";
 
 
 #define SIMON_BIG_BBOX_WIDTH 30
 #define SIMON_BIG_BBOX_HEIGHT 60 
-#define TORCH_BBOX_WIDTH	32
-#define TORCH_BBOX_HEIGHT	64
+#define Candle_BBOX_WIDTH	32
+#define Candle_BBOX_HEIGHT	64
 
 #define TILEMAP1_WIDTH 1536
 #define SIMON_UNTOUCHABLE_TIME 5000
@@ -67,7 +63,3 @@ enum SimonState
 #pragma endregion
 
 #define isEnable 100
-//enum BrickState
-//{
-//	destroy,
-//};

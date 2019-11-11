@@ -14,6 +14,10 @@
         <frame spriteID="simon004" time="100"/>
     </animation>
 
+    <animation ID="simon_ani_jumping" defaultTime="100">
+        <frame spriteID="simon004" time="100"/>
+    </animation>
+
      <animation ID="simon_ani_attacking" defaultTime="100">
         <frame spriteID="simon005" time="100"/>
         <frame spriteID="simon006" time="100"/>

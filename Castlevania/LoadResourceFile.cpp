@@ -72,7 +72,7 @@ void LoadResourceFile::LoadTextures()
 	textures->Add(id_tex_simon, L"resources\\simon\\simon.png", D3DCOLOR_XRGB(255, 0, 255));
 	textures->Add(id_tex_ground, L"resources\\ground\\ground.png", D3DCOLOR_XRGB(255, 0, 255));
 	textures->Add(id_tex_whip, L"resources\\whip\\whip.png", D3DCOLOR_XRGB(255, 0, 255));
-	textures->Add(id_tex_torch, L"resources\\Torch\\Torch.png", D3DCOLOR_XRGB(255, 0, 255));
+	textures->Add(id_tex_Candle, L"resources\\Candle\\Candle.png", D3DCOLOR_XRGB(255, 0, 255));
 	textures->Add(-100, L"resources\\bbox.png", D3DCOLOR_XRGB(255, 255, 255));
 }
 
@@ -106,18 +106,18 @@ void LoadResourceFile::LoadAllResource()
 	auto texGround= textures->Get(id_tex_ground);
 	auto texSimon = textures->Get(id_tex_simon);
 	auto texWhip = textures->Get(id_tex_whip);
-	auto texTorch = textures->Get(id_tex_torch);
+	auto texCandle = textures->Get(id_tex_Candle);
 
 
 	LoadResourceFile->LoadSpriteSheetFile("resources\\ground\\ground.xml", texGround);
 	LoadResourceFile->LoadSpriteSheetFile("resources\\simon\\simon.xml", texSimon);
 	LoadResourceFile->LoadSpriteSheetFile("resources\\whip\\whip.xml", texWhip);
-	LoadResourceFile->LoadSpriteSheetFile("resources\\Torch\\Torch.xml", texTorch);
+	LoadResourceFile->LoadSpriteSheetFile("resources\\Candle\\Candle.xml", texCandle);
 
 
 	LoadResourceFile->LoadAnimationsFile("resources\\simon\\simon_ani.xml");
 	LoadResourceFile->LoadAnimationsFile("resources\\whip\\whip_ani.xml");
 	LoadResourceFile->LoadAnimationsFile("resources\\ground\\ground_ani.xml");
-	LoadResourceFile->LoadAnimationsFile("resources\\Torch\\Torch_ani.xml");
+	LoadResourceFile->LoadAnimationsFile("resources\\Candle\\Candle_ani.xml");
 
 }

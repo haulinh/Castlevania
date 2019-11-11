@@ -26,7 +26,7 @@ public:
 
 	//D3DXVECTOR3 GetPosition() { return D3DXVECTOR3(x, y, 0); }
 
-	void SetState(int state);
+	void SetState(string state);
 	void SetLevel(int l) { level = l; }
 	void StartUntouchable() { untouchable = 1; untouchable_start = GetTickCount(); }
 

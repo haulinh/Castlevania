@@ -4,18 +4,10 @@
 #include "Simon.h"
 #include "Game.h"
 
-#include "Goomba.h"
 #include "Brick.h"
-#include "Torch.h"
+#include "Candle.h"
 
-#pragma region Update 
 Simon::Simon() : GameObject() {
-
-	untouchable = 0;
-	whip = new Whip();
-	whip->SetN(nx);
-	whip->SetPosition(x - 90, y);
-
 
 	LoadResourceFile* loadResourceFile = LoadResourceFile::GetInstance();
 
@@ -24,8 +16,11 @@ Simon::Simon() : GameObject() {
 	{
 		AddAnimation(animation);
 	}
+
+	whip = new Whip();
 }
 
+#pragma region Update 
 void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	// Calculate dx, dy 
@@ -42,7 +37,7 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	coEvents.clear();
 
 	// turn off collision when die 
-	if (state != simon_state_die)
+	if (state != Die)
 		CalcPotentialCollisions(coObjects, coEvents);
 
 	// reset untouchable timer if untouchable time has passed
@@ -86,7 +81,7 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					jumping = false;
 				}
 			}
-			if (dynamic_cast<Torch*>(e->obj))
+			if (dynamic_cast<Candle*>(e->obj))
 			{
 				x += dx;
 				if (y <= 300 - 60 - 32)
@@ -111,91 +106,63 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 void Simon::Render()
 {
 
-	string ani;
 	int alpha = 255;
 	if (untouchable) alpha = 128;
 
-	if (state == simon_state_die)
-		ani = "simon_ani_idle";
-	else if (state == simon_state_sit)
-	{
-		ani = "simon_ani_sitting";
-	}
-	else if (state == simon_state_jump)
-	{
-		ani = "simon_ani_sitting";
-	}
-	else if (state == simon_state_attack)
-	{
-		ani = "simon_ani_attacking";
-		whip->Render();
-	}
-	else if (state == simon_state_walking_left)
-	{
-		ani = "simon_ani_walking";
-	}
-	else if (state == simon_state_walking_right)
-	{
-		ani = "simon_ani_walking";
-	}
-	else if (state == simon_state_die)
-		ani = "simon_ani_idle";
-	else ani = "simon_ani_idle";
-
-	animations[ani]->Render(nx, x, y, alpha);
-	attacking = !animations[ani]->IsDoneCyle();
-	RenderBoundingBox();
+	animations[state]->Render(nx, x, y, alpha);
+	attacking = !animations[state]->IsDoneCyle();
 }
 
-void Simon::SetState(int state)
+void Simon::SetState(string state)
 {
 	GameObject::SetState(state);
 
-	switch (state)
+	if (state == Walking)
 	{
-	case simon_state_walking_right:
 		sitting = false;
-		vx = simon_walking_speed;
-		nx = 1;
+		if (nx > 0) vx = simon_walking_speed;
+		else vx = -simon_walking_speed;
 		whip->SetN(nx);
-		break;
-	case simon_state_walking_left:
-		sitting = false;
-		vx = -simon_walking_speed;
-		nx = -1;
-		whip->SetN(nx);
-		break;
-	case simon_state_jump:
+	}
+	else if (state == Jump)
+	{
 		vy = -simon_jump_speed_y;
 		sitting = false;
 		jumping = true;
-		break;
-	case simon_state_attack:
+	}
+
+	else if (state == Attack)
+	{
 		this->whip->SetPosition(this->x - 90, this->y + 3);
 		vx = 0;
-		break;
-	case simon_state_sit:
+	}
+
+	else if (state == Sit)
+	{
 		sitting = true;
 		vx = 0;
-		break;
-	case simon_state_idle:
+	}
+
+	else if (state == Idle)
+	{
 		sitting = false;
 		vx = 0;
-		break;
-	case simon_state_die:
+	}
+
+	else if (state == Die)
+	{
 		vy = -simon_die_deflect_speed;
-		break;
 	}
 }
 
 bool Simon::IsJumping()
 {
-	return (state == simon_state_jump && jumping);
+	return (state == Jump && jumping);
 }
 
 bool Simon::IsAttacking()
 {
-	return (state == simon_state_attack && attacking);
+	return (state == Attack && attacking);
 }
 
 

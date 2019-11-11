@@ -25,15 +25,7 @@ void Brick::GetBoundingBox(float &l, float &t, float &r, float &b)
 	b = y + BRICK_BBOX_HEIGHT;
 }
 
-void Brick::SetState(int state)
+void Brick::SetState(string state)
 {
 	GameObject::SetState(state);
-
-	switch (state)
-	{
-	case isEnable:
-
-	default:
-		break;
-	}
 }

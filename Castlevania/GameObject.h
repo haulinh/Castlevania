@@ -46,7 +46,7 @@ public:
 
 	int nx;	 
 
-	int state;
+	string state;
 	int id;
 
 	bool die = false;
@@ -66,7 +66,7 @@ public:
 
 	void GetPosition(float &x, float &y) { x = this->x; y = this->y; }
 	void GetSpeed(float &vx, float &vy) { vx = this->vx; vy = this->vy; }
-	int GetState() { return this->state; }
+	string GetState() { return this->state; }
 
 
 	LPCOLLISIONEVENT SweptAABBEx(LPGAMEOBJECT coO);
@@ -87,7 +87,7 @@ public:
 	void RenderBoundingBox();
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects = NULL);
 	virtual void Render() = 0;
-	virtual void SetState(int state) { this->state = state; }
+	virtual void SetState(string state) { this->state = state; }
 
 	void SetId(int a) { this->id = a; }
 	void SetDie(bool a) { this->die = a; }

@@ -39,12 +39,6 @@
     <ClInclude Include="Brick.h">
       <Filter>Objects</Filter>
     </ClInclude>
-    <ClInclude Include="Goomba.h">
-      <Filter>Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="Mario.h">
-      <Filter>Objects</Filter>
-    </ClInclude>
     <ClInclude Include="Simon.h">
       <Filter>Objects</Filter>
     </ClInclude>
@@ -63,7 +57,7 @@
     <ClInclude Include="TileMap.h">
       <Filter>Framework</Filter>
     </ClInclude>
-    <ClInclude Include="Torch.h">
+    <ClInclude Include="Candle.h">
       <Filter>Objects</Filter>
     </ClInclude>
   </ItemGroup>
@@ -86,12 +80,6 @@
     <ClCompile Include="Brick.cpp">
       <Filter>Objects</Filter>
     </ClCompile>
-    <ClCompile Include="Goomba.cpp">
-      <Filter>Objects</Filter>
-    </ClCompile>
-    <ClCompile Include="Mario.cpp">
-      <Filter>Objects</Filter>
-    </ClCompile>
     <ClCompile Include="Simon.cpp">
       <Filter>Objects</Filter>
     </ClCompile>
@@ -107,7 +95,7 @@
     <ClCompile Include="TileMap.cpp">
       <Filter>Framework</Filter>
     </ClCompile>
-    <ClCompile Include="Torch.cpp">
+    <ClCompile Include="Candle.cpp">
       <Filter>Objects</Filter>
     </ClCompile>
   </ItemGroup>

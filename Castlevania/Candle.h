@@ -3,15 +3,15 @@
 
 
 
-class Torch :public GameObject
+class Candle :public GameObject
 {
 	int id;
 public:
-	Torch();
+	Candle();
 	void Update(int x, int y);
 	virtual void Render();
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
-	void SetState(int state);
+	void SetState(string state);
 	
 };
 

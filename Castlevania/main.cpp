@@ -29,19 +29,15 @@
 #include "GameObject.h"
 #include "Textures.h"
 
-#include "Mario.h"
 #include "simon.h"
 #include "Brick.h"
-#include "Goomba.h"
 #include "Whip.h"
 #include <iostream>
 #include "TileMap.h"
-#include "Torch.h"
+#include "Candle.h"
 
 Game *game;
 
-Mario *mario;
-Goomba *goomba;
 Simon *simon;
 Whip* whip;
 TileMap* tilemap;
@@ -64,18 +60,11 @@ void CSampleKeyHander::OnKeyDown(int KeyCode)
 	switch (KeyCode)
 	{
 	case DIK_SPACE:
-		simon->SetState(simon_state_jump);
+		simon->SetState(Jump);
 		break;
 	case DIK_D:
-		simon->SetState(simon_state_attack);
+		simon->SetState(Attack);
 		break;
-		
-	//case DIK_A: // reset
-	//	simon->SetState(SIMON_STATE_IDLE);
-	//	simon->SetLevel(SIMON_LEVEL_BIG);
-	//	simon->SetPosition(50.0f,0.0f);
-	//	simon->SetSpeed(0, 0);
-	//	break;
 	}
 	
 }
@@ -88,15 +77,26 @@ void CSampleKeyHander::OnKeyUp(int KeyCode)
 void CSampleKeyHander::KeyState(BYTE* states)
 {
 	if (simon->IsJumping()) return;
+	
 	if (simon->IsAttacking()) return;
+
 	else if (game->IsKeyDown(DIK_DOWN))
-		simon->SetState(simon_state_sit);
+		simon->SetState(Sit);
+
 	else if (game->IsKeyDown(DIK_RIGHT))
-		simon->SetState(simon_state_walking_right);
+	{
+		simon->SetN(1);
+		simon->SetState(Walking);
+	}
+
 	else if (game->IsKeyDown(DIK_LEFT))
-		simon->SetState(simon_state_walking_left);
+	{
+		simon->SetN(-1);
+		simon->SetState(Walking);
+	}
+
 	else 
-		simon->SetState(simon_state_idle);
+		simon->SetState(Idle);
 
 }
 #pragma region WinProc
@@ -137,23 +137,20 @@ void LoadResources()
 
 	LPANIMATION ani;
 
-	for (int i = 0; i < 5; i++)
-	{
-		Torch* torch = new Torch();
-		torch->SetId(i);
-		torch->SetPosition(160 + i * 270, 320 - 64 - 32);
-		objects.push_back(torch);
-	}
+	//for (int i = 0; i < 5; i++)
+	//{
+	//	Candle* candle = new Candle();
+	//	candle->SetId(i);
+	//	candle->SetPosition(160 + i * 270, 320 - 64 - 32);
+	//	objects.push_back(candle);
+	//}
 
 	simon = new Simon();
 	simon->SetPosition(200.0f, 300-60-32);
 	objects.push_back(simon);
 
-	whip = new Whip();
-	whip->SetPosition(simon->x, simon->y);
-
-
-
+	//whip = new Whip();
+	//whip->SetPosition(simon->x, simon->y);
 
 	for (int i = 0; i < 100; i++)
 	{
@@ -183,10 +180,10 @@ void Update(DWORD dt)
 	{
 
 		objects[i]->Update(dt,&coObjects);
-		if (objects[i]->GetState() == isEnable)
+	/*	if (objects[i]->GetState() == isEnable)
 		{
 			objects.erase(objects.begin() + i);
-		}
+		}*/
 	}
 
 	/* Update camera to follow simon*/
