@@ -7,15 +7,17 @@
 #include "Game.h"
 #include "GameObject.h"
 #include "Sprites.h"
+#include "define.h"
 
 GameObject::GameObject()
 {
 	x = y = 0;
 	vx = vy = 0;
 	nx = 1;	
+	isEnable = true;
 }
 
-void GameObject::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
+void GameObject::Update(DWORD dt, vector<LPGAMEOBJECT*> *coObjects)
 {
 	this->dt = dt;
 	dx = vx*dt;
@@ -63,12 +65,12 @@ LPCOLLISIONEVENT GameObject::SweptAABBEx(LPGAMEOBJECT coO)
 	coEvents: list of potential collisions
 */
 void GameObject::CalcPotentialCollisions(
-	vector<LPGAMEOBJECT> *coObjects, 
+	vector<LPGAMEOBJECT*> *coObjects, 
 	vector<LPCOLLISIONEVENT> &coEvents)
 {
 	for (UINT i = 0; i < coObjects->size(); i++)
 	{
-		LPCOLLISIONEVENT e = SweptAABBEx(coObjects->at(i));
+		LPCOLLISIONEVENT e = SweptAABBEx(*(coObjects->at(i)));
 
 		if (e->t > 0 && e->t <= 1.0f)
 			coEvents.push_back(e);
@@ -132,7 +134,7 @@ void GameObject::RenderBoundingBox()
 	D3DXVECTOR3 p(x, y, 0);
 	RECT rect;
 
-	LPDIRECT3DTEXTURE9 bbox = CTextures::GetInstance()->Get(-100);
+	LPDIRECT3DTEXTURE9 bbox = CTextures::GetInstance()->Get(id_bbox);
 
 	float l,t,r,b; 
 

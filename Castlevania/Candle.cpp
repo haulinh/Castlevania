@@ -33,9 +33,5 @@ void Candle::SetState(string state)
 
 void Candle::Render()
 {
-	if (state == "candle")
-	{
 		animations["candle"]->Render(x, y);
-		RenderBoundingBox();
-	}
 }

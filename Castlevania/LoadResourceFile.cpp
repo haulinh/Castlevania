@@ -65,17 +65,6 @@ void LoadResourceFile::LoadAnimationsFile(const char* filePath)
 	}
 }
 
-void LoadResourceFile::LoadTextures()
-{
-	CTextures * textures = CTextures::GetInstance();
-
-	textures->Add(id_tex_simon, L"resources\\simon\\simon.png", D3DCOLOR_XRGB(255, 0, 255));
-	textures->Add(id_tex_ground, L"resources\\ground\\ground.png", D3DCOLOR_XRGB(255, 0, 255));
-	textures->Add(id_tex_whip, L"resources\\whip\\whip.png", D3DCOLOR_XRGB(255, 0, 255));
-	textures->Add(id_tex_Candle, L"resources\\Candle\\Candle.png", D3DCOLOR_XRGB(255, 0, 255));
-	textures->Add(-100, L"resources\\bbox.png", D3DCOLOR_XRGB(255, 255, 255));
-}
-
 vector<string> LoadResourceFile::GetAnimations(const char* filePath)
 {
 	vector<string> animationsList;
@@ -95,6 +84,20 @@ vector<string> LoadResourceFile::GetAnimations(const char* filePath)
 	return animationsList;
 }
 
+
+void LoadResourceFile::LoadTextures()
+{
+	CTextures * textures = CTextures::GetInstance();
+
+	textures->Add(id_bbox, L"resources\\bbox.png", D3DCOLOR_XRGB(255, 255, 255));
+	textures->Add(id_tex_simon, L"resources\\simon\\simon.png", D3DCOLOR_XRGB(255, 0, 255));
+	textures->Add(id_tex_ground, L"resources\\ground\\ground.png", D3DCOLOR_XRGB(255, 0, 255));
+	textures->Add(id_tex_whip, L"resources\\whip\\whip.png", D3DCOLOR_XRGB(255, 0, 255));
+	textures->Add(id_tex_candle, L"resources\\candle\\candle.png", D3DCOLOR_XRGB(255, 0, 255));
+	textures->Add(id_tex_items, L"resources\\items\\items.png", D3DCOLOR_XRGB(255, 0, 255));
+}
+
+
 void LoadResourceFile::LoadAllResource()
 {
 	CTextures* textures = CTextures::GetInstance();
@@ -106,18 +109,21 @@ void LoadResourceFile::LoadAllResource()
 	auto texGround= textures->Get(id_tex_ground);
 	auto texSimon = textures->Get(id_tex_simon);
 	auto texWhip = textures->Get(id_tex_whip);
-	auto texCandle = textures->Get(id_tex_Candle);
+	auto texCandle = textures->Get(id_tex_candle);
+	auto texItems= textures->Get(id_tex_items);
 
 
 	LoadResourceFile->LoadSpriteSheetFile("resources\\ground\\ground.xml", texGround);
 	LoadResourceFile->LoadSpriteSheetFile("resources\\simon\\simon.xml", texSimon);
 	LoadResourceFile->LoadSpriteSheetFile("resources\\whip\\whip.xml", texWhip);
-	LoadResourceFile->LoadSpriteSheetFile("resources\\Candle\\Candle.xml", texCandle);
+	LoadResourceFile->LoadSpriteSheetFile("resources\\candle\\candle.xml", texCandle);
+	LoadResourceFile->LoadSpriteSheetFile("resources\\items\\items.xml", texItems);
 
 
 	LoadResourceFile->LoadAnimationsFile("resources\\simon\\simon_ani.xml");
 	LoadResourceFile->LoadAnimationsFile("resources\\whip\\whip_ani.xml");
 	LoadResourceFile->LoadAnimationsFile("resources\\ground\\ground_ani.xml");
-	LoadResourceFile->LoadAnimationsFile("resources\\Candle\\Candle_ani.xml");
+	LoadResourceFile->LoadAnimationsFile("resources\\candle\\candle_ani.xml");
+	LoadResourceFile->LoadAnimationsFile("resources\\items\\items_ani.xml");
 
 }

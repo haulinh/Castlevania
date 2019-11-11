@@ -1,4 +1,4 @@
-#include <algorithm>
+﻿#include <algorithm>
 #include "debug.h"
 
 #include "Simon.h"
@@ -21,12 +21,10 @@ Simon::Simon() : GameObject() {
 }
 
 #pragma region Update 
-void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
+void Simon::Update(DWORD dt, vector<LPGAMEOBJECT*>* coObjects)
 {
 	// Calculate dx, dy 
 	GameObject::Update(dt);
-	this->whip->Update(dt, coObjects);
-
 
 	// Simple fall down
 	vy += simon_gravity * dt;
@@ -37,15 +35,7 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	coEvents.clear();
 
 	// turn off collision when die 
-	if (state != Die)
-		CalcPotentialCollisions(coObjects, coEvents);
-
-	// reset untouchable timer if untouchable time has passed
-	if (GetTickCount() - untouchable_start > SIMON_UNTOUCHABLE_TIME)
-	{
-		untouchable_start = 0;
-		untouchable = 0;
-	}
+	CalcPotentialCollisions(coObjects, coEvents);
 
 	// No collision occurred, proceed normally
 	if (coEvents.size() == 0)
@@ -83,11 +73,8 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			}
 			if (dynamic_cast<Candle*>(e->obj))
 			{
-				x += dx;
-				if (y <= 300 - 60 - 32)
-				{
-					y += dy;
-				}
+				if (e->nx != 0) x += dx;
+				if (e->ny != 0) y += dy;
 			}
 
 		}
@@ -96,9 +83,7 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	// clean up collision events
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 
-	//whip->SetPosition(x - 94, y);
-	//whip->SetN(nx);
-
+	if (state == Attack) whip->Update(dt, coObjects);
 }
 #pragma endregion Simon 
 
@@ -107,7 +92,8 @@ void Simon::Render()
 {
 
 	int alpha = 255;
-	if (untouchable) alpha = 128;
+
+	if (state == Attack) whip->Render();
 
 	animations[state]->Render(nx, x, y, alpha);
 	attacking = !animations[state]->IsDoneCyle();
@@ -168,10 +154,11 @@ bool Simon::IsAttacking()
 
 void Simon::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
-	left = x;
-	top = y;
-	right = x + SIMON_BIG_BBOX_WIDTH;
-	bottom = y + SIMON_BIG_BBOX_HEIGHT;
+	// sprite có kích thước là 60x66, bbox là 40x62
+	left = x + 10;
+	top = y + 2;
+	right = x + SIMON_BBOX_WIDTH;
+	bottom = y + SIMON_BBOX_HEIGHT;
 
 }
 

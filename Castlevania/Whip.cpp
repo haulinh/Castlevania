@@ -2,6 +2,7 @@
 #include "LoadResourceFile.h"
 #include "Brick.h"
 #include "Candle.h"
+#include "Items.h"
 
 Whip::Whip()
 {
@@ -14,22 +15,27 @@ Whip::Whip()
 	}
 }
 
-void Whip::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
+void Whip::Update(DWORD dt, vector<LPGAMEOBJECT*>* coObjects)
  {
 	if (this->isLastFame)
 	{
 		for (UINT i = 0; i < coObjects->size(); i++)
 		{
-			GameObject* e = coObjects->at(i);
-			if (dynamic_cast<Candle*>(e))
+			LPGAMEOBJECT* obj = coObjects->at(i);
+			if (dynamic_cast<Candle*>(*obj))
 			{
+				Candle* e = dynamic_cast<Candle*> (*obj);
+
 				if (this->AABBx(e) == true)
 				{
-					if (e->GetState() != "Candle_delete")
-					{
-						e->SetState("Candle_delete");
-					}
-					coObjects->at(i)->SetDie(true);
+					DebugOut(L"Collision AABB\n");
+
+					Items* items = new Items();
+					items->isEnable = true;
+					items->SetPosition(e->x, e->y);
+					items->GeneratorRandom();
+
+					*(obj) = items;
 				}
 			}
 		}
@@ -41,27 +47,20 @@ void Whip::Render()
 {
 	animations["whip"]->Render(nx, x, y);
 	this->isLastFame = this->animations["whip"]->IsDoneCyle();
-	//if (isLastFame)
-	//{
-		RenderBoundingBox();
-	//}
-
 }
 
 void Whip::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
-	if (nx == 1)
+	top = y + 15;
+	bottom = top + WHIP_BBOX_HEIGHT;
+	if (nx < 0)
 	{
-		left = x + 140;
-		top = y + 15;
-		right = left + 85;
-		bottom = top + 18;
+		left = x + 50;
+		right = left + WHIP_BBOX_WIDTH;
 	}
-	else
+	else if (nx > 0)
 	{
-		left = x + 25;
-		top = y + 15;
-		right = left + 85;
-		bottom = top + 18;
+		left = 190 - WHIP_BBOX_WIDTH + x;
+		right = left + WHIP_BBOX_WIDTH;
 	}
 }

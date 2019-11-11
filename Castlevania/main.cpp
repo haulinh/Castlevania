@@ -1,4 +1,4 @@
-/* =============================================================
+﻿/* =============================================================
 	INTRODUCTION TO GAME PROGRAMMING SE102
 	
 	SAMPLE 04 - COLLISION
@@ -35,6 +35,7 @@
 #include <iostream>
 #include "TileMap.h"
 #include "Candle.h"
+#include "Items.h"
 
 Game *game;
 
@@ -137,20 +138,16 @@ void LoadResources()
 
 	LPANIMATION ani;
 
-	//for (int i = 0; i < 5; i++)
-	//{
-	//	Candle* candle = new Candle();
-	//	candle->SetId(i);
-	//	candle->SetPosition(160 + i * 270, 320 - 64 - 32);
-	//	objects.push_back(candle);
-	//}
+	for (int i = 0; i < 5; i++)
+	{
+		Candle* candle = new Candle();
+		candle->SetPosition(160 + i * 270, 320 - 64 - 32);
+		objects.push_back(candle);
+	}
 
 	simon = new Simon();
 	simon->SetPosition(200.0f, 300-60-32);
 	objects.push_back(simon);
-
-	//whip = new Whip();
-	//whip->SetPosition(simon->x, simon->y);
 
 	for (int i = 0; i < 100; i++)
 	{
@@ -168,23 +165,46 @@ void LoadResources()
 */
 void Update(DWORD dt)
 {
-	// We know that Mario is the first object in the list hence we won't add him into the colliable object list
-	// TO-DO: This is a "dirty" way, need a more organized way 
-	vector<LPGAMEOBJECT> coObjects;
-	for (int i = 1; i < objects.size(); i++)
-	{
-		coObjects.push_back(objects[i]);
-	}
-
 	for (int i = 0; i < objects.size(); i++)
 	{
 
-		objects[i]->Update(dt,&coObjects);
-	/*	if (objects[i]->GetState() == isEnable)
+		if (objects[i]->isEnable == false)
+			continue;
+		vector<LPGAMEOBJECT*> coObjects;
+		
+		if (dynamic_cast<Simon*>(objects[i]))
 		{
-			objects.erase(objects.begin() + i);
-		}*/
+			for (int j = 0; j < objects.size(); j++)
+			{
+				if (objects[j]->isEnable == false)
+					continue;
+
+				if (i != j) // thêm tất cả objects "ko phải là simon", dùng trong hàm update của simon 
+					coObjects.push_back(&(objects[j]));
+			}
+		}
+		else if (dynamic_cast<Items*>(objects[i]))
+		{
+			for (int j = 0; j < objects.size(); j++)
+			{
+				if (objects[i]->isEnable == false)
+					continue;
+
+				if (dynamic_cast<Brick*>(objects[j])) // thêm tất cả objects "là ground", dùng trong hàm update của item
+				{
+					coObjects.push_back(&(objects[j]));
+				}
+			}
+		}
+		else
+		{
+			coObjects.push_back(&(objects[i]));
+		}
+
+
+		objects[i]->Update(dt, &coObjects);
 	}
+	
 
 	/* Update camera to follow simon*/
 	if (simon->x >= SCREEN_WIDTH / 2 && simon->x <= TILEMAP1_WIDTH - SCREEN_WIDTH/2)

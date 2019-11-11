@@ -22,7 +22,6 @@
         <frame spriteID="simon005" time="100"/>
         <frame spriteID="simon006" time="100"/>
         <frame spriteID="simon007" time="100"/>
-        <frame spriteID="simon007" time="100"/>
     </animation>
     
     <!-- <animation ID="simon_ani_stand_attack" defaulttime="100">

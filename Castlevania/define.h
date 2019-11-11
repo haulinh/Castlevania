@@ -20,11 +20,12 @@ using namespace std;
 
 enum TexId
 {
+	id_bbox,
 	id_tex_simon,
 	id_tex_whip,
 	id_tex_ground,
-	id_tex_Candle,
-	id_bbox,
+	id_tex_candle,
+	id_tex_items,
 };
 
 #pragma endregion
@@ -52,14 +53,40 @@ const string Attack = "simon_ani_attacking";
 const string Die = "simon_ani_die";
 
 
-#define SIMON_BIG_BBOX_WIDTH 30
-#define SIMON_BIG_BBOX_HEIGHT 60 
+// Simon
+#define SIMON_BBOX_WIDTH			40
+#define SIMON_BBOX_HEIGHT			62
+
 #define Candle_BBOX_WIDTH	32
 #define Candle_BBOX_HEIGHT	64
 
 #define TILEMAP1_WIDTH 1536
-#define SIMON_UNTOUCHABLE_TIME 5000
+
+// Whip
+#define WHIP_BBOX_WIDTH				40
+#define WHIP_BBOX_HEIGHT			10
+
+// Items
+const string LARGE_HEART = "LargeHeart";
+const string CHAIN = "Chain";
+const string DAGGER = "Dagger";
+
+// Large Heart
+#define LARGE_HEART_BBOX_WIDTH		24
+#define LARGE_HEART_BBOX_HEIGHT		20
+
+// Chain
+#define CHAIN_BBOX_WIDTH			32
+#define CHAIN_BBOX_HEIGHT			32
+
+// Dagger
+#define DAGGER_BBOX_WIDTH			32
+#define DAGGER_BBOX_HEIGHT			18
+
+// Item
+#define ITEM_FALLING_SPEED			0.2f
+#define ITEM_TIME_DESTROYED			3000
+#define ITEM_DAGGER_SPEED			0.3f
 
 #pragma endregion
 
-#define isEnable 100
