@@ -77,7 +77,6 @@ void Items::GeneratorRandom()
 	vector<string> listState = { "LargeHeart", "Chain", "Dagger" };
 	int randomState = rand() % 3;
 	state = listState[randomState];
-	DebugOut(L"random %d \n", randomState);
 }
 
 void Items::GetBoundingBox(float& left, float& top, float& right, float& bottom)

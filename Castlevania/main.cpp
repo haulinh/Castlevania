@@ -45,6 +45,9 @@ TileMap* tilemap;
 
 vector<LPGAMEOBJECT> objects;
 
+CTextures* textures = CTextures::GetInstance();
+CAnimations * animations = CAnimations::GetInstance();
+
 class CSampleKeyHander: public CKeyEventHandler
 {
 	virtual void KeyState(BYTE *states);
@@ -123,20 +126,20 @@ LRESULT CALLBACK WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 */
 void LoadResources()
 {
-	CTextures* textures = CTextures::GetInstance();
 	textures->Add(400, L"resources\\Map\\map1.png", D3DCOLOR_XRGB(255, 0, 255));
 	auto texMap = textures->Get(400);
 	tilemap = new TileMap(L"resources\\Map\\map1.txt", 1536, 320, 32, 32);
 	tilemap->SetTileMap(texMap);
 	tilemap->LoadResources();
 
-
-	CAnimations * animations = CAnimations::GetInstance();
 	LoadResourceFile* LoadResourceFile = LoadResourceFile::GetInstance();
-
 	LoadResourceFile->LoadAllResource();
 
 	LPANIMATION ani;
+
+	simon = new Simon();
+	simon->SetPosition(0.0f, 300-60-32);
+	objects.push_back(simon);
 
 	for (int i = 0; i < 5; i++)
 	{
@@ -144,10 +147,6 @@ void LoadResources()
 		candle->SetPosition(160 + i * 270, 320 - 64 - 32);
 		objects.push_back(candle);
 	}
-
-	simon = new Simon();
-	simon->SetPosition(200.0f, 300-60-32);
-	objects.push_back(simon);
 
 	for (int i = 0; i < 100; i++)
 	{
@@ -242,7 +241,11 @@ void Render()
 
 
 		for (int i = 0; i < objects.size(); i++)
+		{
+			if (objects[i]->isEnable == false)
+				continue;
 			objects[i]->Render();
+		}
 
 		spriteHandler->End();
 		d3ddv->EndScene();
