@@ -83,7 +83,7 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT*>* coObjects)
 	// clean up collision events
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 
-	if (state == Attack) whip->Update(dt, coObjects);
+	whip->Update(dt, coObjects);
 }
 #pragma endregion Simon 
 
