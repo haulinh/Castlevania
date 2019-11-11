@@ -1,21 +1,21 @@
-#include "Whip.h"
+#include "weapon.h"
 #include "LoadResourceFile.h"
 #include "Brick.h"
 #include "Candle.h"
 #include "Items.h"
 
-Whip::Whip()
+Weapon::Weapon()
 {
 	LoadResourceFile* loadResourceFile = LoadResourceFile::GetInstance();
 
-	vector<string> animationsWhip= loadResourceFile->GetAnimations("resources\\whip\\whip_ani.xml");
-	for each (string animation in animationsWhip)
+	vector<string> animationsWeapon= loadResourceFile->GetAnimations("resources\\weapons\\weapons_ani.xml");
+	for each (string animation in animationsWeapon)
 	{
 		AddAnimation(animation);
 	}
 }
 
-void Whip::Update(DWORD dt, vector<LPGAMEOBJECT*>* coObjects)
+void Weapon::Update(DWORD dt, vector<LPGAMEOBJECT*>* coObjects)
  {
 	if (this->isLastFame)
 	{
@@ -28,8 +28,6 @@ void Whip::Update(DWORD dt, vector<LPGAMEOBJECT*>* coObjects)
 
 				if (this->AABBx(e) == true)
 				{
-					DebugOut(L"Collision AABB\n");
-
 					Items* items = new Items();
 					items->isEnable = true;
 					items->SetPosition(e->x, e->y);
@@ -43,24 +41,24 @@ void Whip::Update(DWORD dt, vector<LPGAMEOBJECT*>* coObjects)
 	this->isLastFame = false;
 }
 
-void Whip::Render()
+void Weapon::Render()
 {
-	animations["whip"]->Render(nx, x, y);
-	this->isLastFame = this->animations["whip"]->IsDoneCyle();
+	animations[state]->Render(nx, x, y);
+	this->isLastFame = this->animations[state]->IsDoneCyle();
 }
 
-void Whip::GetBoundingBox(float& left, float& top, float& right, float& bottom)
+void Weapon::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
 	top = y + 15;
-	bottom = top + WHIP_BBOX_HEIGHT;
+	bottom = top + Weapon_BBOX_HEIGHT;
 	if (nx < 0)
 	{
 		left = x + 50;
-		right = left + WHIP_BBOX_WIDTH;
+		right = left + Weapon_BBOX_WIDTH;
 	}
 	else if (nx > 0)
 	{
-		left = 190 - WHIP_BBOX_WIDTH + x;
-		right = left + WHIP_BBOX_WIDTH;
+		left = 190 - Weapon_BBOX_WIDTH + x;
+		right = left + Weapon_BBOX_WIDTH;
 	}
 }

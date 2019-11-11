@@ -22,7 +22,7 @@ enum TexId
 {
 	id_bbox,
 	id_tex_simon,
-	id_tex_whip,
+	id_tex_weapon,
 	id_tex_ground,
 	id_tex_candle,
 	id_tex_items,
@@ -52,6 +52,10 @@ const string Sit = "simon_ani_sitting";
 const string Attack = "simon_ani_attacking";
 const string Die = "simon_ani_die";
 
+const string MagicWhip = "magic_whip";
+const string ShortChain= "short_chain";
+const string LongChain= "long_chain";
+
 
 // Simon
 #define SIMON_BBOX_WIDTH			40
@@ -62,9 +66,9 @@ const string Die = "simon_ani_die";
 
 #define TILEMAP1_WIDTH 1536
 
-// Whip
-#define WHIP_BBOX_WIDTH				40
-#define WHIP_BBOX_HEIGHT			10
+// Weapon
+#define Weapon_BBOX_WIDTH				40
+#define Weapon_BBOX_HEIGHT			10
 
 // Items
 const string LARGE_HEART = "LargeHeart";

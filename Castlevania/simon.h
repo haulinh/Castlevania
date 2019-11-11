@@ -1,6 +1,6 @@
 #pragma once
 #include "GameObject.h"
-#include "Whip.h"
+#include "Weapon.h"
 #include "LoadResourceFile.h"
 #include "define.h"
 
@@ -12,7 +12,7 @@ class Simon : public GameObject
 	bool jumping = false;
 	bool sitting = false;
 	bool attacking = false;
-	Whip *whip;
+	Weapon *weapon;
 
 	DWORD untouchable_start;
 

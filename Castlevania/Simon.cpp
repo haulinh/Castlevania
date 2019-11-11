@@ -17,7 +17,8 @@ Simon::Simon() : GameObject() {
 		AddAnimation(animation);
 	}
 
-	whip = new Whip();
+	weapon = new Weapon();
+	weapon->state = MagicWhip;
 }
 
 #pragma region Update 
@@ -83,7 +84,7 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT*>* coObjects)
 	// clean up collision events
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 
-	whip->Update(dt, coObjects);
+	weapon->Update(dt, coObjects);
 }
 #pragma endregion Simon 
 
@@ -93,7 +94,7 @@ void Simon::Render()
 
 	int alpha = 255;
 
-	if (state == Attack) whip->Render();
+	if (state == Attack) weapon->Render();
 
 	animations[state]->Render(nx, x, y, alpha);
 	attacking = !animations[state]->IsDoneCyle();
@@ -108,7 +109,7 @@ void Simon::SetState(string state)
 		sitting = false;
 		if (nx > 0) vx = simon_walking_speed;
 		else vx = -simon_walking_speed;
-		whip->SetN(nx);
+		weapon->SetN(nx);
 	}
 	else if (state == Jump)
 	{
@@ -119,7 +120,7 @@ void Simon::SetState(string state)
 
 	else if (state == Attack)
 	{
-		this->whip->SetPosition(this->x - 90, this->y + 3);
+		this->weapon->SetPosition(this->x - 90, this->y + 3);
 		vx = 0;
 	}
 

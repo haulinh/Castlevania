@@ -92,7 +92,7 @@ void LoadResourceFile::LoadTextures()
 	textures->Add(id_bbox, L"resources\\bbox.png", D3DCOLOR_XRGB(255, 255, 255));
 	textures->Add(id_tex_simon, L"resources\\simon\\simon.png", D3DCOLOR_XRGB(255, 0, 255));
 	textures->Add(id_tex_ground, L"resources\\ground\\ground.png", D3DCOLOR_XRGB(255, 0, 255));
-	textures->Add(id_tex_whip, L"resources\\whip\\whip.png", D3DCOLOR_XRGB(255, 0, 255));
+	textures->Add(id_tex_weapon, L"resources\\weapons\\weapons.png", D3DCOLOR_XRGB(255, 0, 255));
 	textures->Add(id_tex_candle, L"resources\\candle\\candle.png", D3DCOLOR_XRGB(255, 0, 255));
 	textures->Add(id_tex_items, L"resources\\items\\items.png", D3DCOLOR_XRGB(255, 0, 255));
 }
@@ -108,20 +108,20 @@ void LoadResourceFile::LoadAllResource()
 	LoadResourceFile->LoadTextures();
 	auto texGround= textures->Get(id_tex_ground);
 	auto texSimon = textures->Get(id_tex_simon);
-	auto texWhip = textures->Get(id_tex_whip);
+	auto texWeapon = textures->Get(id_tex_weapon);
 	auto texCandle = textures->Get(id_tex_candle);
 	auto texItems= textures->Get(id_tex_items);
 
 
 	LoadResourceFile->LoadSpriteSheetFile("resources\\ground\\ground.xml", texGround);
 	LoadResourceFile->LoadSpriteSheetFile("resources\\simon\\simon.xml", texSimon);
-	LoadResourceFile->LoadSpriteSheetFile("resources\\whip\\whip.xml", texWhip);
+	LoadResourceFile->LoadSpriteSheetFile("resources\\weapons\\weapons.xml", texWeapon);
 	LoadResourceFile->LoadSpriteSheetFile("resources\\candle\\candle.xml", texCandle);
 	LoadResourceFile->LoadSpriteSheetFile("resources\\items\\items.xml", texItems);
 
 
 	LoadResourceFile->LoadAnimationsFile("resources\\simon\\simon_ani.xml");
-	LoadResourceFile->LoadAnimationsFile("resources\\whip\\whip_ani.xml");
+	LoadResourceFile->LoadAnimationsFile("resources\\weapons\\weapons_ani.xml");
 	LoadResourceFile->LoadAnimationsFile("resources\\ground\\ground_ani.xml");
 	LoadResourceFile->LoadAnimationsFile("resources\\candle\\candle_ani.xml");
 	LoadResourceFile->LoadAnimationsFile("resources\\items\\items_ani.xml");

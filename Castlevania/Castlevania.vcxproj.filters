@@ -42,9 +42,6 @@
     <ClInclude Include="Simon.h">
       <Filter>Objects</Filter>
     </ClInclude>
-    <ClInclude Include="Whip.h">
-      <Filter>Objects</Filter>
-    </ClInclude>
     <ClInclude Include="LoadResourceFile.h">
       <Filter>Ultiltes</Filter>
     </ClInclude>
@@ -61,6 +58,9 @@
       <Filter>Objects</Filter>
     </ClInclude>
     <ClInclude Include="Items.h">
+      <Filter>Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="weapon.h">
       <Filter>Objects</Filter>
     </ClInclude>
   </ItemGroup>
@@ -86,9 +86,6 @@
     <ClCompile Include="Simon.cpp">
       <Filter>Objects</Filter>
     </ClCompile>
-    <ClCompile Include="Whip.cpp">
-      <Filter>Objects</Filter>
-    </ClCompile>
     <ClCompile Include="LoadResourceFile.cpp">
       <Filter>Ultiltes</Filter>
     </ClCompile>
@@ -102,6 +99,9 @@
       <Filter>Objects</Filter>
     </ClCompile>
     <ClCompile Include="Items.cpp">
+      <Filter>Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="weapon.cpp">
       <Filter>Objects</Filter>
     </ClCompile>
   </ItemGroup>

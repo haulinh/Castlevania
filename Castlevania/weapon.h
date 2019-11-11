@@ -1,11 +1,11 @@
 #pragma once
 #include "GameObject.h"
 #include "debug.h"
-class Whip :
+class Weapon :
 	public GameObject
 {
 public:
-	Whip();
+	Weapon();
 
 	void Update(DWORD dt, vector<LPGAMEOBJECT*>* coObjects);
 	virtual void Render();

@@ -31,7 +31,7 @@
 
 #include "simon.h"
 #include "Brick.h"
-#include "Whip.h"
+#include "Weapon.h"
 #include <iostream>
 #include "TileMap.h"
 #include "Candle.h"
@@ -40,7 +40,7 @@
 Game *game;
 
 Simon *simon;
-Whip* whip;
+Weapon* Weapon;
 TileMap* tilemap;
 
 vector<LPGAMEOBJECT> objects;
