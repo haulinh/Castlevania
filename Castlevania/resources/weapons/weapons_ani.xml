@@ -11,4 +11,10 @@
         <frame spriteID="weapon_6" time="100"/>
     </animation>
 
+      <animation ID="long_chain" defaultTime="100">
+        <frame spriteID="weapon_9" time="100"/>
+        <frame spriteID="weapon_14" time="100"/>
+        <frame spriteID="weapon_18" time="100"/>
+    </animation>
+
 </animations>
