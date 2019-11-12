@@ -1,4 +1,4 @@
-/* =============================================================
+﻿/* =============================================================
 	INTRODUCTION TO GAME PROGRAMMING SE102
 	
 	SAMPLE 04 - COLLISION
@@ -9,12 +9,12 @@
 		2/ Implement a simple (yet effective) collision frame work
 
 	Key functions: 
-		CGame::SweptAABB
-		CGameObject::SweptAABBEx
-		CGameObject::CalcPotentialCollisions
-		CGameObject::FilterCollision
+		Game::SweptAABB
+		GameObject::SweptAABBEx
+		GameObject::CalcPotentialCollisions
+		GameObject::FilterCollision
 
-		CGameObject::GetBoundingBox
+		GameObject::GetBoundingBox
 		
 ================================================================ */
 
@@ -22,32 +22,32 @@
 #include <d3d9.h>
 #include <d3dx9.h>
 
+#include "define.h"
+
 #include "debug.h"
 #include "Game.h"
 #include "GameObject.h"
 #include "Textures.h"
 
-#include "Mario.h"
 #include "simon.h"
 #include "Brick.h"
-#include "Goomba.h"
+#include "Weapon.h"
+#include <iostream>
+#include "TileMap.h"
+#include "Candle.h"
+#include "Items.h"
+#include "Dagger.h"
 
-#define WINDOW_CLASS_NAME L"SampleWindow"
-#define MAIN_WINDOW_TITLE L"04 - Collision"
+Game *game;
 
-#define BACKGROUND_COLOR D3DCOLOR_XRGB(25, 25, 25)
-#define SCREEN_WIDTH 640 
-#define SCREEN_HEIGHT 480 
-
-#define MAX_FRAME_RATE 120
-
-CGame *game;
-
-CMario *mario;
-CGoomba *goomba;
-CSimon *simon;
+Simon *simon;
+TileMap* tilemap;
+Dagger* dagger;
 
 vector<LPGAMEOBJECT> objects;
+
+CTextures* textures = CTextures::GetInstance();
+CAnimations * animations = CAnimations::GetInstance();
 
 class CSampleKeyHander: public CKeyEventHandler
 {
@@ -60,46 +60,66 @@ CSampleKeyHander * keyHandler;
 
 void CSampleKeyHander::OnKeyDown(int KeyCode)
 {
-	DebugOut(L"[INFO] KeyDown: %d\n", KeyCode);
-	DebugOut(L"[INFO] KeyDown: %d\n", KeyCode);
+	//DebugOut(L"[INFO] KeyDown: %d\n", KeyCode);
+	if (simon->IsJumping()) return;
 	switch (KeyCode)
 	{
 	case DIK_SPACE:
-		simon->SetState(SIMON_STATE_JUMP);
+		simon->SetState(Jump);
 		break;
-		
-	//case DIK_A: // reset
-	//	simon->SetState(SIMON_STATE_IDLE);
-	//	simon->SetLevel(SIMON_LEVEL_BIG);
-	//	simon->SetPosition(50.0f,0.0f);
-	//	simon->SetSpeed(0, 0);
-	//	break;
+
+	case DIK_D:
+		simon->SetState(Attack);
+		break;
+
+	case DIK_X:
+		if (!simon->isPowered)
+			return;
+		if (simon->GetState() == Idle)
+		{
+			float sx, sy;
+			simon->GetPosition(sx, sy);
+			dagger->SetPosition(sx, sy + 10);
+			dagger->nx = simon->nx;
+			dagger->isEnable = true;
+			simon->SetState(Throw);
+		}
 	}
 	
 }
 
 void CSampleKeyHander::OnKeyUp(int KeyCode)
 {
-	DebugOut(L"[INFO] KeyUp: %d\n", KeyCode);
+	//DebugOut(L"[INFO] KeyUp: %d\n", KeyCode);
 }
 
 void CSampleKeyHander::KeyState(BYTE* states)
 {
-
 	if (simon->IsJumping()) return;
-	else if (game->IsKeyDown(DIK_DOWN))
-	{
-		simon->SetState(SIMON_STATE_SIT);
-		return;
-	}
-	else if (game->IsKeyDown(DIK_RIGHT))
-		simon->SetState(SIMON_STATE_WALKING_RIGHT);
-	else if (game->IsKeyDown(DIK_LEFT))
-		simon->SetState(SIMON_STATE_WALKING_LEFT);
-	else 
-		simon->SetState(SIMON_STATE_IDLE);
-}
+	
+	if (simon->IsAttacking()) return;
 
+	if (simon->IsThrowing()) return;
+
+	else if (game->IsKeyDown(DIK_DOWN))
+		simon->SetState(Sit);
+
+	else if (game->IsKeyDown(DIK_RIGHT))
+	{
+		simon->SetN(1);
+		simon->SetState(Walking);
+	}
+
+	else if (game->IsKeyDown(DIK_LEFT))
+	{
+		simon->SetN(-1);
+		simon->SetState(Walking);
+	}
+
+	else 
+		simon->SetState(Idle);
+
+}
 #pragma region WinProc
 LRESULT CALLBACK WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
@@ -123,47 +143,40 @@ LRESULT CALLBACK WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 */
 void LoadResources()
 {
-	CTextures * textures = CTextures::GetInstance();
+	textures->Add(400, L"resources\\Map\\map1.png", D3DCOLOR_XRGB(255, 0, 255));
+	auto texMap = textures->Get(400);
+	tilemap = new TileMap(L"resources\\Map\\map1.txt", 1536, 320, 32, 32);
+	tilemap->SetTileMap(texMap);
+	tilemap->LoadResources();
 
-	textures->Add("id_tex_simon", L"textures\\simon\\simon.png", D3DCOLOR_XRGB(255, 0, 255));
-	textures->Add("id_tex_brick", L"textures\\ground\\brick.png", D3DCOLOR_XRGB(255, 0, 255));
-	textures->Add("-100", L"textures\\bbox.png", D3DCOLOR_XRGB(255, 255, 255));
-
-
-	CSprites * sprites = CSprites::GetInstance();
-	CAnimations * animations = CAnimations::GetInstance();
-
-	
-	auto texBrick = textures->Get("id_tex_brick");
-	sprites->LoadSpriteSheet("textures\\ground\\brick.xml", texBrick);
-
-	auto texSimon = textures->Get("id_tex_simon");
-	sprites->LoadSpriteSheet("textures\\simon\\simon.xml", texSimon);
+	LoadResourceFile* LoadResourceFile = LoadResourceFile::GetInstance();
+	LoadResourceFile->LoadAllResource();
 
 	LPANIMATION ani;
 
-	//brick
-	ani = new CAnimation(100);
-	ani->Add("brick");
-	animations->Add("brick", ani);
-
-	animations->LoadAnimations("textures\\simon\\simon_ani.xml");
-
-	simon = new CSimon();
-	simon->AddAnimation("simon_ani_idle");		// idle
-	simon->AddAnimation("simon_ani_walking");		// walk
-	simon->AddAnimation("simon_ani_sitting");		// sit
-
+	simon = new Simon();
 	simon->SetPosition(0.0f, 300-60-32);
 	objects.push_back(simon);
 
-	for (int i = 0; i < 30; i++)
+	dagger = new Dagger();
+	dagger->isEnable = false;
+	objects.push_back(dagger);
+
+	for (int i = 0; i < 10; i++)
 	{
-		CBrick *brick = new CBrick();
+		Candle* candle = new Candle();
+		candle->SetPosition(160 + i * 270, 320 - 64 - 32);
+		objects.push_back(candle);
+	}
+
+	for (int i = 0; i < 100; i++)
+	{
+		Brick* brick = new Brick();
 		brick->AddAnimation("brick");
-		brick->SetPosition(0 + i*16.0f, 300);
+		brick->SetPosition(0 + i * 16.0f, 320 - 32);
 		objects.push_back(brick);
 	}
+
 }
 
 /*
@@ -172,28 +185,71 @@ void LoadResources()
 */
 void Update(DWORD dt)
 {
-	// We know that Mario is the first object in the list hence we won't add him into the colliable object list
-	// TO-DO: This is a "dirty" way, need a more organized way 
-
-	vector<LPGAMEOBJECT> coObjects;
-	for (int i = 1; i < objects.size(); i++)
-	{
-		coObjects.push_back(objects[i]);
-	}
-
 	for (int i = 0; i < objects.size(); i++)
 	{
-		objects[i]->Update(dt,&coObjects);
+
+	/*	if (objects[i]->isEnable == false)
+			continue;*/
+
+		vector<LPGAMEOBJECT> coObjects;
+		
+		if (dynamic_cast<Simon*>(objects[i]))
+		{
+			for (int j = 0; j < objects.size(); j++)
+			{
+				if (objects[j]->isEnable == false)
+					continue;
+
+				if (i != j) // thêm tất cả objects "ko phải là simon", dùng trong hàm update của simon 
+					coObjects.push_back(objects[j]);
+			}
+		}
+		else if (dynamic_cast<Items*>(objects[i]))
+		{
+			for (int j = 0; j < objects.size(); j++)
+			{
+				if (objects[i]->isEnable == false)
+					continue;
+
+				if (dynamic_cast<Brick*>(objects[j])) // thêm tất cả objects "là ground", dùng trong hàm update của item
+				{
+					coObjects.push_back(objects[j]);
+				}
+			}
+		}
+		else if (dynamic_cast<Dagger*>(objects[i]))
+		{
+			for (int j = 0; j < objects.size(); j++)
+			{
+				if (objects[j]->isEnable == false)
+					continue;
+
+				if (i != j) // thêm tất cả objects "ko phải là dagger", dùng trong hàm update của dagger
+					coObjects.push_back(objects[j]);
+			}
+		}
+		else
+		{
+			coObjects.push_back(objects[i]);
+		}
+
+		objects[i]->Update(dt, &coObjects);
 	}
+	
 
 	/* Update camera to follow simon*/
+	if (simon->x >= SCREEN_WIDTH / 2 && simon->x <= TILEMAP1_WIDTH - SCREEN_WIDTH/2)
+	{
+		game->SetCamPos(simon->x - 320, 0);
+	}
+	
 	float cx, cy;
-	simon->GetPosition(cx, cy);
-
-	cx -= SCREEN_WIDTH / 2;
-	cy -= SCREEN_HEIGHT / 2;
-
-	CGame::GetInstance()->SetCamPos(cx, 0.0f /*cy*/);
+	cx = simon->x;
+	cy = simon->y;
+	if (cx > SCREEN_WIDTH / 2 && cx + SCREEN_WIDTH / 2 < tilemap->GetMapWidth())
+	{
+		game->SetCamPos(cx - SCREEN_WIDTH / 2, 0);
+	}
 }
 
 /*
@@ -201,6 +257,7 @@ void Update(DWORD dt)
 */
 void Render()
 {
+	CTextures* textures = CTextures::GetInstance();
 	auto d3ddv = game->GetDirect3DDevice();
 	auto bb = game->GetBackBuffer();
 	auto spriteHandler = game->GetSpriteHandler();
@@ -212,8 +269,15 @@ void Render()
 
 		spriteHandler->Begin(D3DXSPRITE_ALPHABLEND);
 
+		tilemap->Draw(game->GetCamPos());
+
+
 		for (int i = 0; i < objects.size(); i++)
+		{
+			if (objects[i]->isEnable == false)
+				continue;
 			objects[i]->Render();
+		}
 
 		spriteHandler->End();
 		d3ddv->EndScene();
@@ -316,7 +380,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 {
 	HWND hWnd = CreateGameWindow(hInstance, nCmdShow, SCREEN_WIDTH, SCREEN_HEIGHT);
 
-	game = CGame::GetInstance();
+	game = Game::GetInstance();
 	game->Init(hWnd);
 
 	keyHandler = new CSampleKeyHander();

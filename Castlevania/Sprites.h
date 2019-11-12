@@ -28,6 +28,7 @@ public:
 
 typedef CSprite * LPSPRITE;
 
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
 /*
 	Manage sprite database
 */
@@ -39,13 +40,15 @@ class CSprites
 
 public:
 	void Add(string idSprite, int left, int top, int width, int height, LPDIRECT3DTEXTURE9 tex);
-	void LoadSpriteSheet(const char* filePath, LPDIRECT3DTEXTURE9 tex);
+	//void LoadSpriteSheet(const char* filePath, LPDIRECT3DTEXTURE9 tex);
 	LPSPRITE Get(string idSprite);
 	LPSPRITE &operator[](string idSprite) {return sprites[idSprite];}
 
 	static CSprites * GetInstance();
 };
 
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /*
 	Sprite animation
 */
@@ -62,21 +65,29 @@ public:
 
 typedef CAnimationFrame *LPANIMATION_FRAME;
 
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
 class CAnimation
 {
 	DWORD lastFrameTime;
 	int defaultTime;
 	int currentFrame;
+	bool completed = false;
+	
 	vector<LPANIMATION_FRAME> frames;
+
 public:
 	CAnimation(int defaultTime) { this->defaultTime = defaultTime; lastFrameTime = -1; currentFrame = -1; }
+
 	void Add(string spriteId, DWORD time = 0);
 	void Render(int nx, float x, float y, int alpha=255);
 	void Render(float x, float y, int alpha = 255);
+
+	bool IsCompleted() { return completed; }
 };
 
 typedef CAnimation *LPANIMATION;
 
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
 class CAnimations
 {
 	static CAnimations * __instance;
@@ -85,7 +96,7 @@ class CAnimations
 
 public:
 	void Add(string idAni, LPANIMATION ani);
-	void LoadAnimations(const char* filePath);
+	//void LoadAnimations(const char* filePath);
 	LPANIMATION Get(string idAni);
 
 	static CAnimations * GetInstance();

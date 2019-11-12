@@ -1,20 +1,35 @@
-#include <algorithm>
+﻿#include <algorithm>
 #include "debug.h"
 
 #include "Simon.h"
 #include "Game.h"
 
-#include "Goomba.h"
 #include "Brick.h"
+#include "Candle.h"
+#include "Items.h"
+
+Simon::Simon() : GameObject() {
+
+	LoadResourceFile* loadResourceFile = LoadResourceFile::GetInstance();
+
+	vector<string> animationsSimon = loadResourceFile->GetAnimations("resources\\simon\\simon_ani.xml");
+	for each (string animation in animationsSimon)
+	{
+		AddAnimation(animation);
+	}
+
+	weapon = new Weapon();
+	weapon->state = MagicWhip;
+}
 
 #pragma region Update 
-void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
+void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	// Calculate dx, dy 
-	CGameObject::Update(dt);
+	GameObject::Update(dt);
 
 	// Simple fall down
-	vy += SIMON_GRAVITY * dt;
+	vy += simon_gravity * dt;
 
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
@@ -22,17 +37,9 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	coEvents.clear();
 
 	// turn off collision when die 
-	if (state != SIMON_STATE_DIE)
-		CalcPotentialCollisions(coObjects, coEvents);
+	CalcPotentialCollisions(coObjects, coEvents);
 
-	// reset untouchable timer if untouchable time has passed
-	if (GetTickCount() - untouchable_start > SIMON_UNTOUCHABLE_TIME)
-	{
-		untouchable_start = 0;
-		untouchable = 0;
-	}
-
-	// No collision occured, proceed normally
+	// No collision occurred, proceed normally
 	if (coEvents.size() == 0)
 	{
 		x += dx;
@@ -56,104 +63,132 @@ void CSimon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		{
 			LPCOLLISIONEVENT e = coEventsResult[i];
 
-			if (dynamic_cast<CBrick*>(e->obj)) // if e->obj is Goomba 
+			if (dynamic_cast<Brick*>(e->obj)) // if e->obj is Goomba 
 			{
-				CBrick* brick = dynamic_cast<CBrick*>(e->obj);
+				Brick* brick = dynamic_cast<Brick*>(e->obj);
 
 				// jump on top >> kill Goomba and deflect a bit 
 				if (e->ny < 0)
 				{
-					isJumping = false;
+					jumping = false;
 				}
 			}
+
+			else if (dynamic_cast<Candle*>(e->obj))
+			{
+				if (e->nx != 0) x += dx;
+				if (e->ny != 0) y += dy;
+			}
+
+			else if (dynamic_cast<Items*>(e->obj))
+			{
+				if (e->nx != 0) x += dx;
+				if (e->ny != 0) y += dy;
+
+				e->obj->isEnable = false;
+
+				if (e->obj->GetState() == CHAIN)
+				{
+					vx = 0;
+					if (weapon->GetState() == MagicWhip) weapon->SetState(ShortChain);
+					else if (weapon->GetState() == ShortChain) weapon->SetState(LongChain);
+				}
+
+				else if (e->obj->GetState() == DAGGER)
+				{
+					vx = 0;
+					isPowered = true;
+				}
+			}
+
 		}
 	}
 
 	// clean up collision events
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
+
+	weapon->Update(dt, coObjects);
 }
 #pragma endregion Simon 
 
 
-void CSimon::Render()
+void Simon::Render()
 {
-	string ani;
-	if (state == SIMON_STATE_DIE)
-		ani = "simon_ani_idle";
-	else if (state == SIMON_STATE_SIT)
-	{
-		ani = "simon_ani_sitting";	
-		vx = 0;
-	}
-	else if (state == SIMON_STATE_JUMP) {
-		ani = "simon_ani_sitting";
-	}
-	
-	else
-		if (vx == 0)
-		{
-			if (nx > 0) ani = "simon_ani_idle";
-			else ani = "simon_ani_idle";
-		}
-		else if (vx > 0)
-		{
-			ani = "simon_ani_walking";
-			nx = 1;
-		}
-		else
-		{
-			ani = "simon_ani_walking";
-			nx = -1;
-		}
 
 	int alpha = 255;
-	if (untouchable) alpha = 128;
-	animations[ani]->Render(nx, x, y, alpha);
 
-	RenderBoundingBox();
+	if (state == Attack) weapon->Render();
+
+	animations[state]->Render(nx, x, y, alpha);
+	attacking = !animations[state]->IsCompleted();
+	throwing = !animations[state]->IsCompleted();
 }
 
-void CSimon::SetState(int state)
+void Simon::SetState(string state)
 {
-	CGameObject::SetState(state);
+	GameObject::SetState(state);
 
-	switch (state)
+	if (state == Walking)
 	{
-	case SIMON_STATE_WALKING_RIGHT:
-		isSitting = false;
-		vx = SIMON_WALKING_SPEED;
-		nx = 1;
-		break;
-	case SIMON_STATE_WALKING_LEFT:
-		isSitting = false;
-		vx = -SIMON_WALKING_SPEED;
-		nx = -1;
-		break;
-	case SIMON_STATE_JUMP:
-		vy = -SIMON_JUMP_SPEED_Y;
-		isSitting = false;
-		isJumping = true;
-		break;
-	case SIMON_STATE_SIT:
-		isSitting = true;
-		break;
-	case SIMON_STATE_IDLE:
-		isSitting = false;
+		sitting = false;
+		if (nx > 0) vx = simon_walking_speed;
+		else vx = -simon_walking_speed;
+		weapon->SetN(nx);
+	}
+	else if (state == Jump)
+	{
+		vy = -simon_jump_speed_y;
+		sitting = false;
+		jumping = true;
+	}
+
+	else if (state == Attack)
+	{
+		this->weapon->SetPosition(this->x - 90, this->y + 3);
 		vx = 0;
-		break;
-	case SIMON_STATE_DIE:
-		vy = -SIMON_DIE_DEFLECT_SPEED;
-		break;
+	}
+
+	else if (state == Sit)
+	{
+		sitting = true;
+		vx = 0;
+	}
+
+	else if (state == Idle)
+	{
+		sitting = false;
+		vx = 0;
+	}
+
+	else if (state == Die)
+	{
+		vy = -simon_die_deflect_speed;
 	}
 }
 
-
-void CSimon::GetBoundingBox(float& left, float& top, float& right, float& bottom)
+bool Simon::IsJumping()
 {
-		left = x;
-		top = y;
-		right = x + SIMON_BIG_BBOX_WIDTH;
-		bottom = y + SIMON_BIG_BBOX_HEIGHT;
+	return (state == Jump && jumping);
+}
+
+bool Simon::IsAttacking()
+{
+	return (state == Attack && attacking);
+}
+
+bool Simon::IsThrowing()
+{
+	return (state == Throw && throwing);
+}
+
+
+void Simon::GetBoundingBox(float& left, float& top, float& right, float& bottom)
+{
+	// sprite có kích thước là 60x66, bbox là 40x62
+	left = x + 10;
+	top = y + 2;
+	right = x + SIMON_BBOX_WIDTH;
+	bottom = y + SIMON_BBOX_HEIGHT;
 
 }
 

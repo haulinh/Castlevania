@@ -1,0 +1,13 @@
+<animations name="items">
+    <animation ID="Chain" defaultTime="100">
+        <frame spriteID="Chain" time="100"/>
+    </animation>
+
+    <animation ID="Dagger" defaultTime="100">
+        <frame spriteID="Dagger" time="100"/>
+    </animation>
+
+     <animation ID="LargeHeart" defaultTime="100">
+        <frame spriteID="LargeHeart" time="100"/>
+    </animation>
+</animations>

@@ -7,15 +7,17 @@
 #include "Game.h"
 #include "GameObject.h"
 #include "Sprites.h"
+#include "define.h"
 
-CGameObject::CGameObject()
+GameObject::GameObject()
 {
 	x = y = 0;
 	vx = vy = 0;
 	nx = 1;	
+	isEnable = true;
 }
 
-void CGameObject::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
+void GameObject::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
 	this->dt = dt;
 	dx = vx*dt;
@@ -25,7 +27,7 @@ void CGameObject::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 /*
 	Extension of original SweptAABB to deal with two moving objects
 */
-LPCOLLISIONEVENT CGameObject::SweptAABBEx(LPGAMEOBJECT coO)
+LPCOLLISIONEVENT GameObject::SweptAABBEx(LPGAMEOBJECT coO)
 {
 	float sl, st, sr, sb;		// static object bbox
 	float ml, mt, mr, mb;		// moving object bbox
@@ -45,7 +47,7 @@ LPCOLLISIONEVENT CGameObject::SweptAABBEx(LPGAMEOBJECT coO)
 
 	GetBoundingBox(ml, mt, mr, mb);
 
-	CGame::SweptAABB(
+	Game::SweptAABB(
 		ml, mt, mr, mb,
 		dx, dy,
 		sl, st, sr, sb,
@@ -62,7 +64,7 @@ LPCOLLISIONEVENT CGameObject::SweptAABBEx(LPGAMEOBJECT coO)
 	coObjects: the list of colliable objects
 	coEvents: list of potential collisions
 */
-void CGameObject::CalcPotentialCollisions(
+void GameObject::CalcPotentialCollisions(
 	vector<LPGAMEOBJECT> *coObjects, 
 	vector<LPCOLLISIONEVENT> &coEvents)
 {
@@ -79,7 +81,7 @@ void CGameObject::CalcPotentialCollisions(
 	std::sort(coEvents.begin(), coEvents.end(), CCollisionEvent::compare);
 }
 
-void CGameObject::FilterCollision(
+void GameObject::FilterCollision(
 	vector<LPCOLLISIONEVENT> &coEvents,
 	vector<LPCOLLISIONEVENT> &coEventsResult,
 	float &min_tx, float &min_ty, 
@@ -112,13 +114,27 @@ void CGameObject::FilterCollision(
 	if (min_iy>=0) coEventsResult.push_back(coEvents[min_iy]);
 }
 
+bool GameObject::AABBx(LPGAMEOBJECT coO)
+{
+	float objectLeft, objectTop, objectRight, objectBottom;
+	float otherLeft, otherTop, otherRight, otherBottom;
 
-void CGameObject::RenderBoundingBox()
+	coO->GetBoundingBox(objectLeft, objectTop, objectRight, objectBottom);
+	GetBoundingBox(otherLeft, otherTop, otherRight, otherBottom);
+
+	if (Game::AABB(objectLeft, objectTop, objectRight, objectBottom,
+		otherLeft, otherTop, otherRight, otherBottom))
+		return true;
+	return false;
+}
+
+
+void GameObject::RenderBoundingBox()
 {
 	D3DXVECTOR3 p(x, y, 0);
 	RECT rect;
 
-	LPDIRECT3DTEXTURE9 bbox = CTextures::GetInstance()->Get("-100");
+	LPDIRECT3DTEXTURE9 bbox = CTextures::GetInstance()->Get(id_bbox);
 
 	float l,t,r,b; 
 
@@ -128,17 +144,17 @@ void CGameObject::RenderBoundingBox()
 	rect.right = (int)r - (int)l;
 	rect.bottom = (int)b - (int)t;
 
-	CGame::GetInstance()->Draw(x, y, bbox, rect.left, rect.top, rect.right, rect.bottom, 32);
+	Game::GetInstance()->Draw(l, t, bbox, rect.left, rect.top, rect.right, rect.bottom, 100);
 }
 
-void CGameObject::AddAnimation(string aniId)
+void GameObject::AddAnimation(string aniId)
 {
 	LPANIMATION ani = CAnimations::GetInstance()->Get(aniId);
 	animations.insert({aniId, ani});
 }
 
 
-CGameObject::~CGameObject()
+GameObject::~GameObject()
 {
 
 }

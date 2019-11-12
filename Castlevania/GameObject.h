@@ -12,8 +12,8 @@ using namespace std;
 
 #define ID_TEX_BBOX -100		// special texture to draw object bounding box
 
-class CGameObject; 
-typedef CGameObject * LPGAMEOBJECT;
+class GameObject; 
+typedef GameObject * LPGAMEOBJECT;
 
 struct CCollisionEvent;
 typedef CCollisionEvent * LPCOLLISIONEVENT;
@@ -31,7 +31,7 @@ struct CCollisionEvent
 
 
 
-class CGameObject
+class GameObject
 {
 public:
 
@@ -46,22 +46,29 @@ public:
 
 	int nx;	 
 
-	int state;
+	string state;
+
+	bool isLastFame = false;
+	bool isEnable;
+	bool idItem; // id cua object chua item (-1 = ko co item)
 
 	DWORD dt; 
+
 
 	// vector<LPANIMATION> animations;
 	unordered_map<string, LPANIMATION> animations;
 
 public: 
+	GameObject();
+
 	void SetPosition(float x, float y) { this->x = x, this->y = y; }
 	void SetSpeed(float vx, float vy) { this->vx = vx, this->vy = vy; }
+	void SetN(int nx) { this->nx = nx; }
+
 	void GetPosition(float &x, float &y) { x = this->x; y = this->y; }
 	void GetSpeed(float &vx, float &vy) { vx = this->vx; vy = this->vy; }
+	string GetState() { return this->state; }
 
-	int GetState() { return this->state; }
-
-	void RenderBoundingBox();
 
 	LPCOLLISIONEVENT SweptAABBEx(LPGAMEOBJECT coO);
 	void CalcPotentialCollisions(vector<LPGAMEOBJECT> *coObjects, vector<LPCOLLISIONEVENT> &coEvents);
@@ -73,16 +80,16 @@ public:
 		float &nx, 
 		float &ny);
 
+	bool AABBx(LPGAMEOBJECT coO);
+
 	void AddAnimation(string aniId);
 
-	CGameObject();
-
 	virtual void GetBoundingBox(float &left, float &top, float &width, float &height) = 0;
+	void RenderBoundingBox();
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects = NULL);
 	virtual void Render() = 0;
-	virtual void SetState(int state) { this->state = state; }
+	virtual void SetState(string state) { this->state = state; }
 
-
-	~CGameObject();
+	~GameObject();
 };
 

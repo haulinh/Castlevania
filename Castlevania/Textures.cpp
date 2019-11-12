@@ -20,7 +20,7 @@ CTextures *CTextures::GetInstance()
 	return __instance;
 }
 
-void CTextures::Add(string idTex, LPCWSTR filePath, D3DCOLOR transparentColor)
+void CTextures::Add(int idTex, LPCWSTR filePath, D3DCOLOR transparentColor)
 {
 	D3DXIMAGE_INFO info;
 	HRESULT result = D3DXGetImageInfoFromFile(filePath, &info);
@@ -30,7 +30,7 @@ void CTextures::Add(string idTex, LPCWSTR filePath, D3DCOLOR transparentColor)
 		return;
 	}
 
-	LPDIRECT3DDEVICE9 d3ddv = CGame::GetInstance()->GetDirect3DDevice();
+	LPDIRECT3DDEVICE9 d3ddv = Game::GetInstance()->GetDirect3DDevice();
 	LPDIRECT3DTEXTURE9 texture;
 
 	result = D3DXCreateTextureFromFileEx(
@@ -61,7 +61,7 @@ void CTextures::Add(string idTex, LPCWSTR filePath, D3DCOLOR transparentColor)
 	//DebugOut(L"[INFO] Texture loaded OK: id=%s, %s \n", idTex, filePath);
 }
 
-LPDIRECT3DTEXTURE9 CTextures::Get(string idTex) 
+LPDIRECT3DTEXTURE9 CTextures::Get(int idTex) 
 {
 	return textures[idTex];
 }

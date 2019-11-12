@@ -1,7 +1,7 @@
 ﻿#include "Game.h"
 #include "debug.h"
 
-CGame * CGame::__instance = NULL;
+Game * Game::__instance = NULL;
 
 /*
 	Initialize DirectX, create a Direct3D device for rendering within the window, initial Sprite library for 
@@ -9,7 +9,7 @@ CGame * CGame::__instance = NULL;
 	- hInst: Application instance handle
 	- hWnd: Application window handle
 */
-void CGame::Init(HWND hWnd)
+void Game::Init(HWND hWnd)
 {
 	LPDIRECT3D9 d3d = Direct3DCreate9(D3D_SDK_VERSION);
 
@@ -55,7 +55,7 @@ void CGame::Init(HWND hWnd)
 /*
 	Utility function to wrap LPD3DXSPRITE::Draw 
 */
-void CGame::Draw(int nx, float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top, int width, int height, int alpha)
+void Game::Draw(int nx, float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top, int width, int height, int alpha)
 {
 
 //D3DXVECTOR3 p(floor(x), floor(y), 0); // https://docs.microsoft.com/vi-vn/windows/desktop/direct3d9/directly-mapping-texels-to-pixels
@@ -91,7 +91,7 @@ void CGame::Draw(int nx, float x, float y, LPDIRECT3DTEXTURE9 texture, int left,
 	
 }
 
-void CGame::Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top, int width, int height, int alpha)
+void Game::Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top, int width, int height, int alpha)
 {
 	D3DXVECTOR3 p(floor(x - cam_x), floor(y - cam_y), 0);
 
@@ -104,12 +104,12 @@ void CGame::Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top
 	spriteHandler->Draw(texture, &r, NULL, &p, D3DCOLOR_ARGB(alpha, 255, 255, 255));
 }
 
-int CGame::IsKeyDown(int KeyCode)
+int Game::IsKeyDown(int KeyCode)
 {
 	return (keyStates[KeyCode] & 0x80) > 0;
 }
 
-void CGame::InitKeyboard(LPKEYEVENTHANDLER handler)
+void Game::InitKeyboard(LPKEYEVENTHANDLER handler)
 {
 	HRESULT
 		hr = DirectInput8Create
@@ -178,7 +178,7 @@ void CGame::InitKeyboard(LPKEYEVENTHANDLER handler)
 	DebugOut(L"[INFO] Keyboard has been initialized successfully\n");
 }
 
-void CGame::ProcessKeyboard()
+void Game::ProcessKeyboard()
 {
 	HRESULT hr; 
 
@@ -228,7 +228,7 @@ void CGame::ProcessKeyboard()
 	}
 }
 
-CGame::~CGame()
+Game::~Game()
 {
 	if (spriteHandler != NULL) spriteHandler->Release();
 	if (backBuffer != NULL) backBuffer->Release();
@@ -239,7 +239,7 @@ CGame::~CGame()
 /*
 	SweptAABB 
 */
-void CGame::SweptAABB(
+void Game::SweptAABB(
 	float ml, float mt,	float mr, float mb,			
 	float dx, float dy,			
 	float sl, float st, float sr, float sb,
@@ -337,8 +337,19 @@ void CGame::SweptAABB(
 
 }
 
-CGame *CGame::GetInstance()
+bool Game::AABB(float objectLeft, float objectTop, float objectRight, float objectBottom, float otherLeft, float otherTop, float otherRight, float otherBottom)
 {
-	if (__instance == NULL) __instance = new CGame();
+	float left = otherLeft - objectRight;
+	float top = otherBottom - objectTop;
+	float right = otherRight - objectLeft;
+	float bottom = otherTop - objectBottom;
+
+	return !(left > 0 || right < 0 || top < 0 || bottom > 0);
+}
+
+
+Game *Game::GetInstance()
+{
+	if (__instance == NULL) __instance = new Game();
 	return __instance;
 }

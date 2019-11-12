@@ -12,12 +12,12 @@ class CTextures
 {
 	static CTextures * __instance;
 
-	map<string, LPDIRECT3DTEXTURE9> textures;
+	map<int, LPDIRECT3DTEXTURE9> textures;
 
 public: 
 	CTextures();
-	void Add(string idTex, LPCWSTR filePath, D3DCOLOR transparentColor);
-	LPDIRECT3DTEXTURE9 Get(string idTex);
+	void Add(int idTex, LPCWSTR filePath, D3DCOLOR transparentColor);
+	LPDIRECT3DTEXTURE9 Get(int idTex);
 
 	static CTextures * GetInstance();
 };
