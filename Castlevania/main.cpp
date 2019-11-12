@@ -61,15 +61,25 @@ CSampleKeyHander * keyHandler;
 void CSampleKeyHander::OnKeyDown(int KeyCode)
 {
 	//DebugOut(L"[INFO] KeyDown: %d\n", KeyCode);
-	if (simon->IsJumping()) return;
 	switch (KeyCode)
 	{
 	case DIK_SPACE:
+		if (simon->GetState() == Jump || simon->GetState() == StandAttack || simon->GetState() == SitAttack)
+			return;
 		simon->SetState(Jump);
 		break;
 
 	case DIK_D:
-		simon->SetState(StandAttack);
+		if ((simon->GetState() == StandAttack || simon->GetState() == SitAttack))
+			return;
+		if (simon->GetState() == Idle || simon->GetState() == Jump)
+		{
+			simon->SetState(StandAttack);
+		}
+		else if (simon->GetState() == Sit)
+		{
+			simon->SetState(SitAttack);
+		}
 		break;
 
 	case DIK_X:
@@ -97,7 +107,9 @@ void CSampleKeyHander::KeyState(BYTE* states)
 {
 	if (simon->IsJumping()) return;
 	
-	if (simon->IsAttacking()) return;
+	if (simon->IsStandAttacking()) return;
+
+	if (simon->IsSitAttacking()) return;
 
 	if (simon->IsThrowing()) return;
 

@@ -63,18 +63,18 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		{
 			LPCOLLISIONEVENT e = coEventsResult[i];
 
-			if (dynamic_cast<Brick*>(e->obj)) // if e->obj is Goomba 
-			{
-				Brick* brick = dynamic_cast<Brick*>(e->obj);
+			//if (dynamic_cast<Brick*>(e->obj)) // if e->obj is Goomba 
+			//{
+			//	Brick* brick = dynamic_cast<Brick*>(e->obj);
 
-				// jump on top >> kill Goomba and deflect a bit 
-				if (e->ny < 0)
-				{
-					jumping = false;
-				}
-			}
+			//	// jump on top >> kill Goomba and deflect a bit 
+			//	if (e->ny < 0)
+			//	{
+			//		jumping = false;
+			//	}
+			//}
 
-			else if (dynamic_cast<Candle*>(e->obj))
+			if (dynamic_cast<Candle*>(e->obj))
 			{
 				if (e->nx != 0) x += dx;
 				if (e->ny != 0) y += dy;
@@ -108,6 +108,11 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	// clean up collision events
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 
+	if (state == StandAttack || state == SitAttack)
+	{
+		weapon->SetN(nx);
+		weapon->SetWeaponPosition(D3DXVECTOR3(x, y, 0), sitting);
+	}
 	weapon->Update(dt, coObjects);
 }
 #pragma endregion Simon 
@@ -118,11 +123,12 @@ void Simon::Render()
 
 	int alpha = 255;
 
-	if (state == StandAttack) weapon->Render();
+	if (state == StandAttack || state == SitAttack) weapon->Render();
 
 	animations[state]->Render(nx, x, y, alpha);
 
-	attacking = !animations[state]->IsCompleted();
+	standAttacking = !animations[state]->IsCompleted();
+	sitAttacking = !animations[state]->IsCompleted();
 	throwing = !animations[state]->IsCompleted();
 	powering = !animations[state]->IsCompleted();
 }
@@ -138,16 +144,21 @@ void Simon::SetState(string state)
 		else vx = -simon_walking_speed;
 		weapon->SetN(nx);
 	}
+
 	else if (state == Jump)
 	{
 		vy = -simon_jump_speed_y;
-		sitting = false;
-		jumping = true;
 	}
 
 	else if (state == StandAttack)
 	{
-		this->weapon->SetPosition(this->x - 90, this->y + 3);
+		this->weapon->SetPosition(this->x - 90, this->y);
+		vx = 0;
+	}
+
+	else if (state == SitAttack)
+	{
+		this->weapon->SetPosition(this->x - 90, this->y + 15);
 		vx = 0;
 	}
 
@@ -171,12 +182,17 @@ void Simon::SetState(string state)
 
 bool Simon::IsJumping()
 {
-	return (state == Jump && jumping);
+	return (state == Jump && vy != 0);
 }
 
-bool Simon::IsAttacking()
+bool Simon::IsStandAttacking()
 {
-	return (state == StandAttack && attacking);
+	return (state == StandAttack && standAttacking);
+}
+
+bool Simon::IsSitAttacking()
+{
+	return (state == SitAttack && sitAttacking);
 }
 
 bool Simon::IsThrowing()

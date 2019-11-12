@@ -25,9 +25,9 @@
     </animation>
 
      <animation ID="simon_ani_sit_attacking" defaultTime="100">
-        <frame spriteID="simon_6" time="100"/>
-        <frame spriteID="simon_7" time="100"/>
-        <frame spriteID="simon_8" time="100"/>
+        <frame spriteID="simon_16" time="100"/>
+        <frame spriteID="simon_17" time="100"/>
+        <frame spriteID="simon_18" time="100"/>
     </animation>
 
      <animation ID="simon_ani_throwing" defaultTime="100">

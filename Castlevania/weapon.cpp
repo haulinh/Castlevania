@@ -58,3 +58,12 @@ void Weapon::GetBoundingBox(float& left, float& top, float& right, float& bottom
 		right = left + Weapon_BBOX_WIDTH;
 	}
 }
+
+void Weapon::SetWeaponPosition(D3DXVECTOR3 simonPositon, bool sitting)
+{
+	simonPositon.x -= 90.0f;
+	if (sitting)
+		simonPositon.y += 15.0f;
+
+	SetPosition(simonPositon.x, simonPositon.y);
+}

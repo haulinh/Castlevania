@@ -18,7 +18,8 @@ public:
 
 	bool jumping = false;
 	bool sitting = false;
-	bool attacking = false;
+	bool standAttacking = false;
+	bool sitAttacking = false;
 	bool throwing = false;
 	bool powering = false;
 
@@ -30,14 +31,13 @@ public:
 	virtual void Render();
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 
-	//D3DXVECTOR3 GetPosition() { return D3DXVECTOR3(x, y, 0); }
-
 	void SetState(string state);
 	void SetLevel(int l) { level = l; }
 
 	bool IsJumping();
 	bool IsSitting() { return sitting; }
-	bool IsAttacking();
+	bool IsStandAttacking();
+	bool IsSitAttacking();
 	bool IsThrowing();
 	bool IsPowering();
 	
