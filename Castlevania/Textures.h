@@ -8,16 +8,16 @@ using namespace std;
 /*
 	Manage texture database
 */
-class CTextures
+class Textures
 {
-	static CTextures * __instance;
+	static Textures * __instance;
 
 	map<int, LPDIRECT3DTEXTURE9> textures;
 
 public: 
-	CTextures();
+	Textures();
 	void Add(int idTex, LPCWSTR filePath, D3DCOLOR transparentColor);
 	LPDIRECT3DTEXTURE9 Get(int idTex);
 
-	static CTextures * GetInstance();
+	static Textures * GetInstance();
 };

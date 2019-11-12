@@ -1,52 +1,68 @@
 ﻿#include "TileMap.h"
-#define SCREEN_WIDTH 640
+#include "define.h"
 
 
-TileMap::TileMap(LPCWSTR filePath_data, int map_width, int map_height, int tile_width, int tile_height)
+TileMap::TileMap(int ID, LPCWSTR filePathTex, LPCWSTR filePathData, int mapWidth, int mapHeight, int tileWidth, int tileHeight)
 {
+	this->ID = ID;
+	this->filePathTex = filePathTex;
+	this->filePathData = filePathData;
 
-	this->filePath_data = filePath_data;
+	sprites = Sprites::GetInstance();
 
-	this->sprites = CSprites::GetInstance();
+	this->mapWidth = mapWidth;
+	this->mapHeight = mapHeight;
 
-	this->map_Width = map_width;
-	this->map_Height = map_height;
+	this->tileWidth = tileWidth;
+	this->tileHeight = tileHeight;
 
-	this->tile_Width = tile_width;
-	this->tile_Height = tile_height;
-
-	nums_row = map_Height / tile_Height;
-	nums_col = map_Width / tile_Width;
+	numsRow = mapHeight / tileHeight;
+	numsCol = mapWidth / tileWidth;
 }
 
 void TileMap::LoadResources()
 {
-	// lấy thông tin về kích thước của texture lưu các block tiles (filePath_tex)
+	Textures* texture = Textures::GetInstance();
+
+	texture->Add(69, filePathTex, D3DCOLOR_XRGB(255, 255, 255));
+
+
+	LPDIRECT3DTEXTURE9 texTileMap = texture->Get(69);
+
+	// lấy thông tin về kích thước của texture 
 	D3DSURFACE_DESC surfaceDesc;
 	int level = 0;
-	this->texMap->GetLevelDesc(level, &surfaceDesc);
+	texTileMap->GetLevelDesc(level, &surfaceDesc);
 
 	// tính toán số hàng, số cột cần thiết để load tile 
-	int nums_rowToRead = surfaceDesc.Height / tile_Height;
-	int nums_colToRead = surfaceDesc.Width / tile_Width;
+	int numsRowToRead = surfaceDesc.Height / tileHeight;
+	int numsColToRead = surfaceDesc.Width / tileWidth;
 
 	// thực hiện lưu danh sách các tile vô sprites theo thứ tự id_sprite
 	int id_sprite = 1;
-	string a = "tilemap"+std::to_string(id_sprite);
-	for (int i = 0; i < nums_rowToRead; i++)
+
+	for (int i = 0; i < numsRowToRead; i++)
 	{
-		for (int j = 0; j < nums_colToRead; j++)
+		for (int j = 0; j < numsColToRead; j++)
 		{
-			sprites->Add(a, tile_Width * j, tile_Height * i, tile_Width * (j + 1), tile_Height * (i + 1), this->texMap);
+			int left = tileWidth * j;
+			int top = tileHeight * i;
+			int width = tileWidth * (j + 1);
+			int height = tileHeight * (i + 1);
+			sprites->Add(to_string(id_sprite), left, top, width, height, texTileMap);
 			id_sprite += 1;
-			a = "tilemap" + std::to_string(id_sprite);
 		}
 	}
+}
+
+void TileMap::LoadMapData()
+{
 	fstream fs;
-	fs.open(filePath_data, ios::in);
+	fs.open(filePathData, ios::in);
 
 	if (fs.fail())
 	{
+		DebugOut(L"[ERROR] TileMap::LoadMapData failed: ID=%d", ID);
 		fs.close();
 		return;
 	}
@@ -58,49 +74,39 @@ void TileMap::LoadResources()
 		getline(fs, line);
 
 		// tách số từ chuỗi đọc được
-		// vector chua so trong 1 dong
 		vector<int> numInLine;
 		stringstream ss(line);
 		int n;
-		// doc tren mot dong 
-		while (ss >> n)
-		{
-			// luu cac so vao dong
+
+		while (ss >> n) {
 			numInLine.push_back(n);
 		}
-		// luu dng vao trong mapdata 
-		map_Data.push_back(numInLine);
+
+		// thêm vào ma trận mapData
+		mapData.push_back(numInLine);
 	}
 
 
 	fs.close();
 }
 
-
-
-
 void TileMap::Draw(D3DXVECTOR2 camPosition)
 {
-	int start_col_to_draw = camPosition.x / 32;
-	int end_col_to_draw = ((camPosition.x + SCREEN_WIDTH) / 32);
-;
+	int start_col_to_draw = (int)camPosition.x / 32;
+	int end_col_to_draw = (int)(camPosition.x + SCREEN_WIDTH) / 32;
 
-	for (int i = 0; i < nums_row; i++)
+	for (int i = 0; i < numsRow; i++)
 	{
 		for (int j = start_col_to_draw; j <= end_col_to_draw; j++)
 		{
-			// camx để luôn giữ camera ở chính giữa, vì trong hàm draw có trừ cho camPosition.x làm các object đều di chuyển theo
+			// +camPosition.x để luôn giữ camera ở chính giữa, vì trong hàm draw có trừ cho camPosition.x làm các object đều di chuyển theo
+			// +(int)camPosition.x % 32 để giữ cho camera chuyển động mượt (thực ra giá trị này bằng vx*dt, chính là quãng đường dịch chuyển của simon)
+			float x = tileWidth * (j - start_col_to_draw) + camPosition.x - (int)camPosition.x % 32;
+			float y = tileHeight * i;
 
-			float x = tile_Width*(j - start_col_to_draw) + camPosition.x - (int)camPosition.x % 32; // vx*dt
-			float y = tile_Height* i; // xem lại cái x ,y này thử đúng k
-
-			string a = "tilemap" + std::to_string(map_Data[i][j]);
-			sprites->Get(a)->Draw(x, y);
+			string tile = to_string(mapData[i][j]);
+			sprites->Get(tile)->Draw(x, y);
 		}
 	}
 }
 
-
-TileMap::~TileMap()
-{
-}

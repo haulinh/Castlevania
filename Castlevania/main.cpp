@@ -46,7 +46,7 @@ Dagger* dagger;
 
 vector<LPGAMEOBJECT> objects;
 
-CTextures* textures = CTextures::GetInstance();
+Textures* textures = Textures::GetInstance();
 CAnimations * animations = CAnimations::GetInstance();
 
 class CSampleKeyHander: public CKeyEventHandler
@@ -69,7 +69,7 @@ void CSampleKeyHander::OnKeyDown(int KeyCode)
 		break;
 
 	case DIK_D:
-		simon->SetState(Attack);
+		simon->SetState(StandAttack);
 		break;
 
 	case DIK_X:
@@ -145,12 +145,6 @@ LRESULT CALLBACK WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 */
 void LoadResources()
 {
-	textures->Add(400, L"resources\\Map\\map1.png", D3DCOLOR_XRGB(255, 0, 255));
-	auto texMap = textures->Get(400);
-	tilemap = new TileMap(L"resources\\Map\\map1.txt", 1536, 320, 32, 32);
-	tilemap->SetTileMap(texMap);
-	tilemap->LoadResources();
-
 	LoadResourceFile* LoadResourceFile = LoadResourceFile::GetInstance();
 	LoadResourceFile->LoadAllResource();
 
@@ -246,19 +240,12 @@ void Update(DWORD dt)
 	}
 	
 
-	/* Update camera to follow simon*/
-	if (simon->x >= SCREEN_WIDTH / 2 && simon->x <= TILEMAP1_WIDTH - SCREEN_WIDTH/2)
-	{
-		game->SetCamPos(simon->x - 320, 0);
-	}
-	
+	// render camera
 	float cx, cy;
-	cx = simon->x;
-	cy = simon->y;
+	simon->GetPosition(cx, cy);
+
 	if (cx > SCREEN_WIDTH / 2 && cx + SCREEN_WIDTH / 2 < tilemap->GetMapWidth())
-	{
 		game->SetCamPos(cx - SCREEN_WIDTH / 2, 0);
-	}
 }
 
 /*
@@ -266,7 +253,7 @@ void Update(DWORD dt)
 */
 void Render()
 {
-	CTextures* textures = CTextures::GetInstance();
+	Textures* textures = Textures::GetInstance();
 	auto d3ddv = game->GetDirect3DDevice();
 	auto bb = game->GetBackBuffer();
 	auto spriteHandler = game->GetSpriteHandler();
@@ -279,7 +266,6 @@ void Render()
 		spriteHandler->Begin(D3DXSPRITE_ALPHABLEND);
 
 		tilemap->Draw(game->GetCamPos());
-
 
 		for (int i = 0; i < objects.size(); i++)
 		{
@@ -397,6 +383,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 	LoadResources();
+
+	tilemap = new TileMap(0, FILEPATH_TEX_SCENE_1, FILEPATH_DATA_SCENE_1, 1536, 320, 32, 32);
+	tilemap->LoadResources();
+	tilemap->LoadMapData();
 
 	SetWindowPos(hWnd, 0, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, SWP_NOMOVE | SWP_NOOWNERZORDER | SWP_NOZORDER);
 

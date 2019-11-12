@@ -5,15 +5,18 @@ using namespace std;
 #pragma region define window
 
 #define WINDOW_CLASS_NAME L"SampleWindow"
-#define MAIN_WINDOW_TITLE L"04 - Collision"
+#define MAIN_WINDOW_TITLE L"Castlevania"
 
 #define BACKGROUND_COLOR D3DCOLOR_XRGB(25, 25, 25)
-#define SCREEN_WIDTH 640	 
-#define SCREEN_HEIGHT 480
+#define SCREEN_WIDTH 500
+#define SCREEN_HEIGHT 480 
 
 #define MAX_FRAME_RATE  60
 
 #pragma endregion
+
+#define FILEPATH_TEX_SCENE_1	 L"resources\\Map\\map1.png"
+#define FILEPATH_DATA_SCENE_1	 L"resources\\Map\\map1.txt"
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma region define texture
@@ -40,18 +43,14 @@ constexpr float simon_jump_deflect_speed = 0.2f;
 constexpr float simon_gravity = 0.002f;
 constexpr float simon_die_deflect_speed = 0.5f;
 
-enum Candlestate
-{
-	candle,
-	Candle_delete,
-};
 
 // state
 const string Idle = "simon_ani_idle";
 const string Walking= "simon_ani_walking";
 const string Jump = "simon_ani_jumping";
 const string Sit = "simon_ani_sitting";
-const string Attack = "simon_ani_attacking";
+const string StandAttack = "simon_ani_stand_attacking";
+const string SitdAttack = "simon_ani_hit_attacking";
 const string Throw = "simon_ani_throwing";
 const string Die = "simon_ani_die";
 const string Power = "simon_ani_powering";
@@ -70,8 +69,6 @@ const string Destroy = "destroy";
 
 #define Candle_BBOX_WIDTH	32
 #define Candle_BBOX_HEIGHT	64
-
-#define TILEMAP1_WIDTH 1536
 
 // Weapon
 #define Weapon_BBOX_WIDTH				40

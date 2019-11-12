@@ -118,7 +118,7 @@ void Simon::Render()
 
 	int alpha = 255;
 
-	if (state == Attack) weapon->Render();
+	if (state == StandAttack) weapon->Render();
 
 	animations[state]->Render(nx, x, y, alpha);
 
@@ -145,7 +145,7 @@ void Simon::SetState(string state)
 		jumping = true;
 	}
 
-	else if (state == Attack)
+	else if (state == StandAttack)
 	{
 		this->weapon->SetPosition(this->x - 90, this->y + 3);
 		vx = 0;
@@ -176,7 +176,7 @@ bool Simon::IsJumping()
 
 bool Simon::IsAttacking()
 {
-	return (state == Attack && attacking);
+	return (state == StandAttack && attacking);
 }
 
 bool Simon::IsThrowing()

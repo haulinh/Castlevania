@@ -7,20 +7,20 @@
 #include "Game.h"
 #include "textures.h"
 
-CTextures * CTextures::__instance = NULL;
+Textures * Textures::__instance = NULL;
 
-CTextures::CTextures()
+Textures::Textures()
 {
 
 }
 
-CTextures *CTextures::GetInstance()
+Textures *Textures::GetInstance()
 {
-	if (__instance == NULL) __instance = new CTextures();
+	if (__instance == NULL) __instance = new Textures();
 	return __instance;
 }
 
-void CTextures::Add(int idTex, LPCWSTR filePath, D3DCOLOR transparentColor)
+void Textures::Add(int idTex, LPCWSTR filePath, D3DCOLOR transparentColor)
 {
 	D3DXIMAGE_INFO info;
 	HRESULT result = D3DXGetImageInfoFromFile(filePath, &info);
@@ -61,7 +61,7 @@ void CTextures::Add(int idTex, LPCWSTR filePath, D3DCOLOR transparentColor)
 	//DebugOut(L"[INFO] Texture loaded OK: id=%s, %s \n", idTex, filePath);
 }
 
-LPDIRECT3DTEXTURE9 CTextures::Get(int idTex) 
+LPDIRECT3DTEXTURE9 Textures::Get(int idTex) 
 {
 	return textures[idTex];
 }

@@ -2,7 +2,7 @@
 #include "Game.h"
 #include "debug.h"
 
-CSprite::CSprite(string idSprite, int left, int top, int width, int height, LPDIRECT3DTEXTURE9 tex)
+Sprite::Sprite(string idSprite, int left, int top, int width, int height, LPDIRECT3DTEXTURE9 tex)
 {
 	this->idSprite = idSprite;
 	this->left= left;
@@ -12,21 +12,21 @@ CSprite::CSprite(string idSprite, int left, int top, int width, int height, LPDI
 	this->texture = tex;
 }
 
-CSprites * CSprites::__instance = NULL;
+Sprites * Sprites::__instance = NULL;
 
-CSprites *CSprites::GetInstance()
+Sprites *Sprites::GetInstance()
 {
-	if (__instance == NULL) __instance = new CSprites();
+	if (__instance == NULL) __instance = new Sprites();
 	return __instance;
 }
 
-void CSprite::Draw(int nx, float x, float y, int alpha)
+void Sprite::Draw(int nx, float x, float y, int alpha)
 {
 	Game * game = Game::GetInstance();
 	game->Draw(nx, x, y, texture, left, top, width, height, alpha);
 }
 
-void CSprite::Draw(float x, float y, int alpha)
+void Sprite::Draw(float x, float y, int alpha)
 {
 	Game* game = Game::GetInstance();
 	game->Draw(x, y, texture, left, top, width, height, alpha);
@@ -34,14 +34,14 @@ void CSprite::Draw(float x, float y, int alpha)
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void CSprites::Add(string idSprite, int left, int top, int width, int height, LPDIRECT3DTEXTURE9 tex)
+void Sprites::Add(string idSprite, int left, int top, int width, int height, LPDIRECT3DTEXTURE9 tex)
 {
-	LPSPRITE s = new CSprite(idSprite, left, top, width, height, tex);
+	LPSPRITE s = new Sprite(idSprite, left, top, width, height, tex);
 	sprites[idSprite] = s;
 }
 
 
-LPSPRITE CSprites::Get(string idSprite)
+LPSPRITE Sprites::Get(string idSprite)
 {
 	return sprites[idSprite];
 }
@@ -53,7 +53,7 @@ void CAnimation::Add(string spriteId, DWORD time)
 	int t = time;
 	if (time == 0) t=this->defaultTime;
 
-	LPSPRITE sprite = CSprites::GetInstance()->Get(spriteId);
+	LPSPRITE sprite = Sprites::GetInstance()->Get(spriteId);
 	LPANIMATION_FRAME frame = new CAnimationFrame(sprite, t);
 	frames.push_back(frame);
 }

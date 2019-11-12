@@ -9,7 +9,7 @@ using namespace rapidxml;
 
 using namespace std;
 
-class CSprite
+class Sprite
 {
 	string idSprite;				// Sprite ID in the sprite database
 
@@ -20,21 +20,21 @@ class CSprite
 
 	LPDIRECT3DTEXTURE9 texture;
 public: 
-	CSprite(string idSprite, int left, int top, int width, int height, LPDIRECT3DTEXTURE9 tex);
+	Sprite(string idSprite, int left, int top, int width, int height, LPDIRECT3DTEXTURE9 tex);
 
 	void Draw(int nx, float x, float y, int alpha = 255);
 	void Draw(float x, float y, int alpha = 255);
 };
 
-typedef CSprite * LPSPRITE;
+typedef Sprite * LPSPRITE;
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 /*
 	Manage sprite database
 */
-class CSprites
+class Sprites
 {
-	static CSprites * __instance;
+	static Sprites * __instance;
 
 	unordered_map<string, LPSPRITE> sprites;
 
@@ -44,7 +44,7 @@ public:
 	LPSPRITE Get(string idSprite);
 	LPSPRITE &operator[](string idSprite) {return sprites[idSprite];}
 
-	static CSprites * GetInstance();
+	static Sprites * GetInstance();
 };
 
 

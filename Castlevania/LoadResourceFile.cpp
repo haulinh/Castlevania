@@ -31,7 +31,7 @@ void LoadResourceFile::LoadSpriteSheetFile(const char* filePath, LPDIRECT3DTEXTU
 		width = atoi(spriteNode->first_attribute("w")->value());
 		height = atoi(spriteNode->first_attribute("h")->value());
 
-		CSprites* sprites = CSprites::GetInstance();
+		Sprites* sprites = Sprites::GetInstance();
 		sprites->Add(idSprite, left, top, width, height, tex);
 	}
 }
@@ -87,7 +87,7 @@ vector<string> LoadResourceFile::GetAnimations(const char* filePath)
 
 void LoadResourceFile::LoadTextures()
 {
-	CTextures * textures = CTextures::GetInstance();
+	Textures * textures = Textures::GetInstance();
 
 	textures->Add(id_bbox, L"resources\\bbox.png", D3DCOLOR_XRGB(255, 255, 255));
 	textures->Add(id_tex_simon, L"resources\\simon\\simon.png", D3DCOLOR_XRGB(255, 0, 255));
@@ -101,8 +101,8 @@ void LoadResourceFile::LoadTextures()
 
 void LoadResourceFile::LoadAllResource()
 {
-	CTextures* textures = CTextures::GetInstance();
-	CSprites* sprites = CSprites::GetInstance();
+	Textures* textures = Textures::GetInstance();
+	Sprites* sprites = Sprites::GetInstance();
 	CAnimations* animations = CAnimations::GetInstance();
 	LoadResourceFile* LoadResourceFile = LoadResourceFile::GetInstance();
 
