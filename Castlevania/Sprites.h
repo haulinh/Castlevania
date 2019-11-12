@@ -71,7 +71,7 @@ class CAnimation
 	DWORD lastFrameTime;
 	int defaultTime;
 	int currentFrame;
-	bool doneCycle = false;
+	bool completed = false;
 	
 	vector<LPANIMATION_FRAME> frames;
 
@@ -82,7 +82,7 @@ public:
 	void Render(int nx, float x, float y, int alpha=255);
 	void Render(float x, float y, int alpha = 255);
 
-	bool IsDoneCyle() { return doneCycle; }
+	bool IsCompleted() { return completed; }
 };
 
 typedef CAnimation *LPANIMATION;

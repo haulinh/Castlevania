@@ -44,7 +44,7 @@ void Weapon::Update(DWORD dt, vector<LPGAMEOBJECT*>* coObjects)
 void Weapon::Render()
 {
 	animations[state]->Render(nx, x, y);
-	this->isLastFame = this->animations[state]->IsDoneCyle();
+	this->isLastFame = this->animations[state]->IsCompleted();
 }
 
 void Weapon::GetBoundingBox(float& left, float& top, float& right, float& bottom)

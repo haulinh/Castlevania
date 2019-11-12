@@ -63,9 +63,9 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT*>* coObjects)
 		{
 			LPCOLLISIONEVENT e = coEventsResult[i];
 
-			if (dynamic_cast<Brick*>(e->obj)) // if e->obj is Goomba 
+			if (dynamic_cast<Brick*>(*(e->obj))) // if e->obj is Goomba 
 			{
-				Brick* brick = dynamic_cast<Brick*>(e->obj);
+				Brick* brick = dynamic_cast<Brick*>(*(e->obj));
 
 				// jump on top >> kill Goomba and deflect a bit 
 				if (e->ny < 0)
@@ -74,27 +74,27 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT*>* coObjects)
 				}
 			}
 
-			else if (dynamic_cast<Candle*>(e->obj))
+			else if (dynamic_cast<Candle*>(*(e->obj)))
 			{
 				if (e->nx != 0) x += dx;
 				if (e->ny != 0) y += dy;
 			}
 
-			else if (dynamic_cast<Items*>(e->obj))
+			else if (dynamic_cast<Items*>(*(e->obj)))
 			{
 				if (e->nx != 0) x += dx;
 				if (e->ny != 0) y += dy;
 
-				e->obj->isEnable = false;
+				(*(e->obj))->isEnable = false;
 
-				if (e->obj->GetState() == CHAIN)
+				if ((*e->obj)->GetState() == CHAIN)
 				{
 					vx = 0;
 					if (weapon->GetState() == MagicWhip) weapon->SetState(ShortChain);
 					else if (weapon->GetState() == ShortChain) weapon->SetState(LongChain);
 				}
 
-				else if (e->obj->GetState() == DAGGER)
+				else if ((*e->obj)->GetState() == DAGGER)
 				{
 					vx = 0;
 					isPowered = true;
@@ -120,8 +120,9 @@ void Simon::Render()
 	if (state == Attack) weapon->Render();
 
 	animations[state]->Render(nx, x, y, alpha);
-	attacking = !animations[state]->IsDoneCyle();
-	throwing = !animations[state]->IsDoneCyle();
+
+	attacking = !animations[state]->IsCompleted();
+	throwing = !animations[state]->IsCompleted();
 }
 
 void Simon::SetState(string state)

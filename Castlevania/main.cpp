@@ -190,6 +190,7 @@ void Update(DWORD dt)
 
 		if (objects[i]->isEnable == false)
 			continue;
+
 		vector<LPGAMEOBJECT*> coObjects;
 		
 		if (dynamic_cast<Simon*>(objects[i]))
@@ -216,11 +217,21 @@ void Update(DWORD dt)
 				}
 			}
 		}
+		else if (dynamic_cast<Dagger*>(objects[i]))
+		{
+			for (int j = 0; j < objects.size(); j++)
+			{
+				if (objects[j]->isEnable == false)
+					continue;
+
+				if (i != j) // thêm tất cả objects "ko phải là dagger", dùng trong hàm update của dagger
+					coObjects.push_back(&(objects[j]));
+			}
+		}
 		else
 		{
 			coObjects.push_back(&(objects[i]));
 		}
-
 
 		objects[i]->Update(dt, &coObjects);
 	}
