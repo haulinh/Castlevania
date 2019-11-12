@@ -19,11 +19,12 @@ Candle::Candle()
 	}	
 
 	SetState(LargeCandle);
+	this->isLastFame = false;
 }
 
 void Candle::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	if (state == Destroy && animations[state]->IsCompleted()) 	//nếu render xong hết đốm lửa rồi thì set enable = false -> biến mất
+	if (state == Destroy && isLastFame) 	//nếu render xong hết đốm lửa rồi thì set enable = false -> biến mất
 	{
 		this->isEnable = false;
 	}
@@ -47,4 +48,5 @@ void Candle::SetState(string state)
 void Candle::Render()
 {
 	animations[state]->Render(x, y);
+	this->isLastFame = animations[state]->IsCompleted();
 }

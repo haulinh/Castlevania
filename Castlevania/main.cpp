@@ -162,7 +162,7 @@ void LoadResources()
 	dagger->isEnable = false;
 	objects.push_back(dagger);
 
-	for (int i = 0; i < 5; i++)
+	for (int i = 0; i < 10; i++)
 	{
 		Candle* candle = new Candle();
 		candle->SetPosition(160 + i * 270, 320 - 64 - 32);
