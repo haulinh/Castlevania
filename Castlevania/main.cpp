@@ -162,10 +162,12 @@ void LoadResources()
 	dagger->isEnable = false;
 	objects.push_back(dagger);
 
-	for (int i = 0; i < 10; i++)
+	vector<int> listItem = { 0, 1, 0, 1, 2 };
+	for (int i = 0; i < listItem.size(); i++)
 	{
 		Candle* candle = new Candle();
 		candle->SetPosition(160 + i * 270, 320 - 64 - 32);
+		candle->SetIdItem(listItem[i]);
 		objects.push_back(candle);
 	}
 
@@ -188,8 +190,8 @@ void Update(DWORD dt)
 	for (int i = 0; i < objects.size(); i++)
 	{
 
-	/*	if (objects[i]->isEnable == false)
-			continue;*/
+		if (objects[i]->isEnable == false)
+			continue;
 
 		vector<LPGAMEOBJECT> coObjects;
 		
@@ -232,8 +234,13 @@ void Update(DWORD dt)
 		{
 			coObjects.push_back(objects[i]);
 		}
-
-		objects[i]->Update(dt, &coObjects);
+		
+		if (dynamic_cast<Candle*>(objects[i])) // ham update Candle co them para &object de them item vao object
+		{
+			Candle* e = dynamic_cast<Candle*>(objects[i]);
+			e->Update(dt, &objects, &coObjects);
+		}
+		else objects[i]->Update(dt, &coObjects);
 	}
 	
 

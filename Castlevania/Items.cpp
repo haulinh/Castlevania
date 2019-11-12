@@ -17,7 +17,7 @@ Items::Items()
 
 void Items::Render()
 {
-	animations[state]->Render(x, y);
+	animations[state]->Render(-1, x, y);
 }
 
 void Items::SetState(string state)
@@ -77,6 +77,13 @@ void Items::GeneratorRandom()
 	vector<string> listState = { "LargeHeart", "Chain", "Dagger" };
 	int randomState = rand() % 3;
 	state = listState[randomState];
+}
+
+void Items::SetItem(int id)
+{
+	vector<string> listState = { "LargeHeart", "Chain", "Dagger" };
+	DebugOut(L"Id item %d \n", id);
+	state = listState[id];
 }
 
 void Items::GetBoundingBox(float& left, float& top, float& right, float& bottom)

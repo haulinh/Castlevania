@@ -1,6 +1,8 @@
 ﻿#include "Candle.h"
 #include "LoadResourceFile.h"
 #include "define.h"
+#include "debug.h"
+#include "Items.h"
 
 Candle::Candle()
 {
@@ -19,14 +21,27 @@ Candle::Candle()
 	}	
 
 	SetState(LargeCandle);
-	this->isLastFame = false;
 }
 
-void Candle::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
+void Candle::Update(DWORD dt, vector<LPGAMEOBJECT>* objects, vector<LPGAMEOBJECT>* coObjects)
 {
 	if (state == Destroy && isLastFame) 	//nếu render xong hết đốm lửa rồi thì set enable = false -> biến mất
 	{
 		this->isEnable = false;
+		// Tạo một item theo id và thêm vào Objects
+
+		if (idItem != -1)
+		{
+			// Tạo một item theo id và thêm vào Objects
+
+			Items* item = new Items();
+			item->isEnable = true;
+			item->SetPosition(x, y);
+			DebugOut(L"Id item %d \n", idItem);
+			item->SetItem(idItem);
+
+			objects->push_back(item);
+		}
 	}
 }
 

@@ -1,7 +1,7 @@
 <animations name="Effect">
-    <animation ID="destroy" defaultTime="100">
-        <frame spriteID="effect_1" time="100"/>
-        <frame spriteID="effect_2" time="100"/>
-        <frame spriteID="effect_3" time="100"/>
+    <animation ID="destroy" defaultTime="50">
+        <frame spriteID="effect_1" time="50"/>
+        <frame spriteID="effect_2" time="50"/>
+        <frame spriteID="effect_3" time="50"/>
     </animation>
 </animations>

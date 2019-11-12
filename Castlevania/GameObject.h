@@ -50,7 +50,7 @@ public:
 
 	bool isLastFame = false;
 	bool isEnable;
-	bool idItem; // id cua object chua item (-1 = ko co item)
+	int idItem; // id cua object chua item (-1 = ko co item)
 
 	DWORD dt; 
 
@@ -64,6 +64,7 @@ public:
 	void SetPosition(float x, float y) { this->x = x, this->y = y; }
 	void SetSpeed(float vx, float vy) { this->vx = vx, this->vy = vy; }
 	void SetN(int nx) { this->nx = nx; }
+	void SetIdItem(int id) { this->idItem = id; }
 
 	void GetPosition(float &x, float &y) { x = this->x; y = this->y; }
 	void GetSpeed(float &vx, float &vy) { vx = this->vx; vy = this->vy; }
