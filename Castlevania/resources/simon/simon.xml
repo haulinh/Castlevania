@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with TexturePacker https://www.codeandweb.com/texturepacker -->
-<!-- $TexturePacker:SmartUpdate:2faefed70fd196af70318d7e2dc9bc33:cdf79221ef6388cda8d8e2ac73db4eb2:9df9907c84973ea8f25eea227e0ba975$ -->
+<!-- $TexturePacker:SmartUpdate:3ae38bdb516f9e06e21cbd1361ca833a:37cb504b4217530828d15ffddd1b6f52:9df9907c84973ea8f25eea227e0ba975$ -->
 <!--Format:
 n  => name of the sprite
 x  => sprite x pos in texture
@@ -19,29 +19,61 @@ vertices   => points in sprite coordinate system (x0,y0,x1,y1,x2,y2, ...)
 verticesUV => points in sheet coordinate system (x0,y0,x1,y1,x2,y2, ...)
 triangles  => sprite triangulation, 3 vertex indices per triangle
 -->
-<TextureAtlas imagePath="simon.png" width="480" height="198">
-    <sprite n="simon000" x="0" y="0" w="60" h="66"/>
-    <sprite n="simon001" x="60" y="0" w="60" h="66"/>
-    <sprite n="simon002" x="120" y="0" w="60" h="66"/>
-    <sprite n="simon003" x="180" y="0" w="60" h="66"/>
-    <sprite n="simon004" x="240" y="-15" w="60" h="66"/>
-    <sprite n="simon005" x="300" y="0" w="60" h="66"/>
-    <sprite n="simon006" x="360" y="0" w="60" h="66"/>
-    <sprite n="simon007" x="420" y="0" w="60" h="66"/>
-    <sprite n="simon008" x="0" y="66" w="60" h="66"/>
-    <sprite n="simon009" x="60" y="66" w="60" h="66"/>
-    <sprite n="simon010" x="120" y="66" w="60" h="66"/>
-    <sprite n="simon011" x="180" y="66" w="60" h="66"/>
-    <sprite n="simon012" x="240" y="66" w="60" h="66"/>
-    <sprite n="simon013" x="300" y="66" w="60" h="66"/>
-    <sprite n="simon014" x="360" y="66" w="60" h="66"/>
-    <sprite n="simon015" x="420" y="66" w="60" h="66"/>
-    <sprite n="simon016" x="0" y="132" w="60" h="66"/>
-    <sprite n="simon017" x="60" y="132" w="60" h="66"/>
-    <sprite n="simon018" x="120" y="132" w="60" h="66"/>
-    <sprite n="simon019" x="180" y="132" w="60" h="66"/>
-    <sprite n="simon020" x="240" y="132" w="60" h="66"/>
-    <sprite n="simon021" x="300" y="132" w="60" h="66"/>
-    <sprite n="simon022" x="360" y="132" w="60" h="66"/>
-    <sprite n="simon023" x="420" y="132" w="60" h="66"/>
+<TextureAtlas imagePath="simon.png" width="480" height="462">
+    <sprite n="simon_1" x="0" y="0" w="60" h="66"/>
+    <sprite n="simon_2" x="60" y="0" w="60" h="66"/>
+    <sprite n="simon_3" x="120" y="0" w="60" h="66"/>
+    <sprite n="simon_4" x="180" y="0" w="60" h="66"/>
+    <sprite n="simon_5" x="240" y="0" w="60" h="66"/>
+    <sprite n="simon_6" x="300" y="0" w="60" h="66"/>
+    <sprite n="simon_7" x="360" y="0" w="60" h="66"/>
+    <sprite n="simon_8" x="420" y="0" w="60" h="66"/>
+    <sprite n="simon_9" x="0" y="66" w="60" h="66"/>
+    <sprite n="simon_10" x="60" y="66" w="60" h="66"/>
+    <sprite n="simon_11" x="120" y="66" w="60" h="66"/>
+    <sprite n="simon_12" x="180" y="66" w="60" h="66"/>
+    <sprite n="simon_13" x="240" y="66" w="60" h="66"/>
+    <sprite n="simon_14" x="300" y="66" w="60" h="66"/>
+    <sprite n="simon_15" x="360" y="66" w="60" h="66"/>
+    <sprite n="simon_16" x="420" y="66" w="60" h="66"/>
+    <sprite n="simon_17" x="0" y="132" w="60" h="66"/>
+    <sprite n="simon_18" x="60" y="132" w="60" h="66"/>
+    <sprite n="simon_19" x="120" y="132" w="60" h="66"/>
+    <sprite n="simon_20" x="180" y="132" w="60" h="66"/>
+    <sprite n="simon_21" x="240" y="132" w="60" h="66"/>
+    <sprite n="simon_22" x="300" y="132" w="60" h="66"/>
+    <sprite n="simon_23" x="360" y="132" w="60" h="66"/>
+    <sprite n="simon_24" x="420" y="132" w="60" h="66"/>
+    <sprite n="simon_25" x="0" y="198" w="60" h="66"/>
+    <sprite n="simon_26" x="60" y="198" w="60" h="66"/>
+    <sprite n="simon_27" x="120" y="198" w="60" h="66"/>
+    <sprite n="simon_28" x="180" y="198" w="60" h="66"/>
+    <sprite n="simon_29" x="240" y="198" w="60" h="66"/>
+    <sprite n="simon_30" x="300" y="198" w="60" h="66"/>
+    <sprite n="simon_31" x="360" y="198" w="60" h="66"/>
+    <sprite n="simon_32" x="420" y="198" w="60" h="66"/>
+    <sprite n="simon_33" x="0" y="264" w="60" h="66"/>
+    <sprite n="simon_34" x="60" y="264" w="60" h="66"/>
+    <sprite n="simon_35" x="120" y="264" w="60" h="66"/>
+    <sprite n="simon_36" x="180" y="264" w="60" h="66"/>
+    <sprite n="simon_37" x="240" y="264" w="60" h="66"/>
+    <sprite n="simon_38" x="300" y="264" w="60" h="66"/>
+    <sprite n="simon_39" x="360" y="264" w="60" h="66"/>
+    <sprite n="simon_40" x="420" y="264" w="60" h="66"/>
+    <sprite n="simon_41" x="0" y="330" w="60" h="66"/>
+    <sprite n="simon_42" x="60" y="330" w="60" h="66"/>
+    <sprite n="simon_43" x="120" y="330" w="60" h="66"/>
+    <sprite n="simon_44" x="180" y="330" w="60" h="66"/>
+    <sprite n="simon_45" x="240" y="330" w="60" h="66"/>
+    <sprite n="simon_46" x="300" y="330" w="60" h="66"/>
+    <sprite n="simon_47" x="360" y="330" w="60" h="66"/>
+    <sprite n="simon_48" x="420" y="330" w="60" h="66"/>
+    <sprite n="simon_49" x="0" y="396" w="60" h="66"/>
+    <sprite n="simon_50" x="60" y="396" w="60" h="66"/>
+    <sprite n="simon_51" x="120" y="396" w="60" h="66"/>
+    <sprite n="simon_52" x="180" y="396" w="60" h="66"/>
+    <sprite n="simon_53" x="240" y="396" w="60" h="66"/>
+    <sprite n="simon_54" x="300" y="396" w="60" h="66"/>
+    <sprite n="simon_55" x="360" y="396" w="60" h="66"/>
+    <sprite n="simon_56" x="420" y="396" w="60" h="66"/>
 </TextureAtlas>

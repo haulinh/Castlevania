@@ -20,6 +20,7 @@ public:
 	bool sitting = false;
 	bool attacking = false;
 	bool throwing = false;
+	bool powering = false;
 
 	bool isPowered = false;
 
@@ -37,7 +38,7 @@ public:
 	bool IsJumping();
 	bool IsSitting() { return sitting; }
 	bool IsAttacking();
-
 	bool IsThrowing();
+	bool IsPowering();
 	
 };

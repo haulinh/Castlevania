@@ -89,6 +89,7 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 				if (e->obj->GetState() == CHAIN)
 				{
+					SetState(Power);
 					vx = 0;
 					if (weapon->GetState() == MagicWhip) weapon->SetState(ShortChain);
 					else if (weapon->GetState() == ShortChain) weapon->SetState(LongChain);
@@ -120,8 +121,10 @@ void Simon::Render()
 	if (state == Attack) weapon->Render();
 
 	animations[state]->Render(nx, x, y, alpha);
+
 	attacking = !animations[state]->IsCompleted();
 	throwing = !animations[state]->IsCompleted();
+	powering = !animations[state]->IsCompleted();
 }
 
 void Simon::SetState(string state)
@@ -179,6 +182,11 @@ bool Simon::IsAttacking()
 bool Simon::IsThrowing()
 {
 	return (state == Throw && throwing);
+}
+
+bool Simon::IsPowering()
+{
+	return (state == Power && powering);
 }
 
 

@@ -54,6 +54,7 @@ const string Sit = "simon_ani_sitting";
 const string Attack = "simon_ani_attacking";
 const string Throw = "simon_ani_throwing";
 const string Die = "simon_ani_die";
+const string Power = "simon_ani_powering";
 
 const string MagicWhip = "magic_whip";
 const string ShortChain= "short_chain";

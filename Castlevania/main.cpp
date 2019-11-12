@@ -101,6 +101,8 @@ void CSampleKeyHander::KeyState(BYTE* states)
 
 	if (simon->IsThrowing()) return;
 
+	if (simon->IsPowering()) return;
+
 	else if (game->IsKeyDown(DIK_DOWN))
 		simon->SetState(Sit);
 
