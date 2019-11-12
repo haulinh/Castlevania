@@ -1,19 +1,32 @@
-#include "Candle.h"
+﻿#include "Candle.h"
 #include "LoadResourceFile.h"
 #include "define.h"
 
 Candle::Candle()
 {
 	LoadResourceFile* loadResourceFile = LoadResourceFile::GetInstance();
-	vector<string> animationsCandle = loadResourceFile->GetAnimations("resources\\Candle\\Candle_ani.xml");
+
+	vector<string> animationsCandle = loadResourceFile->GetAnimations("resources\\candle\\candle_ani.xml");
 	for each (string animation in animationsCandle)
 	{
 		AddAnimation(animation);
 	}
+
+	vector<string> animationsEffect = loadResourceFile->GetAnimations("resources\\effect\\effect_ani.xml");
+	for each (string animation in animationsEffect)
+	{
+		AddAnimation(animation);
+	}	
+
+	SetState(LargeCandle);
 }
 
-void Candle::Update(int x, int y)
+void Candle::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
+	if (state == Destroy && animations[state]->IsCompleted()) 	//nếu render xong hết đốm lửa rồi thì set enable = false -> biến mất
+	{
+		this->isEnable = false;
+	}
 }
 
 
@@ -33,5 +46,5 @@ void Candle::SetState(string state)
 
 void Candle::Render()
 {
-		animations["candle"]->Render(x, y);
+	animations[state]->Render(x, y);
 }

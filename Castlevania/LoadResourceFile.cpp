@@ -95,6 +95,7 @@ void LoadResourceFile::LoadTextures()
 	textures->Add(id_tex_weapon, L"resources\\weapons\\weapons.png", D3DCOLOR_XRGB(255, 0, 255));
 	textures->Add(id_tex_candle, L"resources\\candle\\candle.png", D3DCOLOR_XRGB(255, 0, 255));
 	textures->Add(id_tex_items, L"resources\\items\\items.png", D3DCOLOR_XRGB(255, 0, 255));
+	textures->Add(id_tex_effect, L"resources\\effect\\effect.png", D3DCOLOR_XRGB(255, 0, 255));
 }
 
 
@@ -111,6 +112,7 @@ void LoadResourceFile::LoadAllResource()
 	auto texWeapon = textures->Get(id_tex_weapon);
 	auto texCandle = textures->Get(id_tex_candle);
 	auto texItems= textures->Get(id_tex_items);
+	auto texEffect = textures->Get(id_tex_effect);
 
 
 	LoadResourceFile->LoadSpriteSheetFile("resources\\ground\\ground.xml", texGround);
@@ -118,6 +120,7 @@ void LoadResourceFile::LoadAllResource()
 	LoadResourceFile->LoadSpriteSheetFile("resources\\weapons\\weapons.xml", texWeapon);
 	LoadResourceFile->LoadSpriteSheetFile("resources\\candle\\candle.xml", texCandle);
 	LoadResourceFile->LoadSpriteSheetFile("resources\\items\\items.xml", texItems);
+	LoadResourceFile->LoadSpriteSheetFile("resources\\effect\\effect.xml", texEffect);
 
 
 	LoadResourceFile->LoadAnimationsFile("resources\\simon\\simon_ani.xml");
@@ -125,5 +128,6 @@ void LoadResourceFile::LoadAllResource()
 	LoadResourceFile->LoadAnimationsFile("resources\\ground\\ground_ani.xml");
 	LoadResourceFile->LoadAnimationsFile("resources\\candle\\candle_ani.xml");
 	LoadResourceFile->LoadAnimationsFile("resources\\items\\items_ani.xml");
+	LoadResourceFile->LoadAnimationsFile("resources\\effect\\effect_ani.xml");
 
 }

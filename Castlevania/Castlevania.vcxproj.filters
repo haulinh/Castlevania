@@ -66,6 +66,9 @@
     <ClInclude Include="Dagger.h">
       <Filter>Objects</Filter>
     </ClInclude>
+    <ClInclude Include="Effect.h">
+      <Filter>Objects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -108,6 +111,9 @@
       <Filter>Objects</Filter>
     </ClCompile>
     <ClCompile Include="Dagger.cpp">
+      <Filter>Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="Effect.cpp">
       <Filter>Objects</Filter>
     </ClCompile>
   </ItemGroup>

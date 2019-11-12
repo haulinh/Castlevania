@@ -26,6 +26,7 @@ enum TexId
 	id_tex_ground,
 	id_tex_candle,
 	id_tex_items,
+	id_tex_effect,
 };
 
 #pragma endregion
@@ -45,6 +46,7 @@ enum Candlestate
 	Candle_delete,
 };
 
+// state
 const string Idle = "simon_ani_idle";
 const string Walking= "simon_ani_walking";
 const string Jump = "simon_ani_jumping";
@@ -56,6 +58,9 @@ const string Die = "simon_ani_die";
 const string MagicWhip = "magic_whip";
 const string ShortChain= "short_chain";
 const string LongChain= "long_chain";
+
+const string LargeCandle = "large_candle";
+const string Destroy = "destroy";
 
 
 // Simon

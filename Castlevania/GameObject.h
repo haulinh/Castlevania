@@ -50,6 +50,7 @@ public:
 
 	bool isLastFame = false;
 	bool isEnable;
+	bool idItem; // id cua object chua item (-1 = ko co item)
 
 	DWORD dt; 
 

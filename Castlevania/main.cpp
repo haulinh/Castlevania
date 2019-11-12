@@ -188,8 +188,8 @@ void Update(DWORD dt)
 	for (int i = 0; i < objects.size(); i++)
 	{
 
-		if (objects[i]->isEnable == false)
-			continue;
+	/*	if (objects[i]->isEnable == false)
+			continue;*/
 
 		vector<LPGAMEOBJECT> coObjects;
 		

@@ -28,8 +28,7 @@ void Weapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 				if (this->AABBx(e) == true)
 				{
-					obj->isEnable = false;
-
+					e->SetState(Destroy);
 				}
 			}
 		}
