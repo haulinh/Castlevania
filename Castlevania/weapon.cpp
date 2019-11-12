@@ -8,32 +8,28 @@ Weapon::Weapon()
 {
 	LoadResourceFile* loadResourceFile = LoadResourceFile::GetInstance();
 
-	vector<string> animationsWeapon= loadResourceFile->GetAnimations("resources\\weapons\\weapons_ani.xml");
+	vector<string> animationsWeapon = loadResourceFile->GetAnimations("resources\\weapons\\weapons_ani.xml");
 	for each (string animation in animationsWeapon)
 	{
 		AddAnimation(animation);
 	}
 }
 
-void Weapon::Update(DWORD dt, vector<LPGAMEOBJECT*>* coObjects)
- {
+void Weapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
+{
 	if (this->isLastFame)
 	{
 		for (UINT i = 0; i < coObjects->size(); i++)
 		{
-			LPGAMEOBJECT* obj = coObjects->at(i);
-			if (dynamic_cast<Candle*>(*obj))
+			LPGAMEOBJECT obj = coObjects->at(i);
+			if (dynamic_cast<Candle*>(obj))
 			{
-				Candle* e = dynamic_cast<Candle*> (*obj);
+				Candle* e = dynamic_cast<Candle*> (obj);
 
 				if (this->AABBx(e) == true)
 				{
-					Items* items = new Items();
-					items->isEnable = true;
-					items->SetPosition(e->x, e->y);
-					items->GeneratorRandom();
+					obj->isEnable = false;
 
-					*(obj) = items;
 				}
 			}
 		}

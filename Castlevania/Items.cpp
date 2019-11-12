@@ -25,7 +25,7 @@ void Items::SetState(string state)
 	GameObject::SetState(state);
 }
 
-void Items::Update(DWORD dt, vector<LPGAMEOBJECT*>* coObject)
+void Items::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 {
 	if (timeAppear == -1)
 	{

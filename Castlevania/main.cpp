@@ -191,7 +191,7 @@ void Update(DWORD dt)
 		if (objects[i]->isEnable == false)
 			continue;
 
-		vector<LPGAMEOBJECT*> coObjects;
+		vector<LPGAMEOBJECT> coObjects;
 		
 		if (dynamic_cast<Simon*>(objects[i]))
 		{
@@ -201,7 +201,7 @@ void Update(DWORD dt)
 					continue;
 
 				if (i != j) // thêm tất cả objects "ko phải là simon", dùng trong hàm update của simon 
-					coObjects.push_back(&(objects[j]));
+					coObjects.push_back(objects[j]);
 			}
 		}
 		else if (dynamic_cast<Items*>(objects[i]))
@@ -213,7 +213,7 @@ void Update(DWORD dt)
 
 				if (dynamic_cast<Brick*>(objects[j])) // thêm tất cả objects "là ground", dùng trong hàm update của item
 				{
-					coObjects.push_back(&(objects[j]));
+					coObjects.push_back(objects[j]);
 				}
 			}
 		}
@@ -225,12 +225,12 @@ void Update(DWORD dt)
 					continue;
 
 				if (i != j) // thêm tất cả objects "ko phải là dagger", dùng trong hàm update của dagger
-					coObjects.push_back(&(objects[j]));
+					coObjects.push_back(objects[j]);
 			}
 		}
 		else
 		{
-			coObjects.push_back(&(objects[i]));
+			coObjects.push_back(objects[i]);
 		}
 
 		objects[i]->Update(dt, &coObjects);

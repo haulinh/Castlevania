@@ -17,7 +17,7 @@ GameObject::GameObject()
 	isEnable = true;
 }
 
-void GameObject::Update(DWORD dt, vector<LPGAMEOBJECT*> *coObjects)
+void GameObject::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
 	this->dt = dt;
 	dx = vx*dt;
@@ -65,12 +65,12 @@ LPCOLLISIONEVENT GameObject::SweptAABBEx(LPGAMEOBJECT coO)
 	coEvents: list of potential collisions
 */
 void GameObject::CalcPotentialCollisions(
-	vector<LPGAMEOBJECT*> *coObjects, 
+	vector<LPGAMEOBJECT> *coObjects, 
 	vector<LPCOLLISIONEVENT> &coEvents)
 {
 	for (UINT i = 0; i < coObjects->size(); i++)
 	{
-		LPCOLLISIONEVENT e = SweptAABBEx(*(coObjects->at(i)));
+		LPCOLLISIONEVENT e = SweptAABBEx(coObjects->at(i));
 
 		if (e->t > 0 && e->t <= 1.0f)
 			coEvents.push_back(e);

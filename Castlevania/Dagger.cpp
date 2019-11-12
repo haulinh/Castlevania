@@ -25,7 +25,7 @@ void Dagger::Render()
 	RenderBoundingBox();
 }
 
-void Dagger::Update(DWORD dt, vector<LPGAMEOBJECT*>* coObjects)
+void Dagger::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	if (nx < 0) vx = -ITEM_DAGGER_SPEED;
 	else vx = ITEM_DAGGER_SPEED;
@@ -61,20 +61,6 @@ void Dagger::Update(DWORD dt, vector<LPGAMEOBJECT*>* coObjects)
 		{
 			LPCOLLISIONEVENT e = coEventsResult[i];
 
-			if (dynamic_cast<Candle*>(*e->obj))
-			{
-				if (e->nx != 0)
-				{
-
-					this->isEnable = false;
-					Items* items = new Items();
-					items->isEnable = true;
-					items->SetPosition((*e->obj)->x, (*e->obj)->y);
-					items->GeneratorRandom();
-
-					(*e->obj) = items;
-				}
-			}
 		}
 	}
 

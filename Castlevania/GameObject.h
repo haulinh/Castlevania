@@ -70,7 +70,7 @@ public:
 
 
 	LPCOLLISIONEVENT SweptAABBEx(LPGAMEOBJECT coO);
-	void CalcPotentialCollisions(vector<LPGAMEOBJECT*> *coObjects, vector<LPCOLLISIONEVENT> &coEvents);
+	void CalcPotentialCollisions(vector<LPGAMEOBJECT> *coObjects, vector<LPCOLLISIONEVENT> &coEvents);
 	void FilterCollision(
 		vector<LPCOLLISIONEVENT> &coEvents, 
 		vector<LPCOLLISIONEVENT> &coEventsResult, 
@@ -85,7 +85,7 @@ public:
 
 	virtual void GetBoundingBox(float &left, float &top, float &width, float &height) = 0;
 	void RenderBoundingBox();
-	virtual void Update(DWORD dt, vector<LPGAMEOBJECT*> *coObjects = NULL);
+	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects = NULL);
 	virtual void Render() = 0;
 	virtual void SetState(string state) { this->state = state; }
 
