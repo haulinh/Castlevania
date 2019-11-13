@@ -70,9 +70,10 @@ const string Destroy = "destroy";
 #define Candle_BBOX_WIDTH	32
 #define Candle_BBOX_HEIGHT	64
 
-// Weapon
-#define Weapon_BBOX_WIDTH				40
-#define Weapon_BBOX_HEIGHT			10
+// Whip
+#define LONG_CHAIN_BBOX_WIDTH		80
+#define WHIP_BBOX_WIDTH				50
+#define WHIP_BBOX_HEIGHT			15
 
 // Items
 const string LARGE_HEART = "LargeHeart";

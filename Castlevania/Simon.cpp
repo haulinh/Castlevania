@@ -152,13 +152,11 @@ void Simon::SetState(string state)
 
 	else if (state == StandAttack)
 	{
-		this->weapon->SetPosition(this->x - 90, this->y);
 		vx = 0;
 	}
 
 	else if (state == SitAttack)
 	{
-		this->weapon->SetPosition(this->x - 90, this->y + 15);
 		vx = 0;
 	}
 

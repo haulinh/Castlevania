@@ -46,17 +46,23 @@ void Weapon::Render()
 void Weapon::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
 	top = y + 15;
-	bottom = top + Weapon_BBOX_HEIGHT;
+	bottom = top + WHIP_BBOX_HEIGHT;
 	if (nx < 0)
 	{
-		left = x + 50;
-		right = left + Weapon_BBOX_WIDTH;
+		if (state != LongChain)
+			left = x + 50;
+		else left = x + 20;
 	}
 	else if (nx > 0)
 	{
-		left = 190 - Weapon_BBOX_WIDTH + x;
-		right = left + Weapon_BBOX_WIDTH;
+		if (state != LongChain)
+			left = (240 - 50) - WHIP_BBOX_WIDTH + x;
+		else left = (240 - 20) - LONG_CHAIN_BBOX_WIDTH + x;
 	}
+
+	if (state != LongChain)
+		right = left + WHIP_BBOX_WIDTH;
+	else  right = left + LONG_CHAIN_BBOX_WIDTH;
 }
 
 void Weapon::SetWeaponPosition(D3DXVECTOR3 simonPositon, bool sitting)

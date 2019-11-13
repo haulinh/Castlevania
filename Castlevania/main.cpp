@@ -85,7 +85,7 @@ void CSampleKeyHander::OnKeyDown(int KeyCode)
 	case DIK_X:
 		if (!simon->isPowered)
 			return;
-		if (simon->GetState() == Idle)
+		if (simon->GetState() == Idle || simon->GetState() == Jump)
 		{
 			float sx, sy;
 			simon->GetPosition(sx, sy);
