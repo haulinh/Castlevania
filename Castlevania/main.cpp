@@ -162,9 +162,7 @@ void LoadResources()
 
 	LPANIMATION ani;
 
-	simon = new Simon();
-	simon->SetPosition(0.0f, 300-60-32);
-	objects.push_back(simon);
+
 
 	dagger = new Dagger();
 	dagger->isEnable = false;
@@ -186,6 +184,10 @@ void LoadResources()
 		brick->SetPosition(0 + i * 16.0f, 320 - 32);
 		objects.push_back(brick);
 	}
+
+	simon = new Simon();
+	simon->SetPosition(0.0f, 300 - 60 - 32);
+	objects.push_back(simon);
 
 }
 

@@ -28,8 +28,7 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	// Calculate dx, dy 
 	GameObject::Update(dt);
 
-	// Simple fall down
-	vy += simon_gravity * dt;
+	vy += simon_gravity* dt;
 
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
@@ -50,29 +49,15 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		float min_tx, min_ty, nx = 0, ny;
 
 		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
-
-		// block 
-		x += min_tx * dx + nx * 0.4f;		// nx*0.4f : need to push out a bit to avoid overlapping next frame
-		y += min_ty * dy + ny * 0.4f;
-
-		if (nx != 0) vx = 0;
-		if (ny != 0) vy = 0;
-
-		// Collision logic with Goombas
+	
 		for (UINT i = 0; i < coEventsResult.size(); i++)
 		{
 			LPCOLLISIONEVENT e = coEventsResult[i];
 
-			//if (dynamic_cast<Brick*>(e->obj)) // if e->obj is Goomba 
-			//{
-			//	Brick* brick = dynamic_cast<Brick*>(e->obj);
-
-			//	// jump on top >> kill Goomba and deflect a bit 
-			//	if (e->ny < 0)
-			//	{
-			//		jumping = false;
-			//	}
-			//}
+			if (dynamic_cast<Brick*>(e->obj))
+			{
+				if (e->ny != 0) jumping = false;
+			}
 
 			if (dynamic_cast<Candle*>(e->obj))
 			{
@@ -90,7 +75,6 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				if (e->obj->GetState() == CHAIN)
 				{
 					SetState(Power);
-					vx = 0;
 					if (weapon->GetState() == MagicWhip) weapon->SetState(ShortChain);
 					else if (weapon->GetState() == ShortChain) weapon->SetState(LongChain);
 				}
@@ -100,6 +84,13 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					vx = 0;
 					isPowered = true;
 				}
+			}
+			else
+			{
+				x += min_tx * dx + nx * 0.4f;
+				y += min_ty * dy + ny * 0.4f;
+				if (nx != 0) vx = 0;
+				if (ny != 0) vy = 0;
 			}
 
 		}
@@ -131,6 +122,8 @@ void Simon::Render()
 	sitAttacking = !animations[state]->IsCompleted();
 	throwing = !animations[state]->IsCompleted();
 	powering = !animations[state]->IsCompleted();
+
+	//RenderBoundingBox();
 }
 
 void Simon::SetState(string state)
@@ -139,31 +132,31 @@ void Simon::SetState(string state)
 
 	if (state == Walking)
 	{
-		sitting = false;
 		if (nx > 0) vx = simon_walking_speed;
 		else vx = -simon_walking_speed;
-		weapon->SetN(nx);
 	}
 
 	else if (state == Jump)
 	{
 		vy = -simon_jump_speed_y;
+		jumping = true;
+		sitting = false;
 	}
 
 	else if (state == StandAttack)
 	{
-		vx = 0;
 	}
 
 	else if (state == SitAttack)
 	{
-		vx = 0;
+		sitting = true;
 	}
 
 	else if (state == Sit)
 	{
 		sitting = true;
 		vx = 0;
+		vy = 0;
 	}
 
 	else if (state == Idle)
@@ -171,16 +164,17 @@ void Simon::SetState(string state)
 		sitting = false;
 		vx = 0;
 	}
-
-	else if (state == Die)
+	
+	else if (state == Power)
 	{
-		vy = -simon_die_deflect_speed;
+		vx = 0;
 	}
+
 }
 
 bool Simon::IsJumping()
 {
-	return (state == Jump && vy != 0);
+	return (state == Jump && jumping);
 }
 
 bool Simon::IsStandAttacking()

@@ -28,16 +28,14 @@ void Candle::Update(DWORD dt, vector<LPGAMEOBJECT>* objects, vector<LPGAMEOBJECT
 	if (state == Destroy && isLastFame) 	//nếu render xong hết đốm lửa rồi thì set enable = false -> biến mất
 	{
 		this->isEnable = false;
-		// Tạo một item theo id và thêm vào Objects
 
+		// Tạo một item theo id và thêm vào Objects
 		if (idItem != -1)
 		{
 			// Tạo một item theo id và thêm vào Objects
-
 			Items* item = new Items();
 			item->isEnable = true;
 			item->SetPosition(x, y);
-			DebugOut(L"Id item %d \n", idItem);
 			item->SetItem(idItem);
 
 			objects->push_back(item);
@@ -64,4 +62,5 @@ void Candle::Render()
 {
 	animations[state]->Render(x, y);
 	this->isLastFame = animations[state]->IsCompleted();
+	//RenderBoundingBox();
 }

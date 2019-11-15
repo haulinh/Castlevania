@@ -11,7 +11,7 @@ using namespace std;
 #define SCREEN_WIDTH 500
 #define SCREEN_HEIGHT 480 
 
-#define MAX_FRAME_RATE  60
+#define MAX_FRAME_RATE  120
 
 #pragma endregion
 
@@ -37,11 +37,14 @@ enum TexId
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma region define simon
 
+//  BBox
+#define SIMON_BBOX_WIDTH			40
+#define SIMON_BBOX_HEIGHT			62
+
 constexpr float simon_walking_speed = 0.1f;
 constexpr float simon_jump_speed_y = 0.5f;
-constexpr float simon_jump_deflect_speed = 0.2f;
 constexpr float simon_gravity = 0.002f;
-constexpr float simon_die_deflect_speed = 0.5f;
+constexpr float simon_gravity_lower = 0.001f;
 
 
 // state
@@ -55,34 +58,10 @@ const string Throw = "simon_ani_throwing";
 const string Die = "simon_ani_die";
 const string Power = "simon_ani_powering";
 
-const string MagicWhip = "magic_whip";
-const string ShortChain= "short_chain";
-const string LongChain= "long_chain";
+#pragma endregion
 
-const string LargeCandle = "large_candle";
-const string Destroy = "destroy";
-
-
-// Simon
-#define SIMON_BBOX_WIDTH			40
-#define SIMON_BBOX_HEIGHT			62
-
-#define Candle_BBOX_WIDTH	32
-#define Candle_BBOX_HEIGHT	64
-
-// Whip
-#define LONG_CHAIN_BBOX_WIDTH		80
-#define WHIP_BBOX_WIDTH				50
-#define WHIP_BBOX_HEIGHT			15
-
-// Items
-const string LARGE_HEART = "LargeHeart";
-const string CHAIN = "Chain";
-const string DAGGER = "Dagger";
-
-// Large Heart
-#define LARGE_HEART_BBOX_WIDTH		24
-#define LARGE_HEART_BBOX_HEIGHT		20
+////////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma region define weapon
 
 // Chain
 #define CHAIN_BBOX_WIDTH			32
@@ -92,10 +71,37 @@ const string DAGGER = "Dagger";
 #define DAGGER_BBOX_WIDTH			32
 #define DAGGER_BBOX_HEIGHT			18
 
-// Item
-#define ITEM_FALLING_SPEED			0.2f
-#define ITEM_TIME_DESTROYED			3000
-#define ITEM_DAGGER_SPEED			0.3f
+// BBox
+#define LONG_CHAIN_BBOX_WIDTH		80
+#define WHIP_BBOX_WIDTH				50
+#define WHIP_BBOX_HEIGHT			15
+
+const string MagicWhip = "magic_whip";
+const string ShortChain= "short_chain";
+const string LongChain= "long_chain";
 
 #pragma endregion
 
+////////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma  region define items
+
+#define Candle_BBOX_WIDTH	32
+#define Candle_BBOX_HEIGHT	64
+
+// Item
+#define ITEM_FALLING_SPEED			0.1f
+#define ITEM_TIME_DESTROYED			3000
+#define ITEM_DAGGER_SPEED			0.3f
+
+// Large Heart
+#define LARGE_HEART_BBOX_WIDTH		24
+#define LARGE_HEART_BBOX_HEIGHT		20
+
+const string LargeCandle = "large_candle";
+const string Destroy = "destroy";
+
+const string LARGE_HEART = "LargeHeart";
+const string CHAIN = "Chain";
+const string DAGGER = "Dagger";	
+
+#pragma endregion
