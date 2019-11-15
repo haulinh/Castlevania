@@ -30,7 +30,43 @@ void Dagger::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	else vx = ITEM_DAGGER_SPEED;
 
 	GameObject::Update(dt);
-	x += dx;
+
+	vector<LPCOLLISIONEVENT> coEvents;
+	vector<LPCOLLISIONEVENT> coEventsResult;
+
+	coEvents.clear();
+
+	// turn off collision when die 
+	CalcPotentialCollisions(coObjects, coEvents);
+
+	// No collision occurred, proceed normally
+	if (coEvents.size() == 0)
+	{
+		x += dx;
+		y += dy;
+	}
+	else
+	{
+		float min_tx, min_ty, nx = 0, ny;
+
+		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
+
+		for (UINT i = 0; i < coEventsResult.size(); i++)
+		{
+			LPCOLLISIONEVENT e = coEventsResult[i];
+			if (dynamic_cast<Candle*>(e->obj))
+			{
+				Candle* candle = dynamic_cast<Candle*>(e->obj);
+					this->isEnable = false;
+					candle->SetState(Destroy);
+					candle->isLastFame = false;
+			}
+		}
+	}
+
+	// clean up collision events
+	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
+
 }
 
 void Dagger::GetBoundingBox(float& left, float& top, float& right, float& bottom)

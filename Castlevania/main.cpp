@@ -168,7 +168,7 @@ void LoadResources()
 	dagger->isEnable = false;
 	objects.push_back(dagger);
 
-	vector<int> listItem = { 0, 1, 0, 1, 2 };
+	vector<int> listItem = { 2, 1, 0, 1, 2 };
 	for (int i = 0; i < listItem.size(); i++)
 	{
 		Candle* candle = new Candle();
