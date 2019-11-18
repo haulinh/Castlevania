@@ -121,24 +121,12 @@ void Animation::Render(float x, float y, int alpha)
 
 void Animation::Render(int id, int nx, float x, float y, int alpha)
 {
-	if (currentFrame == -1)
-	{
-		currentFrame = 0;
-	}
-
-	if (currentFrame == frames.size())
-	{
-		currentFrame = 0;
-	}
-
 	if (frames.size() == 3) // normal whip, short chain
 	{
-		currentFrame++;
 		frames[id]->GetSprite()->Draw(nx, x, y, alpha);
 	}
 	else  // == 12, long chain
 	{
-		currentFrame++;
 		int rd = rand() % 4;
 		DebugOut(L"rd %d\n", rd);
 

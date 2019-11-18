@@ -19,6 +19,7 @@
 ================================================================ */
 
 #include <windows.h>
+#include <iostream>
 #include <d3d9.h>
 #include <d3dx9.h>
 
@@ -28,11 +29,11 @@
 #include "Game.h"
 #include "GameObject.h"
 #include "Textures.h"
+#include "KeyBoardInput.h"
 
 #include "simon.h"
 #include "Brick.h"
 #include "Weapon.h"
-#include <iostream>
 #include "TileMap.h"
 #include "Candle.h"
 #include "Items.h"
@@ -43,9 +44,10 @@ void Render();
 LRESULT CALLBACK WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 
 Game* game;
+TileMap* tilemap;
+KeyBoardInput* input;
 
 Simon* simon;
-TileMap* tilemap;
 Dagger* dagger;
 
 vector<LPGAMEOBJECT> objects;
@@ -75,14 +77,6 @@ void LoadResources()
 		objects.push_back(candle);
 	}
 
-	//for (int i = 0; i < listItem.size(); i++)
-	//{
-	//	Items* candle = new Items();
-	//	candle->SetPosition(160 + i * 270, 320 - 64 - 32);
-	//	candle->SetItem(1);
-	//	objects.push_back(candle);
-	//}
-
 	for (int i = 0; i < 100; i++)
 	{
 		Brick* brick = new Brick();
@@ -97,7 +91,7 @@ void LoadResources()
 
 }
 
-class CSampleKeyHander : public CKeyEventHandler
+class CSampleKeyHander : public KeyEventHandler
 {
 	virtual void KeyState(BYTE* states);
 	virtual void OnKeyDown(int KeyCode);
@@ -333,11 +327,14 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	game = Game::GetInstance();
 	game->Init(hWnd);
 
-	keyHandler = new CSampleKeyHander();
-	game->InitKeyboard(keyHandler);
-
-
 	LoadResources();
+
+	//keyHandler = new CSampleKeyHander();
+	//game->InitKeyboard(keyHandler);
+
+	input = new KeyBoardInput(game, simon);
+	game->InitKeyboard(input);
+
 
 	tilemap = new TileMap(0, FILEPATH_TEX_SCENE_1, FILEPATH_DATA_SCENE_1, 1536, 320, 32, 32);
 	tilemap->LoadResources();

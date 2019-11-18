@@ -10,7 +10,7 @@
 /*
 Abstract class to define keyboard event handlers
 */
-class CKeyEventHandler
+class KeyEventHandler
 {
 public:
 	virtual void KeyState(BYTE *state) = 0;
@@ -18,7 +18,7 @@ public:
 	virtual void OnKeyUp(int KeyCode) = 0;
 };
 
-typedef CKeyEventHandler * LPKEYEVENTHANDLER;
+typedef KeyEventHandler * LPKEYEVENTHANDLER;
 
 class Game
 {
