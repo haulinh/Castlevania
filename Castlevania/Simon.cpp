@@ -56,7 +56,11 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 			if (dynamic_cast<Brick*>(e->obj))
 			{
-				if (e->ny != 0) jumping = false;
+				if (e->ny != 0)
+				{
+					vy = 0;
+					jumping = false;
+				}
 			}
 
 			if (dynamic_cast<Candle*>(e->obj))
@@ -103,6 +107,24 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	{
 		weapon->SetN(nx);
 		weapon->SetWeaponPosition(D3DXVECTOR3(x, y, 0), sitting);
+
+		/*	if (animations[state]->GetCurrentFrame() == animations[state]->GetFrameSize() - 1)
+			{
+				for (UINT i = 0; i < coObjects->size(); i++)
+				{
+					LPGAMEOBJECT obj = coObjects->at(i);
+					if (dynamic_cast<Candle*>(obj))
+					{
+						Candle* e = dynamic_cast<Candle*> (obj);
+
+						if (weapon->AABBx(e) == true)
+						{
+							e->SetState(Destroy);
+							e->isLastFame = false;
+						}
+					}
+				}
+			}*/
 	}
 	weapon->Update(dt, coObjects);
 }
@@ -120,7 +142,7 @@ void Simon::Render()
 	{
 
 		int id = animations[state]->GetCurrentFrame();
-		weapon->Render(id);
+		weapon->Render();
 	}
 
 	standAttacking = !animations[state]->IsCompleted();

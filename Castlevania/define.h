@@ -63,19 +63,6 @@ const string Power = "simon_ani_powering";
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma region define weapon
 
-// Chain
-#define CHAIN_BBOX_WIDTH			32
-#define CHAIN_BBOX_HEIGHT			32
-
-// Dagger
-#define DAGGER_BBOX_WIDTH			32
-#define DAGGER_BBOX_HEIGHT			18
-
-// BBox
-#define LONG_CHAIN_BBOX_WIDTH		80
-#define WHIP_BBOX_WIDTH				50
-#define WHIP_BBOX_HEIGHT			15
-
 const string MagicWhip = "magic_whip";
 const string ShortChain= "short_chain";
 const string LongChain= "long_chain";
@@ -84,9 +71,6 @@ const string LongChain= "long_chain";
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma  region define items
-
-#define Candle_BBOX_WIDTH	32
-#define Candle_BBOX_HEIGHT	64
 
 // Item
 #define ITEM_FALLING_SPEED			0.1f
@@ -105,3 +89,36 @@ const string CHAIN = "Chain";
 const string DAGGER = "Dagger";	
 
 #pragma endregion
+
+#pragma region BBox Size
+
+// Simon
+#define SIMON_BBOX_WIDTH			40
+#define SIMON_BBOX_HEIGHT			62
+
+// Ground
+#define GROUND_BBOX_WIDTH			32
+#define GROUND_BBOX_HEIGHT			32
+
+// Candle
+#define CANDLE_BBOX_WIDTH			32
+#define CANDLE_BBOX_HEIGHT			64
+
+// Whip
+#define LONG_CHAIN_BBOX_WIDTH		80
+#define WHIP_BBOX_WIDTH				50
+#define WHIP_BBOX_HEIGHT			15
+
+// Large Heart
+#define LARGE_HEART_BBOX_WIDTH		24
+#define LARGE_HEART_BBOX_HEIGHT		20
+
+// Chain
+#define CHAIN_BBOX_WIDTH			32
+#define CHAIN_BBOX_HEIGHT			32
+
+// Dagger
+#define DAGGER_BBOX_WIDTH			32
+#define DAGGER_BBOX_HEIGHT			18
+#pragma endregionw
+

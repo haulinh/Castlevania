@@ -40,13 +40,14 @@ void Weapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 void Weapon::Render()
 {
 	animations[state]->Render(nx, x, y);
-	this->isLastFame = this->animations[state]->GetCurrentFrame() == this->animations[state]->GetFrameSize() - 1;
+	this->isLastFame = this->animations[state]->IsCompleted();
 }
 
 void Weapon::Render(int id)
 {
 	animations[state]->Render(id, nx, x, y);
 	this->isLastFame = this->animations[state]->GetCurrentFrame() == this->animations[state]->GetFrameSize() - 1;
+	//if (isLastFame) RenderBoundingBox();
 }
 
 void Weapon::GetBoundingBox(float& left, float& top, float& right, float& bottom)
