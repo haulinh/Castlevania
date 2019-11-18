@@ -66,10 +66,10 @@
     <ClInclude Include="Dagger.h">
       <Filter>Objects</Filter>
     </ClInclude>
-    <ClInclude Include="Effect.h">
-      <Filter>Objects</Filter>
-    </ClInclude>
     <ClInclude Include="KeyBoardInput.h">
+      <Filter>Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="ScenceManager.h">
       <Filter>Framework</Filter>
     </ClInclude>
   </ItemGroup>
@@ -116,10 +116,10 @@
     <ClCompile Include="Dagger.cpp">
       <Filter>Objects</Filter>
     </ClCompile>
-    <ClCompile Include="Effect.cpp">
-      <Filter>Objects</Filter>
-    </ClCompile>
     <ClCompile Include="KeyBoardInput.cpp">
+      <Filter>Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="ScenceManager.cpp">
       <Filter>Framework</Filter>
     </ClCompile>
   </ItemGroup>

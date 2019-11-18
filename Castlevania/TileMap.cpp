@@ -18,6 +18,9 @@ TileMap::TileMap(int ID, LPCWSTR filePathTex, LPCWSTR filePathData, int mapWidth
 
 	numsRow = mapHeight / tileHeight;
 	numsCol = mapWidth / tileWidth;
+
+	LoadResources();
+	LoadMapData();
 }
 
 void TileMap::LoadResources()
@@ -108,5 +111,19 @@ void TileMap::Draw(D3DXVECTOR2 camPosition)
 			sprites->Get(tile)->Draw(x, y);
 		}
 	}
+}
+
+TileMaps* TileMaps::_instance = NULL;
+
+void TileMaps::Add(int ID, LPCWSTR filePath_tex, LPCWSTR filePath_data, int map_width, int map_height, int tile_width, int tile_height)
+{
+	LPTILEMAP tilemap = new TileMap(ID, filePath_tex, filePath_data, map_width, map_height, tile_width, tile_height);
+	tilemaps[ID] = tilemap;
+}
+
+TileMaps* TileMaps::GetInstance()
+{
+	if (_instance == NULL) _instance = new TileMaps();
+	return _instance;
 }
 
