@@ -8,18 +8,27 @@ using namespace std;
 #define MAIN_WINDOW_TITLE L"Castlevania"
 
 #define BACKGROUND_COLOR D3DCOLOR_XRGB(25, 25, 25)
-#define SCREEN_WIDTH 500
-#define SCREEN_HEIGHT 480 
+#define SCREEN_WIDTH 512
+#define SCREEN_HEIGHT 450
 
 #define MAX_FRAME_RATE 120 
 
 #pragma endregion
 
-#define FILEPATH_TEX_SCENE_1	 L"resources\\Map\\map1.png"
-#define FILEPATH_DATA_SCENE_1	 L"resources\\Map\\map1.txt"
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-#pragma region define texture
+#pragma region PathFile
+
+// Scenes
+#define FILEPATH_TEX_MAP_SCENE_1		L"Scenes\\Scene1.png"
+#define FILEPATH_DATA_MAP_SCENE_1		L"Scenes\\Scene1_map.txt"
+#define FILEPATH_OBJECTS_SCENE_1		L"Scenes\\Scene1_objects.txt"
+
+#define FILEPATH_TEX_MAP_SCENE_2		L"Scenes\\Scene2.png"
+#define FILEPATH_DATA_MAP_SCENE_2		L"Scenes\\Scene2_map.txt"
+#define FILEPATH_OBJECTS_SCENE_2		L"Scenes\\Scene2_objects.txt"
+
+
+#pragma endregion
 
 enum TexId
 {
@@ -33,6 +42,12 @@ enum TexId
 };
 
 #pragma endregion
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// Scene
+#define SCENE_1		0
+#define SCENE_2		1
+#define SCENE_3		2
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma region define simon
@@ -81,8 +96,8 @@ const string LongChain= "long_chain";
 #define LARGE_HEART_BBOX_WIDTH		24
 #define LARGE_HEART_BBOX_HEIGHT		20
 
-const string LargeCandle = "large_candle";
-const string Destroy = "destroy";
+const string LargeCandle = "0";
+const string Destroy = "1";
 
 const string LARGE_HEART = "LargeHeart";
 const string CHAIN = "Chain";
@@ -120,5 +135,14 @@ const string DAGGER = "Dagger";
 // Dagger
 #define DAGGER_BBOX_WIDTH			32
 #define DAGGER_BBOX_HEIGHT			18
-#pragma endregionw
+
+#pragma endregion
+
+#pragma region ID objects to load from file
+
+#define	CANDLE		0
+#define BRICK	1
+
+#pragma endregion
+
 

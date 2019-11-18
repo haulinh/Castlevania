@@ -1,24 +1,4 @@
-﻿/* =============================================================
-	INTRODUCTION TO GAME PROGRAMMING SE102
-
-	SAMPLE 04 - COLLISION
-
-	This sample illustrates how to:
-
-		1/ Implement SweptAABB algorithm between moving objects
-		2/ Implement a simple (yet effective) collision frame work
-
-	Key functions:
-		Game::SweptAABB
-		GameObject::SweptAABBEx
-		GameObject::CalcPotentialCollisions
-		GameObject::FilterCollision
-
-		GameObject::GetBoundingBox
-
-================================================================ */
-
-#include <windows.h>
+﻿#include <windows.h>
 #include <iostream>
 #include <d3d9.h>
 #include <d3dx9.h>
@@ -31,153 +11,68 @@
 #include "Textures.h"
 #include "KeyBoardInput.h"
 
-#include "simon.h"
+#include "Simon.h"
 #include "Brick.h"
 #include "Weapon.h"
 #include "TileMap.h"
 #include "Candle.h"
 #include "Items.h"
 #include "Dagger.h"
+#include "SceneManager.h"
 
 HWND CreateGameWindow(HINSTANCE hInstance, int nCmdShow, int ScreenWidth, int ScreenHeight);
 void Render();
 LRESULT CALLBACK WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 
-Game* game;
-TileMap* tilemap;
-KeyBoardInput* input;
+//Game* game;
+//TileMap* tilemap;
+//KeyBoardInput* input;
+//
+//Simon* simon;
+//Dagger* dagger;
 
-Simon* simon;
-Dagger* dagger;
+KeyBoardInput* input;
+Game* game;
+SceneManager* scenes;
 
 vector<LPGAMEOBJECT> objects;
 
 Textures* textures = Textures::GetInstance();
 Animations* animations = Animations::GetInstance();
 
-void LoadResources()
-{
-	LoadResourceFile* LoadResourceFile = LoadResourceFile::GetInstance();
-	LoadResourceFile->LoadAllResource();
-
-	LPANIMATION ani;
-
-
-
-	dagger = new Dagger();
-	dagger->isEnable = false;
-	objects.push_back(dagger);
-
-	vector<int> listItem = { 2, 1, 0, 1, 2 };
-	for (int i = 0; i < listItem.size(); i++)
-	{
-		Candle* candle = new Candle();
-		candle->SetPosition(160 + i * 270, 320 - 64 - 32);
-		candle->SetIdItem(listItem[i]);
-		objects.push_back(candle);
-	}
-
-	for (int i = 0; i < 100; i++)
-	{
-		Brick* brick = new Brick();
-		brick->AddAnimation("brick");
-		brick->SetPosition(0 + i * 16.0f, 320 - 32);
-		objects.push_back(brick);
-	}
-
-	simon = new Simon();
-	simon->SetPosition(0.0f, 300 - 60 - 32);
-	objects.push_back(simon);
-
-}
-
-class CSampleKeyHander : public KeyEventHandler
-{
-	virtual void KeyState(BYTE* states);
-	virtual void OnKeyDown(int KeyCode);
-	virtual void OnKeyUp(int KeyCode);
-};
-
-CSampleKeyHander* keyHandler;
-
-void CSampleKeyHander::OnKeyDown(int KeyCode)
-{
-	//DebugOut(L"[INFO] KeyDown: %d\n", KeyCode);
-	switch (KeyCode)
-	{
-	case DIK_SPACE:
-		if (simon->GetState() == Jump || simon->GetState() == StandAttack || simon->GetState() == SitAttack)
-			return;
-		simon->SetState(Jump);
-		break;
-
-	case DIK_D:
-		if ((simon->GetState() == StandAttack || simon->GetState() == SitAttack))
-			return;
-		if (simon->GetState() == Idle || simon->GetState() == Jump)
-		{
-			simon->SetState(StandAttack);
-		}
-		else if (simon->GetState() == Sit)
-		{
-			simon->SetState(SitAttack);
-		}
-		break;
-
-	case DIK_X:
-		if (!simon->isPowered)
-			return;
-		if (simon->GetState() == Idle || simon->GetState() == Jump)
-		{
-			float sx, sy;
-			simon->GetPosition(sx, sy);
-			dagger->SetPosition(sx, sy + 10);
-			dagger->nx = simon->nx;
-			dagger->isEnable = true;
-			simon->SetState(Throw);
-		}
-	}
-
-}
-
-void CSampleKeyHander::OnKeyUp(int KeyCode)
-{
-	//DebugOut(L"[INFO] KeyUp: %d\n", KeyCode);
-}
-
-void CSampleKeyHander::KeyState(BYTE* states)
-{
-	if (simon->IsJumping()) return;
-
-	if (simon->IsStandAttacking()) return;
-
-	if (simon->IsSitAttacking()) return;
-
-	if (simon->IsThrowing()) return;
-
-	if (simon->IsPowering()) return;
-
-	else if (game->IsKeyDown(DIK_DOWN))
-		simon->SetState(Sit);
-
-	else if (game->IsKeyDown(DIK_RIGHT))
-	{
-		simon->SetN(1);
-		simon->SetState(Walking);
-	}
-
-	else if (game->IsKeyDown(DIK_LEFT))
-	{
-		simon->SetN(-1);
-		simon->SetState(Walking);
-	}
-
-	else
-		simon->SetState(Idle);
-
-}
-
-
+//void LoadResources()
+//{
+//	LoadResourceFile* LoadResourceFile = LoadResourceFile::GetInstance();
+//	LoadResourceFile->LoadAllResource();
+//
+//	LPANIMATION ani;
+//
+//	dagger = new Dagger();
+//	dagger->isEnable = false;
+//	objects.push_back(dagger);
+//
+//	vector<int> listItem = { 0, 1, 0, 1, 2 };
+//	for (int i = 0; i < listItem.size(); i++)
+//	{
+//		Candle* candle = new Candle();
+//		candle->SetPosition(160 + i * 270, 320 - 64 - 32);
+//		candle->SetIdItem(listItem[i]);
+//		objects.push_back(candle);
+//	}
+//
+//	for (int i = 0; i < 100; i++)
+//	{
+//		Brick* brick = new Brick();
+//		brick->AddAnimation("brick");
+//		brick->SetPosition(0 + i * 16.0f, 320 - 32);
+//		objects.push_back(brick);
+//	}
+//
+//	simon = new Simon();
+//	simon->SetPosition(0.0f, 300 - 60 - 32);
+//	objects.push_back(simon);
+//
+//}
 
 /*
 	Update world status for this frame
@@ -185,69 +80,72 @@ void CSampleKeyHander::KeyState(BYTE* states)
 */
 void Update(DWORD dt)
 {
-	for (int i = 0; i < objects.size(); i++)
-	{
+	//for (int i = 0; i < objects.size(); i++)
+	//{
 
-		if (objects[i]->isEnable == false)
-			continue;
+	//	if (objects[i]->isEnable == false)
+	//		continue;
 
-		vector<LPGAMEOBJECT> coObjects;
+	//	vector<LPGAMEOBJECT> coObjects;
 
-		if (dynamic_cast<Simon*>(objects[i]))
-		{
-			for (int j = 0; j < objects.size(); j++)
-			{
-				if (objects[j]->isEnable == false)
-					continue;
+	//	if (dynamic_cast<Simon*>(objects[i]))
+	//	{
+	//		for (int j = 0; j < objects.size(); j++)
+	//		{
+	//			if (objects[j]->isEnable == false)
+	//				continue;
 
-				if (i != j) // thêm tất cả objects "ko phải là simon", dùng trong hàm update của simon 
-					coObjects.push_back(objects[j]);
-			}
-		}
-		else if (dynamic_cast<Items*>(objects[i]))
-		{
-			for (int j = 0; j < objects.size(); j++)
-			{
-				if (objects[i]->isEnable == false)
-					continue;
+	//			if (i != j) // thêm tất cả objects "ko phải là simon", dùng trong hàm update của simon 
+	//				coObjects.push_back(objects[j]);
+	//		}
+	//	}
 
-				if (dynamic_cast<Brick*>(objects[j])) // thêm tất cả objects "là ground", dùng trong hàm update của item
-				{
-					coObjects.push_back(objects[j]);
-				}
-			}
-		}
-		else if (dynamic_cast<Dagger*>(objects[i]))
-		{
-			for (int j = 0; j < objects.size(); j++)
-			{
-				if (objects[j]->isEnable == false)
-					continue;
+	//	else if (dynamic_cast<Items*>(objects[i]))
+	//	{
+	//		for (int j = 0; j < objects.size(); j++)
+	//		{
+	//			if (objects[i]->isEnable == false)
+	//				continue;
 
-				if (i != j) // thêm tất cả objects "ko phải là dagger", dùng trong hàm update của dagger
-					coObjects.push_back(objects[j]);
-			}
-		}
-		else
-		{
-			coObjects.push_back(objects[i]);
-		}
+	//			if (dynamic_cast<Brick*>(objects[j])) // thêm tất cả objects "là ground", dùng trong hàm update của item
+	//			{
+	//				coObjects.push_back(objects[j]);
+	//			}
+	//		}
+	//	}
+	//	else if (dynamic_cast<Dagger*>(objects[i]))
+	//	{
+	//		for (int j = 0; j < objects.size(); j++)
+	//		{
+	//			if (objects[j]->isEnable == false)
+	//				continue;
 
-		if (dynamic_cast<Candle*>(objects[i])) // ham update Candle co them para &object de them item vao object
-		{
-			Candle* e = dynamic_cast<Candle*>(objects[i]);
-			e->Update(dt, &objects, &coObjects);
-		}
-		else objects[i]->Update(dt, &coObjects);
-	}
+	//			if (i != j) // thêm tất cả objects "ko phải là dagger", dùng trong hàm update của dagger
+	//				coObjects.push_back(objects[j]);
+	//		}
+	//	}
+	//	else
+	//	{
+	//		coObjects.push_back(objects[i]);
+	//	}
+
+	//	if (dynamic_cast<Candle*>(objects[i])) // ham update Candle co them para &object de them item vao object
+	//	{
+	//		Candle* e = dynamic_cast<Candle*>(objects[i]);
+	//		e->Update(dt, &objects, &coObjects);
+	//	}
+	//	else objects[i]->Update(dt, &coObjects);
+	//}
 
 
-	// render camera
-	float cx, cy;
-	simon->GetPosition(cx, cy);
+	//// render camera
+	//float cx, cy;
+	//simon->GetPosition(cx, cy);
 
-	if (cx > SCREEN_WIDTH / 2 && cx + SCREEN_WIDTH / 2 < tilemap->GetMapWidth())
-		game->SetCamPos(cx - SCREEN_WIDTH / 2, 0);
+	//if (cx > SCREEN_WIDTH / 2 && cx + SCREEN_WIDTH / 2 < tilemap->GetMapWidth())
+	//	game->SetCamPos(cx - SCREEN_WIDTH / 2, 0);
+
+	scenes->Update(dt);
 }
 
 int Run()
@@ -303,14 +201,16 @@ void Render()
 
 		spriteHandler->Begin(D3DXSPRITE_ALPHABLEND);
 
-		tilemap->Draw(game->GetCamPos());
+		//tilemap->Draw(game->GetCamPos());
 
-		for (int i = 0; i < objects.size(); i++)
+		scenes->Render();
+
+	/*	for (int i = 0; i < objects.size(); i++)
 		{
 			if (objects[i]->isEnable == false)
 				continue;
 			objects[i]->Render();
-		}
+		}*/
 
 		spriteHandler->End();
 		d3ddv->EndScene();
@@ -327,18 +227,14 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	game = Game::GetInstance();
 	game->Init(hWnd);
 
-	LoadResources();
+	//LoadResources();
 
-	//keyHandler = new CSampleKeyHander();
-	//game->InitKeyboard(keyHandler);
+	scenes = new SceneManager(game, SCENE_1);
+	scenes->LoadResources();
+	scenes->LoadObjectsFromFile(FILEPATH_OBJECTS_SCENE_1);
 
-	input = new KeyBoardInput(game, simon);
+	input = new KeyBoardInput(game, scenes->GetSimon());
 	game->InitKeyboard(input);
-
-
-	tilemap = new TileMap(0, FILEPATH_TEX_SCENE_1, FILEPATH_DATA_SCENE_1, 1536, 320, 32, 32);
-	tilemap->LoadResources();
-	tilemap->LoadMapData();
 
 	SetWindowPos(hWnd, 0, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, SWP_NOMOVE | SWP_NOOWNERZORDER | SWP_NOZORDER);
 
@@ -346,8 +242,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	return 0;
 }
-
-
 
 #pragma region CreateGameWindow
 HWND CreateGameWindow(HINSTANCE hInstance, int nCmdShow, int ScreenWidth, int ScreenHeight)
