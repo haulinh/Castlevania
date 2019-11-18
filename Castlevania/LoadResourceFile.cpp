@@ -49,7 +49,7 @@ void LoadResourceFile::LoadAnimationsFile(const char* filePath)
 		LPANIMATION ani;
 
 		int defaultTime = atoi(animationNode->first_attribute("defaultTime")->value());
-		ani = new CAnimation(defaultTime);
+		ani = new Animation(defaultTime);
 
 		xml_node<>* frameNode = rootNode->first_node("frame");
 		for (xml_node<>* frameNode = animationNode->first_node("frame"); frameNode; frameNode = frameNode->next_sibling())
@@ -60,7 +60,7 @@ void LoadResourceFile::LoadAnimationsFile(const char* filePath)
 		}
 
 		string aniId = string(animationNode->first_attribute("ID")->value());
-		CAnimations* animations = CAnimations::GetInstance();
+		Animations* animations = Animations::GetInstance();
 		animations->Add(aniId, ani);
 	}
 }
@@ -103,7 +103,7 @@ void LoadResourceFile::LoadAllResource()
 {
 	Textures* textures = Textures::GetInstance();
 	Sprites* sprites = Sprites::GetInstance();
-	CAnimations* animations = CAnimations::GetInstance();
+	Animations* animations = Animations::GetInstance();
 	LoadResourceFile* LoadResourceFile = LoadResourceFile::GetInstance();
 
 	LoadResourceFile->LoadTextures();

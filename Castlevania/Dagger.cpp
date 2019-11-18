@@ -57,9 +57,9 @@ void Dagger::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			if (dynamic_cast<Candle*>(e->obj))
 			{
 				Candle* candle = dynamic_cast<Candle*>(e->obj);
-					this->isEnable = false;
-					candle->SetState(Destroy);
-					candle->isLastFame = false;
+				this->isEnable = false;
+				candle->SetState(Destroy);
+				candle->isLastFame = false;
 			}
 		}
 	}

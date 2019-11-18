@@ -28,7 +28,7 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	// Calculate dx, dy 
 	GameObject::Update(dt);
 
-	vy += simon_gravity* dt;
+	vy += simon_gravity * dt;
 
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
@@ -49,7 +49,7 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		float min_tx, min_ty, nx = 0, ny;
 
 		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
-	
+
 		for (UINT i = 0; i < coEventsResult.size(); i++)
 		{
 			LPCOLLISIONEVENT e = coEventsResult[i];
@@ -114,9 +114,14 @@ void Simon::Render()
 
 	int alpha = 255;
 
-	if (state == StandAttack || state == SitAttack) weapon->Render();
-
 	animations[state]->Render(nx, x, y, alpha);
+
+	if (state == StandAttack || state == SitAttack)
+	{
+
+		int id = animations[state]->GetCurrentFrame();
+		weapon->Render(id);
+	}
 
 	standAttacking = !animations[state]->IsCompleted();
 	sitAttacking = !animations[state]->IsCompleted();
@@ -164,7 +169,7 @@ void Simon::SetState(string state)
 		sitting = false;
 		vx = 0;
 	}
-	
+
 	else if (state == Power)
 	{
 		vx = 0;

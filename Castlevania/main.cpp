@@ -1,6 +1,6 @@
 ﻿/* =============================================================
 	INTRODUCTION TO GAME PROGRAMMING SE102
-	
+
 	SAMPLE 04 - COLLISION
 
 	This sample illustrates how to:
@@ -8,14 +8,14 @@
 		1/ Implement SweptAABB algorithm between moving objects
 		2/ Implement a simple (yet effective) collision frame work
 
-	Key functions: 
+	Key functions:
 		Game::SweptAABB
 		GameObject::SweptAABBEx
 		GameObject::CalcPotentialCollisions
 		GameObject::FilterCollision
 
 		GameObject::GetBoundingBox
-		
+
 ================================================================ */
 
 #include <windows.h>
@@ -38,25 +38,73 @@
 #include "Items.h"
 #include "Dagger.h"
 
-Game *game;
+HWND CreateGameWindow(HINSTANCE hInstance, int nCmdShow, int ScreenWidth, int ScreenHeight);
+void Render();
+LRESULT CALLBACK WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 
-Simon *simon;
+Game* game;
+
+Simon* simon;
 TileMap* tilemap;
 Dagger* dagger;
 
 vector<LPGAMEOBJECT> objects;
 
 Textures* textures = Textures::GetInstance();
-CAnimations * animations = CAnimations::GetInstance();
+Animations* animations = Animations::GetInstance();
 
-class CSampleKeyHander: public CKeyEventHandler
+void LoadResources()
 {
-	virtual void KeyState(BYTE *states);
+	LoadResourceFile* LoadResourceFile = LoadResourceFile::GetInstance();
+	LoadResourceFile->LoadAllResource();
+
+	LPANIMATION ani;
+
+
+
+	dagger = new Dagger();
+	dagger->isEnable = false;
+	objects.push_back(dagger);
+
+	vector<int> listItem = { 2, 1, 0, 1, 2 };
+	for (int i = 0; i < listItem.size(); i++)
+	{
+		Candle* candle = new Candle();
+		candle->SetPosition(160 + i * 270, 320 - 64 - 32);
+		candle->SetIdItem(listItem[i]);
+		objects.push_back(candle);
+	}
+
+	//for (int i = 0; i < listItem.size(); i++)
+	//{
+	//	Items* candle = new Items();
+	//	candle->SetPosition(160 + i * 270, 320 - 64 - 32);
+	//	candle->SetItem(1);
+	//	objects.push_back(candle);
+	//}
+
+	for (int i = 0; i < 100; i++)
+	{
+		Brick* brick = new Brick();
+		brick->AddAnimation("brick");
+		brick->SetPosition(0 + i * 16.0f, 320 - 32);
+		objects.push_back(brick);
+	}
+
+	simon = new Simon();
+	simon->SetPosition(0.0f, 300 - 60 - 32);
+	objects.push_back(simon);
+
+}
+
+class CSampleKeyHander : public CKeyEventHandler
+{
+	virtual void KeyState(BYTE* states);
 	virtual void OnKeyDown(int KeyCode);
 	virtual void OnKeyUp(int KeyCode);
 };
 
-CSampleKeyHander * keyHandler; 
+CSampleKeyHander* keyHandler;
 
 void CSampleKeyHander::OnKeyDown(int KeyCode)
 {
@@ -95,7 +143,7 @@ void CSampleKeyHander::OnKeyDown(int KeyCode)
 			simon->SetState(Throw);
 		}
 	}
-	
+
 }
 
 void CSampleKeyHander::OnKeyUp(int KeyCode)
@@ -106,7 +154,7 @@ void CSampleKeyHander::OnKeyUp(int KeyCode)
 void CSampleKeyHander::KeyState(BYTE* states)
 {
 	if (simon->IsJumping()) return;
-	
+
 	if (simon->IsStandAttacking()) return;
 
 	if (simon->IsSitAttacking()) return;
@@ -130,66 +178,12 @@ void CSampleKeyHander::KeyState(BYTE* states)
 		simon->SetState(Walking);
 	}
 
-	else 
+	else
 		simon->SetState(Idle);
 
 }
-#pragma region WinProc
-LRESULT CALLBACK WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
-{
-	switch (message) {
-	case WM_DESTROY:
-		PostQuitMessage(0);
-		break;
-	default:
-		return DefWindowProc(hWnd, message, wParam, lParam);
-	}
-
-	return 0;
-}
-#pragma endregion WinProc
-
-/*
-	Load all game resources 
-	In this example: load textures, sprites, animations and mario object
-
-	TO-DO: Improve this function by loading texture,sprite,animation,object from file
-*/
-void LoadResources()
-{
-	LoadResourceFile* LoadResourceFile = LoadResourceFile::GetInstance();
-	LoadResourceFile->LoadAllResource();
-
-	LPANIMATION ani;
 
 
-
-	dagger = new Dagger();
-	dagger->isEnable = false;
-	objects.push_back(dagger);
-
-	vector<int> listItem = { 2, 1, 0, 1, 2 };
-	for (int i = 0; i < listItem.size(); i++)
-	{
-		Candle* candle = new Candle();
-		candle->SetPosition(160 + i * 270, 320 - 64 - 32);
-		candle->SetIdItem(listItem[i]);
-		objects.push_back(candle);
-	}
-
-	for (int i = 0; i < 100; i++)
-	{
-		Brick* brick = new Brick();
-		brick->AddAnimation("brick");
-		brick->SetPosition(0 + i * 16.0f, 320 - 32);
-		objects.push_back(brick);
-	}
-
-	simon = new Simon();
-	simon->SetPosition(0.0f, 300 - 60 - 32);
-	objects.push_back(simon);
-
-}
 
 /*
 	Update world status for this frame
@@ -204,7 +198,7 @@ void Update(DWORD dt)
 			continue;
 
 		vector<LPGAMEOBJECT> coObjects;
-		
+
 		if (dynamic_cast<Simon*>(objects[i]))
 		{
 			for (int j = 0; j < objects.size(); j++)
@@ -244,7 +238,7 @@ void Update(DWORD dt)
 		{
 			coObjects.push_back(objects[i]);
 		}
-		
+
 		if (dynamic_cast<Candle*>(objects[i])) // ham update Candle co them para &object de them item vao object
 		{
 			Candle* e = dynamic_cast<Candle*>(objects[i]);
@@ -252,7 +246,7 @@ void Update(DWORD dt)
 		}
 		else objects[i]->Update(dt, &coObjects);
 	}
-	
+
 
 	// render camera
 	float cx, cy;
@@ -262,9 +256,45 @@ void Update(DWORD dt)
 		game->SetCamPos(cx - SCREEN_WIDTH / 2, 0);
 }
 
-/*
-	Render a frame 
-*/
+int Run()
+{
+	MSG msg;
+	int done = 0;
+	DWORD frameStart = GetTickCount();
+	DWORD tickPerFrame = 1000 / MAX_FRAME_RATE;
+
+	while (!done)
+	{
+		if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
+		{
+			if (msg.message == WM_QUIT) done = 1;
+
+			TranslateMessage(&msg);
+			DispatchMessage(&msg);
+		}
+
+		DWORD now = GetTickCount();
+
+		// dt: the time between (beginning of last frame) and now
+		// this frame: the frame we are about to render
+		DWORD dt = now - frameStart;
+
+		if (dt >= tickPerFrame)
+		{
+			frameStart = now;
+
+			game->ProcessKeyboard();
+
+			Update(dt);
+			Render();
+		}
+		else
+			Sleep(tickPerFrame - dt);
+	}
+
+	return 1;
+}
+
 void Render()
 {
 	Textures* textures = Textures::GetInstance();
@@ -295,6 +325,32 @@ void Render()
 	// Display back buffer content to the screen
 	d3ddv->Present(NULL, NULL, NULL, NULL);
 }
+
+int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
+{
+	HWND hWnd = CreateGameWindow(hInstance, nCmdShow, SCREEN_WIDTH, SCREEN_HEIGHT);
+
+	game = Game::GetInstance();
+	game->Init(hWnd);
+
+	keyHandler = new CSampleKeyHander();
+	game->InitKeyboard(keyHandler);
+
+
+	LoadResources();
+
+	tilemap = new TileMap(0, FILEPATH_TEX_SCENE_1, FILEPATH_DATA_SCENE_1, 1536, 320, 32, 32);
+	tilemap->LoadResources();
+	tilemap->LoadMapData();
+
+	SetWindowPos(hWnd, 0, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, SWP_NOMOVE | SWP_NOOWNERZORDER | SWP_NOZORDER);
+
+	Run();
+
+	return 0;
+}
+
+
 
 #pragma region CreateGameWindow
 HWND CreateGameWindow(HINSTANCE hInstance, int nCmdShow, int ScreenWidth, int ScreenHeight)
@@ -345,66 +401,17 @@ HWND CreateGameWindow(HINSTANCE hInstance, int nCmdShow, int ScreenWidth, int Sc
 }
 #pragma endregion CreateGameWindow
 
-
-int Run()
+#pragma region WinProc
+LRESULT CALLBACK WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	MSG msg;
-	int done = 0;
-	DWORD frameStart = GetTickCount();
-	DWORD tickPerFrame = 1000 / MAX_FRAME_RATE;
-
-	while (!done)
-	{
-		if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
-		{
-			if (msg.message == WM_QUIT) done = 1;
-
-			TranslateMessage(&msg);
-			DispatchMessage(&msg);
-		}
-
-		DWORD now = GetTickCount();
-
-		// dt: the time between (beginning of last frame) and now
-		// this frame: the frame we are about to render
-		DWORD dt = now - frameStart;
-
-		if (dt >= tickPerFrame)
-		{
-			frameStart = now;
-
-			game->ProcessKeyboard();
-			
-			Update(dt);
-			Render();
-		}
-		else
-			Sleep(tickPerFrame - dt);	
+	switch (message) {
+	case WM_DESTROY:
+		PostQuitMessage(0);
+		break;
+	default:
+		return DefWindowProc(hWnd, message, wParam, lParam);
 	}
-
-	return 1;
-}
-
-int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
-{
-	HWND hWnd = CreateGameWindow(hInstance, nCmdShow, SCREEN_WIDTH, SCREEN_HEIGHT);
-
-	game = Game::GetInstance();
-	game->Init(hWnd);
-
-	keyHandler = new CSampleKeyHander();
-	game->InitKeyboard(keyHandler);
-
-
-	LoadResources();
-
-	tilemap = new TileMap(0, FILEPATH_TEX_SCENE_1, FILEPATH_DATA_SCENE_1, 1536, 320, 32, 32);
-	tilemap->LoadResources();
-	tilemap->LoadMapData();
-
-	SetWindowPos(hWnd, 0, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, SWP_NOMOVE | SWP_NOOWNERZORDER | SWP_NOZORDER);
-
-	Run();
 
 	return 0;
 }
+#pragma endregion WinProc

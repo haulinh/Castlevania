@@ -11,9 +11,21 @@
         <frame spriteID="weapon_6" time="100"/>
     </animation>
 
-      <animation ID="long_chain" defaultTime="100">
+      <animation ID="long_chain" defaultTime="25">
+        <frame spriteID="weapon_7" time="100"/>
+        <frame spriteID="weapon_8" time="100"/>
         <frame spriteID="weapon_9" time="100"/>
+
+        <frame spriteID="weapon_10" time="100"/>
+        <frame spriteID="weapon_11" time="100"/>
+        <frame spriteID="weapon_12" time="100"/>
+
+        <frame spriteID="weapon_13" time="100"/>
         <frame spriteID="weapon_14" time="100"/>
+        <frame spriteID="weapon_15" time="100"/>
+
+        <frame spriteID="weapon_16" time="100"/>
+        <frame spriteID="weapon_17" time="100"/>
         <frame spriteID="weapon_18" time="100"/>
     </animation>
 

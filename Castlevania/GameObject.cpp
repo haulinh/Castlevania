@@ -149,7 +149,7 @@ void GameObject::RenderBoundingBox()
 
 void GameObject::AddAnimation(string aniId)
 {
-	LPANIMATION ani = CAnimations::GetInstance()->Get(aniId);
+	LPANIMATION ani = Animations::GetInstance()->Get(aniId);
 	animations.insert({aniId, ani});
 }
 

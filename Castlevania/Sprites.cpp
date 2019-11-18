@@ -48,17 +48,17 @@ LPSPRITE Sprites::Get(string idSprite)
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void CAnimation::Add(string spriteId, DWORD time)
+void Animation::Add(string spriteId, DWORD time)
 {
 	int t = time;
 	if (time == 0) t=this->defaultTime;
 
 	LPSPRITE sprite = Sprites::GetInstance()->Get(spriteId);
-	LPANIMATION_FRAME frame = new CAnimationFrame(sprite, t);
+	LPANIMATION_FRAME frame = new AnimationFrame(sprite, t);
 	frames.push_back(frame);
 }
 
-void CAnimation::Render(int nx, float x, float y, int alpha)
+void Animation::Render(int nx, float x, float y, int alpha)
 {
 	this->completed = false;
 	DWORD now = GetTickCount();
@@ -89,7 +89,7 @@ void CAnimation::Render(int nx, float x, float y, int alpha)
 	frames[currentFrame]->GetSprite()->Draw(nx, x, y, alpha);
 }
 
-void CAnimation::Render(float x, float y, int alpha)
+void Animation::Render(float x, float y, int alpha)
 {
 	this->completed = false;
 	DWORD now = GetTickCount();
@@ -119,21 +119,48 @@ void CAnimation::Render(float x, float y, int alpha)
 	frames[currentFrame]->GetSprite()->Draw(x, y, alpha);
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-CAnimations * CAnimations::__instance = NULL;
-
-CAnimations * CAnimations::GetInstance()
+void Animation::Render(int id, int nx, float x, float y, int alpha)
 {
-	if (__instance == NULL) __instance = new CAnimations();
+	if (currentFrame == -1)
+	{
+		currentFrame = 0;
+	}
+
+	if (currentFrame == frames.size())
+	{
+		currentFrame = 0;
+	}
+
+	if (frames.size() == 3) // normal whip, short chain
+	{
+		currentFrame++;
+		frames[id]->GetSprite()->Draw(nx, x, y, alpha);
+	}
+	else  // == 12, long chain
+	{
+		currentFrame++;
+		int rd = rand() % 4;
+		DebugOut(L"rd %d\n", rd);
+
+		frames[id * 4 + rd]->GetSprite()->Draw(nx, x, y, alpha);
+	}
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+Animations * Animations::__instance = NULL;
+
+Animations * Animations::GetInstance()
+{
+	if (__instance == NULL) __instance = new Animations();
 	return __instance;
 }
 
-void CAnimations::Add(string idAni, LPANIMATION ani)
+void Animations::Add(string idAni, LPANIMATION ani)
 {
 	animations.insert({ idAni, ani });
 }
 
-LPANIMATION CAnimations::Get(string idAni)
+LPANIMATION Animations::Get(string idAni)
 {
 	return animations[idAni];
 }

@@ -82,7 +82,6 @@ void Items::GeneratorRandom()
 void Items::SetItem(int id)
 {
 	vector<string> listState = { "LargeHeart", "Chain", "Dagger" };
-	DebugOut(L"Id item %d \n", id);
 	state = listState[id];
 }
 

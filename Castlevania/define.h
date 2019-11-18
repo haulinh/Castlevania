@@ -4,14 +4,14 @@ using namespace std;
 
 #pragma region define window
 
-#define WINDOW_CLASS_NAME L"SampleWindow"
+#define WINDOW_CLASS_NAME L"Castlevania"
 #define MAIN_WINDOW_TITLE L"Castlevania"
 
 #define BACKGROUND_COLOR D3DCOLOR_XRGB(25, 25, 25)
 #define SCREEN_WIDTH 500
 #define SCREEN_HEIGHT 480 
 
-#define MAX_FRAME_RATE  120
+#define MAX_FRAME_RATE 120 
 
 #pragma endregion
 
@@ -90,7 +90,7 @@ const string LongChain= "long_chain";
 
 // Item
 #define ITEM_FALLING_SPEED			0.1f
-#define ITEM_TIME_DESTROYED			3000
+#define ITEM_TIME_DESTROYED			100000
 #define ITEM_DAGGER_SPEED			0.3f
 
 // Large Heart

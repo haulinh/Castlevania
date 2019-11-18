@@ -52,21 +52,21 @@ public:
 /*
 	Sprite animation
 */
-class CAnimationFrame
+class AnimationFrame
 {
 	LPSPRITE sprite;
 	DWORD time;
 
 public:
-	CAnimationFrame(LPSPRITE sprite, int time) { this->sprite = sprite; this->time = time; }
+	AnimationFrame(LPSPRITE sprite, int time) { this->sprite = sprite; this->time = time; }
 	DWORD GetTime() { return time; }
 	LPSPRITE GetSprite() { return sprite; }
 };
 
-typedef CAnimationFrame *LPANIMATION_FRAME;
+typedef AnimationFrame *LPANIMATION_FRAME;
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-class CAnimation
+class Animation
 {
 	DWORD lastFrameTime;
 	int defaultTime;
@@ -76,21 +76,25 @@ class CAnimation
 	vector<LPANIMATION_FRAME> frames;
 
 public:
-	CAnimation(int defaultTime) { this->defaultTime = defaultTime; lastFrameTime = -1; currentFrame = -1; }
+	Animation(int defaultTime) { this->defaultTime = defaultTime; lastFrameTime = -1; currentFrame = -1; }
+
+	int GetCurrentFrame() { return this->currentFrame; }
+	int GetFrameSize() { return this->frames.size(); }
 
 	void Add(string spriteId, DWORD time = 0);
 	void Render(int nx, float x, float y, int alpha=255);
+	void Render(int id, int nx, float x, float y, int alpha=255);
 	void Render(float x, float y, int alpha = 255);
 
 	bool IsCompleted() { return completed; }
 };
 
-typedef CAnimation *LPANIMATION;
+typedef Animation *LPANIMATION;
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-class CAnimations
+class Animations
 {
-	static CAnimations * __instance;
+	static Animations * __instance;
 
 	unordered_map<string, LPANIMATION> animations;
 
@@ -99,6 +103,6 @@ public:
 	//void LoadAnimations(const char* filePath);
 	LPANIMATION Get(string idAni);
 
-	static CAnimations * GetInstance();
+	static Animations * GetInstance();
 };
 
