@@ -24,55 +24,13 @@ HWND CreateGameWindow(HINSTANCE hInstance, int nCmdShow, int ScreenWidth, int Sc
 void Render();
 LRESULT CALLBACK WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 
-//Game* game;
-//TileMap* tilemap;
-//KeyBoardInput* input;
-//
-//Simon* simon;
-//Dagger* dagger;
-
 KeyBoardInput* input;
 Game* game;
 SceneManager* scenes;
 
-vector<LPGAMEOBJECT> objects;
-
 Textures* textures = Textures::GetInstance();
 Animations* animations = Animations::GetInstance();
 
-//void LoadResources()
-//{
-//	LoadResourceFile* LoadResourceFile = LoadResourceFile::GetInstance();
-//	LoadResourceFile->LoadAllResource();
-//
-//	LPANIMATION ani;
-//
-//	dagger = new Dagger();
-//	dagger->isEnable = false;
-//	objects.push_back(dagger);
-//
-//	vector<int> listItem = { 0, 1, 0, 1, 2 };
-//	for (int i = 0; i < listItem.size(); i++)
-//	{
-//		Candle* candle = new Candle();
-//		candle->SetPosition(160 + i * 270, 320 - 64 - 32);
-//		candle->SetIdItem(listItem[i]);
-//		objects.push_back(candle);
-//	}
-//
-//	for (int i = 0; i < 100; i++)
-//	{
-//		Brick* brick = new Brick();
-//		brick->AddAnimation("brick");
-//		brick->SetPosition(0 + i * 16.0f, 320 - 32);
-//		objects.push_back(brick);
-//	}
-//
-//	simon = new Simon();
-//	simon->SetPosition(0.0f, 300 - 60 - 32);
-//	objects.push_back(simon);
-//
-//}
 
 /*
 	Update world status for this frame
@@ -80,70 +38,6 @@ Animations* animations = Animations::GetInstance();
 */
 void Update(DWORD dt)
 {
-	//for (int i = 0; i < objects.size(); i++)
-	//{
-
-	//	if (objects[i]->isEnable == false)
-	//		continue;
-
-	//	vector<LPGAMEOBJECT> coObjects;
-
-	//	if (dynamic_cast<Simon*>(objects[i]))
-	//	{
-	//		for (int j = 0; j < objects.size(); j++)
-	//		{
-	//			if (objects[j]->isEnable == false)
-	//				continue;
-
-	//			if (i != j) // thêm tất cả objects "ko phải là simon", dùng trong hàm update của simon 
-	//				coObjects.push_back(objects[j]);
-	//		}
-	//	}
-
-	//	else if (dynamic_cast<Items*>(objects[i]))
-	//	{
-	//		for (int j = 0; j < objects.size(); j++)
-	//		{
-	//			if (objects[i]->isEnable == false)
-	//				continue;
-
-	//			if (dynamic_cast<Brick*>(objects[j])) // thêm tất cả objects "là ground", dùng trong hàm update của item
-	//			{
-	//				coObjects.push_back(objects[j]);
-	//			}
-	//		}
-	//	}
-	//	else if (dynamic_cast<Dagger*>(objects[i]))
-	//	{
-	//		for (int j = 0; j < objects.size(); j++)
-	//		{
-	//			if (objects[j]->isEnable == false)
-	//				continue;
-
-	//			if (i != j) // thêm tất cả objects "ko phải là dagger", dùng trong hàm update của dagger
-	//				coObjects.push_back(objects[j]);
-	//		}
-	//	}
-	//	else
-	//	{
-	//		coObjects.push_back(objects[i]);
-	//	}
-
-	//	if (dynamic_cast<Candle*>(objects[i])) // ham update Candle co them para &object de them item vao object
-	//	{
-	//		Candle* e = dynamic_cast<Candle*>(objects[i]);
-	//		e->Update(dt, &objects, &coObjects);
-	//	}
-	//	else objects[i]->Update(dt, &coObjects);
-	//}
-
-
-	//// render camera
-	//float cx, cy;
-	//simon->GetPosition(cx, cy);
-
-	//if (cx > SCREEN_WIDTH / 2 && cx + SCREEN_WIDTH / 2 < tilemap->GetMapWidth())
-	//	game->SetCamPos(cx - SCREEN_WIDTH / 2, 0);
 
 	scenes->Update(dt);
 }
@@ -189,7 +83,6 @@ int Run()
 
 void Render()
 {
-	Textures* textures = Textures::GetInstance();
 	auto d3ddv = game->GetDirect3DDevice();
 	auto bb = game->GetBackBuffer();
 	auto spriteHandler = game->GetSpriteHandler();
@@ -201,16 +94,8 @@ void Render()
 
 		spriteHandler->Begin(D3DXSPRITE_ALPHABLEND);
 
-		//tilemap->Draw(game->GetCamPos());
 
 		scenes->Render();
-
-	/*	for (int i = 0; i < objects.size(); i++)
-		{
-			if (objects[i]->isEnable == false)
-				continue;
-			objects[i]->Render();
-		}*/
 
 		spriteHandler->End();
 		d3ddv->EndScene();
@@ -227,13 +112,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	game = Game::GetInstance();
 	game->Init(hWnd);
 
-	//LoadResources();
-
 	scenes = new SceneManager(game, SCENE_1);
 	scenes->LoadResources();
 	scenes->LoadObjectsFromFile(FILEPATH_OBJECTS_SCENE_1);
 
-	input = new KeyBoardInput(game, scenes->GetSimon());
+	input = new KeyBoardInput(game, scenes);
 	game->InitKeyboard(input);
 
 	SetWindowPos(hWnd, 0, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, SWP_NOMOVE | SWP_NOOWNERZORDER | SWP_NOZORDER);

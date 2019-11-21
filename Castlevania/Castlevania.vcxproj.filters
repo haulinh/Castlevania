@@ -22,6 +22,9 @@
     <Filter Include="Ultiltes">
       <UniqueIdentifier>{db08ed0e-d114-44eb-afa9-5f6f14d5d50a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Scenes">
+      <UniqueIdentifier>{b764ea67-bcfb-4466-b782-bbe797f71116}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameObject.h">
@@ -70,7 +73,7 @@
       <Filter>Framework</Filter>
     </ClInclude>
     <ClInclude Include="SceneManager.h">
-      <Filter>Framework</Filter>
+      <Filter>Scenes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -120,7 +123,7 @@
       <Filter>Framework</Filter>
     </ClCompile>
     <ClCompile Include="SceneManager.cpp">
-      <Filter>Framework</Filter>
+      <Filter>Scenes</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

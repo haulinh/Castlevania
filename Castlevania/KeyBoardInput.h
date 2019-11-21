@@ -2,13 +2,14 @@
 
 #include "Game.h"
 #include "Simon.h"
+#include "SceneManager.h"
 
 class KeyBoardInput : public KeyEventHandler
 {
 	Game* game;
-	Simon* simon;
+	SceneManager* scene;
 public:
-	KeyBoardInput(Game* game, Simon* simon);
+	KeyBoardInput(Game* game, SceneManager* scene);
 	~KeyBoardInput();
 
 	virtual void KeyState(BYTE* state);
