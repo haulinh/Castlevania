@@ -2,8 +2,6 @@
 
 #include "Game.h"
 #include "GameObject.h"
-#include "KeyBoardInput.h"
-
 #include "TileMap.h"
 
 #include "Candle.h"
@@ -46,5 +44,7 @@ public:
 
 	void ChangeScene(int scene);
 	Simon* GetSimon() { return this->simon; }
+	Dagger* GetDagger() { return this->dagger; }
+
 };
 

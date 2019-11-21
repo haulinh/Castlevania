@@ -30,6 +30,9 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 	vy += simon_gravity * dt;
 
+	// simple collision with border map
+	if (x < 0) x = 0;
+
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
 
@@ -49,6 +52,9 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		float min_tx, min_ty, nx = 0, ny;
 
 		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
+
+		x += min_tx * dx + nx * 0.4f;
+		y += min_ty * dy + ny * 0.4f;
 
 		for (UINT i = 0; i < coEventsResult.size(); i++)
 		{
@@ -71,9 +77,6 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 			else if (dynamic_cast<Items*>(e->obj))
 			{
-				if (e->nx != 0) x += dx;
-				if (e->ny != 0) y += dy;
-
 				e->obj->isEnable = false;
 
 				if (e->obj->GetState() == CHAIN)
@@ -91,8 +94,6 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			}
 			else
 			{
-				x += min_tx * dx + nx * 0.4f;
-				y += min_ty * dy + ny * 0.4f;
 				if (nx != 0) vx = 0;
 				if (ny != 0) vy = 0;
 			}
@@ -107,24 +108,6 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	{
 		weapon->SetN(nx);
 		weapon->SetWeaponPosition(D3DXVECTOR3(x, y, 0), sitting);
-
-		/*	if (animations[state]->GetCurrentFrame() == animations[state]->GetFrameSize() - 1)
-			{
-				for (UINT i = 0; i < coObjects->size(); i++)
-				{
-					LPGAMEOBJECT obj = coObjects->at(i);
-					if (dynamic_cast<Candle*>(obj))
-					{
-						Candle* e = dynamic_cast<Candle*> (obj);
-
-						if (weapon->AABBx(e) == true)
-						{
-							e->SetState(Destroy);
-							e->isLastFame = false;
-						}
-					}
-				}
-			}*/
 	}
 	weapon->Update(dt, coObjects);
 }
@@ -230,8 +213,8 @@ void Simon::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 	// sprite có kích thước là 60x66, bbox là 40x62
 	left = x + 10;
 	top = y + 2;
-	right = x + SIMON_BBOX_WIDTH;
-	bottom = y + SIMON_BBOX_HEIGHT;
+	right = left + SIMON_BBOX_WIDTH;
+	bottom = top + SIMON_BBOX_HEIGHT;
 
 }
 

@@ -1,46 +1,49 @@
 ﻿#include "KeyBoardInput.h"
 
-
-
-KeyBoardInput::KeyBoardInput(Game* game, Simon* simon)
+KeyBoardInput::KeyBoardInput(Game *game, SceneManager *scene)
 {
 	this->game = game;
-	this->simon = simon;
+	this->scene = scene;
 }
 
 KeyBoardInput::~KeyBoardInput()
 {
 }
 
-void KeyBoardInput::KeyState(BYTE* state)
+void KeyBoardInput::KeyState(BYTE *state)
 {
-	if (simon->IsJumping()) return;
+	if (scene->GetSimon()->IsJumping())
+		return;
 
-	if (simon->IsStandAttacking()) return;
+	if (scene->GetSimon()->IsStandAttacking())
+		return;
 
-	if (simon->IsSitAttacking()) return;
+	if (scene->GetSimon()->IsSitAttacking())
+		return;
 
-	if (simon->IsThrowing()) return;
+	if (scene->GetSimon()->IsThrowing())
+		return;
 
-	if (simon->IsPowering()) return;
+	if (scene->GetSimon()->IsPowering())
+		return;
 
 	else if (game->IsKeyDown(DIK_DOWN))
-		simon->SetState(Sit);
+		scene->GetSimon()->SetState(Sit);
 
 	else if (game->IsKeyDown(DIK_RIGHT))
 	{
-		simon->SetN(1);
-		simon->SetState(Walking);
+		scene->GetSimon()->SetN(1);
+		scene->GetSimon()->SetState(Walking);
 	}
 
 	else if (game->IsKeyDown(DIK_LEFT))
 	{
-		simon->SetN(-1);
-		simon->SetState(Walking);
+		scene->GetSimon()->SetN(-1);
+		scene->GetSimon()->SetState(Walking);
 	}
 
 	else
-		simon->SetState(Idle);
+		scene->GetSimon()->SetState(Idle);
 }
 
 void KeyBoardInput::OnKeyDown(int KeyCode)
@@ -49,37 +52,38 @@ void KeyBoardInput::OnKeyDown(int KeyCode)
 	switch (KeyCode)
 	{
 	case DIK_SPACE:
-		if (simon->GetState() == Jump || simon->GetState() == StandAttack || simon->GetState() == SitAttack)
+		if (scene->GetSimon()->GetState() == Jump || scene->GetSimon()->GetState() == StandAttack || scene->GetSimon()->GetState() == SitAttack)
 			return;
-		simon->SetState(Jump);
+		scene->GetSimon()->SetState(Jump);
 		break;
 
 	case DIK_D:
-		if ((simon->GetState() == StandAttack || simon->GetState() == SitAttack))
+		if ((scene->GetSimon()->GetState() == StandAttack || scene->GetSimon()->GetState() == SitAttack))
 			return;
-		if (simon->GetState() == Idle || simon->GetState() == Jump)
+		if (scene->GetSimon()->GetState() == Idle || scene->GetSimon()->GetState() == Jump)
 		{
-			simon->SetState(StandAttack);
+			scene->GetSimon()->SetState(StandAttack);
 		}
-		else if (simon->GetState() == Sit)
+		else if (scene->GetSimon()->GetState() == Sit)
 		{
-			simon->SetState(SitAttack);
+			scene->GetSimon()->SetState(SitAttack);
 		}
 		break;
 
 	case DIK_X:
-		if (!simon->isPowered)
+		if (!scene->GetSimon()->isPowered)
 			return;
-		if (simon->GetState() == Idle || simon->GetState() == Jump)
+		if (scene->GetSimon()->GetState() == Idle || scene->GetSimon()->GetState() == Jump)
 		{
-			/*	float sx, sy;
-				simon->GetPosition(sx, sy);
-				dagger->SetPosition(sx, sy + 10);
-				dagger->nx = simon->nx;
-				dagger->isEnable = true;
-				simon->SetState(Throw);*/
+			float sx, sy;
+			scene->GetSimon()->GetPosition(sx, sy);
+			scene->GetDagger()->SetPosition(sx, sy + 10);
+			scene->GetDagger()->nx = scene->GetSimon()->nx;
+			scene->GetDagger()->isEnable = true;
+			scene->GetSimon()->SetState(Throw);
 		}
-	default: break;
+	default:
+		break;
 	}
 }
 
