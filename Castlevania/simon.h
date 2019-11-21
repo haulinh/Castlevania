@@ -8,7 +8,12 @@ class Simon : public GameObject
 {
 	Weapon *weapon;
 
-	DWORD untouchable_start;
+	int score;
+	int item;
+	int energy;
+	int life;
+	int subWeapon;
+	int HP;
 
 public:
 
@@ -40,5 +45,12 @@ public:
 	bool IsSitAttacking();
 	bool IsThrowing();
 	bool IsPowering();
+
+	int GetEnergy() { return this->energy; }
+	int GetLife() { return this->life; }
+	int GetScore() { return this->score; }
+	int GetItem() { return this->item; }
+	int GetSubWeapon() { return this->subWeapon; }
+	int GetHP() { return this->HP; }
 	
 };

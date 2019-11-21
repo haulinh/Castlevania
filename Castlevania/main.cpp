@@ -19,6 +19,7 @@
 #include "Items.h"
 #include "Dagger.h"
 #include "SceneManager.h"
+#include "Player.h"
 
 HWND CreateGameWindow(HINSTANCE hInstance, int nCmdShow, int ScreenWidth, int ScreenHeight);
 void Render();
@@ -27,6 +28,7 @@ LRESULT CALLBACK WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 KeyBoardInput* input;
 Game* game;
 SceneManager* scenes;
+Player* player;
 
 Textures* textures = Textures::GetInstance();
 Animations* animations = Animations::GetInstance();
@@ -39,6 +41,7 @@ Animations* animations = Animations::GetInstance();
 void Update(DWORD dt)
 {
 
+	player->Update(dt);
 	scenes->Update(dt);
 }
 
@@ -95,6 +98,7 @@ void Render()
 		spriteHandler->Begin(D3DXSPRITE_ALPHABLEND);
 
 
+		player->Render();
 		scenes->Render();
 
 		spriteHandler->End();
@@ -118,6 +122,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	input = new KeyBoardInput(game, scenes);
 	game->InitKeyboard(input);
+
+	player = new Player(scenes, game);
+	player->Init();
 
 	SetWindowPos(hWnd, 0, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, SWP_NOMOVE | SWP_NOOWNERZORDER | SWP_NOZORDER);
 

@@ -7,16 +7,22 @@ using namespace std;
 #define WINDOW_CLASS_NAME L"Castlevania"
 #define MAIN_WINDOW_TITLE L"Castlevania"
 
-#define BACKGROUND_COLOR D3DCOLOR_XRGB(25, 25, 25)
+#define BACKGROUND_COLOR D3DCOLOR_XRGB(0, 0, 0)
 #define SCREEN_WIDTH 512
-#define SCREEN_HEIGHT 450
+#define SCREEN_HEIGHT 480
 
 #define MAX_FRAME_RATE 120 
 
 #pragma endregion
 
+// Time play
+#define DEFAULT_TIME_PLAY		300
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma region PathFile
+
+// Font
+#define FILEPATH_FONT				L"Font\\prstart.ttf"
 
 // Scenes
 #define FILEPATH_TEX_MAP_SCENE_1		L"Scenes\\Scene1.png"
@@ -27,6 +33,8 @@ using namespace std;
 #define FILEPATH_DATA_MAP_SCENE_2		L"Scenes\\Scene2_map.txt"
 #define FILEPATH_OBJECTS_SCENE_2		L"Scenes\\Scene2_objects.txt"
 
+// Player
+#define FILEPATH_TEX_HP				L"Textures\\HP.png"
 
 #pragma endregion
 
@@ -39,15 +47,16 @@ enum TexId
 	id_tex_candle,
 	id_tex_items,
 	id_tex_effect,
+	id_tex_hp
 };
 
 #pragma endregion
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // Scene
-#define SCENE_1		0
-#define SCENE_2		1
-#define SCENE_3		2
+#define SCENE_1		100
+#define SCENE_2		200
+#define SCENE_3		300
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma region define simon
