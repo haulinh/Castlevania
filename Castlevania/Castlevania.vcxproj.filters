@@ -69,7 +69,7 @@
     <ClInclude Include="KeyBoardInput.h">
       <Filter>Framework</Filter>
     </ClInclude>
-    <ClInclude Include="ScenceManager.h">
+    <ClInclude Include="SceneManager.h">
       <Filter>Framework</Filter>
     </ClInclude>
   </ItemGroup>
@@ -119,7 +119,7 @@
     <ClCompile Include="KeyBoardInput.cpp">
       <Filter>Framework</Filter>
     </ClCompile>
-    <ClCompile Include="ScenceManager.cpp">
+    <ClCompile Include="SceneManager.cpp">
       <Filter>Framework</Filter>
     </ClCompile>
   </ItemGroup>

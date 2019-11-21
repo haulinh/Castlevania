@@ -1,4 +1,4 @@
-﻿#include "ScenceManager.h"
+﻿#include "SceneManager.h"
 
 
 SceneManager::SceneManager(Game* game, int idScene)

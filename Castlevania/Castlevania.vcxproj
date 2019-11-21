@@ -132,7 +132,7 @@
     <ClInclude Include="Items.h" />
     <ClInclude Include="KeyBoardInput.h" />
     <ClInclude Include="LoadResourceFile.h" />
-    <ClInclude Include="ScenceManager.h" />
+    <ClInclude Include="SceneManager.h" />
     <ClInclude Include="Simon.h" />
     <ClInclude Include="Sprites.h" />
     <ClInclude Include="Textures.h" />
@@ -150,7 +150,7 @@
     <ClCompile Include="KeyBoardInput.cpp" />
     <ClCompile Include="LoadResourceFile.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="ScenceManager.cpp" />
+    <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="Simon.cpp" />
     <ClCompile Include="Sprites.cpp" />
     <ClCompile Include="Textures.cpp" />

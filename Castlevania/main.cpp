@@ -18,7 +18,7 @@
 #include "Candle.h"
 #include "Items.h"
 #include "Dagger.h"
-#include "ScenceManager.h"
+#include "SceneManager.h"
 
 HWND CreateGameWindow(HINSTANCE hInstance, int nCmdShow, int ScreenWidth, int ScreenHeight);
 void Render();

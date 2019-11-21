@@ -9,7 +9,7 @@ using namespace std;
 
 #define BACKGROUND_COLOR D3DCOLOR_XRGB(25, 25, 25)
 #define SCREEN_WIDTH 512
-#define SCREEN_HEIGHT 480 
+#define SCREEN_HEIGHT 450
 
 #define MAX_FRAME_RATE 120 
 
