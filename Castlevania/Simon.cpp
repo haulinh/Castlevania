@@ -20,6 +20,13 @@ Simon::Simon() : GameObject() {
 
 	weapon = new Weapon();
 	weapon->state = MagicWhip;
+
+	score = 0;
+	item = -1;
+	energy = 0;
+	life = 3;
+	subWeapon = -1;
+	HP = 10;
 }
 
 #pragma region Update 
@@ -79,7 +86,12 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			{
 				e->obj->isEnable = false;
 
-				if (e->obj->GetState() == CHAIN)
+				if (e->obj->GetState() == LARGE_HEART)
+				{
+					energy += 5;
+				}
+
+				else if (e->obj->GetState() == CHAIN)
 				{
 					SetState(Power);
 					if (weapon->GetState() == MagicWhip) weapon->SetState(ShortChain);

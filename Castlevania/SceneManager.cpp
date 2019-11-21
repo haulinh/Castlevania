@@ -97,7 +97,7 @@ void SceneManager::Update(DWORD dt)
 	float pos_x, pos_y;
 	simon->GetPosition(pos_x, pos_y);
 
-	DebugOut(L"%f %f\n", pos_x, pos_y);
+	//DebugOut(L"%f %f\n", pos_x, pos_y);
 
 	if (IDScene == SCENE_1 && pos_x >= 1450.0f)
 	{

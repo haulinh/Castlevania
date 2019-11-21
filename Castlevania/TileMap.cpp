@@ -27,10 +27,9 @@ void TileMap::LoadResources()
 {
 	Textures* texture = Textures::GetInstance();
 
-	texture->Add(69, filePathTex, D3DCOLOR_XRGB(255, 255, 255));
+	texture->Add(ID, filePathTex, D3DCOLOR_XRGB(255, 255, 255));
 
-
-	LPDIRECT3DTEXTURE9 texTileMap = texture->Get(69);
+	LPDIRECT3DTEXTURE9 texTileMap = texture->Get(ID);
 
 	// lấy thông tin về kích thước của texture 
 	D3DSURFACE_DESC surfaceDesc;
@@ -52,7 +51,7 @@ void TileMap::LoadResources()
 			int top = tileHeight * i;
 			int width = tileWidth * (j + 1);
 			int height = tileHeight * (i + 1);
-			sprites->Add(to_string(id_sprite), left, top, width, height, texTileMap);
+			sprites->Add(to_string(id_sprite + ID), left, top, width, height, texTileMap);
 			id_sprite += 1;
 		}
 	}
@@ -105,9 +104,9 @@ void TileMap::Draw(D3DXVECTOR2 camPosition)
 			// +camPosition.x để luôn giữ camera ở chính giữa, vì trong hàm draw có trừ cho camPosition.x làm các object đều di chuyển theo
 			// +(int)camPosition.x % 32 để giữ cho camera chuyển động mượt (thực ra giá trị này bằng vx*dt, chính là quãng đường dịch chuyển của simon)
 			float x = tileWidth * (j - start_col_to_draw) + camPosition.x - (int)camPosition.x % 32;
-			float y = tileHeight * i;
+			float y = tileHeight * i + 80;
 
-			string tile = to_string(mapData[i][j]);
+			string tile = to_string(mapData[i][j] + ID);
 			sprites->Get(tile)->Draw(x, y);
 		}
 	}

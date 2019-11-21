@@ -132,6 +132,7 @@
     <ClInclude Include="Items.h" />
     <ClInclude Include="KeyBoardInput.h" />
     <ClInclude Include="LoadResourceFile.h" />
+    <ClInclude Include="Player.h" />
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="Simon.h" />
     <ClInclude Include="Sprites.h" />
@@ -150,6 +151,7 @@
     <ClCompile Include="KeyBoardInput.cpp" />
     <ClCompile Include="LoadResourceFile.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Player.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="Simon.cpp" />
     <ClCompile Include="Sprites.cpp" />
