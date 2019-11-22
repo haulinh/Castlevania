@@ -89,5 +89,5 @@ void KeyBoardInput::OnKeyDown(int KeyCode)
 
 void KeyBoardInput::OnKeyUp(int KeyCode)
 {
-	DebugOut(L"[INFO] KeyUp: %d\n", KeyCode);
+	//DebugOut(L"[INFO] KeyUp: %d\n", KeyCode);
 }
