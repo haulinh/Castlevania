@@ -51,7 +51,7 @@ void TileMap::LoadResources()
 			int top = tileHeight * i;
 			int width = tileWidth * (j + 1);
 			int height = tileHeight * (i + 1);
-			sprites->Add(to_string(id_sprite + ID), left, top, width, height, texTileMap);
+			sprites->Add(to_string(id_sprite + ID * 1000), left, top, width, height, texTileMap);
 			id_sprite += 1;
 		}
 	}
@@ -106,8 +106,8 @@ void TileMap::Draw(D3DXVECTOR2 camPosition)
 			float x = tileWidth * (j - start_col_to_draw) + camPosition.x - (int)camPosition.x % 32;
 			float y = tileHeight * i + 80;
 
-			string tile = to_string(mapData[i][j] + ID);
-			sprites->Get(tile)->Draw(x, y);
+			string tile = to_string(mapData[i][j] + ID * 1000);
+			sprites->Get(tile)->Draw(-1, x, y);
 		}
 	}
 }

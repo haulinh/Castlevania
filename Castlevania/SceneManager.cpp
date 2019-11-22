@@ -7,7 +7,6 @@ SceneManager::SceneManager(Game* game, int idScene)
 	IDScene = idScene;
 }
 
-
 SceneManager::~SceneManager()
 {
 }
@@ -89,8 +88,6 @@ void SceneManager::LoadObjectsFromFile(LPCWSTR FilePath)
 
 	//DebugOut(L"Objects size: %d \n", objects.size());
 }
-
-
 
 void SceneManager::Update(DWORD dt)
 {

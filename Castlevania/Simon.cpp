@@ -29,7 +29,6 @@ Simon::Simon() : GameObject() {
 	HP = 10;
 }
 
-#pragma region Update 
 void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	// Calculate dx, dy 
@@ -123,8 +122,6 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	}
 	weapon->Update(dt, coObjects);
 }
-#pragma endregion Simon 
-
 
 void Simon::Render()
 {
