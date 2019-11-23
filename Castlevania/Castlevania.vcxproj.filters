@@ -63,9 +63,6 @@
     <ClInclude Include="Items.h">
       <Filter>Objects</Filter>
     </ClInclude>
-    <ClInclude Include="weapon.h">
-      <Filter>Objects</Filter>
-    </ClInclude>
     <ClInclude Include="Dagger.h">
       <Filter>Objects</Filter>
     </ClInclude>
@@ -76,6 +73,9 @@
       <Filter>Scenes</Filter>
     </ClInclude>
     <ClInclude Include="Player.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Weapon.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -116,9 +116,6 @@
     <ClCompile Include="Items.cpp">
       <Filter>Objects</Filter>
     </ClCompile>
-    <ClCompile Include="weapon.cpp">
-      <Filter>Objects</Filter>
-    </ClCompile>
     <ClCompile Include="Dagger.cpp">
       <Filter>Objects</Filter>
     </ClCompile>
@@ -129,6 +126,9 @@
       <Filter>Scenes</Filter>
     </ClCompile>
     <ClCompile Include="Player.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Weapon.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
