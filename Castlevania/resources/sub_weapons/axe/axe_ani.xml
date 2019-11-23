@@ -1,0 +1,8 @@
+<animations name="Axe">
+    <animation ID="Axe" defaultTime="100">
+        <frame spriteID="Axe_1" time="100"/>
+        <frame spriteID="Axe_2" time="100"/>
+        <frame spriteID="Axe_3" time="100"/>
+        <frame spriteID="Axe_4" time="100"/>
+    </animation>
+</animations>

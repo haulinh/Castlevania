@@ -169,7 +169,7 @@ void SceneManager::Update(DWORD dt)
 
 void SceneManager::Render()
 {
-	tilemaps->Get(IDScene)->Draw(game->GetCamPos());
+	//tilemaps->Get(IDScene)->Draw(game->GetCamPos());
 
 	for (int i = 0; i < objects.size(); i++)
 	{

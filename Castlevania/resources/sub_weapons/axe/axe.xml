@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker https://www.codeandweb.com/texturepacker -->
+<!-- $TexturePacker:SmartUpdate:ffbc2c7561deb0a1de7a86586312a366:de2267726440f01afbb88fd1b3e33772:0e4f7b745915de5220204b4c077c2a56$ -->
+<!--Format:
+n  => name of the sprite
+x  => sprite x pos in texture
+y  => sprite y pos in texture
+w  => sprite width (may be trimmed)
+h  => sprite height (may be trimmed)
+pX => x pos of the pivot point (relative to sprite width)
+pY => y pos of the pivot point (relative to sprite height)
+oX => sprite's x-corner offset (only available if trimmed)
+oY => sprite's y-corner offset (only available if trimmed)
+oW => sprite's original width (only available if trimmed)
+oH => sprite's original height (only available if trimmed)
+r => 'y' only set if sprite is rotated
+with polygon mode enabled:
+vertices   => points in sprite coordinate system (x0,y0,x1,y1,x2,y2, ...)
+verticesUV => points in sheet coordinate system (x0,y0,x1,y1,x2,y2, ...)
+triangles  => sprite triangulation, 3 vertex indices per triangle
+-->
+<TextureAtlas imagePath="axe.png" width="128" height="30">
+    <sprite n="Axe_1" x="1" y="1" w="30" h="28"/>
+    <sprite n="Axe_2" x="33" y="1" w="30" h="28"/>
+    <sprite n="Axe_3" x="65" y="1" w="30" h="28"/>
+    <sprite n="Axe_4" x="97" y="1" w="30" h="28"/>
+</TextureAtlas>
