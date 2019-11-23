@@ -78,6 +78,9 @@
     <ClInclude Include="Weapon.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="SubWeapon.h">
+      <Filter>Objects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -130,6 +133,9 @@
     </ClCompile>
     <ClCompile Include="Weapon.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SubWeapon.cpp">
+      <Filter>Objects</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

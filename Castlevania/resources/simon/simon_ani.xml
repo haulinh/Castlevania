@@ -1,98 +1,98 @@
 <animations name="simon">
-    <animation ID="simon_ani_idle" defaultTime="100">
+    <animation ID="simon_idle" defaultTime="100">
         <frame spriteID="simon_1" time="100"/>
     </animation>
 
-    <animation ID="simon_ani_walking" defaultTime="100">
+    <animation ID="simon_walking" defaultTime="100">
         <frame spriteID="simon_1" time="100"/>
         <frame spriteID="simon_2" time="100"/>
         <frame spriteID="simon_3" time="100"/>
         <frame spriteID="simon_4" time="100"/>
     </animation>
 
-    <animation ID="simon_ani_sitting" defaultTime="100">
+    <animation ID="simon_sitting" defaultTime="100">
         <frame spriteID="simon_5" time="100"/>
     </animation>
 
-    <animation ID="simon_ani_jumping" defaultTime="100">
+    <animation ID="simon_jumping" defaultTime="100">
         <frame spriteID="simon_5" time="100"/>
     </animation>
 
-     <animation ID="simon_ani_stand_attacking" defaultTime="100">
+     <animation ID="simon_stand_attacking" defaultTime="100">
         <frame spriteID="simon_6" time="100"/>
         <frame spriteID="simon_7" time="100"/>
         <frame spriteID="simon_8" time="100"/>
     </animation>
 
-     <animation ID="simon_ani_sit_attacking" defaultTime="100">
+     <animation ID="simon_sit_attacking" defaultTime="100">
         <frame spriteID="simon_16" time="100"/>
         <frame spriteID="simon_17" time="100"/>
         <frame spriteID="simon_18" time="100"/>
     </animation>
 
-     <animation ID="simon_ani_throwing" defaultTime="100">
+     <animation ID="simon_throwing" defaultTime="100">
         <frame spriteID="simon_6" time="100"/>
         <frame spriteID="simon_7" time="100"/>
         <frame spriteID="simon_8" time="100"/>
     </animation>
 
-     <animation ID="simon_ani_powering" defaultTime="100">
+     <animation ID="simon_powering" defaultTime="100">
         <frame spriteID="simon_25" time="100"/>
         <frame spriteID="simon_26" time="100"/>
         <frame spriteID="simon_27" time="100"/>
     </animation>
     
-    <!-- <animation ID="simon_ani_stand_attack" defaulttime="100">
+    <!-- <animation ID="simon_stand_attack" defaulttime="100">
         <frame spriteID="simon_stand_attack_01" />
         <frame spriteID="simon_stand_attack_02" />
         <frame spriteID="simon_stand_attack_03" />
         <frame spriteID="simon_stand_attack_03" />
     </animation>
-    <animation ID="simon_ani_sit_attack" defaulttime="100">
+    <animation ID="simon_sit_attack" defaulttime="100">
         <frame spriteID="simon_sitting_attack_01" />
         <frame spriteID="simon_sitting_attack_02" />
         <frame spriteID="simon_sitting_attack_03" />
         <frame spriteID="simon_sitting_attack_03" />
     </animation>
 
-    <animation ID="simon_ani_deflect" defaulttime="100">
+    <animation ID="simon_deflect" defaulttime="100">
         <frame spriteID="simon_stand_deflect" />
     </animation>
 
-    <animation ID="simon_ani_idle_upwhip" defaulttime="100">
+    <animation ID="simon_idle_upwhip" defaulttime="100">
         <frame spriteID="simon_idle_upwhip_01" />
         <frame spriteID="simon_idle_upwhip_02" />
         <frame spriteID="simon_idle_upwhip_03" />
     </animation>
 
-    <animation ID="simon_ani_enter_castle" defaulttime="100">
+    <animation ID="simon_enter_castle" defaulttime="100">
         <frame spriteID="simon_enter_castle" />
     </animation>
 
-    <animation ID="simon_ani_idle_upstair" defaulttime="100">
+    <animation ID="simon_idle_upstair" defaulttime="100">
         <frame spriteID="simon_upstair_02" />
     </animation>
 
-    <animation ID="simon_ani_step_upstair" defaulttime="100">
+    <animation ID="simon_step_upstair" defaulttime="100">
         <frame spriteID="simon_upstair_01" />
         <frame spriteID="simon_upstair_02" />
     </animation>
 
-    <animation ID="simon_ani_idle_downstair" defaulttime="100">
+    <animation ID="simon_idle_downstair" defaulttime="100">
         <frame spriteID="simon_downstair_02" />
     </animation>
-    <animation ID="simon_ani_step_downstair" defaulttime="100">
+    <animation ID="simon_step_downstair" defaulttime="100">
         <frame spriteID="simon_downstair_01" />
         <frame spriteID="simon_downstair_02" />
     </animation>
 
-    <animation ID="simon_ani_upstair_attack" defaulttime="100">
+    <animation ID="simon_upstair_attack" defaulttime="100">
         <frame spriteID="simon_upstair_attack_01" />
         <frame spriteID="simon_upstair_attack_02" />
         <frame spriteID="simon_upstair_attack_03" />
         <frame spriteID="SIMON_UPSTAIR_ATTACK_03" />
     </animation>
-    <animation ID="simon_ani_downstair_attack" defaulttime="100">
+    <animation ID="simon_downstair_attack" defaulttime="100">
         <frame spriteID="simon_downstair_attack_01" />
         <frame spriteID="simon_downstair_attack_02" />
         <frame spriteID="simon_downstair_attack_03" />

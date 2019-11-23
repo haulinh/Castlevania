@@ -24,31 +24,6 @@ using namespace std;
 // Font
 #define FILEPATH_FONT				L"Font\\prstart.ttf"
 
-// Objects
-#define FILEPATH_TEX_BBOX			L"Textures\\BBox.png"
-#define FILEPATH_TEX_SIMON			L"Textures\\Simon.png"
-#define FILEPATH_TEX_WHIP			L"Textures\\Whip.png"
-#define FILEPATH_TEX_CANDLE			L"Textures\\Candle.png"
-#define FILEPATH_TEX_GROUND			L"Textures\\Ground.png"
-#define FILEPATH_TEX_EFFECT			L"Textures\\Effect.png"
-
-// Items
-#define FILEPATH_TEX_ITEM_STOP_WATCH			L"Textures\\Items\\Stopwatch.png"
-#define FILEPATH_TEX_ITEM_DAGGER				L"Textures\\Items\\Dagger.png"
-#define FILEPATH_TEX_ITEM_AXE					L"Textures\\Items\\Axe.png"
-#define FILEPATH_TEX_ITEM_HOLY_WATER			L"Textures\\Items\\HolyWater.png"
-#define FILEPATH_TEX_ITEM_BOOMERANG				L"Textures\\Items\\Boomerang.png"
-#define FILEPATH_TEX_ITEM_SMALL_HEART			L"Textures\\Items\\SmallHeart.png"
-#define FILEPATH_TEX_ITEM_LARGE_HEART			L"Textures\\Items\\LargeHeart.png"
-#define FILEPATH_TEX_ITEM_CROSS					L"Textures\\Items\\Cross.png"
-#define FILEPATH_TEX_ITEM_INVISIBILITY_POTION	L"Textures\\Items\\InvisibilityPotion.png"
-#define FILEPATH_TEX_ITEM_CHAIN					L"Textures\\Items\\Chain.png"
-#define FILEPATH_TEX_ITEM_MONEY_BAG				L"Textures\\Items\\MoneyBag.png"
-#define FILEPATH_TEX_ITEM_DOUBLE_SHOT			L"Textures\\Items\\DoubleShot.png"
-#define FILEPATH_TEX_ITEM_TRIPLE_SHOT			L"Textures\\Items\\TripleShot.png"
-#define FILEPATH_TEX_ITEM_PORK_CHOP				L"Textures\\Items\\PorkChop.png"
-#define FILEPATH_TEX_ITEM_MAGIC_CRYSTAL			L"Textures\\Items\\MagicCrystal.png"
-
 // Sub Weapons
 #define FILEPATH_TEX_WEAPONS_AXE				L"Textures\\SubWeapons\\Axe.png"
 #define FILEPATH_TEX_WEAPONS_HOLY_WATER			L"Textures\\SubWeapons\\HolyWater.png"
@@ -89,15 +64,15 @@ enum TexId
 #pragma region define State
 
 // Simon
-const string Idle = "simon_ani_idle";
-const string Walking = "simon_ani_walking";
-const string Jump = "simon_ani_jumping";
-const string Sit = "simon_ani_sitting";
-const string StandAttack = "simon_ani_stand_attacking";
-const string SitAttack = "simon_ani_sit_attacking";
-const string Throw = "simon_ani_throwing";
-const string Die = "simon_ani_die";
-const string Power = "simon_ani_powering";
+const string Idle = "simon_idle";
+const string Walking = "simon_walking";
+const string Jump = "simon_jumping";
+const string Sit = "simon_sitting";
+const string StandAttack = "simon_stand_attacking";
+const string SitAttack = "simon_sit_attacking";
+const string Throw = "simon_throwing";
+const string Die = "simon_die";
+const string Power = "simon_powering";
 
 // Weapon
 const string MagicWhip = "magic_whip";
