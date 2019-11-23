@@ -17,5 +17,5 @@ public:
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObject = NULL);
 
 	void GeneratorRandom();
-	void SetItem(int id);
+	void SetItem(string nameItem);
 };

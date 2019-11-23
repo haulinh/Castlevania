@@ -52,11 +52,11 @@ void SceneManager::LoadObjectsFromFile(LPCWSTR FilePath)
 	float pos_x, pos_y;
 	int state;
 	bool isEnable;
-	int idItem;
+	string nameItem;
 
 	while (!fs.eof())
 	{
-		fs >> ID_Obj >> pos_x >> pos_y >> state >> isEnable >> idItem;
+		fs >> ID_Obj >> pos_x >> pos_y >> state >> isEnable >> nameItem;
 
 		if (ID_Obj == CANDLE)
 		{
@@ -64,7 +64,7 @@ void SceneManager::LoadObjectsFromFile(LPCWSTR FilePath)
 			candle->SetPosition(pos_x, pos_y);
 			candle->SetState(to_string(state));
 			candle->isEnable = isEnable;
-			candle->SetIdItem(idItem);
+			candle->SetIdItem(nameItem);
 			objects.push_back(candle);
 		}
 		if (ID_Obj == BRICK)
