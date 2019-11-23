@@ -105,8 +105,8 @@ const string ShortChain = "short_chain";
 const string LongChain = "long_chain";
 
 // Candle
-const string LargeCandle = "0";
-const string Destroy = "1";
+const string LargeCandle = "LargeCandle";
+const string Destroy = "Destroy";
 
 // Items
 const string LARGE_HEART = "LargeHeart";
@@ -168,7 +168,7 @@ constexpr float ITEM_DAGGER_SPEED = 0.3f;
 
 #pragma region ID objects to load from file
 
-#define	CANDLE 0
-#define	BRICK 1
+#define	CANDLE "Candle"
+#define	BRICK "Brick"
 
 #pragma endregion

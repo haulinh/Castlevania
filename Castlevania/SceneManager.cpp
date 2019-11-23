@@ -48,9 +48,9 @@ void SceneManager::LoadObjectsFromFile(LPCWSTR FilePath)
 		return;
 	}
 
-	int ID_Obj;
+	string ID_Obj;
 	float pos_x, pos_y;
-	int state;
+	string state;
 	bool isEnable;
 	string nameItem;
 
@@ -62,7 +62,7 @@ void SceneManager::LoadObjectsFromFile(LPCWSTR FilePath)
 		{
 			candle = new Candle();
 			candle->SetPosition(pos_x, pos_y);
-			candle->SetState(to_string(state));
+			candle->SetState(state);
 			candle->isEnable = isEnable;
 			candle->SetIdItem(nameItem);
 			objects.push_back(candle);
@@ -72,7 +72,7 @@ void SceneManager::LoadObjectsFromFile(LPCWSTR FilePath)
 			ground = new Brick();
 			ground->AddAnimation("brick");
 			ground->SetPosition(pos_x, pos_y);
-			ground->SetState(to_string(state));
+			ground->SetState(state);
 			candle->isEnable = isEnable;
 			objects.push_back(ground);
 		}
