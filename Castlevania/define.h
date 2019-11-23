@@ -22,19 +22,51 @@ using namespace std;
 #pragma region PathFile
 
 // Font
-#define FILEPATH_FONT L"Font\\prstart.ttf"
+#define FILEPATH_FONT				L"Font\\prstart.ttf"
+
+// Objects
+#define FILEPATH_TEX_BBOX			L"Textures\\BBox.png"
+#define FILEPATH_TEX_SIMON			L"Textures\\Simon.png"
+#define FILEPATH_TEX_WHIP			L"Textures\\Whip.png"
+#define FILEPATH_TEX_CANDLE			L"Textures\\Candle.png"
+#define FILEPATH_TEX_GROUND			L"Textures\\Ground.png"
+#define FILEPATH_TEX_EFFECT			L"Textures\\Effect.png"
+
+// Items
+#define FILEPATH_TEX_ITEM_STOP_WATCH			L"Textures\\Items\\Stopwatch.png"
+#define FILEPATH_TEX_ITEM_DAGGER				L"Textures\\Items\\Dagger.png"
+#define FILEPATH_TEX_ITEM_AXE					L"Textures\\Items\\Axe.png"
+#define FILEPATH_TEX_ITEM_HOLY_WATER			L"Textures\\Items\\HolyWater.png"
+#define FILEPATH_TEX_ITEM_BOOMERANG				L"Textures\\Items\\Boomerang.png"
+#define FILEPATH_TEX_ITEM_SMALL_HEART			L"Textures\\Items\\SmallHeart.png"
+#define FILEPATH_TEX_ITEM_LARGE_HEART			L"Textures\\Items\\LargeHeart.png"
+#define FILEPATH_TEX_ITEM_CROSS					L"Textures\\Items\\Cross.png"
+#define FILEPATH_TEX_ITEM_INVISIBILITY_POTION	L"Textures\\Items\\InvisibilityPotion.png"
+#define FILEPATH_TEX_ITEM_CHAIN					L"Textures\\Items\\Chain.png"
+#define FILEPATH_TEX_ITEM_MONEY_BAG				L"Textures\\Items\\MoneyBag.png"
+#define FILEPATH_TEX_ITEM_DOUBLE_SHOT			L"Textures\\Items\\DoubleShot.png"
+#define FILEPATH_TEX_ITEM_TRIPLE_SHOT			L"Textures\\Items\\TripleShot.png"
+#define FILEPATH_TEX_ITEM_PORK_CHOP				L"Textures\\Items\\PorkChop.png"
+#define FILEPATH_TEX_ITEM_MAGIC_CRYSTAL			L"Textures\\Items\\MagicCrystal.png"
+
+// Sub Weapons
+#define FILEPATH_TEX_WEAPONS_AXE				L"Textures\\SubWeapons\\Axe.png"
+#define FILEPATH_TEX_WEAPONS_HOLY_WATER			L"Textures\\SubWeapons\\HolyWater.png"
+#define FILEPATH_TEX_WEAPONS_BOOMERANG			L"Textures\\SubWeapons\\Boomerang.png"
+
 
 // Scenes
-#define FILEPATH_TEX_MAP_SCENE_1 L"Scenes\\Scene1.png"
-#define FILEPATH_DATA_MAP_SCENE_1 L"Scenes\\Scene1_map.txt"
-#define FILEPATH_OBJECTS_SCENE_1 L"Scenes\\Scene1_objects.txt"
+#define FILEPATH_TEX_MAP_SCENE_1		L"Scenes\\Scene1.png"
+#define FILEPATH_DATA_MAP_SCENE_1		L"Scenes\\Scene1_map.txt"
+#define FILEPATH_OBJECTS_SCENE_1		L"Scenes\\Scene1_objects.txt"
 
-#define FILEPATH_TEX_MAP_SCENE_2 L"Scenes\\Scene2.png"
-#define FILEPATH_DATA_MAP_SCENE_2 L"Scenes\\Scene2_map.txt"
-#define FILEPATH_OBJECTS_SCENE_2 L"Scenes\\Scene2_objects.txt"
+#define FILEPATH_TEX_MAP_SCENE_2		L"Scenes\\Scene2.png"
+#define FILEPATH_DATA_MAP_SCENE_2		L"Scenes\\Scene2_map.txt"
+#define FILEPATH_OBJECTS_SCENE_2		L"Scenes\\Scene2_objects.txt"
 
 // Player
-#define FILEPATH_TEX_HP L"Textures\\HP.png"
+#define FILEPATH_TEX_HP				L"Textures\\HP.png"
+#define FILEPATH_TEX_RECT			L"Textures\\Rect.png"
 
 #pragma endregion
 

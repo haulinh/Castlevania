@@ -31,13 +31,13 @@ void Candle::Update(DWORD dt, vector<LPGAMEOBJECT>* objects, vector<LPGAMEOBJECT
 		this->isEnable = false;
 
 		// Tạo một item theo id và thêm vào Objects
-		if (idItem != -1)
+		if (!nameItem.empty())
 		{
 			// Tạo một item theo id và thêm vào Objects
 			Items* item = new Items();
 			item->isEnable = true;
 			item->SetPosition(x, y);
-			item->SetItem(idItem);
+			item->SetItem(nameItem);
 
 			objects->push_back(item);
 		}

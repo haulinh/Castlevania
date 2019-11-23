@@ -79,10 +79,11 @@ void Items::GeneratorRandom()
 	state = listState[randomState];
 }
 
-void Items::SetItem(int id)
+void Items::SetItem(string nameItem)
 {
-	vector<string> listState = { "LargeHeart", "Chain", "Dagger" };
-	state = listState[id];
+	//vector<string> listState = { "LargeHeart", "Chain", "Dagger" };
+	//state = listState[id];
+	state = nameItem;
 }
 
 void Items::GetBoundingBox(float& left, float& top, float& right, float& bottom)
