@@ -103,11 +103,11 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 				else if (nameItem == CHAIN)
 				{
-					SetState(Power); // đổi trạng thái power - biến hình nhấp nháy các kiểu đà điểu
+					SetState(POWER); // đổi trạng thái power - biến hình nhấp nháy các kiểu đà điểu
 					vx = 0;
 					// lên đời whip
-					if (weapon->GetState() == MagicWhip) weapon->SetState(ShortChain);
-					else if (weapon->GetState() == ShortChain) weapon->SetState(LongChain);
+					if (weapon->GetState() == MAGIC_WHIP) weapon->SetState(SHORT_CHAIN);
+					else if (weapon->GetState() == SHORT_CHAIN) weapon->SetState(LONG_CHAIN);
 				}
 
 				else if (nameItem == MONEY_BAG_RED)
@@ -146,7 +146,7 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	// clean up collision events
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 
-	if (state == StandAttack || state == SitAttack)
+	if (state == STAND_ATTACK || state == SIT_ATTACK)
 	{
 		weapon->SetN(nx);
 		weapon->SetWeaponPosition(D3DXVECTOR3(x, y, 0), sitting);
@@ -161,7 +161,7 @@ void Simon::Render()
 
 	animations[state]->Render(nx, x, y, alpha);
 
-	if (state == StandAttack || state == SitAttack)
+	if (state == STAND_ATTACK || state == SIT_ATTACK)
 	{
 		weapon->Render();
 	}
@@ -178,42 +178,42 @@ void Simon::SetState(string state)
 {
 	GameObject::SetState(state);
 
-	if (state == Walking)
+	if (state == WALK)
 	{
 		if (nx > 0) vx = SIMON_WALKING_SPEED;
 		else vx = -SIMON_WALKING_SPEED;
 	}
 
-	else if (state == Jump)
+	else if (state == JUMP)
 	{
 		vy = -SIMON_JUMP_SPEED_Y;
 		jumping = true;
 		sitting = false;
 	}
 
-	else if (state == StandAttack)
+	else if (state == STAND_ATTACK)
 	{
 	}
 
-	else if (state == SitAttack)
+	else if (state == SIT_ATTACK)
 	{
 		sitting = true;
 	}
 
-	else if (state == Sit)
+	else if (state == SIT)
 	{
 		sitting = true;
 		vx = 0;
 		vy = 0;
 	}
 
-	else if (state == Idle)
+	else if (state == IDLE)
 	{
 		sitting = false;
 		vx = 0;
 	}
 
-	else if (state == Power)
+	else if (state == POWER)
 	{
 		vx = 0;
 	}
@@ -222,27 +222,27 @@ void Simon::SetState(string state)
 
 bool Simon::IsJumping()
 {
-	return (state == Jump && jumping);
+	return (state == JUMP && jumping);
 }
 
 bool Simon::IsStandAttacking()
 {
-	return (state == StandAttack && standAttacking);
+	return (state == STAND_ATTACK && standAttacking);
 }
 
 bool Simon::IsSitAttacking()
 {
-	return (state == SitAttack && sitAttacking);
+	return (state == SIT_ATTACK && sitAttacking);
 }
 
 bool Simon::IsThrowing()
 {
-	return (state == Throw && throwing);
+	return (state == THROW && throwing);
 }
 
 bool Simon::IsPowering()
 {
-	return (state == Power && powering);
+	return (state == POWER && powering);
 }
 
 

@@ -14,7 +14,7 @@ Weapon::Weapon()
 		AddAnimation(animation);
 	}
 
-	state = MagicWhip;
+	state = MAGIC_WHIP;
 }
 
 void Weapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
@@ -30,7 +30,7 @@ void Weapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 				if (this->AABBx(e) == true)
 				{
-					e->SetState(Destroy);
+					e->SetState(DESTROY);
 					e->isLastFame = false;
 				}
 			}
@@ -58,13 +58,13 @@ void Weapon::GetBoundingBox(float& left, float& top, float& right, float& bottom
 	bottom = top + WHIP_BBOX_HEIGHT;
 	if (nx < 0)
 	{
-		if (state != LongChain)
+		if (state != LONG_CHAIN)
 			left = x + 50;
 		else left = x + 20;
 	}
 	else if (nx > 0)
 	{
-		if (state != LongChain)
+		if (state != LONG_CHAIN)
 			left = (240 - 50) - WHIP_BBOX_WIDTH + x;
 		else left = (240 - 20) - WHIP_BBOX_WIDTH + x;
 	}

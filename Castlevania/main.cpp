@@ -17,7 +17,6 @@
 #include "TileMap.h"
 #include "Candle.h"
 #include "Items.h"
-#include "Dagger.h"
 #include "SceneManager.h"
 #include "Player.h"
 

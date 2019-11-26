@@ -134,7 +134,7 @@ void GameObject::RenderBoundingBox()
 	D3DXVECTOR3 p(x, y, 0);
 	RECT rect;
 
-	LPDIRECT3DTEXTURE9 bbox = Textures::GetInstance()->Get(id_bbox);
+	LPDIRECT3DTEXTURE9 bbox = Textures::GetInstance()->Get(ID_BBOX);
 
 	float l,t,r,b; 
 
