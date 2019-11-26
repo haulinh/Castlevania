@@ -22,26 +22,20 @@ using namespace std;
 #pragma region PathFile
 
 // Font
-#define FILEPATH_FONT				L"Font\\prstart.ttf"
-
-// Sub Weapons
-#define FILEPATH_TEX_WEAPONS_AXE				L"Textures\\SubWeapons\\Axe.png"
-#define FILEPATH_TEX_WEAPONS_HOLY_WATER			L"Textures\\SubWeapons\\HolyWater.png"
-#define FILEPATH_TEX_WEAPONS_BOOMERANG			L"Textures\\SubWeapons\\Boomerang.png"
-
+#define FILEPATH_FONT L"Font\\prstart.ttf"
 
 // Scenes
-#define FILEPATH_TEX_MAP_SCENE_1		L"Scenes\\Scene1.png"
-#define FILEPATH_DATA_MAP_SCENE_1		L"Scenes\\Scene1_map.txt"
-#define FILEPATH_OBJECTS_SCENE_1		L"Scenes\\Scene1_objects.txt"
+#define FILEPATH_TEX_MAP_SCENE_1 L"Scenes\\Scene1.png"
+#define FILEPATH_DATA_MAP_SCENE_1 L"Scenes\\Scene1_map.txt"
+#define FILEPATH_OBJECTS_SCENE_1 L"Scenes\\Scene1_objects.txt"
 
-#define FILEPATH_TEX_MAP_SCENE_2		L"Scenes\\Scene2.png"
-#define FILEPATH_DATA_MAP_SCENE_2		L"Scenes\\Scene2_map.txt"
-#define FILEPATH_OBJECTS_SCENE_2		L"Scenes\\Scene2_objects.txt"
+#define FILEPATH_TEX_MAP_SCENE_2 L"Scenes\\Scene2.png"
+#define FILEPATH_DATA_MAP_SCENE_2 L"Scenes\\Scene2_map.txt"
+#define FILEPATH_OBJECTS_SCENE_2 L"Scenes\\Scene2_objects.txt"
 
 // Player
-#define FILEPATH_TEX_HP				L"Textures\\HP.png"
-#define FILEPATH_TEX_RECT			L"Textures\\Rect.png"
+#define FILEPATH_TEX_HP L"Textures\\HP.png"
+#define FILEPATH_TEX_RECT L"Textures\\Rect.png"
 
 #pragma endregion
 
@@ -57,22 +51,23 @@ enum TexId
 	id_tex_candle,
 	id_tex_items,
 	id_tex_effect,
-	id_tex_hp
+	id_tex_hp,
+	id_tex_sub_weapons
 };
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma region define State
 
 // Simon
-const string Idle = "simon_idle";
-const string Walking = "simon_walking";
-const string Jump = "simon_jumping";
-const string Sit = "simon_sitting";
-const string StandAttack = "simon_stand_attacking";
-const string SitAttack = "simon_sit_attacking";
-const string Throw = "simon_throwing";
-const string Die = "simon_die";
-const string Power = "simon_powering";
+const string Idle = "SIMON_IDLE";
+const string Walking = "SIMON_WALKING";
+const string Jump = "SIMON_JUMPING";
+const string Sit = "SIMON_SITTING";
+const string StandAttack = "SIMON_STAND_ATTACKING";
+const string SitAttack = "SIMON_SIT_ATTACKING";
+const string Throw = "SIMON_THROWING";
+const string Die = "SIMON_DIE";
+const string Power = "SIMON_POWERING";
 
 // Weapon
 const string MagicWhip = "magic_whip";
@@ -83,10 +78,32 @@ const string LongChain = "long_chain";
 const string LargeCandle = "LargeCandle";
 const string Destroy = "Destroy";
 
-// Items
-const string LARGE_HEART = "LargeHeart";
-const string CHAIN = "Chain";
+ // Items
+const string STOP_WATCH = "";
 const string DAGGER = "Dagger";
+const string AXE = "Axe";
+const string HOLY_WATER = "HolyWater";
+const string BOOMERANG = "Boomerang";
+const string SMALL_HEART = "";
+const string LARGE_HEART = "LargeHeart";
+const string CROSS = "Cross";
+const string INVISIBILITY_POTION = "";
+const string CHAIN = "Chain";
+const string MONEY_BAG_RED = "";
+const string MONEY_BAG_BLUE = "";
+const string MONEY_BAG_WHITE = "";
+const string MONEY_BAG_FLASHING = "";
+const string DOUBLE_SHOT = "";
+const string TRIPLE_SHOT = "";
+const string PORK_CHOP = "";
+const string MAGIC_CRYSTAL = "";
+
+// Sub weapons
+const string DAGGER_SUB = "Dagger_Sub";
+const string AXE_SUB = "Axe_Sub";
+const string BOOMERANG_SUB = "Boomerang_Sub";
+const string HOLY_WATER_SUB = "HolyWater_Sub";
+const string STOP_WATCH_SUB = "Stop_Watch_Sub";
 
 #pragma endregion
 
@@ -94,15 +111,26 @@ const string DAGGER = "Dagger";
 #pragma region define Properties
 
 // Simon
-constexpr float simon_walking_speed = 0.1f;
-constexpr float simon_jump_speed_y = 0.5f;
-constexpr float simon_gravity = 0.002f;
-constexpr float simon_gravity_lower = 0.001f;
+constexpr float SIMON_WALKING_SPEED = 0.1f;
+constexpr float SIMON_JUMP_SPEED_Y = 0.5f;
+constexpr float SIMON_GRAVITY = 0.002f;
+constexpr float SIMON_GRAVITY_LOWER = 0.001f;
 
 // Item
 constexpr float ITEM_FALLING_SPEED = 0.1f;
 constexpr float ITEM_TIME_DESTROYED = 100000;
 constexpr float ITEM_DAGGER_SPEED = 0.3f;
+
+// SubWeapon
+const float WEAPONS_DAGGER_SPEED = 0.3f;
+
+const float WEAPONS_AXE_SPEED_X = 0.2f;
+const float WEAPONS_AXE_SPEED_Y = 0.5f;
+
+const float WEAPONS_HOLY_WATER_SPEED_X = 0.25f;
+const float WEAPONS_HOLY_WATER_SPEED_Y = 0.1f;
+
+const float WEAPONS_BOOMERANG_SPEED = 0.5f;
 
 #pragma endregion
 
@@ -140,10 +168,9 @@ constexpr float ITEM_DAGGER_SPEED = 0.3f;
 
 #pragma endregion
 
-
 #pragma region ID objects to load from file
 
-#define	CANDLE "Candle"
-#define	BRICK "Brick"
+#define CANDLE "Candle"
+#define BRICK "Brick"
 
 #pragma endregion

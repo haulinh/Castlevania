@@ -10,6 +10,7 @@
 #include "Weapon.h"
 #include "Dagger.h"
 #include "Items.h"
+#include "SubWeapon.h"
 
 
 
@@ -24,6 +25,7 @@ class SceneManager
 	Items* item;
 	Weapon* weapon;
 	Dagger* dagger;
+	SubWeapon* subweapon;
 
 	TileMaps* tilemaps = TileMaps::GetInstance();
 	Textures* textures = Textures::GetInstance();
@@ -44,7 +46,7 @@ public:
 
 	void ChangeScene(int scene);
 	Simon* GetSimon() { return this->simon; }
-	Dagger* GetDagger() { return this->dagger; }
+	SubWeapon* GetSubWeapon() { return this->subweapon; }
 	int GetIDScene() { return this->IDScene; }
 
 };

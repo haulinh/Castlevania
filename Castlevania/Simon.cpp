@@ -19,13 +19,12 @@ Simon::Simon() : GameObject() {
 	}
 
 	weapon = new Weapon();
-	weapon->state = MagicWhip;
+	nameWeapon = HOLY_WATER_SUB;
 
 	score = 0;
 	item = -1;
 	energy = 0;
 	life = 3;
-	subWeapon = -1;
 	HP = 10;
 }
 
@@ -34,7 +33,7 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	// Calculate dx, dy 
 	GameObject::Update(dt);
 
-	vy += simon_gravity * dt;
+	vy += SIMON_GRAVITY * dt;
 
 	// simple collision with border map
 	if (x < 0) x = 0;
@@ -85,23 +84,55 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			{
 				e->obj->isEnable = false;
 
-				if (e->obj->GetState() == LARGE_HEART)
+				string nameItem = e->obj->GetState();
+				if (nameItem == CROSS || nameItem == DAGGER || nameItem == AXE || nameItem == HOLY_WATER || nameItem == BOOMERANG)
 				{
-					energy += 5;
+					nameWeapon = nameItem + "_Sub";
 				}
 
-				else if (e->obj->GetState() == CHAIN)
+				else if (nameItem == SMALL_HEART)
 				{
-					SetState(Power);
+					energy += 1;
+				}
+
+				else if (nameItem == LARGE_HEART)
+				{
+					energy += 5;
+
+				}
+
+				else if (nameItem == CHAIN)
+				{
+					SetState(Power); // đổi trạng thái power - biến hình nhấp nháy các kiểu đà điểu
+					vx = 0;
+					// lên đời whip
 					if (weapon->GetState() == MagicWhip) weapon->SetState(ShortChain);
 					else if (weapon->GetState() == ShortChain) weapon->SetState(LongChain);
 				}
 
-				else if (e->obj->GetState() == DAGGER)
+				else if (nameItem == MONEY_BAG_RED)
 				{
-					vx = 0;
-					isPowered = true;
+					score += 100;
 				}
+				/*	 MONEY_BAG_BLUE:
+					score += 400;
+
+					 MONEY_BAG_WHITE:
+					score += 700;
+
+					 MONEY_BAG_FLASHING:
+					score += 1000;
+
+					 DOUBLE_SHOT:
+					 TRIPLE_SHOT:
+					item = idItem;
+
+					 PORK_CHOP:
+					HP += 2;
+
+					 MAGIC_CRYSTAL:
+					HP = 16;*/
+
 			}
 			else
 			{
@@ -132,8 +163,6 @@ void Simon::Render()
 
 	if (state == StandAttack || state == SitAttack)
 	{
-
-		int id = animations[state]->GetCurrentFrame();
 		weapon->Render();
 	}
 
@@ -151,13 +180,13 @@ void Simon::SetState(string state)
 
 	if (state == Walking)
 	{
-		if (nx > 0) vx = simon_walking_speed;
-		else vx = -simon_walking_speed;
+		if (nx > 0) vx = SIMON_WALKING_SPEED;
+		else vx = -SIMON_WALKING_SPEED;
 	}
 
 	else if (state == Jump)
 	{
-		vy = -simon_jump_speed_y;
+		vy = -SIMON_JUMP_SPEED_Y;
 		jumping = true;
 		sitting = false;
 	}

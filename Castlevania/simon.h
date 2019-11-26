@@ -3,23 +3,20 @@
 #include "Weapon.h"
 #include "LoadResourceFile.h"
 #include "define.h"
+#include "SubWeapon.h"
 
 class Simon : public GameObject
 {
 	Weapon *weapon;
+	string nameWeapon;
 
 	int score;
 	int item;
 	int energy;
 	int life;
-	int subWeapon;
 	int HP;
 
 public:
-
-
-	int level;
-	int untouchable;
 
 	bool jumping = false;
 	bool sitting = false;
@@ -37,7 +34,6 @@ public:
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 
 	void SetState(string state);
-	void SetLevel(int l) { level = l; }
 
 	bool IsJumping();
 	bool IsSitting() { return sitting; }
@@ -50,7 +46,8 @@ public:
 	int GetLife() { return this->life; }
 	int GetScore() { return this->score; }
 	int GetItem() { return this->item; }
-	int GetSubWeapon() { return this->subWeapon; }
+	string GetSubWeapon() { return this->nameWeapon; }
 	int GetHP() { return this->HP; }
-	
+
+	void LoseEnergy(int amount) { energy -= amount; }
 };

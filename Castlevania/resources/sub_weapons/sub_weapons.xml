@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with TexturePacker https://www.codeandweb.com/texturepacker -->
-<!-- $TexturePacker:SmartUpdate:46adb8531c4a4207149054afb31620cf:8f7166217c7cb327c6a3cfb769a59efa:49e2fb1766f067c559bf96175f21f3d3$ -->
+<!-- $TexturePacker:SmartUpdate:77f8f9da752e0bbf1e0e3a5bc1caace3:6827bd26ac47fb277d14d89f3222dca0:7d89ff686e6768c87e1f04ae956a644e$ -->
 <!--Format:
 n  => name of the sprite
 x  => sprite x pos in texture
@@ -19,8 +19,15 @@ vertices   => points in sprite coordinate system (x0,y0,x1,y1,x2,y2, ...)
 verticesUV => points in sheet coordinate system (x0,y0,x1,y1,x2,y2, ...)
 triangles  => sprite triangulation, 3 vertex indices per triangle
 -->
-<TextureAtlas imagePath="holywater.png" width="102" height="28">
-    <sprite n="HolyWater_1.png" x="1" y="1" w="32" h="26"/>
-    <sprite n="HolyWater_2.png" x="35" y="1" w="32" h="26"/>
-    <sprite n="HolyWater_3.png" x="69" y="1" w="32" h="26"/>
+<TextureAtlas imagePath="sub_weapons" width="320" height="30">
+    <sprite n="Axe_1" x="1" y="1" w="30" h="28"/>
+    <sprite n="Axe_2" x="33" y="1" w="30" h="28"/>
+    <sprite n="Axe_3" x="65" y="1" w="30" h="28"/>
+    <sprite n="Axe_4" x="97" y="1" w="30" h="28"/>
+    <sprite n="Boomerang_1" x="129" y="1" w="28" h="28"/>
+    <sprite n="Boomerang_2" x="159" y="1" w="28" h="28"/>
+    <sprite n="Boomerang_3" x="189" y="1" w="28" h="28"/>
+    <sprite n="HolyWater_1" x="219" y="1" w="32" h="26"/>
+    <sprite n="HolyWater_2" x="253" y="1" w="32" h="26"/>
+    <sprite n="HolyWater_3" x="287" y="1" w="32" h="26"/>
 </TextureAtlas>

@@ -35,7 +35,7 @@ class GameObject
 {
 public:
 
-	float x; 
+	float x;
 	float y;
 
 	float dx;	// dx = vx*dt
@@ -44,7 +44,7 @@ public:
 	float vx;
 	float vy;
 
-	int nx;	 
+	int nx;
 
 	string state;
 
@@ -52,21 +52,23 @@ public:
 	bool isEnable;
 	string nameItem; // id cua object chua item (-1 = ko co item)
 
-	DWORD dt; 
+	DWORD dt;
 
 
 	// vector<LPANIMATION> animations;
 	unordered_map<string, LPANIMATION> animations;
 
-public: 
+public:
 	GameObject();
 
 	void SetPosition(float x, float y) { this->x = x, this->y = y; }
 	void SetSpeed(float vx, float vy) { this->vx = vx, this->vy = vy; }
 	void SetN(int nx) { this->nx = nx; }
 	void SetIdItem(string nameItem) { this->nameItem = nameItem; }
+	void SetEnable(bool enable) { this->isEnable = enable; }
 
-	void GetPosition(float &x, float &y) { x = this->x; y = this->y; }
+	void GetPosition(float& x, float& y) { x = this->x; y = this->y; }
+	int GetN() { return nx; }
 	void GetSpeed(float &vx, float &vy) { vx = this->vx; vy = this->vy; }
 	string GetState() { return this->state; }
 

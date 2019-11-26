@@ -13,6 +13,8 @@ Weapon::Weapon()
 	{
 		AddAnimation(animation);
 	}
+
+	state = MagicWhip;
 }
 
 void Weapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)

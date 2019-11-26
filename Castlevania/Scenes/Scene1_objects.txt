@@ -1,4 +1,4 @@
-Candle 160.0 304.0 LargeCandle 1 LargeHeart
+Candle 160.0 304.0 LargeCandle 1 HolyWater
 Candle 448.0 304.0 LargeCandle 1 Chain
 Candle 672.0 304.0 LargeCandle 1 Cross
 Candle 960.0 304.0 LargeCandle 1 Chain
