@@ -39,6 +39,7 @@ using namespace std;
 
 #pragma endregion
 
+// define id texture
 enum TexId
 {
 	SCENE_1,
@@ -122,15 +123,15 @@ constexpr float ITEM_TIME_DESTROYED = 100000;
 constexpr float ITEM_DAGGER_SPEED = 0.3f;
 
 // SubWeapon
-const float WEAPONS_DAGGER_SPEED = 0.3f;
+constexpr float WEAPONS_DAGGER_SPEED = 0.3f;
 
-const float WEAPONS_AXE_SPEED_X = 0.2f;
-const float WEAPONS_AXE_SPEED_Y = 0.5f;
+constexpr float WEAPONS_AXE_SPEED_X = 0.2f;
+constexpr float WEAPONS_AXE_SPEED_Y = 0.5f;
 
-const float WEAPONS_HOLY_WATER_SPEED_X = 0.25f;
-const float WEAPONS_HOLY_WATER_SPEED_Y = 0.1f;
+constexpr float WEAPONS_HOLY_WATER_SPEED_X = 0.25f;
+constexpr float WEAPONS_HOLY_WATER_SPEED_Y = 0.1f;
 
-const float WEAPONS_BOOMERANG_SPEED = 0.5f;
+constexpr float WEAPONS_BOOMERANG_SPEED = 0.5f;
 
 #pragma endregion
 

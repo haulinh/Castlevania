@@ -1,5 +1,6 @@
 #include "SubWeapon.h"
 #include "LoadResourceFile.h"
+#include "Candle.h"
 
 SubWeapon::SubWeapon()
 {
@@ -10,8 +11,6 @@ SubWeapon::SubWeapon()
 	{
 		AddAnimation(animation);
 	}
-
-	SetState(AXE_SUB);
 }
 
 void SubWeapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
@@ -52,14 +51,26 @@ void SubWeapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
 
-		if (state == HOLY_WATER_SUB && ny != 0)
+		for (UINT i = 0; i < coEventsResult.size(); i++)
 		{
-			SetEnable(false);
+			LPCOLLISIONEVENT e = coEventsResult[i];
+			if (dynamic_cast<Candle*>(e->obj))
+			{
+				Candle* candle = dynamic_cast<Candle*>(e->obj);
+				this->isEnable = false;
+				candle->SetState(DESTROY);
+				candle->isLastFame = false;
+			}
 		}
-		else if (state == AXE_SUB)
-		{
-			if (y > 350.0f) SetEnable(false);
-		}
+
+		/*	if (state == HOLY_WATER_SUB && ny != 0)
+			{
+				SetEnable(false);
+			}
+			else if (state == AXE_SUB)
+			{
+				if (y > 350.0f) SetEnable(false);
+			}*/
 	}
 
 	// clean up collision events

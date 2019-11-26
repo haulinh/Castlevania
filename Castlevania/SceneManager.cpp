@@ -48,6 +48,12 @@ void SceneManager::LoadObjectsFromFile(LPCWSTR FilePath)
 		return;
 	}
 
+	simon->SetPosition(0.0f, 220.0f);
+	objects.push_back(simon);
+
+	subweapon->SetEnable(false);
+	objects.push_back(subweapon);
+
 	string ID_Obj;
 	float pos_x, pos_y;
 	string state;
@@ -79,22 +85,12 @@ void SceneManager::LoadObjectsFromFile(LPCWSTR FilePath)
 
 	}
 	fs.close();
-
-	simon->SetPosition(0.0f, 220.0f);
-	objects.push_back(simon);
-
-	subweapon->SetEnable(false);
-	objects.push_back(subweapon);
-
-	//DebugOut(L"Objects size: %d \n", objects.size());
 }
 
 void SceneManager::Update(DWORD dt)
 {
 	float pos_x, pos_y;
 	simon->GetPosition(pos_x, pos_y);
-
-	//DebugOut(L"%f %f\n", pos_x, pos_y);
 
 	if (IDScene == SCENE_1 && pos_x >= 1450.0f)
 	{
@@ -113,7 +109,7 @@ void SceneManager::Update(DWORD dt)
 
 		if (dynamic_cast<Simon*>(objects[i]))
 		{
-			for (int j = 0; j < objects.size(); j++)
+			for (int j = 2; j < objects.size(); j++)
 			{
 				if (objects[j]->isEnable == false)
 					continue;
@@ -143,6 +139,11 @@ void SceneManager::Update(DWORD dt)
 					continue;
 
 				if (dynamic_cast<Brick*>(objects[j])) // thêm tất cả objects "là ground", dùng trong hàm update của subweapon
+				{
+					coObjects.push_back(objects[j]);
+				}
+
+				else if (dynamic_cast<Candle*>(objects[j])) // thêm tất cả objects "là ground", dùng trong hàm update của subweapon
 				{
 					coObjects.push_back(objects[j]);
 				}
