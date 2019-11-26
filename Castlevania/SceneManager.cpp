@@ -28,7 +28,7 @@ void SceneManager::LoadResources()
 
 	weapon = new Weapon();
 
-	dagger = new Dagger();
+	subweapon = new SubWeapon();
 
 
 	tilemaps->Add(SCENE_1, FILEPATH_TEX_MAP_SCENE_1, FILEPATH_DATA_MAP_SCENE_1, 1536, 320, 32, 32);
@@ -83,8 +83,8 @@ void SceneManager::LoadObjectsFromFile(LPCWSTR FilePath)
 	simon->SetPosition(0.0f, 220.0f);
 	objects.push_back(simon);
 
-	dagger->isEnable = false;
-	objects.push_back(dagger);
+	subweapon->SetEnable(false);
+	objects.push_back(subweapon);
 
 	//DebugOut(L"Objects size: %d \n", objects.size());
 }
@@ -135,15 +135,17 @@ void SceneManager::Update(DWORD dt)
 				}
 			}
 		}
-		else if (dynamic_cast<Dagger*>(objects[i]))
+		else if (dynamic_cast<SubWeapon*>(objects[i]))
 		{
-			for (int j = 0; j < objects.size(); j++)
+			for (int j = 1; j < objects.size(); j++)
 			{
 				if (objects[j]->isEnable == false)
 					continue;
 
-				if (i != j) // thêm tất cả objects "ko phải là dagger", dùng trong hàm update của dagger
+				if (dynamic_cast<Brick*>(objects[j])) // thêm tất cả objects "là ground", dùng trong hàm update của subweapon
+				{
 					coObjects.push_back(objects[j]);
+				}
 			}
 		}
 		else
@@ -177,6 +179,7 @@ void SceneManager::Render()
 			continue;
 
 		objects[i]->Render();
+		//objects[i]->RenderBoundingBox();
 	}
 }
 

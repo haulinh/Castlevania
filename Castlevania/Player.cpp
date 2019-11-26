@@ -61,7 +61,7 @@ void Player::Update(DWORD dt)
 	energy = simon->GetEnergy();
 	life = simon->GetLife();
 	item = simon->GetItem();
-	subWeapon = simon->GetSubWeapon();
+	//subWeapon = simon->GetSubWeapon();
 	scene = scenes->GetIDScene() + 1;
 	simonHP = simon->GetHP();
 	time += dt;

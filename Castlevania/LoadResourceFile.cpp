@@ -3,22 +3,22 @@
 #include "Sprites.h"
 #include "Textures.h"
 
-LoadResourceFile *LoadResourceFile::_instance = NULL;
+LoadResourceFile* LoadResourceFile::_instance = NULL;
 
-LoadResourceFile *LoadResourceFile::GetInstance()
+LoadResourceFile* LoadResourceFile::GetInstance()
 {
 	if (_instance == NULL)
 		_instance = new LoadResourceFile();
 	return _instance;
 }
 
-void LoadResourceFile::LoadSpriteSheetFile(const char *filePath, LPDIRECT3DTEXTURE9 tex)
+void LoadResourceFile::LoadSpriteSheetFile(const char* filePath, LPDIRECT3DTEXTURE9 tex)
 {
 	rapidxml::file<> xmlFile(filePath);
 	rapidxml::xml_document<> doc;
 	doc.parse<0>(xmlFile.data());
-	xml_node<> *rootNode = doc.first_node("TextureAtlas");
-	for (xml_node<> *spriteNode = rootNode->first_node(); spriteNode; spriteNode = spriteNode->next_sibling())
+	xml_node<>* rootNode = doc.first_node("TextureAtlas");
+	for (xml_node<>* spriteNode = rootNode->first_node(); spriteNode; spriteNode = spriteNode->next_sibling())
 	{
 
 		string idSprite;
@@ -33,19 +33,19 @@ void LoadResourceFile::LoadSpriteSheetFile(const char *filePath, LPDIRECT3DTEXTU
 		width = atoi(spriteNode->first_attribute("w")->value());
 		height = atoi(spriteNode->first_attribute("h")->value());
 
-		Sprites *sprites = Sprites::GetInstance();
+		Sprites* sprites = Sprites::GetInstance();
 		sprites->Add(idSprite, left, top, width, height, tex);
 	}
 }
 
-void LoadResourceFile::LoadAnimationsFile(const char *filePath)
+void LoadResourceFile::LoadAnimationsFile(const char* filePath)
 {
 	rapidxml::file<> xmlFile(filePath);
 	rapidxml::xml_document<> doc;
 	doc.parse<0>(xmlFile.data());
-	xml_node<> *rootNode = doc.first_node("animations");
+	xml_node<>* rootNode = doc.first_node("animations");
 	int i = 0;
-	for (xml_node<> *animationNode = rootNode->first_node(); animationNode; animationNode = animationNode->next_sibling())
+	for (xml_node<>* animationNode = rootNode->first_node(); animationNode; animationNode = animationNode->next_sibling())
 	{
 
 		LPANIMATION ani;
@@ -53,8 +53,8 @@ void LoadResourceFile::LoadAnimationsFile(const char *filePath)
 		int defaultTime = atoi(animationNode->first_attribute("defaultTime")->value());
 		ani = new Animation(defaultTime);
 
-		xml_node<> *frameNode = rootNode->first_node("frame");
-		for (xml_node<> *frameNode = animationNode->first_node("frame"); frameNode; frameNode = frameNode->next_sibling())
+		xml_node<>* frameNode = rootNode->first_node("frame");
+		for (xml_node<>* frameNode = animationNode->first_node("frame"); frameNode; frameNode = frameNode->next_sibling())
 		{
 			string spriteId = string(frameNode->first_attribute("spriteID")->value());
 			int time = atoi(frameNode->first_attribute("time")->value());
@@ -62,21 +62,21 @@ void LoadResourceFile::LoadAnimationsFile(const char *filePath)
 		}
 
 		string aniId = string(animationNode->first_attribute("ID")->value());
-		Animations *animations = Animations::GetInstance();
+		Animations* animations = Animations::GetInstance();
 		animations->Add(aniId, ani);
 	}
 }
 
-vector<string> LoadResourceFile::GetAnimations(const char *filePath)
+vector<string> LoadResourceFile::GetAnimations(const char* filePath)
 {
 	vector<string> animationsList;
 
 	rapidxml::file<> xmlFile(filePath);
 	rapidxml::xml_document<> doc;
 	doc.parse<0>(xmlFile.data());
-	xml_node<> *rootNode = doc.first_node("animations");
+	xml_node<>* rootNode = doc.first_node("animations");
 	int i = 0;
-	for (xml_node<> *animationNode = rootNode->first_node(); animationNode; animationNode = animationNode->next_sibling())
+	for (xml_node<>* animationNode = rootNode->first_node(); animationNode; animationNode = animationNode->next_sibling())
 	{
 
 		string aniId = string(animationNode->first_attribute("ID")->value());
@@ -88,7 +88,7 @@ vector<string> LoadResourceFile::GetAnimations(const char *filePath)
 
 void LoadResourceFile::LoadTextures()
 {
-	Textures *textures = Textures::GetInstance();
+	Textures* textures = Textures::GetInstance();
 
 	textures->Add(id_bbox, L"resources\\bbox.png", D3DCOLOR_XRGB(255, 255, 255));
 	textures->Add(id_tex_simon, L"resources\\simon\\simon.png", D3DCOLOR_XRGB(255, 0, 255));
@@ -97,11 +97,12 @@ void LoadResourceFile::LoadTextures()
 	textures->Add(id_tex_candle, L"resources\\candle\\candle.png", D3DCOLOR_XRGB(255, 0, 255));
 	textures->Add(id_tex_items, L"resources\\items\\items.png", D3DCOLOR_XRGB(255, 0, 255));
 	textures->Add(id_tex_effect, L"resources\\effect\\effect.png", D3DCOLOR_XRGB(255, 0, 255));
+	textures->Add(id_tex_sub_weapons, L"resources\\sub_weapons\\sub_weapons.png", D3DCOLOR_XRGB(255, 0, 255));
 }
 
 void LoadResourceFile::LoadAllResource()
 {
-	Textures *textures = Textures::GetInstance();
+	Textures* textures = Textures::GetInstance();
 
 	LoadTextures();
 	auto texGround = textures->Get(id_tex_ground);
@@ -110,6 +111,7 @@ void LoadResourceFile::LoadAllResource()
 	auto texCandle = textures->Get(id_tex_candle);
 	auto texItems = textures->Get(id_tex_items);
 	auto texEffect = textures->Get(id_tex_effect);
+	auto texSubWeapons = textures->Get(id_tex_sub_weapons);
 
 	LoadSpriteSheetFile("resources\\ground\\ground.xml", texGround);
 	LoadSpriteSheetFile("resources\\simon\\simon.xml", texSimon);
@@ -117,6 +119,7 @@ void LoadResourceFile::LoadAllResource()
 	LoadSpriteSheetFile("resources\\candle\\candle.xml", texCandle);
 	LoadSpriteSheetFile("resources\\items\\items.xml", texItems);
 	LoadSpriteSheetFile("resources\\effect\\effect.xml", texEffect);
+	LoadSpriteSheetFile("resources\\sub_weapons\\sub_weapons.xml", texSubWeapons);
 
 	LoadAnimationsFile("resources\\simon\\simon_ani.xml");
 	LoadAnimationsFile("resources\\weapons\\weapons_ani.xml");
@@ -124,4 +127,5 @@ void LoadResourceFile::LoadAllResource()
 	LoadAnimationsFile("resources\\candle\\candle_ani.xml");
 	LoadAnimationsFile("resources\\items\\items_ani.xml");
 	LoadAnimationsFile("resources\\effect\\effect_ani.xml");
+	LoadAnimationsFile("resources\\sub_weapons\\sub_weapons_ani.xml");
 }

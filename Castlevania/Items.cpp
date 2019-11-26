@@ -15,16 +15,6 @@ Items::Items()
 	vy = ITEM_FALLING_SPEED;
 }
 
-void Items::Render()
-{
-	animations[state]->Render(-1, x, y);
-}
-
-void Items::SetState(string state)
-{
-	GameObject::SetState(state);
-}
-
 void Items::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 {
 	if (timeAppear == -1)
@@ -64,13 +54,25 @@ void Items::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 
 		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
 
-		y += min_ty * dy + ny * 0.4f;
+		y += min_ty * dy + ny * 0.1f;
 		if (ny != 0) vy = 0;
 	}
 
 	// clean up collision events
 	for (int i = 0; i < coEvents.size(); i++) delete coEvents[i];
 }
+
+void Items::Render()
+{
+	animations[state]->Render(nx, x, y);
+	//RenderBoundingBox();
+}
+
+void Items::SetState(string state)
+{
+	GameObject::SetState(state);
+}
+
 
 void Items::GeneratorRandom()
 {
@@ -81,8 +83,6 @@ void Items::GeneratorRandom()
 
 void Items::SetItem(string nameItem)
 {
-	//vector<string> listState = { "LargeHeart", "Chain", "Dagger" };
-	//state = listState[id];
 	state = nameItem;
 }
 
@@ -91,22 +91,80 @@ void Items::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 	left = x;
 	top = y;
 
-
-	if (state == LARGE_HEART)
+	if (state == STOP_WATCH)
 	{
-		right = left + LARGE_HEART_BBOX_WIDTH;
-		bottom = top + LARGE_HEART_BBOX_HEIGHT;
-
-	}
-	else if (state == CHAIN)
-	{
-		right = left + CHAIN_BBOX_WIDTH;
-		bottom = top + CHAIN_BBOX_HEIGHT;
+		right = left + 26;
+		bottom = top + 28;
 	}
 	else if (state == DAGGER)
 	{
-		right = left + DAGGER_BBOX_WIDTH;
-		bottom = top + DAGGER_BBOX_HEIGHT;
+		right = left + 32;
+		bottom = top + 18;
+	}
+	else if (state == AXE)
+	{
+		right = left + 30;
+		bottom = top + 28;
+	}
+	else if (state == HOLY_WATER)
+	{
+		right = left + 28;
+		bottom = top + 28;
+	}
+	else if (state == BOOMERANG)
+	{
+		right = left + 30;
+		bottom = top + 28;
+	}
+	else if (state == SMALL_HEART)
+	{
+		right = left + 16;
+		bottom = top + 16;
+	}
+	else if (state == LARGE_HEART)
+	{
+		right = left + 24;
+		bottom = top + 20;
+	}
+	else if (state == CROSS)
+	{
+		right = left + 32;
+		bottom = top + 32;
+	}
+	else if (state == INVISIBILITY_POTION)
+	{
+		right = left + 29;
+		bottom = top + 36;
+	}
+	else if (state == CHAIN)
+	{
+		right = left + 32;
+		bottom = top + 32;
+	}
+	else if (state == MONEY_BAG_RED || state == MONEY_BAG_BLUE || state == MONEY_BAG_WHITE || state == MONEY_BAG_FLASHING)
+	{
+		right = left + 30;
+		bottom = top + 30;
+	}
+	else if (state == DOUBLE_SHOT || state == TRIPLE_SHOT)
+	{
+		right = left + 28;
+		bottom = top + 28;
+	}
+	else if (state == PORK_CHOP)
+	{
+		right = left + 32;
+		bottom = top + 26;
+	}
+	else if (state == MAGIC_CRYSTAL)
+	{
+		right = left + 28;
+		bottom = top + 32;
+	}
+	else
+	{
+		right = left;
+		bottom = top;
 	}
 }
 

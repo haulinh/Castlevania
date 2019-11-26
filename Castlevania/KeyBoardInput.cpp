@@ -71,16 +71,27 @@ void KeyBoardInput::OnKeyDown(int KeyCode)
 		break;
 
 	case DIK_X:
-		if (!scene->GetSimon()->isPowered)
-			return;
+	/*	if (!scene->GetSimon()->isPowered)
+			return;*/
 		if (scene->GetSimon()->GetState() == Idle || scene->GetSimon()->GetState() == Jump)
 		{
+			Simon* simon = scene->GetSimon();
+			SubWeapon* subweapon = scene->GetSubWeapon();
 			float sx, sy;
-			scene->GetSimon()->GetPosition(sx, sy);
-			scene->GetDagger()->SetPosition(sx, sy + 10);
-			scene->GetDagger()->nx = scene->GetSimon()->nx;
-			scene->GetDagger()->isEnable = true;
-			scene->GetSimon()->SetState(Throw);
+
+			// position
+			simon->GetPosition(sx, sy);
+			subweapon->SetPosition(sx, sy);
+
+			// orientation
+			subweapon->SetN(simon->GetN());
+
+			// state weapon
+			subweapon->SetState(simon->GetSubWeapon());
+
+			subweapon->SetEnable(true);
+			simon->LoseEnergy(1);
+			simon->SetState(Throw);
 		}
 	default:
 		break;
