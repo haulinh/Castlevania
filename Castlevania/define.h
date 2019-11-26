@@ -79,25 +79,29 @@ const string LONG_CHAIN = "LONG_CHAIN";
 const string LARGE_CANDLE = "LARGE_CANDLE";
 const string DESTROY = "DESTROY";
 
- // Items
-const string STOP_WATCH = "";
+// Ground
+const string GROUND_1 = "GROUND_1";
+const string GROUND_2 = "GROUND_2";
+
+// Items
+const string STOP_WATCH = "STOP_WATCH";
 const string DAGGER = "DAGGER";
 const string AXE = "AXE";
 const string HOLY_WATER = "HOLY_WATER";
 const string BOOMERANG = "BOOMERANG";
-const string SMALL_HEART = "";
+const string SMALL_HEART = "SMALL_HEART";
 const string LARGE_HEART = "LARGE_HEART";
 const string CROSS = "CROSS";
-const string INVISIBILITY_POTION = "";
+const string INVISIBILITY_POTION = "INVISIBILITY_POTION";
 const string CHAIN = "CHAIN";
-const string MONEY_BAG_RED = "";
-const string MONEY_BAG_BLUE = "";
-const string MONEY_BAG_WHITE = "";
-const string MONEY_BAG_FLASHING = "";
-const string DOUBLE_SHOT = "";
-const string TRIPLE_SHOT = "";
-const string PORK_CHOP = "";
-const string MAGIC_CRYSTAL = "";
+const string MONEY_BAG_RED = "MONEY_BAG_RED";
+const string MONEY_BAG_BLUE = "MONEY_BAG_BLUE";
+const string MONEY_BAG_WHITE = "MONEY_BAG_WHITE";
+const string MONEY_BAG_FLASHING = "MONEY_BAG_FLASHING";
+const string DOUBLE_SHOT = "DOUBLE_SHOT";
+const string TRIPLE_SHOT = "TRIPLE_SHOT";
+const string PORK_CHOP = "PORK_CHOP";
+const string MAGIC_CRYSTAL = "MAGIC_CRYSTAL";
 
 // Sub weapons
 const string DAGGER_SUB = "DAGGER_SUB";
@@ -147,8 +151,11 @@ constexpr float WEAPONS_BOOMERANG_SPEED = 0.5f;
 #define GROUND_BBOX_HEIGHT 32
 
 // Candle
-#define CANDLE_BBOX_WIDTH 32
-#define CANDLE_BBOX_HEIGHT 64
+#define LARGE_CANDLE_BBOX_WIDTH			32
+#define LARGE_CANDLE_BBOX_HEIGHT			64
+
+#define CANDLE_BBOX_WIDTH		16
+#define CANDLE_BBOX_HEIGHT	32
 
 // Whip
 #define LONG_CHAIN_BBOX_WIDTH 80
@@ -172,6 +179,6 @@ constexpr float WEAPONS_BOOMERANG_SPEED = 0.5f;
 #pragma region ID objects to load from file
 
 const string CANDLE = "CANDLE";
-const string BRICK = "BRICK";
+const string GROUND= "GROUND";
 
 #pragma endregion

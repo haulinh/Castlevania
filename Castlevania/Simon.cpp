@@ -4,7 +4,7 @@
 #include "Simon.h"
 #include "Game.h"
 
-#include "Brick.h"
+#include "Ground.h"
 #include "Candle.h"
 #include "Items.h"
 
@@ -65,7 +65,7 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		{
 			LPCOLLISIONEVENT e = coEventsResult[i];
 
-			if (dynamic_cast<Brick*>(e->obj))
+			if (dynamic_cast<Ground*>(e->obj))
 			{
 				if (e->ny != 0)
 				{
@@ -82,6 +82,7 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 			else if (dynamic_cast<Items*>(e->obj))
 			{
+				//if (e->ny != 0) y = 0;
 				e->obj->isEnable = false;
 
 				string nameItem = e->obj->GetState();

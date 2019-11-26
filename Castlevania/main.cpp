@@ -12,7 +12,7 @@
 #include "KeyBoardInput.h"
 
 #include "Simon.h"
-#include "Brick.h"
+#include "Ground.h"
 #include "Weapon.h"
 #include "TileMap.h"
 #include "Candle.h"
@@ -115,9 +115,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	game = Game::GetInstance();
 	game->Init(hWnd);
 
-	scenes = new SceneManager(game, SCENE_1);
+	scenes = new SceneManager(game, SCENE_2);
 	scenes->LoadResources();
-	scenes->LoadObjectsFromFile(FILEPATH_OBJECTS_SCENE_1);
+	scenes->LoadObjectsFromFile(FILEPATH_OBJECTS_SCENE_2);
 
 	input = new KeyBoardInput(game, scenes);
 	game->InitKeyboard(input);

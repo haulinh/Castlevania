@@ -5,7 +5,7 @@
 #include "TileMap.h"
 
 #include "Candle.h"
-#include "Brick.h"
+#include "Ground.h"
 #include "Simon.h"
 #include "Weapon.h"
 #include "Items.h"
@@ -20,7 +20,7 @@ class SceneManager
 	Game* game;
 	Simon* simon;
 	Candle* candle;
-	Brick* ground;
+	Ground* ground;
 	Items* item;
 	Weapon* weapon;
 	SubWeapon* subweapon;

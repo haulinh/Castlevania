@@ -1,7 +1,7 @@
-#include "Brick.h"
+#include "Ground.h"
 #include "LoadResourceFile.h"
 
-Brick::Brick()
+Ground::Ground()
 {
 	LoadResourceFile* loadResourceFile = LoadResourceFile::GetInstance();
 
@@ -12,12 +12,12 @@ Brick::Brick()
 	}
 }
 
-void Brick::Render()
+void Ground::Render()
 {
-	animations["ground_1"]->Render(-1, x, y);
+	animations[state]->Render(-1, x, y);
 }
 
-void Brick::GetBoundingBox(float &l, float &t, float &r, float &b)
+void Ground::GetBoundingBox(float &l, float &t, float &r, float &b)
 {
 	l = x;
 	t = y;
@@ -25,7 +25,7 @@ void Brick::GetBoundingBox(float &l, float &t, float &r, float &b)
 	b = y + BRICK_BBOX_HEIGHT;
 }
 
-void Brick::SetState(string state)
+void Ground::SetState(string state)
 {
 	GameObject::SetState(state);
 }
