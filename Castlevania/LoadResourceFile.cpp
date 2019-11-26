@@ -90,14 +90,14 @@ void LoadResourceFile::LoadTextures()
 {
 	Textures* textures = Textures::GetInstance();
 
-	textures->Add(id_bbox, L"resources\\bbox.png", D3DCOLOR_XRGB(255, 255, 255));
-	textures->Add(id_tex_simon, L"resources\\simon\\simon.png", D3DCOLOR_XRGB(255, 0, 255));
-	textures->Add(id_tex_ground, L"resources\\ground\\ground.png", D3DCOLOR_XRGB(255, 0, 255));
-	textures->Add(id_tex_weapon, L"resources\\weapons\\weapons.png", D3DCOLOR_XRGB(255, 0, 255));
-	textures->Add(id_tex_candle, L"resources\\candle\\candle.png", D3DCOLOR_XRGB(255, 0, 255));
-	textures->Add(id_tex_items, L"resources\\items\\items.png", D3DCOLOR_XRGB(255, 0, 255));
-	textures->Add(id_tex_effect, L"resources\\effect\\effect.png", D3DCOLOR_XRGB(255, 0, 255));
-	textures->Add(id_tex_sub_weapons, L"resources\\sub_weapons\\sub_weapons.png", D3DCOLOR_XRGB(255, 0, 255));
+	textures->Add(ID_BBOX, L"resources\\bbox.png", D3DCOLOR_XRGB(255, 255, 255));
+	textures->Add(ID_TEX_SIMON, L"resources\\simon\\simon.png", D3DCOLOR_XRGB(255, 0, 255));
+	textures->Add(ID_TEX_GROUND, L"resources\\ground\\ground.png", D3DCOLOR_XRGB(255, 0, 255));
+	textures->Add(ID_TEX_WEAPON, L"resources\\weapons\\weapons.png", D3DCOLOR_XRGB(255, 0, 255));
+	textures->Add(ID_TEX_CANDLE, L"resources\\candle\\candle.png", D3DCOLOR_XRGB(255, 0, 255));
+	textures->Add(ID_TEX_ITEMS, L"resources\\items\\items.png", D3DCOLOR_XRGB(255, 0, 255));
+	textures->Add(ID_TEX_EFFECT, L"resources\\effect\\effect.png", D3DCOLOR_XRGB(255, 0, 255));
+	textures->Add(ID_TEX_SUB_WEAPONS, L"resources\\sub_weapons\\sub_weapons.png", D3DCOLOR_XRGB(255, 0, 255));
 }
 
 void LoadResourceFile::LoadAllResource()
@@ -105,13 +105,13 @@ void LoadResourceFile::LoadAllResource()
 	Textures* textures = Textures::GetInstance();
 
 	LoadTextures();
-	auto texGround = textures->Get(id_tex_ground);
-	auto texSimon = textures->Get(id_tex_simon);
-	auto texWeapon = textures->Get(id_tex_weapon);
-	auto texCandle = textures->Get(id_tex_candle);
-	auto texItems = textures->Get(id_tex_items);
-	auto texEffect = textures->Get(id_tex_effect);
-	auto texSubWeapons = textures->Get(id_tex_sub_weapons);
+	auto texGround = textures->Get(ID_TEX_GROUND);
+	auto texSimon = textures->Get(ID_TEX_SIMON);
+	auto texWeapon = textures->Get(ID_TEX_WEAPON);
+	auto texCandle = textures->Get(ID_TEX_CANDLE);
+	auto texItems = textures->Get(ID_TEX_ITEMS);
+	auto texEffect = textures->Get(ID_TEX_EFFECT);
+	auto texSubWeapons = textures->Get(ID_TEX_SUB_WEAPONS);
 
 	LoadSpriteSheetFile("resources\\ground\\ground.xml", texGround);
 	LoadSpriteSheetFile("resources\\simon\\simon.xml", texSimon);

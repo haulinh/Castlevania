@@ -1,18 +1,18 @@
 <animations name="sub_weapons">
-    <animation ID="Axe_Sub" defaultTime="100">
+    <animation ID="AXE_SUB" defaultTime="100">
         <frame spriteID="Axe_1" time="100"/>
         <frame spriteID="Axe_2" time="100"/>
         <frame spriteID="Axe_3" time="100"/> 
         <frame spriteID="Axe_4" time="100"/>
     </animation>
 
-    <animation ID="Boomerang_Sub" defaultTime="100">
+    <animation ID="BOOMERANG_SUB" defaultTime="100">
         <frame spriteID="Boomerang_1" time="100"/>
         <frame spriteID="Boomerang_2" time="100"/>
         <frame spriteID="Boomerang_3" time="100"/>
     </animation>
 
-     <animation ID="HolyWater_Sub" defaultTime="100">
+     <animation ID="HOLYWATER_SUB" defaultTime="100">
         <frame spriteID="HolyWater_1" time="100"/>
         <frame spriteID="HolyWater_2" time="100"/>
         <frame spriteID="HolyWater_3" time="100"/>

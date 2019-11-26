@@ -20,8 +20,8 @@ void Player::Init()
 {
 	// Khởi tạo list máu của Simon và Enemy
 	Textures* texture = Textures::GetInstance();
-	texture->Add(id_tex_hp, FILEPATH_TEX_HP, D3DCOLOR_XRGB(255, 255, 255));
-	LPDIRECT3DTEXTURE9 texHP = texture->Get(id_tex_hp);
+	texture->Add(ID_TEX_HP, FILEPATH_TEX_HP, D3DCOLOR_XRGB(255, 255, 255));
+	LPDIRECT3DTEXTURE9 texHP = texture->Get(ID_TEX_HP);
 
 	for (int i = 0; i < 16; i++)
 	{

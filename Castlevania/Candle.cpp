@@ -20,14 +20,12 @@ Candle::Candle()
 		AddAnimation(animation);
 	}	
 
-	SetState(LargeCandle);
 }
 
 void Candle::Update(DWORD dt, vector<LPGAMEOBJECT>* objects, vector<LPGAMEOBJECT>* coObjects)
 {
-	if (state == Destroy && isLastFame) 	//nếu render xong hết đốm lửa rồi thì set enable = false -> biến mất
+	if (state == DESTROY && isLastFame) 	//nếu render xong hết đốm lửa rồi thì set enable = false -> biến mất
 	{
-		//DebugOut(L"Destroy \n");
 		this->isEnable = false;
 
 		// Tạo một item theo id và thêm vào Objects
@@ -63,5 +61,4 @@ void Candle::Render()
 {
 	animations[state]->Render(-1, x, y);
 	this->isLastFame = animations[state]->IsCompleted();
-	//RenderBoundingBox();
 }

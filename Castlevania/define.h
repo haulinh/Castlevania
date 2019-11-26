@@ -44,51 +44,51 @@ enum TexId
 	SCENE_1,
 	SCENE_2,
 	SCENE_3,
-	id_bbox,
-	id_tex_simon,
-	id_tex_weapon,
-	id_tex_ground,
-	id_tex_candle,
-	id_tex_items,
-	id_tex_effect,
-	id_tex_hp,
-	id_tex_sub_weapons
+	ID_BBOX,
+	ID_TEX_SIMON,
+	ID_TEX_WEAPON,
+	ID_TEX_GROUND,
+	ID_TEX_CANDLE,
+	ID_TEX_ITEMS,
+	ID_TEX_EFFECT,
+	ID_TEX_HP,
+	ID_TEX_SUB_WEAPONS
 };
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma region define State
 
 // Simon
-const string Idle = "SIMON_IDLE";
-const string Walking = "SIMON_WALKING";
-const string Jump = "SIMON_JUMPING";
-const string Sit = "SIMON_SITTING";
-const string StandAttack = "SIMON_STAND_ATTACKING";
-const string SitAttack = "SIMON_SIT_ATTACKING";
-const string Throw = "SIMON_THROWING";
-const string Die = "SIMON_DIE";
-const string Power = "SIMON_POWERING";
+const string IDLE = "SIMON_IDLE";
+const string WALK = "SIMON_WALKING";
+const string JUMP = "SIMON_JUMPING";
+const string SIT = "SIMON_SITTING";
+const string STAND_ATTACK = "SIMON_STAND_ATTACKING";
+const string SIT_ATTACK = "SIMON_SIT_ATTACKING";
+const string THROW = "SIMON_THROWING";
+const string DIE = "SIMON_DIE";
+const string POWER = "SIMON_POWERING";
 
 // Weapon
-const string MagicWhip = "magic_whip";
-const string ShortChain = "short_chain";
-const string LongChain = "long_chain";
+const string MAGIC_WHIP = "MAGIC_WHIP";
+const string SHORT_CHAIN = "SHORT_CHAIN";
+const string LONG_CHAIN = "LONG_CHAIN";
 
 // Candle
-const string LargeCandle = "LargeCandle";
-const string Destroy = "Destroy";
+const string LARGE_CANDLE = "LARGE_CANDLE";
+const string DESTROY = "DESTROY";
 
  // Items
 const string STOP_WATCH = "";
-const string DAGGER = "Dagger";
-const string AXE = "Axe";
-const string HOLY_WATER = "HolyWater";
-const string BOOMERANG = "Boomerang";
+const string DAGGER = "DAGGER";
+const string AXE = "AXE";
+const string HOLY_WATER = "HOLY_WATER";
+const string BOOMERANG = "BOOMERANG";
 const string SMALL_HEART = "";
-const string LARGE_HEART = "LargeHeart";
-const string CROSS = "Cross";
+const string LARGE_HEART = "LARGE_HEART";
+const string CROSS = "CROSS";
 const string INVISIBILITY_POTION = "";
-const string CHAIN = "Chain";
+const string CHAIN = "CHAIN";
 const string MONEY_BAG_RED = "";
 const string MONEY_BAG_BLUE = "";
 const string MONEY_BAG_WHITE = "";
@@ -99,11 +99,11 @@ const string PORK_CHOP = "";
 const string MAGIC_CRYSTAL = "";
 
 // Sub weapons
-const string DAGGER_SUB = "Dagger_Sub";
-const string AXE_SUB = "Axe_Sub";
-const string BOOMERANG_SUB = "Boomerang_Sub";
-const string HOLY_WATER_SUB = "HolyWater_Sub";
-const string STOP_WATCH_SUB = "Stop_Watch_Sub";
+const string DAGGER_SUB = "DAGGER_SUB";
+const string AXE_SUB = "AXE_SUB";
+const string BOOMERANG_SUB = "BOOMERANG_SUB";
+const string HOLY_WATER_SUB = "HOLYWATER_SUB";
+const string STOP_WATCH_SUB = "STOP_WATCH_SUB";
 
 #pragma endregion
 
@@ -170,7 +170,7 @@ const float WEAPONS_BOOMERANG_SPEED = 0.5f;
 
 #pragma region ID objects to load from file
 
-#define CANDLE "Candle"
-#define BRICK "Brick"
+const string CANDLE = "CANDLE";
+const string BRICK = "BRICK";
 
 #pragma endregion

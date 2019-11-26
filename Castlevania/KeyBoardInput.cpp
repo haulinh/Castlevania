@@ -28,22 +28,22 @@ void KeyBoardInput::KeyState(BYTE *state)
 		return;
 
 	else if (game->IsKeyDown(DIK_DOWN))
-		scene->GetSimon()->SetState(Sit);
+		scene->GetSimon()->SetState(SIT);
 
 	else if (game->IsKeyDown(DIK_RIGHT))
 	{
 		scene->GetSimon()->SetN(1);
-		scene->GetSimon()->SetState(Walking);
+		scene->GetSimon()->SetState(WALK);
 	}
 
 	else if (game->IsKeyDown(DIK_LEFT))
 	{
 		scene->GetSimon()->SetN(-1);
-		scene->GetSimon()->SetState(Walking);
+		scene->GetSimon()->SetState(WALK);
 	}
 
 	else
-		scene->GetSimon()->SetState(Idle);
+		scene->GetSimon()->SetState(IDLE);
 }
 
 void KeyBoardInput::OnKeyDown(int KeyCode)
@@ -52,28 +52,28 @@ void KeyBoardInput::OnKeyDown(int KeyCode)
 	switch (KeyCode)
 	{
 	case DIK_SPACE:
-		if (scene->GetSimon()->GetState() == Jump || scene->GetSimon()->GetState() == StandAttack || scene->GetSimon()->GetState() == SitAttack)
+		if (scene->GetSimon()->GetState() == JUMP || scene->GetSimon()->GetState() == STAND_ATTACK || scene->GetSimon()->GetState() == SIT_ATTACK)
 			return;
-		scene->GetSimon()->SetState(Jump);
+		scene->GetSimon()->SetState(JUMP);
 		break;
 
 	case DIK_D:
-		if ((scene->GetSimon()->GetState() == StandAttack || scene->GetSimon()->GetState() == SitAttack))
+		if ((scene->GetSimon()->GetState() == STAND_ATTACK || scene->GetSimon()->GetState() == SIT_ATTACK))
 			return;
-		if (scene->GetSimon()->GetState() == Idle || scene->GetSimon()->GetState() == Jump)
+		if (scene->GetSimon()->GetState() == IDLE || scene->GetSimon()->GetState() == JUMP)
 		{
-			scene->GetSimon()->SetState(StandAttack);
+			scene->GetSimon()->SetState(STAND_ATTACK);
 		}
-		else if (scene->GetSimon()->GetState() == Sit)
+		else if (scene->GetSimon()->GetState() == SIT)
 		{
-			scene->GetSimon()->SetState(SitAttack);
+			scene->GetSimon()->SetState(SIT_ATTACK);
 		}
 		break;
 
 	case DIK_X:
 	/*	if (!scene->GetSimon()->isPowered)
 			return;*/
-		if (scene->GetSimon()->GetState() == Idle || scene->GetSimon()->GetState() == Jump)
+		if (scene->GetSimon()->GetState() == IDLE || scene->GetSimon()->GetState() == JUMP)
 		{
 			Simon* simon = scene->GetSimon();
 			SubWeapon* subweapon = scene->GetSubWeapon();
@@ -91,7 +91,7 @@ void KeyBoardInput::OnKeyDown(int KeyCode)
 
 			subweapon->SetEnable(true);
 			simon->LoseEnergy(1);
-			simon->SetState(Throw);
+			simon->SetState(THROW);
 		}
 	default:
 		break;

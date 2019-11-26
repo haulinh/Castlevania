@@ -63,9 +63,6 @@
     <ClInclude Include="Items.h">
       <Filter>Objects</Filter>
     </ClInclude>
-    <ClInclude Include="Dagger.h">
-      <Filter>Objects</Filter>
-    </ClInclude>
     <ClInclude Include="KeyBoardInput.h">
       <Filter>Framework</Filter>
     </ClInclude>
@@ -117,9 +114,6 @@
       <Filter>Objects</Filter>
     </ClCompile>
     <ClCompile Include="Items.cpp">
-      <Filter>Objects</Filter>
-    </ClCompile>
-    <ClCompile Include="Dagger.cpp">
       <Filter>Objects</Filter>
     </ClCompile>
     <ClCompile Include="KeyBoardInput.cpp">

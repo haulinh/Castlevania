@@ -36,7 +36,7 @@
         <frame spriteID="simon_8" time="100"/>
     </animation>
 
-     <animation ID="simon_powering" defaultTime="100">
+     <animation ID="SIMON_POWERING" defaultTime="100">
         <frame spriteID="simon_25" time="100"/>
         <frame spriteID="simon_26" time="100"/>
         <frame spriteID="simon_27" time="100"/>

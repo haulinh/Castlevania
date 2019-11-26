@@ -8,7 +8,6 @@
 #include "Brick.h"
 #include "Simon.h"
 #include "Weapon.h"
-#include "Dagger.h"
 #include "Items.h"
 #include "SubWeapon.h"
 
@@ -24,7 +23,6 @@ class SceneManager
 	Brick* ground;
 	Items* item;
 	Weapon* weapon;
-	Dagger* dagger;
 	SubWeapon* subweapon;
 
 	TileMaps* tilemaps = TileMaps::GetInstance();

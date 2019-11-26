@@ -1,5 +1,5 @@
 <animations name="Candle">
-    <animation ID="LargeCandle" defaultTime="100">
+    <animation ID="LARGE_CANDLE" defaultTime="100">
         <frame spriteID="Candle_1" time="100"/>
         <frame spriteID="Candle_2" time="100"/>
     </animation>
