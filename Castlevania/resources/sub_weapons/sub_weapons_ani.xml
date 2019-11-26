@@ -17,4 +17,8 @@
         <frame spriteID="HolyWater_2" time="100"/>
         <frame spriteID="HolyWater_3" time="100"/>
     </animation>
+
+      <animation ID="DAGGER_SUB" defaultTime="100">
+        <frame spriteID="Dagger" time="100"/>
+    </animation>
 </animations>

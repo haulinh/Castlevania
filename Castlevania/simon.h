@@ -46,8 +46,9 @@ public:
 	int GetLife() { return this->life; }
 	int GetScore() { return this->score; }
 	int GetItem() { return this->item; }
-	string GetSubWeapon() { return this->nameWeapon; }
 	int GetHP() { return this->HP; }
+	string GetSubWeapon() { return this->nameWeapon; }
+	string ItemToSubWeapon(string itemName) { return itemName + "_SUB"; }
 
 	void LoseEnergy(int amount) { energy -= amount; }
 };

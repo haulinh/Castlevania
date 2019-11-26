@@ -5,16 +5,16 @@
 Sprite::Sprite(string idSprite, int left, int top, int width, int height, LPDIRECT3DTEXTURE9 tex)
 {
 	this->idSprite = idSprite;
-	this->left= left;
+	this->left = left;
 	this->top = top;
 	this->width = width;
 	this->height = height;
 	this->texture = tex;
 }
 
-Sprites * Sprites::__instance = NULL;
+Sprites* Sprites::__instance = NULL;
 
-Sprites *Sprites::GetInstance()
+Sprites* Sprites::GetInstance()
 {
 	if (__instance == NULL) __instance = new Sprites();
 	return __instance;
@@ -22,7 +22,7 @@ Sprites *Sprites::GetInstance()
 
 void Sprite::Draw(int nx, float x, float y, int alpha)
 {
-	Game * game = Game::GetInstance();
+	Game* game = Game::GetInstance();
 	game->Draw(nx, x, y, texture, left, top, width, height, alpha);
 }
 
@@ -51,7 +51,7 @@ LPSPRITE Sprites::Get(string idSprite)
 void Animation::Add(string spriteId, DWORD time)
 {
 	int t = time;
-	if (time == 0) t=this->defaultTime;
+	if (time == 0) t = this->defaultTime;
 
 	LPSPRITE sprite = Sprites::GetInstance()->Get(spriteId);
 	LPANIMATION_FRAME frame = new AnimationFrame(sprite, t);
@@ -62,9 +62,9 @@ void Animation::Render(int nx, float x, float y, int alpha)
 {
 	this->completed = false;
 	DWORD now = GetTickCount();
-	if (currentFrame == -1) 
+	if (currentFrame == -1)
 	{
-		currentFrame = 0; 
+		currentFrame = 0;
 		lastFrameTime = now;
 	}
 	else
@@ -83,7 +83,7 @@ void Animation::Render(int nx, float x, float y, int alpha)
 				currentFrame = 0;
 			}
 		}
-		
+
 	}
 
 	frames[currentFrame]->GetSprite()->Draw(nx, x, y, alpha);
@@ -135,9 +135,9 @@ void Animation::Render(int id, int nx, float x, float y, int alpha)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-Animations * Animations::__instance = NULL;
+Animations* Animations::__instance = NULL;
 
-Animations * Animations::GetInstance()
+Animations* Animations::GetInstance()
 {
 	if (__instance == NULL) __instance = new Animations();
 	return __instance;

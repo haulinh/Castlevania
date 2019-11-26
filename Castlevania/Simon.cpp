@@ -87,7 +87,7 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				string nameItem = e->obj->GetState();
 				if (nameItem == CROSS || nameItem == DAGGER || nameItem == AXE || nameItem == HOLY_WATER || nameItem == BOOMERANG)
 				{
-					nameWeapon = nameItem + "_Sub";
+					nameWeapon = ItemToSubWeapon(nameItem);
 				}
 
 				else if (nameItem == SMALL_HEART)
