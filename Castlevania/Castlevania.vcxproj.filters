@@ -39,9 +39,6 @@
     <ClInclude Include="Textures.h">
       <Filter>Framework</Filter>
     </ClInclude>
-    <ClInclude Include="Brick.h">
-      <Filter>Objects</Filter>
-    </ClInclude>
     <ClInclude Include="Simon.h">
       <Filter>Objects</Filter>
     </ClInclude>
@@ -69,13 +66,16 @@
     <ClInclude Include="SceneManager.h">
       <Filter>Scenes</Filter>
     </ClInclude>
-    <ClInclude Include="Player.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Weapon.h">
       <Filter>Objects</Filter>
     </ClInclude>
     <ClInclude Include="SubWeapon.h">
+      <Filter>Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Ground.h">
       <Filter>Objects</Filter>
     </ClInclude>
   </ItemGroup>
@@ -94,9 +94,6 @@
     </ClCompile>
     <ClCompile Include="Textures.cpp">
       <Filter>Framework</Filter>
-    </ClCompile>
-    <ClCompile Include="Brick.cpp">
-      <Filter>Objects</Filter>
     </ClCompile>
     <ClCompile Include="Simon.cpp">
       <Filter>Objects</Filter>
@@ -122,13 +119,16 @@
     <ClCompile Include="SceneManager.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
-    <ClCompile Include="Player.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Weapon.cpp">
       <Filter>Objects</Filter>
     </ClCompile>
     <ClCompile Include="SubWeapon.cpp">
+      <Filter>Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="Ground.cpp">
       <Filter>Objects</Filter>
     </ClCompile>
   </ItemGroup>

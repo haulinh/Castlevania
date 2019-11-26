@@ -36,20 +36,11 @@
     </animation>
 
     <animation ID="MAGIC_CRYSTAL" defaultTime="100">
-        <frame spriteID="MagicCrystal_1" time="100"/>
-        <frame spriteID="MagicCrystal_2" time="100"/>
+        <frame spriteID="MagicCrystal" time="100"/>
     </animation>
 
-    <animation ID="MONEY_BAG_RED" defaultTime="100">
-        <frame spriteID="MoneyBag_Red" time="100"/>
-    </animation>
-
-    <animation ID="MONEY_BAG_WHITE" defaultTime="100">
-        <frame spriteID="MoneyBag_White" time="100"/>
-    </animation>
-
-    <animation ID="MONEY_BAG_BLUE" defaultTime="100">
-        <frame spriteID="MoneyBag_Blue" time="100"/>
+    <animation ID="MONEY_BAG" defaultTime="100">
+        <frame spriteID="MoneyBag" time="100"/>
     </animation>
 
     <animation ID="PORK_CHOP" defaultTime="100">

@@ -73,13 +73,12 @@ void SceneManager::LoadObjectsFromFile(LPCWSTR FilePath)
 			candle->SetIdItem(nameItem);
 			objects.push_back(candle);
 		}
-		if (ID_Obj == BRICK)
+		if (ID_Obj == GROUND)
 		{
-			ground = new Brick();
-			ground->AddAnimation("brick");
+			ground = new Ground();
 			ground->SetPosition(pos_x, pos_y);
 			ground->SetState(state);
-			candle->isEnable = isEnable;
+			ground->isEnable = isEnable;
 			objects.push_back(ground);
 		}
 
@@ -125,7 +124,7 @@ void SceneManager::Update(DWORD dt)
 				if (objects[i]->isEnable == false)
 					continue;
 
-				if (dynamic_cast<Brick*>(objects[j])) // thêm tất cả objects "là ground", dùng trong hàm update của item
+				if (dynamic_cast<Ground*>(objects[j])) // thêm tất cả objects "là ground", dùng trong hàm update của item
 				{
 					coObjects.push_back(objects[j]);
 				}
@@ -138,7 +137,7 @@ void SceneManager::Update(DWORD dt)
 				if (objects[j]->isEnable == false)
 					continue;
 
-				if (dynamic_cast<Brick*>(objects[j])) // thêm tất cả objects "là ground", dùng trong hàm update của subweapon
+				if (dynamic_cast<Ground*>(objects[j])) // thêm tất cả objects "là ground", dùng trong hàm update của subweapon
 				{
 					coObjects.push_back(objects[j]);
 				}
@@ -172,7 +171,7 @@ void SceneManager::Update(DWORD dt)
 
 void SceneManager::Render()
 {
-	//tilemaps->Get(IDScene)->Draw(game->GetCamPos());
+	tilemaps->Get(IDScene)->Draw(game->GetCamPos());
 
 	for (int i = 0; i < objects.size(); i++)
 	{

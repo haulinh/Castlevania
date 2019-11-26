@@ -1,6 +1,6 @@
 #include "weapon.h"
 #include "LoadResourceFile.h"
-#include "Brick.h"
+#include "Ground.h"
 #include "Candle.h"
 #include "Items.h"
 
