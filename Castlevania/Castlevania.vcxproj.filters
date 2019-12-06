@@ -78,6 +78,9 @@
     <ClInclude Include="Ground.h">
       <Filter>Objects</Filter>
     </ClInclude>
+    <ClInclude Include="Stair.h">
+      <Filter>Objects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -129,6 +132,9 @@
       <Filter>Scenes</Filter>
     </ClCompile>
     <ClCompile Include="Ground.cpp">
+      <Filter>Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="Stair.cpp">
       <Filter>Objects</Filter>
     </ClCompile>
   </ItemGroup>

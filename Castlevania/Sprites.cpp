@@ -119,20 +119,20 @@ void Animation::Render(float x, float y, int alpha)
 	frames[currentFrame]->GetSprite()->Draw(x, y, alpha);
 }
 
-void Animation::Render(int id, int nx, float x, float y, int alpha)
-{
-	if (frames.size() == 3) // normal whip, short chain
-	{
-		frames[id]->GetSprite()->Draw(nx, x, y, alpha);
-	}
-	else  // == 12, long chain
-	{
-		int rd = rand() % 4;
-		DebugOut(L"rd %d\n", rd);
-
-		frames[id * 4 + rd]->GetSprite()->Draw(nx, x, y, alpha);
-	}
-}
+//void Animation::Render(int id, int nx, float x, float y, int alpha)
+//{
+//	if (frames.size() == 3) // normal whip, short chain
+//	{
+//		frames[id]->GetSprite()->Draw(nx, x, y, alpha);
+//	}
+//	else  // == 12, long chain
+//	{
+//		int rd = rand() % 4;
+//		DebugOut(L"rd %d\n", rd);
+//
+//		frames[id * 4 + rd]->GetSprite()->Draw(nx, x, y, alpha);
+//	}
+//}
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 Animations* Animations::__instance = NULL;

@@ -10,6 +10,7 @@
 #include "Weapon.h"
 #include "Items.h"
 #include "SubWeapon.h"
+#include "Stair.h"
 
 
 
@@ -24,6 +25,7 @@ class SceneManager
 	Items* item;
 	Weapon* weapon;
 	SubWeapon* subweapon;
+	Stair* stair;
 
 	TileMaps* tilemaps = TileMaps::GetInstance();
 	Textures* textures = Textures::GetInstance();
@@ -31,6 +33,7 @@ class SceneManager
 	Animations* animations = Animations::GetInstance();
 
 	vector<LPGAMEOBJECT> objects;
+	vector<LPGAMEOBJECT> listStairs;
 
 public:
 	SceneManager(Game* game, int idScene);
@@ -46,6 +49,7 @@ public:
 	Simon* GetSimon() { return this->simon; }
 	SubWeapon* GetSubWeapon() { return this->subweapon; }
 	int GetIDScene() { return this->IDScene; }
+	vector<LPGAMEOBJECT>* GetListStairs() { return &(this->listStairs); }
 
 };
 
