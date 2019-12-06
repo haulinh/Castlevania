@@ -11,7 +11,7 @@ using namespace std;
 #define SCREEN_WIDTH 512
 #define SCREEN_HEIGHT 480
 
-#define MAX_FRAME_RATE 120
+#define MAX_FRAME_RATE 200
 
 #pragma endregion
 
@@ -53,7 +53,8 @@ enum TexId
 	ID_TEX_ITEMS,
 	ID_TEX_EFFECT,
 	ID_TEX_HP,
-	ID_TEX_SUB_WEAPONS
+	ID_TEX_SUB_WEAPONS,
+	ID_TEX_STAIR,
 };
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -69,6 +70,8 @@ const string SIT_ATTACK = "SIMON_SIT_ATTACKING";
 const string THROW = "SIMON_THROWING";
 const string DIE = "SIMON_DIE";
 const string POWER = "SIMON_POWERING";
+const string STAIR_UP = "SIMON_STAIR_UP";
+const string STAIR_DOWN = "SIMON_STAIR_DOWN";
 
 // Weapon
 const string MAGIC_WHIP = "MAGIC_WHIP";
@@ -110,6 +113,10 @@ const string BOOMERANG_SUB = "BOOMERANG_SUB";
 const string HOLY_WATER_SUB = "HOLYWATER_SUB";
 const string STOP_WATCH_SUB = "STOP_WATCH_SUB";
 
+// Stair
+const string STAIR_LEFT_UP = "STAIR_LEFT_UP";
+const string STAIR_RIGHT_DOWN = "STAIR_RIGHT_DOWN";
+
 #pragma endregion
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -120,6 +127,8 @@ constexpr float SIMON_WALKING_SPEED = 0.1f;
 constexpr float SIMON_JUMP_SPEED_Y = 0.5f;
 constexpr float SIMON_GRAVITY = 0.002f;
 constexpr float SIMON_GRAVITY_LOWER = 0.001f;
+constexpr float SIMON_STAIR_SPEED_X = 0.08f;
+constexpr float SIMON_STAIR_SPEED_Y = 0.08f;
 
 // Item
 constexpr float ITEM_FALLING_SPEED = 0.1f;
@@ -174,11 +183,16 @@ constexpr float WEAPONS_BOOMERANG_SPEED = 0.5f;
 #define DAGGER_BBOX_WIDTH 32
 #define DAGGER_BBOX_HEIGHT 18
 
+// Stair
+#define STAIR_BBOX_WIDTH			32
+#define STAIR_BBOX_HEIGHT			32
+
 #pragma endregion
 
 #pragma region ID objects to load from file
 
 const string CANDLE = "CANDLE";
 const string GROUND= "GROUND";
+const string STAIR = "STAIR";
 
 #pragma endregion

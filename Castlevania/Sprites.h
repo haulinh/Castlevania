@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include <Windows.h>
 #include <d3dx9.h>
 #include <unordered_map>
@@ -68,6 +68,7 @@ typedef AnimationFrame *LPANIMATION_FRAME;
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 class Animation
 {
+	DWORD animStartTime;   // mốc thời gian kể từ lúc bắt đầu render một animation
 	DWORD lastFrameTime;
 	int defaultTime;
 	int currentFrame;
@@ -83,10 +84,14 @@ public:
 
 	void Add(string spriteId, DWORD time = 0);
 	void Render(int nx, float x, float y, int alpha=255);
-	void Render(int id, int nx, float x, float y, int alpha=255);
+	//void Render(int id, int nx, float x, float y, int alpha=255);
 	void Render(float x, float y, int alpha = 255);
 
 	bool IsCompleted() { return completed; }
+	void SetAniStartTime(DWORD t) { animStartTime = t; }
+	void Reset() { currentFrame = -1; }
+	bool IsOver(DWORD dt) { return GetTickCount() - animStartTime >= dt; /*currentFrame == frames.size() - 1;*/ }
+
 };
 
 typedef Animation *LPANIMATION;

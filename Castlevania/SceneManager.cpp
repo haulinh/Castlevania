@@ -48,12 +48,6 @@ void SceneManager::LoadObjectsFromFile(LPCWSTR FilePath)
 		return;
 	}
 
-	simon->SetPosition(0.0f, 220.0f);
-	objects.push_back(simon);
-
-	subweapon->SetEnable(false);
-	objects.push_back(subweapon);
-
 	string ID_Obj;
 	float pos_x, pos_y;
 	string state;
@@ -73,7 +67,7 @@ void SceneManager::LoadObjectsFromFile(LPCWSTR FilePath)
 			candle->SetIdItem(nameItem);
 			objects.push_back(candle);
 		}
-		if (ID_Obj == GROUND)
+		else if (ID_Obj == GROUND)
 		{
 			ground = new Ground();
 			ground->SetPosition(pos_x, pos_y);
@@ -81,9 +75,24 @@ void SceneManager::LoadObjectsFromFile(LPCWSTR FilePath)
 			ground->isEnable = isEnable;
 			objects.push_back(ground);
 		}
+		else if (ID_Obj == STAIR)
+		{
+			stair = new Stair();
+			stair->SetPosition(pos_x, pos_y);
+			stair->SetState(state);
+			stair->SetEnable(isEnable);
+			objects.push_back(stair);
+			listStairs.push_back(stair);
+		}
 
 	}
 	fs.close();
+
+	simon->SetPosition(930.0f, 220.0f);
+	objects.push_back(simon);
+
+	subweapon->SetEnable(false);
+	objects.push_back(subweapon);
 }
 
 void SceneManager::Update(DWORD dt)
@@ -108,12 +117,12 @@ void SceneManager::Update(DWORD dt)
 
 		if (dynamic_cast<Simon*>(objects[i]))
 		{
-			for (int j = 2; j < objects.size(); j++)
+			for (int j = 0; j < objects.size(); j++)
 			{
 				if (objects[j]->isEnable == false)
 					continue;
 
-				if (i != j) // thêm tất cả objects "ko phải là simon", dùng trong hàm update của simon 
+				if (dynamic_cast<Stair*>(objects[j]) == false)
 					coObjects.push_back(objects[j]);
 			}
 		}
@@ -132,7 +141,7 @@ void SceneManager::Update(DWORD dt)
 		}
 		else if (dynamic_cast<SubWeapon*>(objects[i]))
 		{
-			for (int j = 1; j < objects.size(); j++)
+			for (int j = 0; j < objects.size(); j++)
 			{
 				if (objects[j]->isEnable == false)
 					continue;

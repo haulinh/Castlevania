@@ -96,7 +96,6 @@ void Render()
 
 		spriteHandler->Begin(D3DXSPRITE_ALPHABLEND);
 
-
 		player->Render();
 		scenes->Render();
 
