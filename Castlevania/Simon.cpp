@@ -7,6 +7,7 @@
 #include "Ground.h"
 #include "Candle.h"
 #include "Items.h"
+#include "Door.h"
 
 Simon::Simon() : GameObject() {
 
@@ -33,7 +34,7 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	// Calculate dx, dy 
 	GameObject::Update(dt);
 
-	if (state != STAIR_UP && state != STAIR_DOWN)
+	if (state != STAIR_UP && state != STAIR_DOWN && isAutoWalk != true)
 	{
 		if (vy < -0.1f || vy > 0.1f)
 			vy += SIMON_GRAVITY * dt;
@@ -41,8 +42,31 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 	}
 
-	// simple collision with border map
-	if (x < 0) x = 0;
+	// Auto walk conditions
+	if (isAutoWalk == true)
+	{
+		if (abs(dx) <= abs(autoWalkDistance))
+		{
+			x += dx;
+			y += dy;
+			autoWalkDistance -= dx;
+		}
+		else
+		{
+			x += autoWalkDistance;
+			state = stateAfterAutoWalk;
+			nx = nxAfterAutoWalk;
+
+			SetState(state);
+
+			isAutoWalk = false;
+			autoWalkDistance = 0;
+			stateAfterAutoWalk = -1;
+			nxAfterAutoWalk = 0;
+		}
+
+		return; // no need to check collision
+	}
 
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
@@ -63,8 +87,8 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
 
-		x += min_tx * dx + nx * 0.4f;
-		y += min_ty * dy + ny * 0.4f;
+		x += min_tx * dx + nx * 0.1f;
+		y += min_ty * dy + ny * 0.1f;
 
 		for (UINT i = 0; i < coEventsResult.size(); i++)
 		{
@@ -72,20 +96,25 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 			if (dynamic_cast<Ground*>(e->obj))
 			{
-				if (e->ny != 0)
+			/*	if (e->ny != 0)
+				{
+					vy = 0;
+				}*/
+
+				if (ny == -1)
 				{
 					vy = 0;
 					jumping = false;
 				}
-
-				if (nx != 0 && state == STAIR_UP)
+				else
 				{
-					x -= nx * 0.1f;
+					y += dy;
+					jumping = false;
 				}
 
-				if (state == STAIR_DOWN)
+				if (state == STAIR_UP || state == STAIR_DOWN)
 				{
-					state = IDLE;
+					if (nx != 0) x -= nx * 0.1f;
 				}
 			}
 
@@ -96,61 +125,27 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				if (e->ny != 0) y += dy;
 			}
 
-			else if (dynamic_cast<Items*>(e->obj))
+			else if (dynamic_cast<Door*>(e->obj))
 			{
-				//if (e->ny != 0) y = 0;
-				e->obj->isEnable = false;
-
-				string nameItem = e->obj->GetState();
-				if (nameItem == CROSS || nameItem == DAGGER || nameItem == AXE || nameItem == HOLY_WATER || nameItem == BOOMERANG)
+				if (e->obj->GetState() == DOOR_2_IDLE)
 				{
-					nameWeapon = ItemToSubWeapon(nameItem);
-				}
+					e->obj->SetState(DOOR_2_OPEN);
+					e->obj->animations[e->obj->GetState()]->SetAniStartTime(GetTickCount());
 
-				else if (nameItem == SMALL_HEART)
+					isWalkThroughDoor = true;
+				}
+				else if (e->obj->GetState() == DOOR_2_OPEN)
 				{
-					energy += 1;
+					if (nx == -1) vx = 0;
 				}
-
-				else if (nameItem == LARGE_HEART)
+				else
 				{
-					energy += 5;
-
+					vx = SIMON_WALKING_SPEED_LOWER;
+					vy = 0;
+					AutoWalk(100, IDLE, 1);
 				}
-
-				else if (nameItem == CHAIN)
-				{
-					SetState(POWER); // đổi trạng thái power - biến hình nhấp nháy các kiểu đà điểu
-					vx = 0;
-					// lên đời whip
-					if (weapon->GetState() == MAGIC_WHIP) weapon->SetState(SHORT_CHAIN);
-					else if (weapon->GetState() == SHORT_CHAIN) weapon->SetState(LONG_CHAIN);
-				}
-
-				else if (nameItem == MONEY_BAG_RED)
-				{
-					score += 100;
-				}
-				/*	 MONEY_BAG_BLUE:
-					score += 400;
-
-					 MONEY_BAG_WHITE:
-					score += 700;
-
-					 MONEY_BAG_FLASHING:
-					score += 1000;
-
-					 DOUBLE_SHOT:
-					 TRIPLE_SHOT:
-					item = idItem;
-
-					 PORK_CHOP:
-					HP += 2;
-
-					 MAGIC_CRYSTAL:
-					HP = 16;*/
-
 			}
+
 			else
 			{
 				if (nx != 0) vx = 0;
@@ -188,8 +183,6 @@ void Simon::Render()
 	throwing = !animations[state]->IsCompleted();
 	powering = !animations[state]->IsCompleted();
 	stairUpping = !animations[state]->IsCompleted();
-
-	//RenderBoundingBox();
 }
 
 void Simon::SetState(string state)
@@ -267,7 +260,7 @@ void Simon::SetState(string state)
 void Simon::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
 	// sprite có kích thước là 60x66, bbox là 40x62
-	left = x + 10;
+	left = x + 13;
 	top = y + 2;
 	right = left + SIMON_BBOX_WIDTH;
 	bottom = top + SIMON_BBOX_HEIGHT;
@@ -315,7 +308,6 @@ void Simon::PositionCorrection(string prevState)
 
 	if (prevState == "")
 	{
-		//DebugOut(L"FUCK");
 		if (state == STAIR_UP)
 		{
 			if (stairDirection == 1)
@@ -325,7 +317,7 @@ void Simon::PositionCorrection(string prevState)
 			}
 			else
 			{
-				x = stair_x + 6.0f;
+				x = stair_x + 5.0f;
 				y = stair_y - 31.0f;
 			}
 		}
@@ -397,6 +389,7 @@ bool Simon::CheckCollisionWithStair(vector<LPGAMEOBJECT>* listStair)
 
 			// bậc thang ở dưới so với chân Simon->có thể di chuyển xuống.
 			if (simon_b < stair_b) isMovingDown = true;
+			if (stair_t - y <= 35) isMovingUp = true;
 
 			// kiểm tra xem simon có thể di chuyển lên hay ko
 			// vì mảng listStairs gồm các bậc thang liền kề nhau, nên chỉ cần kiểm tra 2 bậc là đủ.
@@ -413,7 +406,11 @@ bool Simon::CheckCollisionWithStair(vector<LPGAMEOBJECT>* listStair)
 				if (dx == GROUND_BBOX_WIDTH && dy == -GROUND_BBOX_HEIGHT) // vì bậc nằm trên nên dy = -...
 				{
 					isMovingUp = true;
-					return true;
+				}
+
+				if (dx == GROUND_BBOX_WIDTH && dy == GROUND_BBOX_HEIGHT) // vì bậc nằm duoi nên dy = +...
+				{
+					isMovingDown = true;
 				}
 			}
 
@@ -427,26 +424,98 @@ bool Simon::CheckCollisionWithStair(vector<LPGAMEOBJECT>* listStair)
 				if (dx == GROUND_BBOX_WIDTH && dy == -GROUND_BBOX_HEIGHT)
 				{
 					isMovingUp = true;
-					return true;
+				}
+
+				if (dx == GROUND_BBOX_WIDTH && dy == GROUND_BBOX_HEIGHT) // vì bậc nằm duoi nên dy = +...
+				{
+					isMovingDown = true;
 				}
 			}
 
-			// ko có bậc thang kế tiếp, tuy nhiên cần kiểm tra simon đã đi hết sprite thang hiện tại chưa
-			// (một sprite là 32x32, gồm 2 bậc thang, mỗi lần simon chỉ đi lên 1 bậc)
-			if (stair_t - y < 60)
-			{
-				isMovingUp = true;
-				return true;
-			}
-
-			isMovingUp = false;
 			return true; // collision between Simon and stairs
 		}
 
 	}
 
-	isMovingUp = false;
-	isMovingDown = false;
+	return false;
+}
+
+bool Simon::CheckCollisionWithItem(vector<LPGAMEOBJECT>* listItem)
+{
+	float simon_l, simon_t, simon_r, simon_b;
+	float item_l, item_t, item_r, item_b;
+
+	GetBoundingBox(simon_l, simon_t, simon_r, simon_b);
+
+	for (UINT i = 0; i < listItem->size(); i++)
+	{
+		if (listItem->at(i)->IsEnable() == false)
+			continue;
+
+		listItem->at(i)->GetBoundingBox(item_l, item_t, item_r, item_b);
+
+		if (this->AABBx(listItem->at(i)))
+		{
+			listItem->at(i)->isEnable = false;
+
+			string nameItem = listItem->at(i)->GetState();
+
+			if (nameItem == CROSS || nameItem == DAGGER || nameItem == AXE || nameItem == HOLY_WATER || nameItem == BOOMERANG)
+			{
+				nameWeapon = ItemToSubWeapon(nameItem);
+			}
+
+			else if (nameItem == SMALL_HEART)
+			{
+				energy += 1;
+			}
+
+			else if (nameItem == LARGE_HEART)
+			{
+				energy += 5;
+
+			}
+
+			else if (nameItem == CHAIN)
+			{
+				SetState(POWER); // đổi trạng thái power - biến hình nhấp nháy các kiểu đà điểu
+				vx = 0;
+				// lên đời whip
+				if (weapon->GetState() == MAGIC_WHIP) weapon->SetState(SHORT_CHAIN);
+				else if (weapon->GetState() == SHORT_CHAIN) weapon->SetState(LONG_CHAIN);
+			}
+
+			else if (nameItem == MONEY_BAG_RED)
+			{
+				score += 100;
+			}
+
+			return true;
+		}
+	}
+}
+
+bool Simon::CheckChangeScene(vector<LPCHANGESCENEOBJ>* listChangeScene)
+{
+	float simon_l, simon_t, simon_r, simon_b;
+	float obj_l, obj_t, obj_r, obj_b;
+
+	GetBoundingBox(simon_l, simon_t, simon_r, simon_b);
+
+	for (UINT i = 0; i < listChangeScene->size(); i++)
+	{
+		listChangeScene->at(i)->GetBoundingBox(obj_l, obj_t, obj_r, obj_b);
+
+		float t, nx, ny;
+		Game::SweptAABB(simon_l, simon_t, simon_r, simon_b, dx, dy, obj_l, obj_t, obj_r, obj_b, t, nx, ny);
+		bool collision = Game::AABB(simon_l, simon_t, simon_r, simon_b, obj_l, obj_t, obj_r, obj_b);
+
+		if (nx != 0 || ny != 0 || collision == true)
+		{
+			changeScene = listChangeScene->at(i)->GetIDNextScene();
+			return true;
+		}
+	}
 
 	return false;
 }
@@ -455,4 +524,13 @@ void Simon::StandOnStair()
 {
 	vx = 0;
 	vy = 0;
+}
+
+void Simon::AutoWalk(float distance, string new_state, int new_nx)
+{
+	isAutoWalk = true;
+
+	autoWalkDistance = distance;
+	stateAfterAutoWalk = new_state;
+	nxAfterAutoWalk = new_nx;
 }

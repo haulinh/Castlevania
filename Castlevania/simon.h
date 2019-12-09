@@ -4,6 +4,7 @@
 #include "LoadResourceFile.h"
 #include "define.h"
 #include "SubWeapon.h"
+#include "ChangeSceneObject.h"
 
 class Simon : public GameObject
 {
@@ -15,6 +16,10 @@ class Simon : public GameObject
 	int energy;
 	int life;
 	int HP;
+
+	float autoWalkDistance = 0;
+	string stateAfterAutoWalk = "";
+	int nxAfterAutoWalk = 0;
 
 public:
 
@@ -28,10 +33,14 @@ public:
 
 	bool isPowered = false;
 
+	bool isAutoWalk = false;
+	bool isWalkThroughDoor = false;
 	bool isStandOnStair = false; // trạng thái đang đứng trên cầu thang 
 	bool isMovingUp = false;
 	bool isMovingDown = false;
 	int stairDirection = 0; // 1: trái dưới - phải trên, -1: trái trên - phải dưới
+
+	int changeScene = -1;
 
 	LPGAMEOBJECT stairCollided = nullptr; // lưu bậc thang va chạm với simon -> để xét vị trí cho chuẩn trong hàm PositionCorrection
 
@@ -49,7 +58,7 @@ public:
 	bool IsSitAttacking();
 	bool IsThrowing();
 	bool IsPowering();
-	bool IsStairUpping();
+	//bool IsStairUpping();
 
 	int GetEnergy() { return this->energy; }
 	int GetLife() { return this->life; }
@@ -59,6 +68,9 @@ public:
 	string GetSubWeapon() { return this->nameWeapon; }
 	string ItemToSubWeapon(string itemName) { return itemName + "_SUB"; }
 	int GetStairDirection() { return this->stairDirection; }
+
+	int GetChangeScene() { return this->changeScene; }
+	void SetChangeScene(int x) { this->changeScene = x; }
 
 	bool IsStandOnStair() { return this->isStandOnStair; }
 	void SetStandOnStair(bool x) { this->isStandOnStair = x; }
@@ -71,8 +83,17 @@ public:
 	bool CheckCollisionWithStair(vector<LPGAMEOBJECT>* listStair);
 	LPGAMEOBJECT GetStairCollided() { return this->stairCollided; }
 
+	bool CheckCollisionWithItem(vector<LPGAMEOBJECT>* listItem);
+	bool CheckChangeScene(vector<LPCHANGESCENEOBJ>* listChangeScene);
+
 	// Căn chỉnh lại vị trí của Simon với bậc thang
 	void PositionCorrection(string prevState = "");  // -1 is not changed  
 	// Giữ cho Simon đứng yên trên bậc thang
 	void StandOnStair();
+
+	void SetAutoWalkDistance(float d) { this->autoWalkDistance = d; }
+	void SetStateAfterAutoWalk(int state) { this->stateAfterAutoWalk = state; }
+
+	void AutoWalk(float distance, string new_state, int new_nx);
+	bool IsAutoWalk() { return this->isAutoWalk; }
 };

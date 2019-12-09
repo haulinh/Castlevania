@@ -11,6 +11,7 @@
 #include "Items.h"
 #include "SubWeapon.h"
 #include "Stair.h"
+#include "Door.h"
 
 
 
@@ -26,6 +27,9 @@ class SceneManager
 	Weapon* weapon;
 	SubWeapon* subweapon;
 	Stair* stair;
+	Door* door;
+
+	ChangeSceneObject* changeScene;
 
 	TileMaps* tilemaps = TileMaps::GetInstance();
 	Textures* textures = Textures::GetInstance();
@@ -33,7 +37,17 @@ class SceneManager
 	Animations* animations = Animations::GetInstance();
 
 	vector<LPGAMEOBJECT> objects;
+	vector<LPGAMEOBJECT> listCandles;
 	vector<LPGAMEOBJECT> listStairs;
+	vector<LPGAMEOBJECT> listGrounds;
+	vector<LPGAMEOBJECT> listItems;
+	vector<LPGAMEOBJECT> listDoors;
+
+	vector<LPCHANGESCENEOBJ> listChangeSceneObjs;
+
+	bool isSetSimonAutoWalk = false;
+	bool isMovingCamera = false;
+	int countDxCamera = 0;
 
 public:
 	SceneManager(Game* game, int idScene);
@@ -41,14 +55,16 @@ public:
 
 	void LoadResources();		// load all sprites and tilemaps
 	void LoadObjectsFromFile(LPCWSTR FilePath);		// load all objects (position, state, isenable) from file and save to vector Objects
+	void CreateListChangeSceneObjects();
 
 	virtual void Update(DWORD dt);
 	virtual void Render();
 
 	void ChangeScene(int scene);
+	int GetIDScene() { return this->IDScene; }
+
 	Simon* GetSimon() { return this->simon; }
 	SubWeapon* GetSubWeapon() { return this->subweapon; }
-	int GetIDScene() { return this->IDScene; }
 	vector<LPGAMEOBJECT>* GetListStairs() { return &(this->listStairs); }
 
 };

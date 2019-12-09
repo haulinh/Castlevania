@@ -81,6 +81,12 @@
     <ClInclude Include="Stair.h">
       <Filter>Objects</Filter>
     </ClInclude>
+    <ClInclude Include="ChangeSceneObject.h">
+      <Filter>Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Door.h">
+      <Filter>Objects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -135,6 +141,12 @@
       <Filter>Objects</Filter>
     </ClCompile>
     <ClCompile Include="Stair.cpp">
+      <Filter>Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="ChangeSceneObject.cpp">
+      <Filter>Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="Door.cpp">
       <Filter>Objects</Filter>
     </ClCompile>
   </ItemGroup>
