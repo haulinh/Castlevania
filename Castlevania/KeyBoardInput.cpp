@@ -60,12 +60,16 @@ void KeyBoardInput::KeyState(BYTE *state)
 
 	else if (game->IsKeyDown(DIK_DOWN))
 	{
+		string prevState = simon->GetState();
+
 		if (isCollideWithStair == true)
 		{
 			if (simon->IsMovingDown() == false)
+			{
+				simon->SetState(IDLE);
 				return;
+			}
 
-			string prevState = simon->GetState();
 
 			simon->SetN(-simon->GetStairDirection());
 			simon->SetState(STAIR_DOWN);
