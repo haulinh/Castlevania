@@ -20,11 +20,11 @@ Simon::Simon() : GameObject() {
 	}
 
 	weapon = new Weapon();
-	nameWeapon = HOLY_WATER_SUB;
+	nameWeapon = BOOMERANG_SUB;
 
 	score = 0;
 	item = -1;
-	energy = 0;
+	energy = 99;
 	life = 3;
 	HP = 10;
 }
@@ -94,14 +94,22 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		{
 			LPCOLLISIONEVENT e = coEventsResult[i];
 
+			// no collision of Simon and Candle
+			if (dynamic_cast<Candle*>(e->obj))
+			{
+				if (e->nx != 0) x += dx;
+				if (e->ny != 0) y += dy;
+			}
+
 			if (dynamic_cast<Ground*>(e->obj))
 			{
-			/*	if (e->ny != 0)
+				if (e->ny != 0)
 				{
 					vy = 0;
-				}*/
+					jumping = false;
+				}
 
-				if (ny == -1)
+			/*	if (ny == -1)
 				{
 					vy = 0;
 					jumping = false;
@@ -110,19 +118,12 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				{
 					y += dy;
 					jumping = false;
-				}
+				}*/
 
 				if (state == STAIR_UP || state == STAIR_DOWN)
 				{
 					if (nx != 0) x -= nx * 0.1f;
 				}
-			}
-
-			// no collision of Simon and Candle
-			if (dynamic_cast<Candle*>(e->obj))
-			{
-				if (e->nx != 0) x += dx;
-				if (e->ny != 0) y += dy;
 			}
 
 			else if (dynamic_cast<Door*>(e->obj))
@@ -200,21 +201,22 @@ void Simon::SetState(string state)
 
 	else if (state == WALK)
 	{
+		isStandOnStair = false;
 		if (nx > 0) vx = SIMON_WALKING_SPEED;
 		else vx = -SIMON_WALKING_SPEED;
-		isStandOnStair = false;
 	}
 
 	else if (state == JUMP)
 	{
-		vy = -SIMON_JUMP_SPEED_Y;
 		jumping = true;
 		sitting = false;
 		isStandOnStair = false;
+		vy = -SIMON_JUMP_SPEED_Y;
 	}
 
 	else if (state == STAND_ATTACK)
 	{
+		isStandOnStair = false;
 	}
 
 	else if (state == SIT_ATTACK)
@@ -364,6 +366,9 @@ void Simon::PositionCorrection(string prevState)
 
 bool Simon::CheckCollisionWithStair(vector<LPGAMEOBJECT>* listStair)
 {
+	isMovingUp = false;
+	isMovingDown = false;
+
 	float simon_l, simon_t, simon_r, simon_b;
 	GetBoundingBox(simon_l, simon_t, simon_r, simon_b);
 
