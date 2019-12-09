@@ -21,6 +21,7 @@ TileMap::TileMap(int ID, LPCWSTR filePathTex, LPCWSTR filePathData, int mapWidth
 
 	LoadResources();
 	LoadMapData();
+	CreateZoneToDraw();
 }
 
 void TileMap::LoadResources()
@@ -49,8 +50,8 @@ void TileMap::LoadResources()
 		{
 			int left = tileWidth * j;
 			int top = tileHeight * i;
-			int width = tileWidth * (j + 1);
-			int height = tileHeight * (i + 1);
+			int width = tileWidth;
+			int height = tileHeight;
 			sprites->Add(to_string(id_sprite + ID * 1000), left, top, width, height, texTileMap);
 			id_sprite += 1;
 		}
@@ -92,10 +93,30 @@ void TileMap::LoadMapData()
 	fs.close();
 }
 
+void TileMap::CreateZoneToDraw()
+{
+	switch (ID)
+	{
+	case SCENE_1:
+		min_max_col_to_draw.push_back({ 0, 48 });
+		break;
+	case SCENE_2:
+		min_max_col_to_draw.push_back({ 0, 96 });
+		min_max_col_to_draw.push_back({ 96, 128 });
+		min_max_col_to_draw.push_back({ 128, 176 });
+		break;
+	case SCENE_3:
+		min_max_col_to_draw.push_back({ 0, 32 });
+		break;
+	default:
+		break;
+	}
+}
+
 void TileMap::Draw(D3DXVECTOR2 camPosition)
 {
-	int start_col_to_draw = (int)camPosition.x / 32;
-	int end_col_to_draw = (int)(camPosition.x + SCREEN_WIDTH) / 32;
+	start_col_to_draw = (int)camPosition.x / 32;
+	end_col_to_draw = start_col_to_draw + SCREEN_WIDTH / 32;
 
 	for (int i = 0; i < numsRow; i++)
 	{

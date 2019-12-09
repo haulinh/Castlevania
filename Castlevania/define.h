@@ -33,6 +33,10 @@ using namespace std;
 #define FILEPATH_DATA_MAP_SCENE_2 L"Scenes\\Scene2_map.txt"
 #define FILEPATH_OBJECTS_SCENE_2 L"Scenes\\Scene2_objects.txt"
 
+#define FILEPATH_TEX_MAP_SCENE_3		L"Scenes\\Scene3.png"
+#define FILEPATH_DATA_MAP_SCENE_3		L"Scenes\\Scene3_map.txt"
+#define FILEPATH_OBJECTS_SCENE_3		L"Scenes\\Scene3_objects.txt"
+
 // Player
 #define FILEPATH_TEX_HP L"Textures\\HP.png"
 #define FILEPATH_TEX_RECT L"Textures\\Rect.png"
@@ -55,6 +59,8 @@ enum TexId
 	ID_TEX_HP,
 	ID_TEX_SUB_WEAPONS,
 	ID_TEX_STAIR,
+	ID_TEX_DOOR,
+	ID_TEX_GATE
 };
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -72,6 +78,7 @@ const string DIE = "SIMON_DIE";
 const string POWER = "SIMON_POWERING";
 const string STAIR_UP = "SIMON_STAIR_UP";
 const string STAIR_DOWN = "SIMON_STAIR_DOWN";
+const string AUTO_WALK = "SIMON_AUTO_WALK";
 
 // Weapon
 const string MAGIC_WHIP = "MAGIC_WHIP";
@@ -81,6 +88,7 @@ const string LONG_CHAIN = "LONG_CHAIN";
 // Candle
 const string LARGE_CANDLE = "LARGE_CANDLE";
 const string DESTROY = "DESTROY";
+const string CANDLE = "CANDLE";
 
 // Ground
 const string GROUND_1 = "GROUND_1";
@@ -117,13 +125,19 @@ const string STOP_WATCH_SUB = "STOP_WATCH_SUB";
 const string STAIR_LEFT_UP = "STAIR_LEFT_UP";
 const string STAIR_RIGHT_DOWN = "STAIR_RIGHT_DOWN";
 
+// Door
+const string  DOOR_1 = "DOOR_1";
+const string  DOOR_2_IDLE = "DOOR_2_IDLE";
+const string  DOOR_2_OPEN = "DOOR_2_OPEN";
+
 #pragma endregion
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma region define Properties
 
 // Simon
-constexpr float SIMON_WALKING_SPEED = 0.1f;
+constexpr float SIMON_WALKING_SPEED = 0.15f;
+constexpr float SIMON_WALKING_SPEED_LOWER = 0.05f;
 constexpr float SIMON_JUMP_SPEED_Y = 0.5f;
 constexpr float SIMON_GRAVITY = 0.002f;
 constexpr float SIMON_GRAVITY_LOWER = 0.001f;
@@ -152,7 +166,7 @@ constexpr float WEAPONS_BOOMERANG_SPEED = 0.5f;
 #pragma region BBox Size
 
 // Simon
-#define SIMON_BBOX_WIDTH 40
+#define SIMON_BBOX_WIDTH 34
 #define SIMON_BBOX_HEIGHT 62
 
 // Ground
@@ -187,12 +201,20 @@ constexpr float WEAPONS_BOOMERANG_SPEED = 0.5f;
 #define STAIR_BBOX_WIDTH			32
 #define STAIR_BBOX_HEIGHT			32
 
+// Door
+#define DOOR_BBOX_WIDTH				32
+#define DOOR_BBOX_HEIGHT			96
+
+// Change Scene Object
+#define CHANGE_SCENE_BBOX_WIDTH		32
+#define CHANGE_SCENE_BBOX_HEIGHT	32
+
 #pragma endregion
 
 #pragma region ID objects to load from file
 
-const string CANDLE = "CANDLE";
 const string GROUND= "GROUND";
 const string STAIR = "STAIR";
+const string DOOR = "DOOR";
 
 #pragma endregion

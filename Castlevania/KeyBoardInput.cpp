@@ -37,8 +37,8 @@ void KeyBoardInput::KeyState(BYTE *state)
 	if (scene->GetSimon()->IsPowering())
 		return;
 
-	//if (scene->GetSimon()->IsStairUpping())
-	//	return;
+	if (scene->GetSimon()->IsAutoWalk() == true)
+		return;
 
 	if (scene->GetSimon()->GetState() == STAIR_UP && scene->GetSimon()->animations[STAIR_UP]->IsOver(200) == false)
 		return;
@@ -92,20 +92,15 @@ void KeyBoardInput::KeyState(BYTE *state)
 		{
 			if (simon->IsMovingUp() == false)
 			{
-				simon->SetState(IDLE);
-
-				// chỉnh lại vị trí một tí
-				if (prevState == STAIR_UP)
+				if (prevState == STAIR_UP || prevState == STAIR_DOWN)
 				{
-					float sx, sy, nx;
-					simon->GetPosition(sx, sy);
-					nx = simon->GetN();
-					simon->SetPosition(sx + nx * 5.0f, sy - 5.0f);
+					int nx = simon->GetN();
+					simon->SetState(STAIR_UP);
+					simon->AutoWalk(16 * nx, IDLE, nx);
 				}
 
 				return;
 			}
-
 
 			simon->SetN(simon->GetStairDirection());
 			simon->SetState(STAIR_UP);

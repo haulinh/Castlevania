@@ -116,7 +116,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	scenes = new SceneManager(game, SCENE_2);
 	scenes->LoadResources();
-	scenes->LoadObjectsFromFile(FILEPATH_OBJECTS_SCENE_2);
+	//scenes->LoadObjectsFromFile(FILEPATH_OBJECTS_SCENE_2);
+	scenes->ChangeScene(SCENE_2);
 
 	input = new KeyBoardInput(game, scenes);
 	game->InitKeyboard(input);

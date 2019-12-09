@@ -29,12 +29,19 @@ class TileMap
 public:
 	vector<vector<int>> mapData;	// ma trận lưu dữ liệu map
 
+	vector<vector<int>> min_max_col_to_draw;
+	int index = 0; // index hiện tại của min_max_col_to_draw
+
+	int start_col_to_draw;
+	int end_col_to_draw;
+
 	Sprites* sprites;
 
 	TileMap(int ID, LPCWSTR filePathTex, LPCWSTR filePathData, int mapWidth, int mapHeight, int tileWidth, int tileHeight);
 
 	void LoadResources();	// load tất cả các block tile lưu vào sprites
 	void LoadMapData();	// load ma trận dữ liệu map 
+	void CreateZoneToDraw(); // khởi tạo vector 2 chiều min_max_col_to_draw
 	void Draw(D3DXVECTOR2 camPosition);	// vẽ tất cả các tile nằm trong camera
 
 	int GetMapWidth() { return mapWidth; }

@@ -123,6 +123,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="ChangeSceneObject.h" />
+    <ClInclude Include="Door.h" />
     <ClInclude Include="Ground.h" />
     <ClInclude Include="debug.h" />
     <ClInclude Include="define.h" />
@@ -143,6 +145,8 @@
     <ClInclude Include="Weapon.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ChangeSceneObject.cpp" />
+    <ClCompile Include="Door.cpp" />
     <ClCompile Include="Ground.cpp" />
     <ClCompile Include="debug.cpp" />
     <ClCompile Include="Game.cpp" />

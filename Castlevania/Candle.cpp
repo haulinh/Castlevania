@@ -22,23 +22,23 @@ Candle::Candle()
 
 }
 
-void Candle::Update(DWORD dt, vector<LPGAMEOBJECT>* objects, vector<LPGAMEOBJECT>* coObjects)
+void Candle::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	if (state == DESTROY && isLastFame) 	//nếu render xong hết đốm lửa rồi thì set enable = false -> biến mất
 	{
 		this->isEnable = false;
 
-		// Tạo một item theo id và thêm vào Objects
-		if (!nameItem.empty())
-		{
-			// Tạo một item theo id và thêm vào Objects
-			Items* item = new Items();
-			item->isEnable = true;
-			item->SetPosition(x, y);
-			item->SetItem(nameItem);
+		//// Tạo một item theo id và thêm vào Objects
+		//if (!nameItem.empty())
+		//{
+		//	// Tạo một item theo id và thêm vào Objects
+		//	Items* item = new Items();
+		//	item->isEnable = true;
+		//	item->SetPosition(x, y);
+		//	item->SetItem(nameItem);
 
-			objects->push_back(item);
-		}
+		//	objects->push_back(item);
+		//}
 	}
 }
 

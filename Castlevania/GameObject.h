@@ -50,7 +50,9 @@ public:
 
 	bool isLastFame = false;
 	bool isEnable;
-	string nameItem; // id cua object chua item (-1 = ko co item)
+	string nameItem; // id cua object chua item (string empty = ko co item)
+
+	bool isRenderAnimation;
 
 	DWORD dt;
 
@@ -67,11 +69,14 @@ public:
 	void SetIdItem(string nameItem) { this->nameItem = nameItem; }
 	void SetEnable(bool enable) { this->isEnable = enable; }
 
+	bool GetIsRenderAnimation() { return this->isRenderAnimation; }
+	void SetIsRenderAnimation(bool x) { this->isRenderAnimation = x; }
+
 	void GetPosition(float& x, float& y) { x = this->x; y = this->y; }
 	int GetN() { return nx; }
 	void GetSpeed(float &vx, float &vy) { vx = this->vx; vy = this->vy; }
 	string GetState() { return this->state; }
-
+	bool IsEnable() { return this->isEnable; }
 
 	LPCOLLISIONEVENT SweptAABBEx(LPGAMEOBJECT coO);
 	void CalcPotentialCollisions(vector<LPGAMEOBJECT> *coObjects, vector<LPCOLLISIONEVENT> &coEvents);

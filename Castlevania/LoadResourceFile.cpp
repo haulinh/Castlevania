@@ -99,6 +99,8 @@ void LoadResourceFile::LoadTextures()
 	textures->Add(ID_TEX_EFFECT, L"resources\\effect\\effect.png", D3DCOLOR_XRGB(255, 0, 255));
 	textures->Add(ID_TEX_SUB_WEAPONS, L"resources\\sub_weapons\\sub_weapons.png", D3DCOLOR_XRGB(255, 0, 255));
 	textures->Add(ID_TEX_STAIR, L"resources\\stair\\stair.png", D3DCOLOR_XRGB(255, 0, 255));
+	textures->Add(ID_TEX_DOOR, L"resources\\door\\door.png", D3DCOLOR_XRGB(255, 0, 255));
+	textures->Add(ID_TEX_GATE, L"resources\\door\\gate.png", D3DCOLOR_XRGB(255, 0, 255));
 }
 
 void LoadResourceFile::LoadAllResource()
@@ -114,6 +116,8 @@ void LoadResourceFile::LoadAllResource()
 	auto texEffect = textures->Get(ID_TEX_EFFECT);
 	auto texSubWeapons = textures->Get(ID_TEX_SUB_WEAPONS);
 	auto texStair = textures->Get(ID_TEX_STAIR);
+	auto texDoor = textures->Get(ID_TEX_DOOR);
+	auto texGate = textures->Get(ID_TEX_GATE);
 
 	LoadSpriteSheetFile("resources\\ground\\ground.xml", texGround);
 	LoadSpriteSheetFile("resources\\simon\\simon.xml", texSimon);
@@ -123,6 +127,8 @@ void LoadResourceFile::LoadAllResource()
 	LoadSpriteSheetFile("resources\\effect\\effect.xml", texEffect);
 	LoadSpriteSheetFile("resources\\sub_weapons\\sub_weapons.xml", texSubWeapons);
 	LoadSpriteSheetFile("resources\\stair\\stair.xml", texStair);
+	LoadSpriteSheetFile("resources\\door\\door.xml", texDoor);
+	LoadSpriteSheetFile("resources\\door\\gate.xml", texGate);
 
 	LoadAnimationsFile("resources\\simon\\simon_ani.xml");
 	LoadAnimationsFile("resources\\weapons\\weapons_ani.xml");
@@ -132,4 +138,6 @@ void LoadResourceFile::LoadAllResource()
 	LoadAnimationsFile("resources\\effect\\effect_ani.xml");
 	LoadAnimationsFile("resources\\sub_weapons\\sub_weapons_ani.xml");
 	LoadAnimationsFile("resources\\stair\\stair_ani.xml");
+	LoadAnimationsFile("resources\\door\\door_ani.xml");
+	LoadAnimationsFile("resources\\door\\gate_ani.xml");
 }
