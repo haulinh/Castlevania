@@ -102,13 +102,6 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		{
 			LPCOLLISIONEVENT e = coEventsResult[i];
 
-			// no collision of Simon and Candle
-			if (dynamic_cast<Candle*>(e->obj))
-			{
-				if (e->nx != 0) x += dx;
-				if (e->ny != 0) y += dy;
-			}
-
 			if (dynamic_cast<Ground*>(e->obj))
 			{
 				if (e->ny != 0)
@@ -121,6 +114,13 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				{
 					if (nx != 0) x -= nx * 0.1f;
 				}
+			}
+
+			// no collision of Simon and Candle
+			if (dynamic_cast<Candle*>(e->obj))
+			{
+				if (e->nx != 0) x += dx;
+				if (e->ny != 0) y += dy;
 			}
 
 			else if (dynamic_cast<Door*>(e->obj))
