@@ -21,6 +21,9 @@ class Simon : public GameObject
 	string stateAfterAutoWalk = "";
 	int nxAfterAutoWalk = 0;
 
+	bool isUntouchable = false;
+	DWORD untouchable_start = 0;
+
 public:
 
 	bool jumping = false;
@@ -29,7 +32,8 @@ public:
 	bool sitAttacking = false;
 	bool throwing = false;
 	bool powering = false;
-	bool stairUpping= false;
+	bool stairUpping = false;
+	bool deflecting = false;
 
 	bool isPowered = false;
 
@@ -58,7 +62,8 @@ public:
 	bool IsSitAttacking();
 	bool IsThrowing();
 	bool IsPowering();
-	//bool IsStairUpping();
+	bool IsDeflecting();
+	bool IsStairUpping();
 
 	int GetEnergy() { return this->energy; }
 	int GetLife() { return this->life; }
@@ -96,4 +101,7 @@ public:
 
 	void AutoWalk(float distance, string new_state, int new_nx);
 	bool IsAutoWalk() { return this->isAutoWalk; }
+
+	void StartUntouchable() { isUntouchable = true; untouchable_start = GetTickCount(); }
+
 };

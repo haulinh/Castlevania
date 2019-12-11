@@ -12,6 +12,7 @@
 #include "SubWeapon.h"
 #include "Stair.h"
 #include "Door.h"
+#include "Zombie.h"
 
 
 
@@ -28,6 +29,7 @@ class SceneManager
 	SubWeapon* subweapon;
 	Stair* stair;
 	Door* door;
+	Zombie* zombie;
 
 	ChangeSceneObject* changeScene;
 
@@ -42,6 +44,7 @@ class SceneManager
 	vector<LPGAMEOBJECT> listGrounds;
 	vector<LPGAMEOBJECT> listItems;
 	vector<LPGAMEOBJECT> listDoors;
+	vector<LPGAMEOBJECT> listZombies;
 
 	vector<LPCHANGESCENEOBJ> listChangeSceneObjs;
 

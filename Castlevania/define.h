@@ -60,7 +60,8 @@ enum TexId
 	ID_TEX_SUB_WEAPONS,
 	ID_TEX_STAIR,
 	ID_TEX_DOOR,
-	ID_TEX_GATE
+	ID_TEX_GATE,
+	ID_TEX_ZOMBIE,
 };
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -79,6 +80,7 @@ const string POWER = "SIMON_POWERING";
 const string STAIR_UP = "SIMON_STAIR_UP";
 const string STAIR_DOWN = "SIMON_STAIR_DOWN";
 const string AUTO_WALK = "SIMON_AUTO_WALK";
+const string DEFLECT = "SIMON_DEFLECT";
 
 // Weapon
 const string MAGIC_WHIP = "MAGIC_WHIP";
@@ -87,7 +89,7 @@ const string LONG_CHAIN = "LONG_CHAIN";
 
 // Candle
 const string LARGE_CANDLE = "LARGE_CANDLE";
-const string DESTROY = "DESTROY";
+const string CANDLE_DESTROY = "EFFECT";
 const string CANDLE = "CANDLE";
 
 // Ground
@@ -130,6 +132,10 @@ const string  DOOR_1 = "DOOR_1";
 const string  DOOR_2_IDLE = "DOOR_2_IDLE";
 const string  DOOR_2_OPEN = "DOOR_2_OPEN";
 
+// Zombie 
+const string  ZOMBIE = "ZOMBIE";
+const string  ZOMBIE_DESTROYED = "EFFECT";
+
 #pragma endregion
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -143,6 +149,9 @@ constexpr float SIMON_GRAVITY = 0.002f;
 constexpr float SIMON_GRAVITY_LOWER = 0.001f;
 constexpr float SIMON_STAIR_SPEED_X = 0.08f;
 constexpr float SIMON_STAIR_SPEED_Y = 0.08f;
+constexpr float SIMON_UNTOUCHABLE_TIME = 3000;
+constexpr float SIMON_DEFLECT_SPEED_X = 0.15f;
+constexpr float SIMON_DEFLECT_SPEED_Y = 0.3f;
 
 // Item
 constexpr float ITEM_FALLING_SPEED = 0.1f;
@@ -160,6 +169,9 @@ constexpr float WEAPONS_HOLY_WATER_SPEED_Y = 0.1f;
 
 constexpr float WEAPONS_BOOMERANG_SPEED = 0.5f;
 
+// Zombie
+constexpr float ZOMBIE_WALKING_SPEED = 0.1f;
+
 #pragma endregion
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -168,6 +180,7 @@ constexpr float WEAPONS_BOOMERANG_SPEED = 0.5f;
 // Simon
 #define SIMON_BBOX_WIDTH 34
 #define SIMON_BBOX_HEIGHT 62
+#define SIMON_JUMPING_BBOX_HEIGHT	62
 
 // Ground
 #define GROUND_BBOX_WIDTH 32
@@ -208,6 +221,9 @@ constexpr float WEAPONS_BOOMERANG_SPEED = 0.5f;
 // Change Scene Object
 #define CHANGE_SCENE_BBOX_WIDTH		32
 #define CHANGE_SCENE_BBOX_HEIGHT	32
+
+#define ZOMBIE_BBOX_WIDTH			32
+#define ZOMBIE_BBOX_HEIGHT			64
 
 #pragma endregion
 

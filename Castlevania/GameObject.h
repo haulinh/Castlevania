@@ -4,9 +4,10 @@
 #include <d3dx9.h>
 #include <vector>
 #include <unordered_map>
+#include "define.h"
 
 #include "Sprites.h"
-
+#include "LoadResourceFile.h"
 
 using namespace std;
 
@@ -52,8 +53,6 @@ public:
 	bool isEnable;
 	string nameItem; // id cua object chua item (string empty = ko co item)
 
-	bool isRenderAnimation;
-
 	DWORD dt;
 
 
@@ -68,9 +67,6 @@ public:
 	void SetN(int nx) { this->nx = nx; }
 	void SetIdItem(string nameItem) { this->nameItem = nameItem; }
 	void SetEnable(bool enable) { this->isEnable = enable; }
-
-	bool GetIsRenderAnimation() { return this->isRenderAnimation; }
-	void SetIsRenderAnimation(bool x) { this->isRenderAnimation = x; }
 
 	void GetPosition(float& x, float& y) { x = this->x; y = this->y; }
 	int GetN() { return nx; }

@@ -42,7 +42,6 @@
         <frame spriteID="simon_27" time="100"/>
     </animation>
 
-
     <animation ID="SIMON_STAIR_UP" defaultTime="100">
         <frame spriteID="simon_13" time="100"/>
         <frame spriteID="simon_14" time="100"/>
@@ -51,5 +50,11 @@
      <animation ID="SIMON_STAIR_DOWN" defaultTime="100">
         <frame spriteID="simon_11" time="100"/>
         <frame spriteID="simon_12" time="100"/>
+    </animation>
+
+     <animation ID="SIMON_DEFLECT" defaultTime="100">
+        <frame spriteID="simon_1" time="100"/>
+        <frame spriteID="simon_9" time="400"/>
+        <frame spriteID="simon_5" time="100"/>
     </animation>
 </animations>

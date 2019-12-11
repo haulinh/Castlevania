@@ -1,5 +1,5 @@
 <animations name="Effect">
-    <animation ID="DESTROY" defaultTime="50">
+    <animation ID="EFFECT" defaultTime="50">
         <frame spriteID="effect_1" time="50"/>
         <frame spriteID="effect_2" time="50"/>
         <frame spriteID="effect_3" time="50"/>

@@ -33,6 +33,8 @@ void SceneManager::LoadResources()
 
 	door = new Door();
 
+	zombie = new Zombie();
+
 	tilemaps->Add(SCENE_1, FILEPATH_TEX_MAP_SCENE_1, FILEPATH_DATA_MAP_SCENE_1, 1536, 320, 32, 32);
 	tilemaps->Add(SCENE_2, FILEPATH_TEX_MAP_SCENE_2, FILEPATH_DATA_MAP_SCENE_2, 5632, 352, 32, 32);
 	tilemaps->Add(SCENE_3, FILEPATH_TEX_MAP_SCENE_3, FILEPATH_DATA_MAP_SCENE_3, 1024, 352, 32, 32);
@@ -46,6 +48,7 @@ void SceneManager::LoadObjectsFromFile(LPCWSTR FilePath)
 	listGrounds.clear();
 	listItems.clear();
 	listDoors.clear();
+	listZombies.clear();
 
 	fstream fs;
 	fs.open(FilePath, ios::in);
@@ -106,6 +109,14 @@ void SceneManager::LoadObjectsFromFile(LPCWSTR FilePath)
 
 	}
 	fs.close();
+
+	// Test
+	zombie = new Zombie();
+	zombie->SetPosition(400, 336);
+	zombie->isEnable = true;
+	zombie->SetIdItem(SMALL_HEART);
+	listZombies.push_back(zombie);
+	objects.push_back(zombie);
 
 	objects.push_back(simon);
 
@@ -295,6 +306,14 @@ void SceneManager::Update(DWORD dt)
 				coObjects.push_back(ground);
 			}
 
+		/*	for (auto zombie : listZombies)
+			{
+				if (zombie->IsEnable() == false)
+					continue;
+
+				coObjects.push_back(zombie);
+			}*/
+
 			for (auto door : listDoors)
 			{
 				if (door->IsEnable() == false)
@@ -367,7 +386,7 @@ void SceneManager::Render()
 			continue;
 
 		candle->Render();
-		candle->RenderBoundingBox();
+		//candle->RenderBoundingBox();
 	}
 
 	for (auto item : listItems)
@@ -376,11 +395,11 @@ void SceneManager::Render()
 			continue;
 
 		item->Render();
-		item->RenderBoundingBox();
+		//item->RenderBoundingBox();
 	}
 
 	simon->Render();
-	simon->RenderBoundingBox();
+	//simon->RenderBoundingBox();
 
 	for (auto door : listDoors)
 	{
@@ -389,6 +408,15 @@ void SceneManager::Render()
 
 		door->Render();
 		door->RenderBoundingBox();
+	}
+
+	for (auto zombie : listZombies)
+	{
+		if (zombie->IsEnable() == false)
+			continue;
+
+		zombie->Render();
+		//zombie->RenderBoundingBox();
 	}
 }
 
@@ -407,7 +435,7 @@ void SceneManager::ChangeScene(int scene)
 	case SCENE_2:
 		LoadObjectsFromFile(FILEPATH_OBJECTS_SCENE_2);
 		CreateListChangeSceneObjects();
-		simon->SetPosition(1300.0f, 335.0f);
+		simon->SetPosition(0.0f, 335.0f);
 		game->SetCamPos(0.0f, 0.0f);
 		break;
 	case SCENE_3:
