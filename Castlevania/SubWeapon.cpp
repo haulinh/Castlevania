@@ -58,7 +58,7 @@ void SubWeapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			{
 				Candle* candle = dynamic_cast<Candle*>(e->obj);
 				this->isEnable = false;
-				candle->SetState(DESTROY);
+				candle->SetState(CANDLE_DESTROY);
 				candle->isLastFame = false;
 			}
 		}

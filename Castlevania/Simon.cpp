@@ -8,6 +8,7 @@
 #include "Candle.h"
 #include "Items.h"
 #include "Door.h"
+#include "Zombie.h"
 
 Simon::Simon() : GameObject() {
 
@@ -36,8 +37,8 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 	if (state != STAIR_UP && state != STAIR_DOWN && isAutoWalk != true)
 	{
-		if (vy < -0.1f || vy > 0.1f)
-			vy += SIMON_GRAVITY * dt;
+			if (vy < -0.2f || vy > 0.2f)
+		vy += SIMON_GRAVITY * dt;
 		else vy += SIMON_GRAVITY_LOWER * dt;
 
 	}
@@ -66,6 +67,13 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		}
 
 		return; // no need to check collision
+	}
+
+	// Reset untouchable timer if untouchable time has passed
+	if (GetTickCount() - untouchable_start > SIMON_UNTOUCHABLE_TIME)
+	{
+		untouchable_start = 0;
+		isUntouchable = false;
 	}
 
 	vector<LPCOLLISIONEVENT> coEvents;
@@ -109,17 +117,6 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					jumping = false;
 				}
 
-			/*	if (ny == -1)
-				{
-					vy = 0;
-					jumping = false;
-				}
-				else
-				{
-					y += dy;
-					jumping = false;
-				}*/
-
 				if (state == STAIR_UP || state == STAIR_DOWN)
 				{
 					if (nx != 0) x -= nx * 0.1f;
@@ -143,7 +140,24 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				{
 					vx = SIMON_WALKING_SPEED_LOWER;
 					vy = 0;
-					AutoWalk(100, IDLE, 1);
+					AutoWalk(80, IDLE, 1);
+				}
+			}
+
+			else if (dynamic_cast<Zombie*>(e->obj))
+			{
+				if (isUntouchable == false)
+				{
+					if (e->nx != 0)
+					{
+						if (e->nx == 1.0f && this->nx == 1) this->nx = -1;
+						else if (e->nx == -1.0f && this->nx == -1) this->nx = 1;
+					}
+
+					SetState(DEFLECT);
+					StartUntouchable();
+
+					//HP = HP - 2;
 				}
 			}
 
@@ -169,10 +183,17 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 void Simon::Render()
 {
+	if (isUntouchable)  // Để render Simon nhấp nháy trong trạng thái isUntouchable
+	{
+		int r = rand() % 2;
 
-	int alpha = 255;
-
-	animations[state]->Render(nx, x, y, alpha);
+		if (r == 0) animations[state]->Render(nx, x, y);
+		else animations[state]->Render(nx, x, y, 100);
+	}
+	else
+	{
+		animations[state]->Render(nx, x, y);
+	}
 
 	if (state == STAND_ATTACK || state == SIT_ATTACK)
 	{
@@ -184,6 +205,10 @@ void Simon::Render()
 	throwing = !animations[state]->IsCompleted();
 	powering = !animations[state]->IsCompleted();
 	stairUpping = !animations[state]->IsCompleted();
+	deflecting = !animations[state]->IsCompleted();
+
+	RenderBoundingBox();
+
 }
 
 void Simon::SetState(string state)
@@ -257,6 +282,13 @@ void Simon::SetState(string state)
 		animations[state]->SetAniStartTime(GetTickCount());
 	}
 
+	else if (state == DEFLECT)
+	{
+		vy = -SIMON_DEFLECT_SPEED_Y;
+		if (nx > 0) vx = -SIMON_DEFLECT_SPEED_X;
+		else vx = SIMON_DEFLECT_SPEED_X;
+	}
+
 }
 
 void Simon::GetBoundingBox(float& left, float& top, float& right, float& bottom)
@@ -265,7 +297,9 @@ void Simon::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 	left = x + 13;
 	top = y + 2;
 	right = left + SIMON_BBOX_WIDTH;
-	bottom = top + SIMON_BBOX_HEIGHT;
+
+	if (state != JUMP) bottom = top + SIMON_BBOX_HEIGHT;
+	else bottom = top + SIMON_JUMPING_BBOX_HEIGHT;
 
 }
 
@@ -296,10 +330,15 @@ bool Simon::IsPowering()
 	return (state == POWER && powering);
 }
 
-//bool Simon::IsStairUpping()
-//{
-//	return (state == STAIR_UP && stairUpping);
-//}
+bool Simon::IsDeflecting()
+{
+	return (state == DEFLECT && deflecting);
+}
+
+bool Simon::IsStairUpping()
+{
+	return (state == STAIR_UP && stairUpping);
+}
 
 #pragma endregion CheckState
 

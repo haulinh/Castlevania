@@ -37,6 +37,9 @@ void KeyBoardInput::KeyState(BYTE *state)
 	if (scene->GetSimon()->IsPowering())
 		return;
 
+	if (scene->GetSimon()->IsDeflecting())
+		return;
+
 	if (scene->GetSimon()->IsAutoWalk() == true)
 		return;
 
@@ -45,6 +48,9 @@ void KeyBoardInput::KeyState(BYTE *state)
 
 	if (scene->GetSimon()->GetState() == STAIR_DOWN && scene->GetSimon()->animations[STAIR_DOWN]->IsOver(200) == false)
 		return;
+
+	//if (scene->GetSimon()->GetState() == DEFLECT && scene->GetSimon()->animations[DEFLECT]->IsOver(600) == false)
+	//	return;
 
 	else if (game->IsKeyDown(DIK_RIGHT))
 	{

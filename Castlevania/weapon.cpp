@@ -3,6 +3,7 @@
 #include "Ground.h"
 #include "Candle.h"
 #include "Items.h"
+#include "Zombie.h"
 
 Weapon::Weapon()
 {
@@ -30,7 +31,19 @@ void Weapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 				if (this->AABBx(e) == true)
 				{
-					e->SetState(DESTROY);
+					e->SetState(CANDLE_DESTROY);
+					e->isLastFame = false;
+				}
+			}
+			
+			if (dynamic_cast<Zombie*>(obj))
+			{
+				Zombie* e = dynamic_cast<Zombie*> (obj);
+
+				if (this->AABBx(e) == true)
+				{
+					e->vx = 0;
+					e->SetState(ZOMBIE_DESTROYED);
 					e->isLastFame = false;
 				}
 			}
@@ -43,13 +56,6 @@ void Weapon::Render()
 {
 	animations[state]->Render(nx, x, y);
 	this->isLastFame = this->animations[state]->IsCompleted();
-}
-
-void Weapon::Render(int id)
-{
-	animations[state]->Render(id, nx, x, y);
-	this->isLastFame = this->animations[state]->GetCurrentFrame() == this->animations[state]->GetFrameSize() - 1;
-	//if (isLastFame) RenderBoundingBox();
 }
 
 void Weapon::GetBoundingBox(float& left, float& top, float& right, float& bottom)
