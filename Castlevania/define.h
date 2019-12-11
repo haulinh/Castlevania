@@ -155,7 +155,7 @@ constexpr float SIMON_DEFLECT_SPEED_Y = 0.3f;
 
 // Item
 constexpr float ITEM_FALLING_SPEED = 0.1f;
-constexpr float ITEM_TIME_DESTROYED = 100000;
+constexpr float ITEM_TIME_DESTROYED = 5000;
 constexpr float ITEM_DAGGER_SPEED = 0.3f;
 
 // SubWeapon

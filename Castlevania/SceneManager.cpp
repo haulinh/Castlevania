@@ -306,13 +306,13 @@ void SceneManager::Update(DWORD dt)
 				coObjects.push_back(ground);
 			}
 
-		/*	for (auto zombie : listZombies)
+			for (auto zombie : listZombies)
 			{
 				if (zombie->IsEnable() == false)
 					continue;
 
 				coObjects.push_back(zombie);
-			}*/
+			}
 
 			for (auto door : listDoors)
 			{
