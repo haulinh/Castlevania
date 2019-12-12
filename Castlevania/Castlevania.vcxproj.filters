@@ -90,6 +90,9 @@
     <ClInclude Include="Zombie.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="BlackLeopard.h">
+      <Filter>Objects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -154,6 +157,9 @@
     </ClCompile>
     <ClCompile Include="Zombie.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BlackLeopard.cpp">
+      <Filter>Objects</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

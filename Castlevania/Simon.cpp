@@ -9,6 +9,7 @@
 #include "Items.h"
 #include "Door.h"
 #include "Zombie.h"
+#include "BlackLeopard.h"
 
 Simon::Simon() : GameObject() {
 
@@ -37,8 +38,8 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 	if (state != STAIR_UP && state != STAIR_DOWN && isAutoWalk != true)
 	{
-			if (vy < -0.2f || vy > 0.2f)
-		vy += SIMON_GRAVITY * dt;
+		if (vy < -0.2f || vy > 0.2f)
+			vy += SIMON_GRAVITY * dt;
 		else vy += SIMON_GRAVITY_LOWER * dt;
 
 	}
@@ -158,6 +159,11 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					StartUntouchable();
 
 					//HP = HP - 2;
+				}
+				else
+				{
+					if (e->nx != 0) x += dx;
+					if (e->ny != 0) y += dy;
 				}
 			}
 
@@ -294,7 +300,7 @@ void Simon::SetState(string state)
 void Simon::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
 	// sprite có kích thước là 60x66, bbox là 40x62
-	left = x + 13;
+	left = x + 15;
 	top = y + 2;
 	right = left + SIMON_BBOX_WIDTH;
 
@@ -403,11 +409,8 @@ void Simon::PositionCorrection(string prevState)
 	}
 }
 
-bool Simon::CheckCollisionWithStair(vector<LPGAMEOBJECT>* listStair)
+void Simon::CheckCollisionWithStair(vector<LPGAMEOBJECT>* listStair)
 {
-	isMovingUp = false;
-	isMovingDown = false;
-
 	float simon_l, simon_t, simon_r, simon_b;
 	GetBoundingBox(simon_l, simon_t, simon_r, simon_b);
 
@@ -417,71 +420,53 @@ bool Simon::CheckCollisionWithStair(vector<LPGAMEOBJECT>* listStair)
 	simon_l += 5;
 	simon_r -= 5;
 
-	for (UINT i = 0; i < listStair->size(); i++)
+	float stair_l, stair_t, stair_r, stair_b;
+	listStair->front()->GetBoundingBox(stair_l, stair_t, stair_r, stair_b);
+
+	if (Game::AABB(simon_l, simon_t, simon_r, simon_b, stair_l, stair_t, stair_r, stair_b))
 	{
-		float stair_l, stair_t, stair_r, stair_b;
-		listStair->at(i)->GetBoundingBox(stair_l, stair_t, stair_r, stair_b);
+		if (listStair->front()->GetState() == STAIR_LEFT_UP) stairDirection = 1;
+		else stairDirection = -1;
 
-		if (Game::AABB(simon_l, simon_t, simon_r, simon_b, stair_l, stair_t, stair_r, stair_b))
+		stairCollided = listStair->front();
+		notSit = true;
+		isMovingUp = true;
+		if (simon_b > stair_b)
 		{
-			//DebugOut(L"collision\n");
-
-			if (listStair->at(i)->GetState() == STAIR_LEFT_UP) stairDirection = 1;
-			else stairDirection = -1;
-
-			stairCollided = listStair->at(i);
-
-			// bậc thang ở dưới so với chân Simon->có thể di chuyển xuống.
-			if (simon_b < stair_b) isMovingDown = true;
-			if (stair_t - y <= 35) isMovingUp = true;
-
-			// kiểm tra xem simon có thể di chuyển lên hay ko
-			// vì mảng listStairs gồm các bậc thang liền kề nhau, nên chỉ cần kiểm tra 2 bậc là đủ.
-
-			float upstair_x = -999, upstair_y = -999; // toạ độ của bậc thang liền kề ở phía trên (nếu có)
-
-			if (i > 0)
-			{
-				listStair->at(i - 1)->GetPosition(upstair_x, upstair_y);
-
-				float dx = abs(upstair_x - stair_l);
-				float dy = upstair_y - stair_t;
-
-				if (dx == GROUND_BBOX_WIDTH && dy == -GROUND_BBOX_HEIGHT) // vì bậc nằm trên nên dy = -...
-				{
-					isMovingUp = true;
-				}
-
-				if (dx == GROUND_BBOX_WIDTH && dy == GROUND_BBOX_HEIGHT) // vì bậc nằm duoi nên dy = +...
-				{
-					isMovingDown = true;
-				}
-			}
-
-			if (i < listStair->size() - 1)
-			{
-				listStair->at(i + 1)->GetPosition(upstair_x, upstair_y);
-
-				float dx = abs(upstair_x - stair_l);
-				float dy = upstair_y - stair_t;
-
-				if (dx == GROUND_BBOX_WIDTH && dy == -GROUND_BBOX_HEIGHT)
-				{
-					isMovingUp = true;
-				}
-
-				if (dx == GROUND_BBOX_WIDTH && dy == GROUND_BBOX_HEIGHT) // vì bậc nằm duoi nên dy = +...
-				{
-					isMovingDown = true;
-				}
-			}
-
-			return true; // collision between Simon and stairs
+			isMovingDown = false;
 		}
-
+		else if (simon_t - 10 < stair_t) // -10 have it to moving down first stair
+		{
+			isMovingDown = true;
+		}
 	}
+	else if (simon_b < stair_t)
+	{
+		notSit = true;
+	}
+	else notSit = false;
 
-	return false;
+	float stair_l_, stair_t_, stair_r_, stair_b_;
+	listStair->at(3)->GetBoundingBox(stair_l_, stair_t_, stair_r_, stair_b_);
+
+	if (Game::AABB(simon_l, simon_t, simon_r, simon_b, stair_l_, stair_t_, stair_r_, stair_b_))
+	{
+		if (listStair->at(3)->GetState() == STAIR_LEFT_UP) stairDirection = 1;
+		else stairDirection = -1;
+
+		stairCollided = listStair->at(3);
+		notSit = true;
+		isMovingDown = true;
+		isMovingUp = false;
+		if (simon_b > stair_b_)
+		{
+			isMovingUp = true;
+		}
+	}
+	else if (simon_b > stair_t_ && simon_l > stair_r_)
+	{
+		notSit = false;
+	}
 }
 
 bool Simon::CheckCollisionWithItem(vector<LPGAMEOBJECT>* listItem)
@@ -535,6 +520,59 @@ bool Simon::CheckCollisionWithItem(vector<LPGAMEOBJECT>* listItem)
 			}
 
 			return true;
+		}
+	}
+}
+
+void Simon::CheckCollisionWithEnemyActiveArea(vector<LPGAMEOBJECT>* listEnemy)
+{
+	float simon_l, simon_t, simon_r, simon_b;
+
+	GetBoundingBox(simon_l, simon_t, simon_r, simon_b);
+
+	for (UINT i = 0; i < listEnemy->size(); i++)
+	{
+		LPGAMEOBJECT enemy = listEnemy->at(i);
+
+		// Không cần xét vùng active nữa khi nó đang active / destroyed
+		if (enemy->GetState() == ACTIVE || enemy->GetState() == DESTROYED)
+			continue;
+
+		float enemy_l, enemy_t, enemy_r, enemy_b;
+		enemy->GetActiveBoundingBox(enemy_l, enemy_t, enemy_r, enemy_b);
+
+		if (Game::AABB(simon_l, simon_t, simon_r, simon_b, enemy_l, enemy_t, enemy_r, enemy_b))
+		{
+			D3DXVECTOR2 enemyEntryPostion = enemy->GetEntryPosition();
+
+			if (dynamic_cast<Zombie*>(enemy))
+			{
+				Zombie* zombie = dynamic_cast<Zombie*>(enemy);
+
+				if (zombie->IsAbleToActivate() == true)
+				{
+					// Để đảm bảo zombie xuất hiện và đi từ cuối màn hình ra, do đó cần giới hạn lại khoảng cách của 
+					// Simon và zombie để có thể set active cho zombie
+					if ((enemyEntryPostion.x > x&& enemyEntryPostion.x - x > 220 && enemyEntryPostion.x - x < 250) ||
+						(enemyEntryPostion.x < x && x - enemyEntryPostion.x > 230 && x - enemyEntryPostion.x < 260))
+					{
+						if (enemyEntryPostion.x < x) zombie->SetN(1);
+						else zombie->SetN(-1);
+
+						zombie->SetState(ZOMBIE_ACTIVE);
+					}
+				}
+				else if (dynamic_cast<BlackLeopard*>(enemy))
+				{
+					BlackLeopard* leopard = dynamic_cast<BlackLeopard*>(enemy);
+
+					if (leopard->GetState() == BLACK_LEOPARD_IDLE ||
+						(leopard->GetState() == BLACK_LEOPARD_INACTIVE && leopard->IsAbleToActivate() == true))
+					{
+						leopard->SetState(BLACK_LEOPARD_ACTIVE);
+					}
+				}
+			}
 		}
 	}
 }

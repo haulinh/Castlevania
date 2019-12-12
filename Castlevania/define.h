@@ -133,9 +133,21 @@ const string  DOOR_2_IDLE = "DOOR_2_IDLE";
 const string  DOOR_2_OPEN = "DOOR_2_OPEN";
 
 // Zombie 
-const string  ZOMBIE = "ZOMBIE";
+const string  ZOMBIE_ACTIVE = "ZOMBIE_ACTIVE";
 const string  ZOMBIE_DESTROYED = "EFFECT";
+const string  ZOMBIE_INACTIVE = "ZOMBIE_INACTIVE";
 
+// Black Leopard
+const string BLACK_LEOPARD_ACTIVE = "BLACK_LEOPARD_ACTIVE";
+const string BLACK_LEOPARD_DESTROYED = "BLACK_LEOPARD_DESTROYED";
+const string BLACK_LEOPARD_INACTIVE = "BLACK_LEOPARD_INACTIVE";
+const string BLACK_LEOPARD_IDLE = "BLACK_LEOPARD_IDLE";
+const string BLACK_LEOPARD_JUMP = "BLACK_LEOPARD_JUMP";
+
+// Enemy (chung cho Zombie, Black Leopard, Bat...)
+const string ACTIVE = "ACTIVE";
+const string DESTROYED = "DESTROYED";
+const string INACTIVE = "INACTIVE";
 #pragma endregion
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -171,6 +183,14 @@ constexpr float WEAPONS_BOOMERANG_SPEED = 0.5f;
 
 // Zombie
 constexpr float ZOMBIE_WALKING_SPEED = 0.1f;
+constexpr float ZOMBIE_RESPAWN_TIME = 5000;
+constexpr float ZOMBIE_GRAVITY = 0.002f;
+
+// Black Leopard
+constexpr float BLACK_LEOPARD_RUNNING_SPEED_X = 0.3f;
+constexpr float  BLACK_LEOPARD_RUNNING_SPEED_Y = 0.2f;
+constexpr float BLACK_LEOPARD_GRAVITY = 0.001f;
+constexpr float  BLACK_LEOPARD_RESPAWN_TIME = 20000;
 
 #pragma endregion
 
@@ -222,8 +242,17 @@ constexpr float ZOMBIE_WALKING_SPEED = 0.1f;
 #define CHANGE_SCENE_BBOX_WIDTH		32
 #define CHANGE_SCENE_BBOX_HEIGHT	32
 
+// Zombie
 #define ZOMBIE_BBOX_WIDTH			32
 #define ZOMBIE_BBOX_HEIGHT			64
+#define ZOMBIE_ACTIVE_BBOX_WIDTH			260
+#define ZOMBIE_ACTIVE_BBOX_HEIGHT			100
+
+// Black Leopard
+#define BLACK_LEOPARD_BBOX_WIDTH			10
+#define BLACK_LEOPARD_BBOX_HEIGHT			32
+#define BLACK_LEOPARD_ACTIVE_BBOX_WIDTH		100
+#define BLACK_LEOPARD_ACTIVE_BBOX_HEIGHT	200
 
 #pragma endregion
 
@@ -232,5 +261,7 @@ constexpr float ZOMBIE_WALKING_SPEED = 0.1f;
 const string GROUND= "GROUND";
 const string STAIR = "STAIR";
 const string DOOR = "DOOR";
+const string ZOMBIE = "ZOMBIE";
+const string BLACK_LEOPARD = "BLACK_LEOPARD";
 
 #pragma endregion

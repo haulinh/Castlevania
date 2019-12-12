@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include "Game.h"
 #include "GameObject.h"
@@ -13,6 +13,7 @@
 #include "Stair.h"
 #include "Door.h"
 #include "Zombie.h"
+#include "BlackLeopard.h"
 
 
 
@@ -30,6 +31,7 @@ class SceneManager
 	Stair* stair;
 	Door* door;
 	Zombie* zombie;
+	BlackLeopard* leopard;
 
 	ChangeSceneObject* changeScene;
 
@@ -44,6 +46,7 @@ class SceneManager
 	vector<LPGAMEOBJECT> listGrounds;
 	vector<LPGAMEOBJECT> listItems;
 	vector<LPGAMEOBJECT> listDoors;
+	vector<LPGAMEOBJECT> listBlackLeopards;
 	vector<LPGAMEOBJECT> listZombies;
 
 	vector<LPCHANGESCENEOBJ> listChangeSceneObjs;
@@ -62,6 +65,9 @@ public:
 
 	virtual void Update(DWORD dt);
 	virtual void Render();
+
+	void SetDropItems(LPGAMEOBJECT object);
+	void SetInactivationByPosition();  // Nếu object ra khỏi toạ độ viewport thì set unable / inactive
 
 	void ChangeScene(int scene);
 	int GetIDScene() { return this->IDScene; }

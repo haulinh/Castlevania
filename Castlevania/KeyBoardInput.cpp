@@ -1,6 +1,6 @@
 ﻿#include "KeyBoardInput.h"
 
-KeyBoardInput::KeyBoardInput(Game *game, SceneManager *scene)
+KeyBoardInput::KeyBoardInput(Game* game, SceneManager* scene)
 {
 	this->game = game;
 	this->scene = scene;
@@ -10,17 +10,14 @@ KeyBoardInput::~KeyBoardInput()
 {
 }
 
-void KeyBoardInput::KeyState(BYTE *state)
+void KeyBoardInput::KeyState(BYTE* state)
 {
 	bool isCollideWithStair = false;
 
 	Simon* simon = scene->GetSimon();
 	vector<LPGAMEOBJECT>* listStairs = scene->GetListStairs();
 
-	if (simon->CheckCollisionWithStair(listStairs) == true)
-	{
-		isCollideWithStair = true;
-	}
+	simon->CheckCollisionWithStair(listStairs);
 
 	if (scene->GetSimon()->IsJumping())
 		return;
@@ -49,9 +46,6 @@ void KeyBoardInput::KeyState(BYTE *state)
 	if (scene->GetSimon()->GetState() == STAIR_DOWN && scene->GetSimon()->animations[STAIR_DOWN]->IsOver(200) == false)
 		return;
 
-	//if (scene->GetSimon()->GetState() == DEFLECT && scene->GetSimon()->animations[DEFLECT]->IsOver(600) == false)
-	//	return;
-
 	else if (game->IsKeyDown(DIK_RIGHT))
 	{
 		scene->GetSimon()->SetN(1);
@@ -68,17 +62,19 @@ void KeyBoardInput::KeyState(BYTE *state)
 	{
 		string prevState = simon->GetState();
 
-		if (isCollideWithStair == true)
+		if (simon->notSit == true)
 		{
 			if (simon->IsMovingDown() == false)
 			{
 				simon->SetState(IDLE);
+
 				return;
 			}
 
 
 			simon->SetN(-simon->GetStairDirection());
 			simon->SetState(STAIR_DOWN);
+
 
 			if (simon->IsStandOnStair() == false)
 			{
@@ -98,7 +94,7 @@ void KeyBoardInput::KeyState(BYTE *state)
 	{
 		string prevState = simon->GetState();
 
-		if (isCollideWithStair == true)
+		if (simon->notSit)
 		{
 			if (simon->IsMovingUp() == false)
 			{
@@ -112,8 +108,10 @@ void KeyBoardInput::KeyState(BYTE *state)
 				return;
 			}
 
+
 			simon->SetN(simon->GetStairDirection());
 			simon->SetState(STAIR_UP);
+
 
 			if (simon->IsStandOnStair() == false)
 			{
@@ -132,7 +130,7 @@ void KeyBoardInput::KeyState(BYTE *state)
 	}
 	else
 	{
-		if (isCollideWithStair == true && (simon->GetState() == STAIR_UP || simon->GetState() == STAIR_DOWN))
+		if (simon->GetState() == STAIR_UP || simon->GetState() == STAIR_DOWN)
 		{
 			simon->StandOnStair();
 			simon->animations[simon->GetState()]->Reset();
@@ -168,8 +166,8 @@ void KeyBoardInput::OnKeyDown(int KeyCode)
 		break;
 
 	case DIK_X:
-	/*	if (!scene->GetSimon()->isPowered)
-			return;*/
+		/*	if (!scene->GetSimon()->isPowered)
+				return;*/
 		if (scene->GetSimon()->GetState() == IDLE || scene->GetSimon()->GetState() == JUMP)
 		{
 			Simon* simon = scene->GetSimon();
