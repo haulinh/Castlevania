@@ -54,6 +54,8 @@ public:
 	string nameItem; // id cua object chua item (string empty = ko co item)
 	string type;
 
+	bool isDroppedItem = false;
+
 	D3DXVECTOR2 entryPosition; // đưa enemy về vị trí entry sau thời gian respawn
 
 	DWORD dt;

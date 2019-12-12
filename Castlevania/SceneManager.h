@@ -14,6 +14,7 @@
 #include "Door.h"
 #include "Zombie.h"
 #include "BlackLeopard.h"
+#include "VampireBat.h"
 
 
 
@@ -32,6 +33,7 @@ class SceneManager
 	Door* door;
 	Zombie* zombie;
 	BlackLeopard* leopard;
+	VampireBat* bat;
 
 	ChangeSceneObject* changeScene;
 
@@ -48,6 +50,7 @@ class SceneManager
 	vector<LPGAMEOBJECT> listDoors;
 	vector<LPGAMEOBJECT> listBlackLeopards;
 	vector<LPGAMEOBJECT> listZombies;
+	vector<LPGAMEOBJECT> listVampireBats;
 
 	vector<LPCHANGESCENEOBJ> listChangeSceneObjs;
 

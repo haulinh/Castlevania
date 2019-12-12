@@ -35,6 +35,10 @@ void SceneManager::LoadResources()
 
 	zombie = new Zombie();
 
+	leopard = new BlackLeopard();
+
+	//bat = new VampireBat();
+
 	tilemaps->Add(SCENE_1, FILEPATH_TEX_MAP_SCENE_1, FILEPATH_DATA_MAP_SCENE_1, 1536, 320, 32, 32);
 	tilemaps->Add(SCENE_2, FILEPATH_TEX_MAP_SCENE_2, FILEPATH_DATA_MAP_SCENE_2, 5632, 352, 32, 32);
 	tilemaps->Add(SCENE_3, FILEPATH_TEX_MAP_SCENE_3, FILEPATH_DATA_MAP_SCENE_3, 1024, 352, 32, 32);
@@ -126,11 +130,19 @@ void SceneManager::LoadObjectsFromFile(LPCWSTR FilePath)
 			leopard->SetIsRespawnWaiting(false);
 			leopard->SetEnable(true);
 			listBlackLeopards.push_back(leopard);
-			objects.push_back(leopard); 
+			objects.push_back(leopard);
 		}
 
 	}
 	fs.close();
+
+	// 
+	bat = new VampireBat();
+	bat->SetEntryPosition(0.0f, 150.0f);
+	bat->SetState(VAMPIRE_BAT_ACTIVE);
+	bat->SetEnable(isEnable);
+	listVampireBats.push_back(bat);
+	objects.push_back(bat);
 
 	objects.push_back(simon);
 
@@ -350,7 +362,7 @@ void SceneManager::Update(DWORD dt)
 			simon->Update(dt, &coObjects);
 			simon->CheckCollisionWithItem(&listItems);
 			simon->CheckChangeScene(&listChangeSceneObjs);
-			//simon->CheckCollisionWithEnemyActiveArea(&listZombies);
+			simon->CheckCollisionWithEnemyActiveArea(&listZombies);
 			simon->CheckCollisionWithEnemyActiveArea(&listBlackLeopards);
 
 		}
@@ -359,6 +371,10 @@ void SceneManager::Update(DWORD dt)
 			object->Update(dt, &listGrounds);
 		}
 		else if (dynamic_cast<Zombie*>(objects[i]))
+		{
+			object->Update(dt, &listGrounds);
+		}
+		else if (dynamic_cast<BlackLeopard*>(objects[i]))
 		{
 			object->Update(dt, &listGrounds);
 		}
@@ -418,9 +434,9 @@ void SceneManager::Render()
 	//	stair->RenderBoundingBox();
 	//}
 
-	for (auto stair: listStairs)
+	for (auto stair : listStairs)
 	{
-			stair->RenderBoundingBox();
+		stair->RenderBoundingBox();
 		//candle->RenderBoundingBox();
 	}
 
@@ -453,6 +469,25 @@ void SceneManager::Render()
 
 		zombie->Render();
 		//zombie->RenderBoundingBox();
+	}
+
+	for (auto leopard : listBlackLeopards)
+	{
+		//zombie->RenderActiveBoundingBox();
+		if (leopard->GetState() == ZOMBIE_INACTIVE)
+			continue;
+
+		leopard->Render();
+		//	//zombie->RenderBoundingBox();
+	}
+
+	for (auto bat : listVampireBats)
+	{
+		if (bat->GetState() == VAMPIRE_BAT_INACTIVE)
+			continue;
+
+		bat->Render();
+		bat->RenderBoundingBox();
 	}
 }
 
@@ -528,7 +563,7 @@ void SceneManager::ChangeScene(int scene)
 	case SCENE_2:
 		LoadObjectsFromFile(FILEPATH_OBJECTS_SCENE_2);
 		CreateListChangeSceneObjects();
-		simon->SetPosition(1700.0f, 100.0f);
+		simon->SetPosition(0.0f, 100.0f);
 		game->SetCamPos(0.0f, 0.0f);
 		break;
 	case SCENE_3:

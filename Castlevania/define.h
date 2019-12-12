@@ -62,6 +62,8 @@ enum TexId
 	ID_TEX_DOOR,
 	ID_TEX_GATE,
 	ID_TEX_ZOMBIE,
+	ID_TEX_BLACK_LEOPARD,
+	ID_TEX_VAMPIRE_BAT,
 };
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -139,10 +141,15 @@ const string  ZOMBIE_INACTIVE = "ZOMBIE_INACTIVE";
 
 // Black Leopard
 const string BLACK_LEOPARD_ACTIVE = "BLACK_LEOPARD_ACTIVE";
-const string BLACK_LEOPARD_DESTROYED = "BLACK_LEOPARD_DESTROYED";
+const string BLACK_LEOPARD_DESTROYED = "EFFECT";
 const string BLACK_LEOPARD_INACTIVE = "BLACK_LEOPARD_INACTIVE";
 const string BLACK_LEOPARD_IDLE = "BLACK_LEOPARD_IDLE";
 const string BLACK_LEOPARD_JUMP = "BLACK_LEOPARD_JUMP";
+
+// Vampire Bat
+const string VAMPIRE_BAT_ACTIVE = "VAMPIRE_BAT_ACTIVE";
+const string VAMPIRE_BAT_DESTROYED = "EFFECT";
+const string VAMPIRE_BAT_INACTIVE = "VAMPIRE_BAT_INACTIVE";
 
 // Enemy (chung cho Zombie, Black Leopard, Bat...)
 const string ACTIVE = "ACTIVE";
@@ -191,6 +198,12 @@ constexpr float BLACK_LEOPARD_RUNNING_SPEED_X = 0.3f;
 constexpr float  BLACK_LEOPARD_RUNNING_SPEED_Y = 0.2f;
 constexpr float BLACK_LEOPARD_GRAVITY = 0.001f;
 constexpr float  BLACK_LEOPARD_RESPAWN_TIME = 20000;
+
+// Vampire Bat
+constexpr float VAMPIRE_BAT_FLYING_SPEED_X = 0.12f;
+constexpr float VAMPIRE_BAT_FLYING_SPEED_Y = 0.1f;
+constexpr float VAMPIRE_BAT_SPEED_VARIATION = 0.004f;
+constexpr float VAMPIRE_BAT_RESPAWN_TIME = 5000;
 
 #pragma endregion
 
@@ -253,6 +266,12 @@ constexpr float  BLACK_LEOPARD_RESPAWN_TIME = 20000;
 #define BLACK_LEOPARD_BBOX_HEIGHT			32
 #define BLACK_LEOPARD_ACTIVE_BBOX_WIDTH		100
 #define BLACK_LEOPARD_ACTIVE_BBOX_HEIGHT	200
+
+// Vampire Bat
+#define VAMPIRE_BAT_BBOX_WIDTH			10
+#define VAMPIRE_BAT_BBOX_HEIGHT			32
+#define VAMPIRE_BAT_ACTIVE_BBOX_WIDTH			450 
+#define VAMPIRE_BAT_ACTIVE_BBOX_HEIGHT			200
 
 #pragma endregion
 
