@@ -80,7 +80,6 @@ void Zombie::Render()
 {
 	animations[state]->Render(nx, x, y);
 	this->isLastFame = animations[state]->IsCompleted();
-	//RenderActiveBoundingBox();
 }
 
 void Zombie::SetState(string state)

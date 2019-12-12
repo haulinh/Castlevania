@@ -4,6 +4,7 @@
 #include "Candle.h"
 #include "Items.h"
 #include "Zombie.h"
+#include "BlackLeopard.h"
 
 Weapon::Weapon()
 {
@@ -36,7 +37,7 @@ void Weapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				}
 			}
 			
-			if (dynamic_cast<Zombie*>(obj))
+			else if (dynamic_cast<Zombie*>(obj))
 			{
 				Zombie* e = dynamic_cast<Zombie*> (obj);
 
@@ -44,6 +45,18 @@ void Weapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				{
 					e->vx = 0;
 					e->SetState(ZOMBIE_DESTROYED);
+					e->isLastFame = false;
+				}
+			}
+
+			else if (dynamic_cast<BlackLeopard*>(obj))
+			{
+				BlackLeopard* e = dynamic_cast<BlackLeopard*> (obj);
+
+				if (this->AABBx(e) == true)
+				{
+					e->vx = 0;
+					e->SetState(BLACK_LEOPARD_DESTROYED);
 					e->isLastFame = false;
 				}
 			}

@@ -124,6 +124,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="BlackLeopard.h" />
+    <ClInclude Include="Bubble.h" />
     <ClInclude Include="ChangeSceneObject.h" />
     <ClInclude Include="Door.h" />
     <ClInclude Include="Ground.h" />
@@ -149,6 +150,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BlackLeopard.cpp" />
+    <ClCompile Include="Bubble.cpp" />
     <ClCompile Include="ChangeSceneObject.cpp" />
     <ClCompile Include="Door.cpp" />
     <ClCompile Include="Ground.cpp" />
