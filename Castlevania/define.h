@@ -64,6 +64,9 @@ enum TexId
 	ID_TEX_ZOMBIE,
 	ID_TEX_BLACK_LEOPARD,
 	ID_TEX_VAMPIRE_BAT,
+	ID_TEX_FISHMAN,
+	ID_TEX_FIREBALL,
+	ID_TEX_BUBBLES,
 };
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -155,6 +158,19 @@ const string VAMPIRE_BAT_INACTIVE = "VAMPIRE_BAT_INACTIVE";
 const string ACTIVE = "ACTIVE";
 const string DESTROYED = "DESTROYED";
 const string INACTIVE = "INACTIVE";
+
+// Fish man
+const string FISHMAN_ACTIVE = "FISHMAN_ACTIVE";
+const string FISHMAN_DESTROYED = "EFFECT";
+const string FISHMAN_INACTIVE = "FISHMAN_INACTIVE";
+const string FISHMAN_JUMP = "FISHMAN_JUMP";
+const string FISHMAN_HIT = "FISHMAN_HIT";
+
+// Fire ball
+const string FIREBALL = "FIREBALL";
+
+// Bubbles
+const string BUBBLES = "BUBBLES";
 #pragma endregion
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -204,6 +220,22 @@ constexpr float VAMPIRE_BAT_FLYING_SPEED_X = 0.12f;
 constexpr float VAMPIRE_BAT_FLYING_SPEED_Y = 0.1f;
 constexpr float VAMPIRE_BAT_SPEED_VARIATION = 0.004f;
 constexpr float VAMPIRE_BAT_RESPAWN_TIME = 5000;
+
+// Bubbles
+constexpr float BUBBLES_SPEED_X = 0.07f;
+constexpr float BUBBLES_SPEED_Y = 0.1f;
+constexpr float BUBBLES_SPEED_X2 = 0.03f;
+constexpr float BUBBLES_SPEED_Y2 = 0.2f; 
+constexpr float BUBBLES_GRAVITY = 0.0005f;
+
+// Fire ball
+constexpr float FIREBALL_SPEED = 0.13f;
+
+// Fish man
+constexpr float FISHMAN_JUMP_SPEED_Y = 0.7f;
+constexpr float FISHMAN_GRAVITY = 0.0015f;
+constexpr float FISHMAN_WALKING_SPEED_X = 0.1f;
+constexpr float FISHMAN_RESPAWN_TIME = 5000;
 
 #pragma endregion
 
@@ -273,6 +305,16 @@ constexpr float VAMPIRE_BAT_RESPAWN_TIME = 5000;
 #define VAMPIRE_BAT_ACTIVE_BBOX_WIDTH			450 
 #define VAMPIRE_BAT_ACTIVE_BBOX_HEIGHT			200
 
+// Fire ball
+#define FIREBALL_BBOX_WIDTH				14
+#define FIREBALL_BBOX_HEIGHT			12
+
+// Fish man
+#define FISHMAN_BBOX_WIDTH			10
+#define FISHMAN_BBOX_HEIGHT			64
+#define FISHMAN_ACTIVE_BBOX_WIDTH			100
+#define FISHMAN_ACTIVE_BBOX_HEIGHT			300
+
 #pragma endregion
 
 #pragma region ID objects to load from file
@@ -282,5 +324,6 @@ const string STAIR = "STAIR";
 const string DOOR = "DOOR";
 const string ZOMBIE = "ZOMBIE";
 const string BLACK_LEOPARD = "BLACK_LEOPARD";
+const string VAMPIRE_BAT = "VAMPIRE_BAT";
 
 #pragma endregion

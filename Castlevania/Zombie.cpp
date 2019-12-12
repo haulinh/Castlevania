@@ -49,11 +49,11 @@ void Zombie::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 	}
 	else
 	{
-		float min_tx, min_ty, nx = 0, ny;
+		float min_tx, min_ty, nx = 0, ny = 0;
 
 		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
 
-		x += dx;
+		x += min_tx * dx + nx * 0.1f;
 		y += min_ty * dy + ny * 0.1f;
 
 		if (nx != 0)
