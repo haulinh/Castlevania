@@ -143,6 +143,7 @@
     <ClInclude Include="Textures.h" />
     <ClInclude Include="TileMap.h" />
     <ClInclude Include="Candle.h" />
+    <ClInclude Include="VampireBat.h" />
     <ClInclude Include="Weapon.h" />
     <ClInclude Include="Zombie.h" />
   </ItemGroup>
@@ -167,6 +168,7 @@
     <ClCompile Include="Textures.cpp" />
     <ClCompile Include="TileMap.cpp" />
     <ClCompile Include="Candle.cpp" />
+    <ClCompile Include="VampireBat.cpp" />
     <ClCompile Include="Weapon.cpp" />
     <ClCompile Include="Zombie.cpp" />
   </ItemGroup>

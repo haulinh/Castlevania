@@ -2,6 +2,20 @@
 
 BlackLeopard::BlackLeopard()
 {
+	LoadResourceFile* loadResourceFile = LoadResourceFile::GetInstance();
+
+	vector<string> animationsBlackLeopard = loadResourceFile->GetAnimations("resources\\black_leopard\\black_leopard_ani.xml");
+
+	for each (string animation in animationsBlackLeopard)
+	{
+		AddAnimation(animation);
+	}
+
+	vector<string> animationsEffect = loadResourceFile->GetAnimations("resources\\effect\\effect_ani.xml");
+	for each (string animation in animationsEffect)
+	{
+		AddAnimation(animation);
+	}
 	nx = -1;
 }
 

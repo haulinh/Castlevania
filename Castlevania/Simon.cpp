@@ -112,19 +112,19 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					jumping = false;
 					isCollisionWithStair = false;
 				}
-			/*	if (e->nx) x += dx;
+				/*	if (e->nx) x += dx;
 
-				if (ny != 0)
-				{
-					if (ny == -1)
+					if (ny != 0)
 					{
-						vy = 0;
-					}
-					else
-					{
-						y += dy;
-					}
-				}*/
+						if (ny == -1)
+						{
+							vy = 0;
+						}
+						else
+						{
+							y += dy;
+						}
+					}*/
 
 				if (state == STAIR_UP || state == STAIR_DOWN)
 				{
@@ -160,7 +160,7 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				}
 			}
 
-			else if (dynamic_cast<Zombie*>(e->obj))
+			else if (dynamic_cast<Zombie*>(e->obj) || dynamic_cast<BlackLeopard*>(e->obj))
 			{
 				if (isUntouchable == false)
 				{
@@ -480,13 +480,13 @@ void Simon::CheckCollisionWithStair(vector<LPGAMEOBJECT>* listStair)
 				}
 				break;
 			}
-		/*	else if (simon_b < stair_t)
-			{
-				isCollisionWithStair = true;
-			}*/
-		/*	else if (simon_b > stair_b && simon_r < stair_l) {
-				isCollisionWithStair = false;
-			}*/
+			/*	else if (simon_b < stair_t)
+				{
+					isCollisionWithStair = true;
+				}*/
+				/*	else if (simon_b > stair_b && simon_r < stair_l) {
+						isCollisionWithStair = false;
+					}*/
 		}
 		else if (listStair->at(i)->GetType() == "TOP")
 		{
@@ -508,10 +508,10 @@ void Simon::CheckCollisionWithStair(vector<LPGAMEOBJECT>* listStair)
 				}
 				break;
 			}
-		/*	else if (simon_b > stair_t_ && simon_l > stair_r_)
-			{
-				isCollisionWithStair = false;
-			}*/
+			/*	else if (simon_b > stair_t_ && simon_l > stair_r_)
+				{
+					isCollisionWithStair = false;
+				}*/
 		}
 	}
 }
@@ -609,15 +609,15 @@ void Simon::CheckCollisionWithEnemyActiveArea(vector<LPGAMEOBJECT>* listEnemy)
 						zombie->SetState(ZOMBIE_ACTIVE);
 					}
 				}
-				else if (dynamic_cast<BlackLeopard*>(enemy))
-				{
-					BlackLeopard* leopard = dynamic_cast<BlackLeopard*>(enemy);
+			}
+			else if (dynamic_cast<BlackLeopard*>(enemy))
+			{
+				BlackLeopard* leopard = dynamic_cast<BlackLeopard*>(enemy);
 
-					if (leopard->GetState() == BLACK_LEOPARD_IDLE ||
-						(leopard->GetState() == BLACK_LEOPARD_INACTIVE && leopard->IsAbleToActivate() == true))
-					{
-						leopard->SetState(BLACK_LEOPARD_ACTIVE);
-					}
+				if (leopard->GetState() == BLACK_LEOPARD_IDLE ||
+					(leopard->GetState() == BLACK_LEOPARD_INACTIVE && leopard->IsAbleToActivate() == true))
+				{
+					leopard->SetState(BLACK_LEOPARD_ACTIVE);
 				}
 			}
 		}
