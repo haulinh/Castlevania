@@ -37,7 +37,13 @@ void SceneManager::LoadResources()
 
 	leopard = new BlackLeopard();
 
-	//bat = new VampireBat();
+	fishman = new FishMan();
+
+	fireball = new FireBall();
+
+	bubble = new Bubble();
+
+	bat = new VampireBat();
 
 	tilemaps->Add(SCENE_1, FILEPATH_TEX_MAP_SCENE_1, FILEPATH_DATA_MAP_SCENE_1, 1536, 320, 32, 32);
 	tilemaps->Add(SCENE_2, FILEPATH_TEX_MAP_SCENE_2, FILEPATH_DATA_MAP_SCENE_2, 5632, 352, 32, 32);

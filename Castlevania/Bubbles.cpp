@@ -1,9 +1,16 @@
 ﻿#include "Bubbles.h"
 
-
-
 Bubble::Bubble()
 {
+	LoadResourceFile* loadResourceFile = LoadResourceFile::GetInstance();
+
+	vector<string> animationsFireBall = loadResourceFile->GetAnimations("resources\\bubbles\\bubbles_ani.xml");
+
+	for each (string animation in animationsFireBall)
+	{
+		AddAnimation(animation);
+	}
+
 	SetState(BUBBLES);
 }
 

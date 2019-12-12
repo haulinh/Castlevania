@@ -104,6 +104,9 @@ void LoadResourceFile::LoadTextures()
 	textures->Add(ID_TEX_ZOMBIE, L"resources\\zombie\\zombie.png", D3DCOLOR_XRGB(255, 0, 255));
 	textures->Add(ID_TEX_BLACK_LEOPARD, L"resources\\black_leopard\\black_leopard.png", D3DCOLOR_XRGB(255, 0, 255));
 	textures->Add(ID_TEX_VAMPIRE_BAT, L"resources\\vampire_bat\\vampire_bat.png", D3DCOLOR_XRGB(255, 0, 255));
+	textures->Add(ID_TEX_FISHMAN, L"resources\\fish_man\\fish_man.png", D3DCOLOR_XRGB(255, 0, 255));
+	textures->Add(ID_TEX_FIREBALL, L"resources\\fire_ball\\fire_ball.png", D3DCOLOR_XRGB(255, 0, 255));
+	textures->Add(ID_TEX_BUBBLES, L"resources\\bubbles\\bubbles.png", D3DCOLOR_XRGB(255, 0, 255));
 }
 
 void LoadResourceFile::LoadAllResource()
@@ -124,6 +127,9 @@ void LoadResourceFile::LoadAllResource()
 	auto texZombie = textures->Get(ID_TEX_ZOMBIE);
 	auto texBlackLeopard = textures->Get(ID_TEX_BLACK_LEOPARD);
 	auto texVampireBat = textures->Get(ID_TEX_VAMPIRE_BAT);
+	auto texFishMan = textures->Get(ID_TEX_FISHMAN);
+	auto texFireBall = textures->Get(ID_TEX_FIREBALL);
+	auto texBubbles = textures->Get(ID_TEX_BUBBLES);
 
 	LoadSpriteSheetFile("resources\\ground\\ground.xml", texGround);
 	LoadSpriteSheetFile("resources\\simon\\simon.xml", texSimon);
@@ -138,6 +144,9 @@ void LoadResourceFile::LoadAllResource()
 	LoadSpriteSheetFile("resources\\zombie\\zombie.xml", texZombie);
 	LoadSpriteSheetFile("resources\\black_leopard\\black_leopard.xml", texBlackLeopard);
 	LoadSpriteSheetFile("resources\\vampire_bat\\vampire_bat.xml", texVampireBat);
+	LoadSpriteSheetFile("resources\\fish_man\\fish_man.xml", texFishMan);
+	LoadSpriteSheetFile("resources\\fire_ball\\fire_ball.xml", texFireBall);
+	LoadSpriteSheetFile("resources\\bubbles\\bubbles.xml", texBubbles);
 
 	LoadAnimationsFile("resources\\simon\\simon_ani.xml");
 	LoadAnimationsFile("resources\\weapons\\weapons_ani.xml");
@@ -152,4 +161,7 @@ void LoadResourceFile::LoadAllResource()
 	LoadAnimationsFile("resources\\zombie\\zombie_ani.xml");
 	LoadAnimationsFile("resources\\black_leopard\\black_leopard_ani.xml");
 	LoadAnimationsFile("resources\\vampire_bat\\vampire_bat_ani.xml");
+	LoadAnimationsFile("resources\\fish_man\\fish_man_ani.xml");
+	LoadAnimationsFile("resources\\fire_ball\\fire_ball_ani.xml");
+	LoadAnimationsFile("resources\\bubbles\\bubbles_ani.xml");
 }

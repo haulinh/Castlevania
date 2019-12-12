@@ -15,8 +15,9 @@
 #include "Zombie.h"
 #include "BlackLeopard.h"
 #include "VampireBat.h"
-
-
+#include "FireBall.h"
+#include "FishMan.h"
+#include "Bubbles.h"
 
 class SceneManager
 {
@@ -34,6 +35,9 @@ class SceneManager
 	Zombie* zombie;
 	BlackLeopard* leopard;
 	VampireBat* bat;
+	FishMan* fishman;
+	FireBall* fireball;
+	Bubble* bubble;
 
 	ChangeSceneObject* changeScene;
 
@@ -51,6 +55,8 @@ class SceneManager
 	vector<LPGAMEOBJECT> listBlackLeopards;
 	vector<LPGAMEOBJECT> listZombies;
 	vector<LPGAMEOBJECT> listVampireBats;
+	vector<LPGAMEOBJECT> listFishMans;
+	vector<LPGAMEOBJECT> listFireBalls;
 
 	vector<LPCHANGESCENEOBJ> listChangeSceneObjs;
 
