@@ -1,14 +1,15 @@
 #pragma once
 
 #include "GameObject.h"
-#include "Items.h"
 
-class Zombie : public GameObject
+class BlackLeopard : public GameObject
 {
 	DWORD respawnTimeStart = 0;
 	bool isRespawnWaiting = false;
+	bool isJumping = false;
+
 public:
-	Zombie();
+	BlackLeopard();
 
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObject = NULL);
 	void Render();

@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include <Windows.h>
 #include <d3dx9.h>
@@ -53,6 +53,8 @@ public:
 	bool isEnable;
 	string nameItem; // id cua object chua item (string empty = ko co item)
 
+	D3DXVECTOR2 entryPosition; // đưa enemy về vị trí entry sau thời gian respawn
+
 	DWORD dt;
 
 
@@ -67,12 +69,14 @@ public:
 	void SetN(int nx) { this->nx = nx; }
 	void SetIdItem(string nameItem) { this->nameItem = nameItem; }
 	void SetEnable(bool enable) { this->isEnable = enable; }
+	void SetEntryPosition(float x, float y) { entryPosition.x = x; entryPosition.y = y; }
 
 	void GetPosition(float& x, float& y) { x = this->x; y = this->y; }
 	int GetN() { return nx; }
 	void GetSpeed(float &vx, float &vy) { vx = this->vx; vy = this->vy; }
 	string GetState() { return this->state; }
 	bool IsEnable() { return this->isEnable; }
+	D3DXVECTOR2 GetEntryPosition() { return this->entryPosition; }
 
 	LPCOLLISIONEVENT SweptAABBEx(LPGAMEOBJECT coO);
 	void CalcPotentialCollisions(vector<LPGAMEOBJECT> *coObjects, vector<LPCOLLISIONEVENT> &coEvents);
@@ -89,7 +93,11 @@ public:
 	void AddAnimation(string aniId);
 
 	virtual void GetBoundingBox(float &left, float &top, float &width, float &height) = 0;
+	// Lấy boundingbox vùng va chạm với simon để khiến enemy active
+	virtual void GetActiveBoundingBox(float& left, float& top, float& right, float& bottom) {};
+
 	void RenderBoundingBox();
+	void RenderActiveBoundingBox();
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects = NULL);
 	virtual void Render() = 0;
 	virtual void SetState(string state) { this->state = state; }
