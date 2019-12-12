@@ -198,7 +198,7 @@ constexpr float  BLACK_LEOPARD_RESPAWN_TIME = 20000;
 #pragma region BBox Size
 
 // Simon
-#define SIMON_BBOX_WIDTH 34
+#define SIMON_BBOX_WIDTH 30
 #define SIMON_BBOX_HEIGHT 62
 #define SIMON_JUMPING_BBOX_HEIGHT	62
 

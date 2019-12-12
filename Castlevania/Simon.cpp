@@ -108,10 +108,23 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			{
 				if (e->ny != 0)
 				{
-					vy = 0;
+					//vy = 0;
 					jumping = false;
 					isCollisionWithStair = false;
 				}
+			/*	if (e->nx) x += dx;
+
+				if (ny != 0)
+				{
+					if (ny == -1)
+					{
+						vy = 0;
+					}
+					else
+					{
+						y += dy;
+					}
+				}*/
 
 				if (state == STAIR_UP || state == STAIR_DOWN)
 				{
@@ -304,12 +317,10 @@ void Simon::SetState(string state)
 void Simon::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
 	// sprite có kích thước là 60x66, bbox là 40x62
-	left = x + 15;
-	top = y + 2;
+	left = x + 15; //30,60
+	top = y + 2;  //62,66
 	right = left + SIMON_BBOX_WIDTH;
-
-	if (state != JUMP) bottom = top + SIMON_BBOX_HEIGHT;
-	else bottom = top + SIMON_JUMPING_BBOX_HEIGHT;
+	bottom = top + SIMON_BBOX_HEIGHT;
 
 }
 
