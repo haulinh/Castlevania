@@ -52,6 +52,7 @@ public:
 	bool isLastFame = false;
 	bool isEnable;
 	string nameItem; // id cua object chua item (string empty = ko co item)
+	string type;
 
 	D3DXVECTOR2 entryPosition; // đưa enemy về vị trí entry sau thời gian respawn
 
@@ -70,11 +71,13 @@ public:
 	void SetIdItem(string nameItem) { this->nameItem = nameItem; }
 	void SetEnable(bool enable) { this->isEnable = enable; }
 	void SetEntryPosition(float x, float y) { entryPosition.x = x; entryPosition.y = y; }
+	void SetType(string type) { this->type = type; }
 
 	void GetPosition(float& x, float& y) { x = this->x; y = this->y; }
 	int GetN() { return nx; }
 	void GetSpeed(float &vx, float &vy) { vx = this->vx; vy = this->vy; }
 	string GetState() { return this->state; }
+	string GetType() { return type; }
 	bool IsEnable() { return this->isEnable; }
 	D3DXVECTOR2 GetEntryPosition() { return this->entryPosition; }
 

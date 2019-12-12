@@ -64,10 +64,11 @@ void SceneManager::LoadObjectsFromFile(LPCWSTR FilePath)
 	string state;
 	bool isEnable;
 	string nameItem;
+	string typeStair;
 
 	while (!fs.eof())
 	{
-		fs >> ID_Obj >> pos_x >> pos_y >> state >> isEnable >> nameItem;
+		fs >> ID_Obj >> pos_x >> pos_y >> state >> isEnable >> nameItem >> typeStair;
 
 		if (ID_Obj == CANDLE)
 		{
@@ -94,6 +95,7 @@ void SceneManager::LoadObjectsFromFile(LPCWSTR FilePath)
 			stair->SetPosition(pos_x, pos_y);
 			stair->SetState(state);
 			stair->SetEnable(isEnable);
+			stair->SetType(typeStair);
 			listStairs.push_back(stair);
 			objects.push_back(stair);
 		}
@@ -416,7 +418,11 @@ void SceneManager::Render()
 	//	stair->RenderBoundingBox();
 	//}
 
-	listStairs[3]->RenderBoundingBox();
+	for (auto stair: listStairs)
+	{
+			stair->RenderBoundingBox();
+		//candle->RenderBoundingBox();
+	}
 
 	for (auto item : listItems)
 	{
@@ -522,7 +528,7 @@ void SceneManager::ChangeScene(int scene)
 	case SCENE_2:
 		LoadObjectsFromFile(FILEPATH_OBJECTS_SCENE_2);
 		CreateListChangeSceneObjects();
-		simon->SetPosition(900.0f, 335.0f);
+		simon->SetPosition(1700.0f, 100.0f);
 		game->SetCamPos(0.0f, 0.0f);
 		break;
 	case SCENE_3:

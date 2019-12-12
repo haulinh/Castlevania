@@ -75,6 +75,7 @@ public:
 	string GetSubWeapon() { return this->nameWeapon; }
 	string ItemToSubWeapon(string itemName) { return itemName + "_SUB"; }
 	int GetStairDirection() { return this->stairDirection; }
+	void RenderBBSimon();
 
 	int GetChangeScene() { return this->changeScene; }
 	void SetChangeScene(int x) { this->changeScene = x; }
