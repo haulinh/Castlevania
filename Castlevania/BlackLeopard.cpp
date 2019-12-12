@@ -23,7 +23,7 @@ void BlackLeopard::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 {
 	DWORD now = GetTickCount();
 
-	if (state == BLACK_LEOPARD_DESTROYED && animations[state]->IsOver(150) == true)
+	if (state == BLACK_LEOPARD_DESTROYED && isLastFame)
 	{
 		SetState(BLACK_LEOPARD_INACTIVE);
 		return;
@@ -84,7 +84,10 @@ void BlackLeopard::Render()
 	if (state != BLACK_LEOPARD_INACTIVE)
 	{
 		if (isRespawnWaiting == false)
+		{
 			animations[state]->Render(nx, x, y);
+			this->isLastFame = animations[state]->IsCompleted();
+		}
 	}
 }
 

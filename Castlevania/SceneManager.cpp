@@ -362,7 +362,7 @@ void SceneManager::Update(DWORD dt)
 			simon->Update(dt, &coObjects);
 			simon->CheckCollisionWithItem(&listItems);
 			simon->CheckChangeScene(&listChangeSceneObjs);
-			simon->CheckCollisionWithEnemyActiveArea(&listZombies);
+			//simon->CheckCollisionWithEnemyActiveArea(&listZombies);
 			simon->CheckCollisionWithEnemyActiveArea(&listBlackLeopards);
 
 		}

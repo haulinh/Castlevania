@@ -56,7 +56,7 @@ void VampireBat::SetState(string state)
 		else vx = -VAMPIRE_BAT_FLYING_SPEED_X;
 		vy = 0;
 		isDroppedItem = false;
-		respawnTime_Start = 0;
+		respawnTimeStart = 0;
 		isRespawnWaiting = false;
 	}
 	else if (state == VAMPIRE_BAT_DESTROYED)
@@ -90,7 +90,7 @@ bool VampireBat::IsAbleToActivate()
 {
 	DWORD now = GetTickCount();
 
-	if (isRespawnWaiting == true && now - respawnTime_Start >= VAMPIRE_BAT_RESPAWN_TIME)
+	if (isRespawnWaiting == true && now - respawnTimeStart >= VAMPIRE_BAT_RESPAWN_TIME)
 		return true;
 
 	return false;

@@ -200,7 +200,7 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		weapon->SetWeaponPosition(D3DXVECTOR3(x, y, 0), sitting);
 	}
 	weapon->Update(dt, coObjects);
-	DebugOut(L"Simon x: y: %f %f\n", x, y);
+	//DebugOut(L"Simon x: y: %f %f\n", x, y);
 }
 
 void Simon::Render()
