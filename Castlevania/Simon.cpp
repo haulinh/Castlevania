@@ -10,6 +10,7 @@
 #include "Door.h"
 #include "Zombie.h"
 #include "BlackLeopard.h"
+#include "Textures.h"
 
 Simon::Simon() : GameObject() {
 
@@ -185,6 +186,7 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		weapon->SetWeaponPosition(D3DXVECTOR3(x, y, 0), sitting);
 	}
 	weapon->Update(dt, coObjects);
+	DebugOut(L"Simon x: y: %f %f\n", x, y);
 }
 
 void Simon::Render()
@@ -213,7 +215,8 @@ void Simon::Render()
 	stairUpping = !animations[state]->IsCompleted();
 	deflecting = !animations[state]->IsCompleted();
 
-	RenderBoundingBox();
+	//RenderBoundingBox();
+	RenderBBSimon();
 
 }
 
@@ -346,6 +349,28 @@ bool Simon::IsStairUpping()
 	return (state == STAIR_UP && stairUpping);
 }
 
+void Simon::RenderBBSimon()
+{
+	D3DXVECTOR3 p(x, y, 0);
+	RECT rect;
+
+	LPDIRECT3DTEXTURE9 bbox = Textures::GetInstance()->Get(ID_BBOX);
+
+	float l, t, r, b;
+
+	GetBoundingBox(l, t, r, b);
+	t += 55;
+	b += 7;  // bottom +5 để xét cho va chạm với bậc thang đầu tiên khi bước xuống
+	l += 5;
+	r -= 5;
+	rect.left = 0;
+	rect.top = 0;
+	rect.right = (int)r - (int)l;
+	rect.bottom = (int)b - (int)t;
+
+	Game::GetInstance()->Draw(1, l, t, bbox, 0, 0, rect.right, rect.bottom, 100);
+}
+
 #pragma endregion CheckState
 
 void Simon::PositionCorrection(string prevState)
@@ -414,58 +439,82 @@ void Simon::CheckCollisionWithStair(vector<LPGAMEOBJECT>* listStair)
 	float simon_l, simon_t, simon_r, simon_b;
 	GetBoundingBox(simon_l, simon_t, simon_r, simon_b);
 
-	// thu nhỏ vùng xét va chạm, chỉ xét va chạm với chân của Simon
+	 //thu nhỏ vùng xét va chạm, chỉ xét va chạm với chân của Simon
 	simon_t += 55;
-	simon_b += 5;  // bottom +5 để xét cho va chạm với bậc thang đầu tiên khi bước xuống
-	simon_l += 5;
-	simon_r -= 5;
+	simon_b += 10;  // bottom +5 để xét cho va chạm với bậc thang đầu tiên khi bước xuống
 
-	float stair_l, stair_t, stair_r, stair_b;
-	listStair->front()->GetBoundingBox(stair_l, stair_t, stair_r, stair_b);
-
-	if (Game::AABB(simon_l, simon_t, simon_r, simon_b, stair_l, stair_t, stair_r, stair_b))
+	if (nx == -1)
 	{
-		if (listStair->front()->GetState() == STAIR_LEFT_UP) stairDirection = 1;
-		else stairDirection = -1;
-
-		stairCollided = listStair->front();
-		notSit = true;
-		isMovingUp = true;
-		if (simon_b > stair_b)
-		{
-			isMovingDown = false;
-		}
-		else if (simon_t - 10 < stair_t) // -10 have it to moving down first stair
-		{
-			isMovingDown = true;
-		}
+		simon_l += 5;
+		simon_r -= 5;
 	}
-	else if (simon_b < stair_t)
+	else
 	{
-		notSit = true;
+		simon_l -= 5; 
+		simon_r += 5;
 	}
-	else notSit = false;
-
-	float stair_l_, stair_t_, stair_r_, stair_b_;
-	listStair->at(3)->GetBoundingBox(stair_l_, stair_t_, stair_r_, stair_b_);
-
-	if (Game::AABB(simon_l, simon_t, simon_r, simon_b, stair_l_, stair_t_, stair_r_, stair_b_))
+	for (UINT i = 0; i < listStair->size(); i++)
 	{
-		if (listStair->at(3)->GetState() == STAIR_LEFT_UP) stairDirection = 1;
-		else stairDirection = -1;
-
-		stairCollided = listStair->at(3);
-		notSit = true;
-		isMovingDown = true;
-		isMovingUp = false;
-		if (simon_b > stair_b_)
+		if (listStair->at(i)->GetType() == "BOTTOM")
 		{
-			isMovingUp = true;
+			float stair_l, stair_t, stair_r, stair_b;
+			listStair->at(i)->GetBoundingBox(stair_l, stair_t, stair_r, stair_b);
+			if (Game::AABB(simon_l, simon_t, simon_r, simon_b, stair_l, stair_t, stair_r, stair_b))
+			{
+				if (listStair->at(i)->GetState() == STAIR_LEFT_UP) stairDirection = 1;
+				else stairDirection = -1;
+
+				stairCollided = listStair->at(i);
+				notSit = true;
+				isMovingUp = true;
+				//if (listStair->at(i)->GetState() == STAIR_RIGHT_DOWN)
+				//{
+				//	if (simon_b > stair_b)
+				//	{
+				//		isMovingDown = false;
+				//	}
+				//	else if (simon_t - 10 < stair_t) // -10 have it to moving down first stair
+				//	{
+				//		isMovingDown = true;
+				//	}
+				//}
+				break;
+			}
+			//else if (simon_b < stair_t)
+			//{
+			//	notSit = true;
+			//	continue;
+			//}
+			//else {
+			//	notSit = false;
+			//	//continue;
+			//}
 		}
-	}
-	else if (simon_b > stair_t_ && simon_l > stair_r_)
-	{
-		notSit = false;
+		else if (listStair->at(i)->GetType() == "TOP")
+		{
+			float stair_l_, stair_t_, stair_r_, stair_b_;
+			listStair->at(i)->GetBoundingBox(stair_l_, stair_t_, stair_r_, stair_b_);
+
+			if (Game::AABB(simon_l, simon_t, simon_r, simon_b, stair_l_, stair_t_, stair_r_, stair_b_))
+			{
+				if (listStair->at(i)->GetState() == STAIR_LEFT_UP) stairDirection = 1;
+				else stairDirection = -1;
+
+				stairCollided = listStair->at(i);
+				notSit = true;
+				isMovingDown = true;
+				isMovingUp = false;
+				if (simon_b > stair_b_)
+				{
+					isMovingUp = true;
+				}
+				break;
+			}
+			/*	else if (simon_b > stair_t_&& simon_l > stair_r_)
+				{
+					notSit = false;
+				}*/
+		}
 	}
 }
 
