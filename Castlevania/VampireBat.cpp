@@ -28,6 +28,12 @@ VampireBat::~VampireBat()
 
 void VampireBat::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 {
+	if (state == VAMPIRE_BAT_DESTROYED && isLastFame)
+	{
+		SetState(VAMPIRE_BAT_INACTIVE);
+		return;
+	}
+
 	GameObject::Update(dt);
 
 	vy += velocityVariation;
@@ -42,6 +48,7 @@ void VampireBat::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 void VampireBat::Render()
 {
 	animations[state]->Render(nx, x, y);
+	this->isLastFame = animations[state]->IsCompleted();
 }
 
 void VampireBat::SetState(string state)
@@ -50,8 +57,6 @@ void VampireBat::SetState(string state)
 
 	if (state == VAMPIRE_BAT_ACTIVE)
 	{
-		x = entryPosition.x;
-		y = entryPosition.y;
 		if (nx > 0) vx = VAMPIRE_BAT_FLYING_SPEED_X;
 		else vx = -VAMPIRE_BAT_FLYING_SPEED_X;
 		vy = 0;
@@ -66,6 +71,8 @@ void VampireBat::SetState(string state)
 	else if (state == VAMPIRE_BAT_INACTIVE)
 	{
 		vx = 0;
+		vy = 0;
+		isSettedPosition = false;
 		StartRespawnTimeCounter();
 	}
 }
@@ -80,10 +87,10 @@ void VampireBat::GetBoundingBox(float& left, float& top, float& right, float& bo
 
 void VampireBat::GetActiveBoundingBox(float& left, float& top, float& right, float& bottom)
 {
-	left = x;
-	top = y;
-	right = left + VAMPIRE_BAT_ACTIVE_BBOX_WIDTH;
-	bottom = top + VAMPIRE_BAT_ACTIVE_BBOX_HEIGHT;
+	left = entryPosition.x - VAMPIRE_BAT_ACTIVE_BBOX_WIDTH;
+	top = entryPosition.y - VAMPIRE_BAT_ACTIVE_BBOX_HEIGHT;
+	right = entryPosition.x + VAMPIRE_BAT_ACTIVE_BBOX_WIDTH;
+	bottom = entryPosition.y + VAMPIRE_BAT_ACTIVE_BBOX_HEIGHT;
 }
 
 bool VampireBat::IsAbleToActivate()

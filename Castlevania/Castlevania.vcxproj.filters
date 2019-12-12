@@ -96,7 +96,13 @@
     <ClInclude Include="Zombie.h">
       <Filter>Objects</Filter>
     </ClInclude>
-    <ClInclude Include="Bubble.h">
+    <ClInclude Include="Bubbles.h">
+      <Filter>Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="FireBall.h">
+      <Filter>Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="FishMan.h">
       <Filter>Objects</Filter>
     </ClInclude>
   </ItemGroup>
@@ -170,7 +176,13 @@
     <ClCompile Include="Zombie.cpp">
       <Filter>Objects</Filter>
     </ClCompile>
-    <ClCompile Include="Bubble.cpp">
+    <ClCompile Include="Bubbles.cpp">
+      <Filter>Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="FireBall.cpp">
+      <Filter>Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="FishMan.cpp">
       <Filter>Objects</Filter>
     </ClCompile>
   </ItemGroup>

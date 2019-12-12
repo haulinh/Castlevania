@@ -132,17 +132,26 @@ void SceneManager::LoadObjectsFromFile(LPCWSTR FilePath)
 			listBlackLeopards.push_back(leopard);
 			objects.push_back(leopard);
 		}
+		else if (ID_Obj == VAMPIRE_BAT)
+		{
+			bat = new VampireBat();
+			bat->SetEntryPosition(pos_x, pos_y);
+			bat->SetState(VAMPIRE_BAT_INACTIVE);
+			bat->SetEnable(true);
+			listVampireBats.push_back(bat);
+			objects.push_back(bat);
+		}
 
 	}
 	fs.close();
 
-	// 
-	bat = new VampireBat();
-	bat->SetEntryPosition(0.0f, 150.0f);
-	bat->SetState(VAMPIRE_BAT_ACTIVE);
-	bat->SetEnable(isEnable);
-	listVampireBats.push_back(bat);
-	objects.push_back(bat);
+	//// 
+	//bat = new VampireBat();
+	//bat->SetEntryPosition(0.0f, 150.0f);
+	//bat->SetState(VAMPIRE_BAT_ACTIVE);
+	//bat->SetEnable(isEnable);
+	//listVampireBats.push_back(bat);
+	//objects.push_back(bat);
 
 	objects.push_back(simon);
 
@@ -359,10 +368,19 @@ void SceneManager::Update(DWORD dt)
 				coObjects.push_back(leopard);
 			}
 
+			for (auto bat : listVampireBats)
+			{
+				if (bat->GetState() == VAMPIRE_BAT_INACTIVE)
+					continue;
+
+				coObjects.push_back(bat);
+			}
+
 			simon->Update(dt, &coObjects);
 			simon->CheckCollisionWithItem(&listItems);
 			simon->CheckChangeScene(&listChangeSceneObjs);
 			//simon->CheckCollisionWithEnemyActiveArea(&listZombies);
+			simon->CheckCollisionWithEnemyActiveArea(&listVampireBats);
 			simon->CheckCollisionWithEnemyActiveArea(&listBlackLeopards);
 
 		}
@@ -377,6 +395,32 @@ void SceneManager::Update(DWORD dt)
 		else if (dynamic_cast<BlackLeopard*>(objects[i]))
 		{
 			object->Update(dt, &listGrounds);
+		}
+		else if (dynamic_cast<VampireBat*>(object))
+		{
+			if (object->GetState() != VAMPIRE_BAT_INACTIVE)
+			{
+				bat = dynamic_cast<VampireBat*>(object);
+
+				if (bat->IsSettedPosition() == false)
+				{
+					bat->SetIsSettedPosition(true);
+
+					// set vị trí cho dơi luôn 
+					// dơi bay ngang tầm simon, từ phía cuối của 2 đầu màn hình)
+					float bx, by;
+
+					by = simon->y;
+
+					if (bat->GetN() == -1) bx = game->GetCamPos().x + SCREEN_WIDTH - VAMPIRE_BAT_BBOX_WIDTH;
+					else bx = game->GetCamPos().x;
+
+					bat->SetPosition(bx, by);
+				}
+
+				bat->Update(dt);
+			}
+
 		}
 		else if (dynamic_cast<SubWeapon*>(objects[i]))
 		{
@@ -517,32 +561,50 @@ void SceneManager::SetInactivationByPosition()
 {
 	D3DXVECTOR2 entryViewPort = game->GetCamPos();
 
-	//DebugOut(L"x: %d\n", entryViewPort.x);
-
 	for (auto zombie : listZombies)
 	{
-		if (zombie->GetState() == ZOMBIE_ACTIVE)
+		Zombie* zb = dynamic_cast<Zombie*>(zombie);
+
+		if (zb->GetState() == ZOMBIE_ACTIVE)
 		{
 			float zx, zy;
-			zombie->GetPosition(zx, zy);
+			zb->GetPosition(zx, zy);
 
-			if (zx + ZOMBIE_ACTIVE_BBOX_WIDTH < entryViewPort.x || zx > entryViewPort.x + SCREEN_WIDTH)
+			if (zx + ZOMBIE_BBOX_WIDTH < entryViewPort.x || zx > entryViewPort.x + SCREEN_WIDTH)
 			{
-				zombie->SetState(ZOMBIE_INACTIVE);
+				zb->SetState(ZOMBIE_INACTIVE);
 			}
 		}
 	}
 
 	for (auto leopard : listBlackLeopards)
 	{
-		if (leopard->GetState() == BLACK_LEOPARD_ACTIVE)
+		BlackLeopard* bl = dynamic_cast<BlackLeopard*>(leopard);
+
+		if (bl->GetState() == BLACK_LEOPARD_ACTIVE)
 		{
 			float lx, ly;
-			leopard->GetPosition(lx, ly);
+			bl->GetPosition(lx, ly);
 
-			if (lx + BLACK_LEOPARD_ACTIVE_BBOX_WIDTH < entryViewPort.x || lx > entryViewPort.x + SCREEN_WIDTH)
+			if (lx + BLACK_LEOPARD_BBOX_WIDTH < entryViewPort.x || lx > entryViewPort.x + SCREEN_WIDTH)
 			{
-				leopard->SetState(BLACK_LEOPARD_INACTIVE);
+				bl->SetState(BLACK_LEOPARD_INACTIVE);
+			}
+		}
+	}
+
+	for (auto bat : listVampireBats)
+	{
+		VampireBat* vb = dynamic_cast<VampireBat*>(bat);
+
+		if (vb->GetState() == VAMPIRE_BAT_ACTIVE && vb->IsSettedPosition() == true)
+		{
+			float bx, by;
+			vb->GetPosition(bx, by);
+
+			if (bx + VAMPIRE_BAT_BBOX_WIDTH < entryViewPort.x || bx > entryViewPort.x + SCREEN_WIDTH)
+			{
+				vb->SetState(VAMPIRE_BAT_INACTIVE);
 			}
 		}
 	}

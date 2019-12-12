@@ -11,6 +11,7 @@
 #include "Zombie.h"
 #include "BlackLeopard.h"
 #include "Textures.h"
+#include "VampireBat.h"
 
 Simon::Simon() : GameObject() {
 
@@ -160,10 +161,18 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				}
 			}
 
-			else if (dynamic_cast<Zombie*>(e->obj) || dynamic_cast<BlackLeopard*>(e->obj))
+			else if (dynamic_cast<Zombie*>(e->obj) || dynamic_cast<BlackLeopard*>(e->obj) || dynamic_cast<VampireBat*>(e->obj))
 			{
 				if (isUntouchable == false)
 				{
+					// nếu dơi tông trúng simon thì cho huỷ
+					if (dynamic_cast<VampireBat*>(e->obj))
+					{
+						e->obj->SetState(VAMPIRE_BAT_DESTROYED);
+						e->obj->x = 0;
+						e->obj->isLastFame = false;
+					}
+
 					if (e->nx != 0)
 					{
 						if (e->nx == 1.0f && this->nx == 1) this->nx = -1;
@@ -618,6 +627,22 @@ void Simon::CheckCollisionWithEnemyActiveArea(vector<LPGAMEOBJECT>* listEnemy)
 					(leopard->GetState() == BLACK_LEOPARD_INACTIVE && leopard->IsAbleToActivate() == true))
 				{
 					leopard->SetState(BLACK_LEOPARD_ACTIVE);
+				}
+			}
+			else if (dynamic_cast<VampireBat*>(enemy))
+			{
+				VampireBat* bat = dynamic_cast<VampireBat*>(enemy);
+
+				if (bat->IsAbleToActivate() == true)
+				{
+
+					// set random hướng cho dơi
+
+					int listNx[2] = { -1, 1 };
+					int rndIndex = rand() % 2;
+					bat->SetN(listNx[rndIndex]);
+
+					bat->SetState(VAMPIRE_BAT_ACTIVE);
 				}
 			}
 		}

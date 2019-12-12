@@ -5,6 +5,7 @@
 #include "Items.h"
 #include "Zombie.h"
 #include "BlackLeopard.h"
+#include "VampireBat.h"
 
 Weapon::Weapon()
 {
@@ -57,6 +58,18 @@ void Weapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				{
 					e->vx = 0;
 					e->SetState(BLACK_LEOPARD_DESTROYED);
+					e->isLastFame = false;
+				}
+			}
+
+			else if (dynamic_cast<VampireBat*>(obj))
+			{
+				VampireBat* e = dynamic_cast<VampireBat*> (obj);
+
+				if (this->AABBx(e) == true)
+				{
+					e->vx = 0;
+					e->SetState(VAMPIRE_BAT_DESTROYED);
 					e->isLastFame = false;
 				}
 			}
