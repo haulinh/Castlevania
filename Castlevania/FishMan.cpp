@@ -1,9 +1,22 @@
 ﻿#include "FishMan.h"
 
-
-
 FishMan::FishMan()
 {
+	LoadResourceFile* loadResourceFile = LoadResourceFile::GetInstance();
+
+	vector<string> animationsFirstMan = loadResourceFile->GetAnimations("resources\\fish_man\\fish_man_ani.xml");
+
+	for each (string animation in animationsFirstMan)
+	{
+		AddAnimation(animation);
+	}
+
+	vector<string> animationsEffect = loadResourceFile->GetAnimations("resources\\effect\\effect_ani.xml");
+	for each (string animation in animationsEffect)
+	{
+		AddAnimation(animation);
+	}
+
 	SetState(FIREBALL);
 }
 
