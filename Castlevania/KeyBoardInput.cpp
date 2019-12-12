@@ -62,7 +62,7 @@ void KeyBoardInput::KeyState(BYTE* state)
 	{
 		string prevState = simon->GetState();
 
-		if (simon->notSit == true)
+		if (simon->isCollisionWithStair == true)
 		{
 			if (simon->IsMovingDown() == false)
 			{
@@ -94,7 +94,7 @@ void KeyBoardInput::KeyState(BYTE* state)
 	{
 		string prevState = simon->GetState();
 
-		if (simon->notSit)
+		if (simon->isCollisionWithStair)
 		{
 			if (simon->IsMovingUp() == false)
 			{

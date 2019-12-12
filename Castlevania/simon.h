@@ -42,8 +42,7 @@ public:
 	bool isStandOnStair = false; // trạng thái đang đứng trên cầu thang 
 	bool isMovingUp = false;
 	bool isMovingDown = false;
-	bool notSit = false;
-	bool doSit = false;
+	bool isCollisionWithStair = false;
 	int stairDirection = 0; // 1: trái dưới - phải trên, -1: trái trên - phải dưới
 
 	int changeScene = -1;
