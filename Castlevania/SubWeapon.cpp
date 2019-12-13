@@ -224,9 +224,6 @@ void SubWeapon::GetBoundingBox(float& left, float& top, float& right, float& bot
 		right = left + WEAPONS_BOOMERANG_BBOX_WIDTH;
 		bottom = top + WEAPONS_BOOMERANG_BBOX_HEIGHT;
 	}
-
-	right = left;
-	bottom = top;
 }
 
 

@@ -515,7 +515,7 @@ void SceneManager::Update(DWORD dt)
 				nx = fishman->GetN();
 
 				fireball = new FireBall();
-				fireball->SetPosition(nx == 1 ? fx : fx + FISHMAN_BBOX_WIDTH, fy);
+				fireball->SetPosition(nx == 1 ? fx : fx + FISHMAN_BBOX_WIDTH, fy + 5);
 				fireball->SetN(nx);
 				fireball->SetState(FIREBALL);
 				fireball->SetEnable(true);
@@ -630,6 +630,12 @@ void SceneManager::Render()
 		door->RenderBoundingBox();
 	}
 
+	if (subweapon->IsEnable() == true)
+	{
+		subweapon->Render();
+		subweapon->RenderBoundingBox();
+	}
+
 	for (auto ground : listGrounds)
 	{
 		if (ground->IsEnable() == false)
@@ -637,12 +643,6 @@ void SceneManager::Render()
 
 		ground->RenderBoundingBox();
 
-	}
-
-	if (subweapon->IsEnable() == true)
-	{
-		subweapon->Render();
-		subweapon->RenderBoundingBox();
 	}
 
 }

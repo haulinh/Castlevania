@@ -149,10 +149,14 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			{
 				if (e->obj->GetState() == DOOR_2_IDLE)
 				{
-					e->obj->SetState(DOOR_2_OPEN);
-					e->obj->animations[e->obj->GetState()]->SetAniStartTime(GetTickCount());
+					if (e->nx == 1.0f) vx = 0;
+					else
+					{
+						e->obj->SetState(DOOR_2_OPEN);
+						e->obj->animations[e->obj->GetState()]->SetAniStartTime(GetTickCount());
 
-					isWalkThroughDoor = true;
+						isWalkThroughDoor = true;
+					}
 				}
 				else if (e->obj->GetState() == DOOR_2_OPEN)
 				{
