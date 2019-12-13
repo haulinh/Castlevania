@@ -86,6 +86,8 @@ const string STAIR_UP = "SIMON_STAIR_UP";
 const string STAIR_DOWN = "SIMON_STAIR_DOWN";
 const string AUTO_WALK = "SIMON_AUTO_WALK";
 const string DEFLECT = "SIMON_DEFLECT";
+const string STAIR_UP_ATTACK = "SIMON_STAIR_UP_ATTACK";
+const string STAIR_DOWN_ATTACK = "SIMON_STAIR_DOWN_ATTACK";
 
 // Weapon
 const string MAGIC_WHIP = "MAGIC_WHIP";
