@@ -308,7 +308,7 @@ constexpr float FISHMAN_RESPAWN_TIME = 5000;
 // Zombie
 #define ZOMBIE_BBOX_WIDTH			32
 #define ZOMBIE_BBOX_HEIGHT			60
-#define ZOMBIE_ACTIVE_BBOX_WIDTH			200
+#define ZOMBIE_ACTIVE_BBOX_WIDTH		    100
 #define ZOMBIE_ACTIVE_BBOX_HEIGHT			200
 
 // Black Leopard

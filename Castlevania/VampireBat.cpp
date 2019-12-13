@@ -85,6 +85,10 @@ void VampireBat::GetBoundingBox(float& left, float& top, float& right, float& bo
 	top = y;
 	right = left + VAMPIRE_BAT_BBOX_WIDTH;
 	bottom = top + VAMPIRE_BAT_BBOX_HEIGHT;
+	if (isRespawnWaiting)
+	{
+		left = top = right = bottom = 0;
+	}
 }
 
 void VampireBat::GetActiveBoundingBox(float& left, float& top, float& right, float& bottom)
