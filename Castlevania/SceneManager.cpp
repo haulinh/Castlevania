@@ -278,8 +278,8 @@ void SceneManager::Update(DWORD dt)
 				switch (IDScene)
 				{
 				case SCENE_3:
-					if (x < 3200.0f) simon->SetPosition(93.0f, 48.0f);
-					else simon->SetPosition(733.0f, 48.0f);
+					if (x < 3200.0f) simon->SetPosition(100.0f, 48.0f);
+					else simon->SetPosition(740.0f, 48.0f);
 
 					tilemaps->Get(IDScene)->index = 0;
 					game->SetCamPos(0.0f, 0.0f);
@@ -400,16 +400,69 @@ void SceneManager::Update(DWORD dt)
 		}
 		else if (dynamic_cast<SubWeapon*>(object))
 		{
-			//for (int j = 1; j < Objects.size(); j++)
-			//{
-			//	if (Objects[j]->isEnable == false)
-			//		continue;
+			coObjects.push_back(simon); // dùng cho xét va chạm của simon với boomerang
 
-			//	if (dynamic_cast<Ground*>(Objects[j])) // thêm tất cả objects "là ground", dùng trong hàm update của subweapon
-			//	{
-			//		coObjects.push_back(Objects[j]);
-			//	}
-			//}
+		// dùng cho xét va chạm của holy water với ground
+			for (auto ground : listGrounds)
+			{
+				if (ground->IsEnable() == false)
+					continue;
+
+				coObjects.push_back(ground);
+			}
+
+			if (weapon->IsEnable() == false)
+				continue;
+
+			for (auto candle : listCandles)
+			{
+				if (candle->IsEnable() == false)
+					continue;
+
+				coObjects.push_back(candle);
+			}
+
+			for (auto zombie : listZombies)
+			{
+				if (zombie->GetState() == ZOMBIE_INACTIVE)
+					continue;
+
+				coObjects.push_back(zombie);
+			}
+
+			for (auto leopard : listBlackLeopards)
+			{
+				if (leopard->GetState() == BLACK_LEOPARD_INACTIVE)
+					continue;
+
+				coObjects.push_back(leopard);
+			}
+
+			for (auto bat : listVampireBats)
+			{
+				if (bat->GetState() == VAMPIRE_BAT_INACTIVE)
+					continue;
+
+				coObjects.push_back(bat);
+			}
+
+			for (auto fishman : listFishMans)
+			{
+				if (fishman->GetState() == FISHMAN_INACTIVE)
+					continue;
+
+				coObjects.push_back(fishman);
+			}
+
+			for (auto fireball : listFireBalls)
+			{
+				if (fireball->IsEnable() == false)
+					continue;
+
+				coObjects.push_back(fireball);
+			}
+
+			subweapon->Update(dt, &coObjects);
 		}
 		else if (dynamic_cast<Zombie*>(object))
 		{
@@ -502,7 +555,7 @@ void SceneManager::Render()
 			continue;
 
 		candle->Render();
-		candle->RenderBoundingBox();
+		//candle->RenderBoundingBox();
 	}
 
 	for (auto item : listItems)
@@ -575,6 +628,12 @@ void SceneManager::Render()
 
 		door->Render();
 		door->RenderBoundingBox();
+	}
+
+	if (subweapon->IsEnable() == true)
+	{
+		subweapon->Render();
+		subweapon->RenderBoundingBox();
 	}
 }
 
@@ -702,6 +761,18 @@ void SceneManager::SetInactivationByPosition()
 			{
 				fireball->SetEnable(false);
 			}
+		}
+	}
+
+	if (subweapon->IsEnable() == true)
+	{
+		float wx, wy;
+		subweapon->GetPosition(wx, wy);
+
+		if (wx < entryViewPort.x || wx > entryViewPort.x + SCREEN_WIDTH ||
+			wy > entryViewPort.y + SCREEN_HEIGHT)
+		{
+			subweapon->SetEnable(false);
 		}
 	}
 }

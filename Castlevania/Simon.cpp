@@ -26,7 +26,7 @@ Simon::Simon() : GameObject() {
 	}
 
 	weapon = new Weapon();
-	nameWeapon = BOOMERANG_SUB;
+	nameWeapon = DAGGER_SUB;
 
 	score = 0;
 	item = -1;
@@ -217,7 +217,8 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		weapon->SetN(nx);
 		weapon->SetWeaponPosition(D3DXVECTOR3(x, y, 0), sitting);
 	}
-	weapon->Update(dt, coObjects);
+
+	if (!isHitSubWeapons) weapon->Update(dt, coObjects);
 }
 
 void Simon::Render()
@@ -234,7 +235,7 @@ void Simon::Render()
 		animations[state]->Render(nx, x, y);
 	}
 
-	if (state == STAND_ATTACK || state == SIT_ATTACK || state == STAIR_UP_ATTACK || state == STAIR_DOWN_ATTACK)
+	if ((state == STAND_ATTACK || state == SIT_ATTACK || state == STAIR_UP_ATTACK || state == STAIR_DOWN_ATTACK) && (isHitSubWeapons == false))
 	{
 		weapon->Render();
 	}
@@ -420,67 +421,6 @@ void Simon::RenderBBSimon()
 
 #pragma endregion CheckState
 
-void Simon::PositionCorrection(string prevState)
-{
-	float stair_x, stair_y;
-	stairCollided->GetPosition(stair_x, stair_y);
-
-	if (prevState == "")
-	{
-		if (state == STAIR_UP)
-		{
-			if (stairDirection == 1)
-			{
-				x = stair_x - 34.0f;
-				y = stair_y - 31.0f;
-			}
-			else
-			{
-				x = stair_x + 5.0f;
-				y = stair_y - 31.0f;
-			}
-		}
-		else if (state == STAIR_DOWN)
-		{
-			if (stairDirection == 1)
-			{
-				x = stair_x - 10.0f;
-				y = stair_y - 47.0f;
-			}
-			else
-			{
-				x = stair_x - 18.0f;
-				y = stair_y - 47.0f;
-			}
-		}
-	}
-	else
-	{
-		if (state == STAIR_UP && prevState == STAIR_DOWN)
-		{
-			if (stairDirection == 1)
-			{
-				x -= 3.0f;
-			}
-			else
-			{
-				x += 3.0f;
-			}
-		}
-		else if (state == STAIR_DOWN && prevState == STAIR_UP)
-		{
-			if (stairDirection == 1)
-			{
-				x += 3.0f;
-			}
-			else
-			{
-				x -= 3.0f;
-			}
-		}
-	}
-}
-
 void Simon::CheckCollisionWithStair(vector<LPGAMEOBJECT>* listStair)
 {
 	float simon_l, simon_t, simon_r, simon_b;
@@ -551,6 +491,7 @@ void Simon::CheckCollisionWithStair(vector<LPGAMEOBJECT>* listStair)
 	}
 }
 
+// Kiểm tra va chạm với danh sách item
 bool Simon::CheckCollisionWithItem(vector<LPGAMEOBJECT>* listItem)
 {
 	float simon_l, simon_t, simon_r, simon_b;
@@ -606,6 +547,7 @@ bool Simon::CheckCollisionWithItem(vector<LPGAMEOBJECT>* listItem)
 	}
 }
 
+// Kiểm tra va chạm với vùng hoạt động của enemy
 void Simon::CheckCollisionWithEnemyActiveArea(vector<LPGAMEOBJECT>* listEnemy)
 {
 	float simon_l, simon_t, simon_r, simon_b;
@@ -693,6 +635,7 @@ void Simon::CheckCollisionWithEnemyActiveArea(vector<LPGAMEOBJECT>* listEnemy)
 	}
 }
 
+// Kiểm tra va chạm với trigger change scene
 bool Simon::CheckChangeScene(vector<LPCHANGESCENEOBJ>* listChangeScene)
 {
 	float simon_l, simon_t, simon_r, simon_b;

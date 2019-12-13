@@ -221,7 +221,10 @@ void KeyBoardInput::Simon_Hit()
 void KeyBoardInput::Simon_Hit_SubWeapon()
 {
 	Simon* simon = scene->GetSimon();
-	SubWeapon* weapon = scene->GetSubWeapon();
+	SubWeapon* subweapon = scene->GetSubWeapon();
+
+	if(subweapon->IsEnable() == true) // đang phóng rồi
+		return;
 
 	if (simon->GetState() == IDLE || simon->GetState() == JUMP ||
 		simon->GetState() == SIT || simon->GetState() == STAIR_UP ||
@@ -235,17 +238,18 @@ void KeyBoardInput::Simon_Hit_SubWeapon()
 		if (simon->GetState() == SIT) sy += 25.0f; // khớp vị trí tay
 		else sy += 10.0f;
 		if (simon->GetN() < 0) sx += 30.0f;
+		else sx += 15.0f;
 
-		weapon->SetPosition(sx, sy);
+		subweapon->SetPosition(sx, sy);
 
 		// orientation
-		weapon->SetN(simon->GetN());
+		subweapon->SetN(simon->GetN());
 
 		// state weapon
-		weapon->SetState(simon->GetSubWeapon());
-		weapon->SetEnable(true);
+		subweapon->SetState(simon->GetSubWeapon());
+		subweapon->SetEnable(true);
 
-		if (weapon->GetState() == STOP_WATCH_SUB)
+		if (subweapon->GetState() == STOP_WATCH_SUB)
 		{
 			/*	simon->LoseEnergy(5);
 				scene->StartStopWatch();*/
