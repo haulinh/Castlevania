@@ -183,7 +183,7 @@ const string BUBBLES = "BUBBLES";
 #pragma region define Properties
 
 // Simon
-constexpr float SIMON_WALKING_SPEED = 0.15f;
+constexpr float SIMON_WALKING_SPEED = 0.13f;
 constexpr float SIMON_WALKING_SPEED_LOWER = 0.05f;
 constexpr float SIMON_JUMP_SPEED_Y = 0.55f;
 constexpr float SIMON_GRAVITY = 0.002f;
@@ -308,8 +308,8 @@ constexpr float FISHMAN_RESPAWN_TIME = 5000;
 // Zombie
 #define ZOMBIE_BBOX_WIDTH			32
 #define ZOMBIE_BBOX_HEIGHT			60
-#define ZOMBIE_ACTIVE_BBOX_WIDTH			260
-#define ZOMBIE_ACTIVE_BBOX_HEIGHT			150
+#define ZOMBIE_ACTIVE_BBOX_WIDTH			200
+#define ZOMBIE_ACTIVE_BBOX_HEIGHT			200
 
 // Black Leopard
 #define BLACK_LEOPARD_BBOX_WIDTH			10
@@ -320,7 +320,7 @@ constexpr float FISHMAN_RESPAWN_TIME = 5000;
 // Vampire Bat
 #define VAMPIRE_BAT_BBOX_WIDTH			10
 #define VAMPIRE_BAT_BBOX_HEIGHT			32
-#define VAMPIRE_BAT_ACTIVE_BBOX_WIDTH			400 
+#define VAMPIRE_BAT_ACTIVE_BBOX_WIDTH			250 
 #define VAMPIRE_BAT_ACTIVE_BBOX_HEIGHT			200
 
 // Fire ball
@@ -330,8 +330,8 @@ constexpr float FISHMAN_RESPAWN_TIME = 5000;
 // Fish man
 #define FISHMAN_BBOX_WIDTH			10
 #define FISHMAN_BBOX_HEIGHT			60
-#define FISHMAN_ACTIVE_BBOX_WIDTH			150
-#define FISHMAN_ACTIVE_BBOX_HEIGHT			350
+#define FISHMAN_ACTIVE_BBOX_WIDTH			100
+#define FISHMAN_ACTIVE_BBOX_HEIGHT			200
 
 #define ENEMY_DEFAULT_BBOX_WIDTH			32
 #define ENEMY_DEFAULT_BBOX_HEIGHT			32

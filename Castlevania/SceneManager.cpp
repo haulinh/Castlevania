@@ -211,7 +211,6 @@ void SceneManager::GetObjectFromGrid()
 	for (int i = 0; i < listUnits.size(); i++)
 	{
 		LPGAMEOBJECT obj = listUnits[i]->GetObj();
-		DebugOut(L"so luong obj: %d\n", obj->GetState());
 
 		if (dynamic_cast<Candle*>(obj) || dynamic_cast<Door*>(obj))
 			listStaticObjectsToRender.push_back(obj);
@@ -340,7 +339,6 @@ void SceneManager::Update(DWORD dt)
 	Simon_Update(dt);
 	Weapon_Update(dt);
 
-	// Cập nhật trạng thái hoạt động khi object đi ra khỏi viewport
 	for (UINT i = 0; i < listObjects.size(); i++)
 	{
 		LPGAMEOBJECT object = listObjects[i];
@@ -372,7 +370,6 @@ void SceneManager::Update(DWORD dt)
 			object->Update(dt, &listObjects);
 		}
 	}
-
 	//
 	SetInactivationByPosition();
 
@@ -390,35 +387,30 @@ void SceneManager::Render()
 	for (auto obj : listStaticObjectsToRender)
 	{
 		obj->Render();
-		//obj->RenderBoundingBox();
+		obj->RenderBoundingBox();
 	}
 
 	for (auto obj : listMovingObjectsToRender)
 	{
 		obj->Render();
-		//obj->RenderBoundingBox();
+		obj->RenderBoundingBox();
 		//obj->RenderActiveBoundingBox();
 	}
 
 	simon->Render();
-	//simon->RenderBoundingBox();
-
-	if (subweapon->IsEnable() == true)
-	{
-		subweapon->Render();
-		//subweapon->RenderBoundingBox();
-	}
+	simon->RenderBoundingBox();
 }
 
 void SceneManager::UpdateCameraPosition()
 {
-	TileMap* map = tilemaps->Get(IDScene);
-	int min_col = map->min_max_col_to_draw[map->index][0];
-	int max_col = map->min_max_col_to_draw[map->index][1];
 
 	if (simon->x > SCREEN_WIDTH / 2 &&
 		simon->x + SCREEN_WIDTH / 2 < tilemaps->Get(IDScene)->GetMapWidth())
 	{
+		TileMap* map = tilemaps->Get(IDScene);
+		int min_col = map->min_max_col_to_draw[map->index][0];
+		int max_col = map->min_max_col_to_draw[map->index][1];
+
 		if (simon->x >= min_col * 32 + (SCREEN_WIDTH / 2 - 16) &&
 			simon->x <= max_col * 32 - (SCREEN_WIDTH / 2 - 16))
 		{
@@ -444,14 +436,19 @@ void SceneManager::SetDropItems(LPGAMEOBJECT object)
 		(dynamic_cast<VampireBat*>(object) && object->GetState() == VAMPIRE_BAT_DESTROYED) ||
 		(dynamic_cast<FishMan*>(object) && object->GetState() == FISHMAN_DESTROYED))
 	{
-		if (object->nameItem != "")
+		if (object->nameItem != "" && object->IsDroppedItem() == false)
 		{
-				item = new Items();
-				item->SetEnable(true);
-				item->SetPosition(object->x, object->y);
-				item->SetItem(object->nameItem);
-				listItems.push_back(item);
-				unit = new Unit(grid, item, object->x, object->y);
+			object->SetIsDroppedItem(true);
+
+			// Tạo một item theo id
+
+			item = new Items();
+			item->SetEnable(true);
+			item->SetPosition(object->x, object->y);
+			item->SetItem(object->nameItem);
+
+			listItems.push_back(item);
+			unit = new Unit(grid, item, object->x, object->y);
 		}
 	}
 }
@@ -524,16 +521,49 @@ void SceneManager::SetInactivationByPosition()
 	}
 }
 
+void SceneManager::ChangeScene(int scene)
+{
+	IDScene = scene;
+
+	switch (IDScene)
+	{
+	case SCENE_1:
+		grid = new Grid(1536, 480, DEFAULT_CELL_WIDTH, DEFAULT_CELL_HEIGHT);
+		LoadObjectsFromFile(FILEPATH_OBJECTS_SCENE_1);
+		CreateListChangeSceneObjects();
+		simon->SetPosition(0.0f, 302.0f);
+		game->SetCamPos(0.0f, 0.0f);
+		break;
+	case SCENE_2:
+		grid = new Grid(5632, 480, DEFAULT_CELL_WIDTH, DEFAULT_CELL_HEIGHT);
+		LoadObjectsFromFile(FILEPATH_OBJECTS_SCENE_2);
+		CreateListChangeSceneObjects();
+		simon->SetPosition(0.0f, 335.0f);
+		game->SetCamPos(0.0f, 0.0f);
+		break;
+	case SCENE_3:
+		grid = new Grid(1024, 480, DEFAULT_CELL_WIDTH, DEFAULT_CELL_HEIGHT);
+		LoadObjectsFromFile(FILEPATH_OBJECTS_SCENE_3);
+		CreateListChangeSceneObjects();
+		simon->SetPosition(93.0f, 48.0f);
+		simon->SetState(STAIR_DOWN);
+		game->SetCamPos(0.0f, 0.0f);
+		break;
+	default:
+		break;
+	}
+}
+
 void SceneManager::Simon_Update(DWORD dt)
 {
 	vector<LPGAMEOBJECT> coObjects;
 
 	for (auto obj : listObjects)
 	{
-		if ((dynamic_cast<Ground*>(obj) || dynamic_cast<Candle*>(obj) || dynamic_cast<Door*>(obj) ||
+		if ((dynamic_cast<Ground*>(obj) || dynamic_cast<Door*>(obj) ||
 			dynamic_cast<FireBall*>(obj) || dynamic_cast<Zombie*>(obj) ||
-			dynamic_cast<BlackLeopard*>(obj) || dynamic_cast<VampireBat*>(obj) &&
-			obj->GetState() != INACTIVE && obj->IsEnable() == true))
+			dynamic_cast<BlackLeopard*>(obj) || dynamic_cast<VampireBat*>(obj) ||
+			dynamic_cast<FishMan*>(obj) || dynamic_cast<Candle*>(obj) && obj->GetState() != INACTIVE && obj->IsEnable() == true))
 		{
 			coObjects.push_back(obj);
 		}
@@ -547,8 +577,7 @@ void SceneManager::Simon_Update(DWORD dt)
 
 void SceneManager::Weapon_Update(DWORD dt)
 {
-
-	if (subweapon->IsEnable() == false)
+	if (weapon->IsEnable() == false)
 		return;
 
 	vector<LPGAMEOBJECT> coObjects;
@@ -556,16 +585,34 @@ void SceneManager::Weapon_Update(DWORD dt)
 
 	for (auto obj : listObjects)
 	{
-		if (dynamic_cast<Candle*>(obj) || dynamic_cast<Ground*>(obj) ||
+		if ((dynamic_cast<Candle*>(obj) || dynamic_cast<Ground*>(obj) ||
 			dynamic_cast<FireBall*>(obj) || dynamic_cast<Zombie*>(obj) ||
-			dynamic_cast<BlackLeopard*>(obj) || dynamic_cast<VampireBat*>(obj) &&
-			obj->GetState() != INACTIVE && obj->IsEnable() == true)
+			dynamic_cast<BlackLeopard*>(obj) || dynamic_cast<VampireBat*>(obj) ||
+			dynamic_cast<FishMan*>(obj)) && obj->GetState() != INACTIVE && obj->IsEnable() == true)
 		{
 			coObjects.push_back(obj);
 		}
 	}
 
-	subweapon->Update(dt, &coObjects);
+	weapon->Update(dt, &coObjects);
+}
+
+void SceneManager::Item_Update(DWORD dt, LPGAMEOBJECT& item)
+{
+	if (item->IsEnable() == true)
+	{
+		vector<LPGAMEOBJECT> coObjects;
+
+		for (auto obj : listObjects)
+		{
+			if (dynamic_cast<Ground*>(obj))
+			{
+				coObjects.push_back(obj);
+			}
+		}
+
+		item->Update(dt, &coObjects);
+	}
 }
 
 void SceneManager::Zombie_Update(DWORD dt, LPGAMEOBJECT& object)
@@ -709,82 +756,3 @@ void SceneManager::FishMan_Update(DWORD dt, LPGAMEOBJECT& object)
 	}
 }
 
-void SceneManager::Item_Update(DWORD dt, LPGAMEOBJECT& item)
-{
-	if (item->IsEnable() == true)
-	{
-		vector<LPGAMEOBJECT> coObjects;
-
-		for (auto obj : listObjects)
-		{
-			if (dynamic_cast<Ground*>(obj))
-			{
-				coObjects.push_back(obj);
-			}
-		}
-
-		item->Update(dt, &coObjects);
-	}
-}
-
-void SceneManager::ChangeScene(int scene)
-{
-	//IDScene = scene;
-
-	//switch (IDScene)
-	//{
-	//case SCENE_1:
-	//	LoadObjectsFromFile(FILEPATH_OBJECTS_SCENE_1);
-	//	CreateListChangeSceneObjects();
-	//	simon->SetPosition(0.0f, 302.0f);
-	//	game->SetCamPos(0.0f, 0.0f);
-	//	break;
-	//case SCENE_2:
-	//	LoadObjectsFromFile(FILEPATH_OBJECTS_SCENE_2);
-	//	CreateListChangeSceneObjects();
-	//	simon->SetPosition(0.0f, 335.0f);
-	//	game->SetCamPos(0.0f, 0.0f);
-	//	break;
-	//case SCENE_3:
-	//	LoadObjectsFromFile(FILEPATH_OBJECTS_SCENE_3);
-	//	CreateListChangeSceneObjects();
-	//	simon->SetPosition(93.0f, 48.0f);
-	//	simon->SetState(STAIR_DOWN);
-	//	game->SetCamPos(0.0f, 0.0f);
-	//	break;
-	//default:
-	//	break;
-	//}
-
-	IDScene = scene;
-
-	switch (IDScene)
-	{
-	case SCENE_1:
-		grid = new Grid(1536, 480, DEFAULT_CELL_WIDTH, DEFAULT_CELL_HEIGHT);
-		LoadObjectsFromFile(FILEPATH_OBJECTS_SCENE_1);
-		CreateListChangeSceneObjects();
-		simon->SetPosition(0.0f, 302.0f);
-		game->SetCamPos(0.0f, 0.0f);
-		break;
-	case SCENE_2:
-		grid = new Grid(5632, 480, DEFAULT_CELL_WIDTH, DEFAULT_CELL_HEIGHT);
-		LoadObjectsFromFile(FILEPATH_OBJECTS_SCENE_2);
-		CreateListChangeSceneObjects();
-		//simon->SetPosition(2560.0f, 335.0f);
-		//game->SetCameraPosition(0.0f, 0.0f);
-		simon->SetPosition(5344.0f, 335.0f);
-		game->SetCamPos(4080.0f, 0.0f);
-		break;
-	case SCENE_3:
-		grid = new Grid(1024, 480, DEFAULT_CELL_WIDTH, DEFAULT_CELL_HEIGHT);
-		LoadObjectsFromFile(FILEPATH_OBJECTS_SCENE_3);
-		CreateListChangeSceneObjects();
-		simon->SetPosition(100.0f, 48.0f);
-		simon->SetState(STAIR_DOWN);
-		game->SetCamPos(0.0f, 0.0f);
-		break;
-	default:
-		break;
-	}
-}

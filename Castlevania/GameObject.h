@@ -74,6 +74,7 @@ public:
 	void SetEnable(bool enable) { this->isEnable = enable; }
 	void SetEntryPosition(float x, float y) { entryPosition.x = x; entryPosition.y = y; }
 	void SetType(string type) { this->type = type; }
+	void SetIsDroppedItem(bool x) { this->isDroppedItem = x; }
 
 	void GetPosition(float& x, float& y) { x = this->x; y = this->y; }
 	int GetN() { return nx; }
@@ -81,6 +82,7 @@ public:
 	string GetState() { return this->state; }
 	string GetType() { return type; }
 	bool IsEnable() { return this->isEnable; }
+	bool IsDroppedItem() { return this->isDroppedItem; }
 	D3DXVECTOR2 GetEntryPosition() { return this->entryPosition; }
 
 	LPCOLLISIONEVENT SweptAABBEx(LPGAMEOBJECT coO);

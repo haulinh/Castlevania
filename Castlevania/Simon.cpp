@@ -167,6 +167,7 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					vx = SIMON_WALKING_SPEED_LOWER;
 					vy = 0;
 					AutoWalk(80, IDLE, 1);
+					return;
 				}
 			}
 
@@ -253,8 +254,8 @@ void Simon::Render()
 
 	//RenderBoundingBox();
 	RenderBBSimon();
-	
-	DebugOut(L"collision with stair %d\n", isCollisionWithStair);
+
+	//DebugOut(L"collision with stair %d\n", isCollisionWithStair);
 }
 
 void Simon::SetState(string state)
@@ -579,41 +580,24 @@ void Simon::CheckCollisionWithEnemyActiveArea(vector<LPGAMEOBJECT>* listEnemy)
 
 				if (zombie->IsAbleToActivate() == true)
 				{
-					// Để đảm bảo zombie xuất hiện và đi từ cuối màn hình ra, do đó cần giới hạn lại khoảng cách của 
-					// Simon và zombie để có thể set active cho zombie
-					if ((enemyEntryPostion.x > x&& enemyEntryPostion.x - x > 220 && enemyEntryPostion.x - x < 250) ||
-						(enemyEntryPostion.x < x && x - enemyEntryPostion.x > 230 && x - enemyEntryPostion.x < 270))
-					{
-						if (enemyEntryPostion.x < x) zombie->SetN(1);
-						else zombie->SetN(-1);
+					if (enemyEntryPostion.x < x) zombie->SetN(1);
+					else zombie->SetN(-1);
 
-						zombie->SetState(ZOMBIE_ACTIVE);
-					}
+					zombie->SetState(ZOMBIE_ACTIVE);
 				}
 			}
 			else if (dynamic_cast<BlackLeopard*>(enemy))
 			{
 				BlackLeopard* leopard = dynamic_cast<BlackLeopard*>(enemy);
-
-				if (leopard->GetState() == BLACK_LEOPARD_IDLE ||
-					(leopard->GetState() == BLACK_LEOPARD_INACTIVE && leopard->IsAbleToActivate() == true))
-				{
+				if (leopard->GetState() == BLACK_LEOPARD_IDLE)
 					leopard->SetState(BLACK_LEOPARD_ACTIVE);
-				}
 			}
 			else if (dynamic_cast<VampireBat*>(enemy))
 			{
 				VampireBat* bat = dynamic_cast<VampireBat*>(enemy);
 
-				if (bat->IsAbleToActivate() == true)
+				if (bat->GetState() == VAMPIRE_BAT_INACTIVE && bat->IsAbleToActivate() == true)
 				{
-
-					// set random hướng cho dơi
-
-					int listNx[2] = { -1, 1 };
-					int rndIndex = rand() % 2;
-					bat->SetN(listNx[rndIndex]);
-
 					bat->SetState(VAMPIRE_BAT_ACTIVE);
 				}
 			}
@@ -621,18 +605,9 @@ void Simon::CheckCollisionWithEnemyActiveArea(vector<LPGAMEOBJECT>* listEnemy)
 			{
 				FishMan* fishman = dynamic_cast<FishMan*>(enemy);
 
-				if (fishman->IsAbleToActivate() == true)
+				if (fishman->GetState() == FISHMAN_INACTIVE && fishman->IsAbleToActivate() == true)
 				{
-					// Giảm độ khó xuất hiện của fishman
-					if (abs(this->x - (fishman->GetEntryPosition()).x >= 80.0f))
-					{
-						float fx = fishman->GetEntryPosition().x;
-
-						if (fx < this->x) fishman->SetN(1);
-						else fishman->SetN(-1);
-
-						fishman->SetState(FISHMAN_JUMP);
-					}
+					fishman->SetState(FISHMAN_JUMP);
 				}
 			}
 		}

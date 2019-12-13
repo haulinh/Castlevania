@@ -29,7 +29,7 @@ void Zombie::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 	if (state == ZOMBIE_INACTIVE)
 		return;
 
-	if (state == ZOMBIE_DESTROYED && isLastFame)
+	if (state == ZOMBIE_DESTROYED && animations[state]->IsOver(150) == true)
 	{
 		SetState(ZOMBIE_INACTIVE);
 		return;
@@ -79,8 +79,10 @@ void Zombie::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 void Zombie::Render()
 {
 	if (state != ZOMBIE_INACTIVE)
+	{
 		animations[state]->Render(nx, x, y);
-	this->isLastFame = animations[state]->IsCompleted();
+		this->isLastFame = animations[state]->IsCompleted();
+	}
 }
 
 void Zombie::SetState(string state)
@@ -91,7 +93,6 @@ void Zombie::SetState(string state)
 	{
 		if (nx > 0) vx = ZOMBIE_WALKING_SPEED;
 		else vx = -ZOMBIE_WALKING_SPEED;
-		vy = 0;
 		vy = 0;
 		isDroppedItem = false;
 		respawnTimeStart = 0;
@@ -104,6 +105,7 @@ void Zombie::SetState(string state)
 	}
 	else if (state == ZOMBIE_INACTIVE)
 	{
+		x = entryPosition.x;
 		x = entryPosition.x;
 		y = entryPosition.y;
 		vx = 0;
