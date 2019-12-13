@@ -44,6 +44,7 @@ public:
 	bool isMovingDown = false;
 	bool isCollisionWithStair = false;
 	int stairDirection = 0; // 1: trái dưới - phải trên, -1: trái trên - phải dưới
+	bool isHitSubWeapons = false; // xác định xem là hit bằng roi hay subweapon
 
 	int changeScene = -1;
 
@@ -106,5 +107,10 @@ public:
 	bool IsAutoWalk() { return this->isAutoWalk; }
 
 	void StartUntouchable() { isUntouchable = true; untouchable_start = GetTickCount(); }
+
+	bool IsHitSubWeapons() { return isHitSubWeapons; }
+	void SetHitSubWeapons(bool x) { isHitSubWeapons = x; }
+
+	void SetSubWeapon(string x) { nameWeapon = x; }
 
 };

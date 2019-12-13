@@ -66,6 +66,7 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			nx = nxAfterAutoWalk;
 
 			SetState(state);
+			if (state == STAIR_DOWN) y += 2.0f;
 
 			isAutoWalk = false;
 			autoWalkDistance = 0;
@@ -217,7 +218,6 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		weapon->SetWeaponPosition(D3DXVECTOR3(x, y, 0), sitting);
 	}
 	weapon->Update(dt, coObjects);
-	//DebugOut(L"Simon x: y: %f %f\n", x, y);
 }
 
 void Simon::Render()
@@ -285,12 +285,16 @@ void Simon::SetState(string state)
 	{
 		sitting = false;
 		isStandOnStair = false;
+		animations[state]->Reset();
+		weapon->animations[weapon->GetState()]->Reset();
 	}
 
 	else if (state == SIT_ATTACK)
 	{
 		sitting = true;
 		isStandOnStair = false;
+		animations[state]->Reset();
+		weapon->animations[weapon->GetState()]->Reset();
 	}
 
 	else if (state == SIT)
@@ -330,10 +334,12 @@ void Simon::SetState(string state)
 		vy = -SIMON_DEFLECT_SPEED_Y;
 		if (nx > 0) vx = -SIMON_DEFLECT_SPEED_X;
 		else vx = SIMON_DEFLECT_SPEED_X;
+		isCollisionWithStair = false;
 	}
 
 	else if (state == STAIR_UP_ATTACK || state == STAIR_DOWN_ATTACK)
 	{
+		weapon->animations[weapon->GetState()]->Reset();
 		sitting = false;
 		vx = 0;
 		vy = 0;
@@ -483,8 +489,8 @@ void Simon::CheckCollisionWithStair(vector<LPGAMEOBJECT>* listStair)
 	//thu nhỏ vùng xét va chạm, chỉ xét va chạm với chân của Simon
 	simon_t += 55;
 	simon_b += 10;  // bottom +5 để xét cho va chạm với bậc thang đầu tiên khi bước xuống
-	/*simon_l += 5;
-	simon_r -= 5;*/
+	simon_l += 5;
+	simon_r -= 5;
 	for (UINT i = 0; i < listStair->size(); i++)
 	{
 		if (listStair->at(i)->GetType() == "BOTTOM")
