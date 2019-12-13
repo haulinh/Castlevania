@@ -16,7 +16,8 @@ void SceneManager::LoadResources()
 {
 
 	LoadResourceFile* LoadResourceFile = LoadResourceFile::GetInstance();
-	LoadResourceFile->LoadAllResource();
+	//LoadResourceFile->LoadAllResource();
+	LoadResourceFile->LoadData("resources\\data.xml");
 
 
 	simon = new Simon();
@@ -390,7 +391,7 @@ void SceneManager::Render()
 	}
 
 	simon->Render();
-	//simon->RenderBoundingBox();
+	simon->RenderBoundingBox();
 
 	if (subweapon->IsEnable() == true)
 	{
