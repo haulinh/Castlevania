@@ -128,6 +128,7 @@ const string DAGGER_SUB = "DAGGER_SUB";
 const string AXE_SUB = "AXE_SUB";
 const string BOOMERANG_SUB = "BOOMERANG_SUB";
 const string HOLY_WATER_SUB = "HOLYWATER_SUB";
+const string HOLY_WATER_SHATTERED_SUB = "HOLY_WATER_SHATTERED_SUB";
 const string STOP_WATCH_SUB = "STOP_WATCH_SUB";
 
 // Stair
@@ -195,16 +196,20 @@ constexpr float ITEM_FALLING_SPEED = 0.1f;
 constexpr float ITEM_TIME_DESTROYED = 5000;
 constexpr float ITEM_DAGGER_SPEED = 0.3f;
 
-// SubWeapon
+// SubWeapons
 constexpr float WEAPONS_DAGGER_SPEED = 0.3f;
 
 constexpr float WEAPONS_AXE_SPEED_X = 0.2f;
 constexpr float WEAPONS_AXE_SPEED_Y = 0.5f;
+constexpr float WEAPONS_AXE_GRAVITY = 0.001f;
 
 constexpr float WEAPONS_HOLY_WATER_SPEED_X = 0.25f;
 constexpr float WEAPONS_HOLY_WATER_SPEED_Y = 0.1f;
+constexpr float WEAPONS_HOLY_WATER_GRAVITY = 0.001f;
+constexpr float WEAPONS_HOLY_WATER_TIME_EFFECT = 1000;
 
 constexpr float WEAPONS_BOOMERANG_SPEED = 0.5f;
+constexpr float WEAPONS_BOOMERANG_TURNBACK_SPEED = 0.01f;
 
 // Zombie
 constexpr float ZOMBIE_WALKING_SPEED = 0.1f;
@@ -227,7 +232,7 @@ constexpr float VAMPIRE_BAT_RESPAWN_TIME = 5000;
 constexpr float BUBBLES_SPEED_X = 0.07f;
 constexpr float BUBBLES_SPEED_Y = 0.1f;
 constexpr float BUBBLES_SPEED_X2 = 0.03f;
-constexpr float BUBBLES_SPEED_Y2 = 0.2f; 
+constexpr float BUBBLES_SPEED_Y2 = 0.2f;
 constexpr float BUBBLES_GRAVITY = 0.0005f;
 
 // Fire ball
@@ -247,7 +252,6 @@ constexpr float FISHMAN_RESPAWN_TIME = 5000;
 // Simon
 #define SIMON_BBOX_WIDTH 30
 #define SIMON_BBOX_HEIGHT 62
-#define SIMON_JUMPING_BBOX_HEIGHT	62
 
 // Ground
 #define GROUND_BBOX_WIDTH 32
@@ -330,7 +334,7 @@ constexpr float FISHMAN_RESPAWN_TIME = 5000;
 
 #pragma region ID objects to load from file
 
-const string GROUND= "GROUND";
+const string GROUND = "GROUND";
 const string STAIR = "STAIR";
 const string DOOR = "DOOR";
 const string ZOMBIE = "ZOMBIE";

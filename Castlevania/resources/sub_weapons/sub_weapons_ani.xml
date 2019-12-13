@@ -12,7 +12,16 @@
         <frame spriteID="Boomerang_3" time="100"/>
     </animation>
 
-     <animation ID="HOLYWATER_SUB" defaultTime="100">
+    <animation ID="HOLYWATER_SUB" defaultTime="100">
+        <frame spriteID="HolyWater_1" time="100"/>
+    </animation>
+
+     <animation ID="HOLY_WATER_SHATTERED_SUB" defaultTime="100">
+        <frame spriteID="HolyWater_2" time="100"/>
+        <frame spriteID="HolyWater_3" time="100"/>
+    </animation>
+
+    <animation ID="HOLYWATER_SUB" defaultTime="100">
         <frame spriteID="HolyWater_1" time="300"/>
         <frame spriteID="HolyWater_2" time="100"/>
         <frame spriteID="HolyWater_3" time="100"/>

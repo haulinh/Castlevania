@@ -3,6 +3,9 @@
 
 class SubWeapon : public GameObject
 {
+	bool isHolyWaterShattered = false;
+	int holyWaterShatteredCounter = 0;
+
 public:
 	SubWeapon();
 
@@ -12,5 +15,6 @@ public:
 
 	void SetState(string state);
 
+	void StartHolyWaterEffect() { isHolyWaterShattered = true; holyWaterShatteredCounter = GetTickCount(); }
 };
 

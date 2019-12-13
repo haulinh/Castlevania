@@ -95,13 +95,8 @@ public:
 	void CheckCollisionWithEnemyActiveArea(vector<LPGAMEOBJECT>* listEnemy);
 	bool CheckChangeScene(vector<LPCHANGESCENEOBJ>* listChangeScene);
 
-	// Căn chỉnh lại vị trí của Simon với bậc thang
-	void PositionCorrection(string prevState = "");  // -1 is not changed  
 	// Giữ cho Simon đứng yên trên bậc thang
 	void StandOnStair();
-
-	void SetAutoWalkDistance(float d) { this->autoWalkDistance = d; }
-	void SetStateAfterAutoWalk(int state) { this->stateAfterAutoWalk = state; }
 
 	void AutoWalk(float distance, string new_state, int new_nx);
 	bool IsAutoWalk() { return this->isAutoWalk; }
