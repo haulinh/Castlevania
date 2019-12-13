@@ -167,6 +167,15 @@ void KeyBoardInput::OnKeyDown(int KeyCode)
 	case DIK_4:
 		scene->GetSimon()->SetSubWeapon(STOP_WATCH_SUB);
 		break;
+
+	case DIK_Q:
+		scene->ChangeScene(SCENE_1);
+		break;
+	case DIK_W:
+		scene->ChangeScene(SCENE_2);
+		break;
+	case DIK_E:
+		scene->ChangeScene(SCENE_3);
 	default:
 		break;
 	}
