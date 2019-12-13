@@ -19,6 +19,7 @@ public:
 	void LoadAnimationsFile(const char* filePath);
 	void LoadTextures();
 	vector<string> GetAnimations(const char* filePath);
+	void LoadData(const std::string& filePath);
 
 	void LoadAllResource();
 };
