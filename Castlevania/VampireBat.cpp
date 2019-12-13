@@ -47,8 +47,8 @@ void VampireBat::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 
 void VampireBat::Render()
 {
-	animations[state]->Render(nx, x, y);
-	//this->isLastFame = animations[state]->IsCompleted();
+	if (state != VAMPIRE_BAT_INACTIVE)
+		animations[state]->Render(nx, x, y);
 }
 
 void VampireBat::SetState(string state)
