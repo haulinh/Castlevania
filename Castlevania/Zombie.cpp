@@ -26,6 +26,9 @@ void Zombie::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 {
 	DWORD now = GetTickCount();
 
+	if (state == ZOMBIE_INACTIVE)
+		return;
+
 	if (state == ZOMBIE_DESTROYED && isLastFame)
 	{
 		SetState(ZOMBIE_INACTIVE);
@@ -75,7 +78,8 @@ void Zombie::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 
 void Zombie::Render()
 {
-	animations[state]->Render(nx, x, y);
+	if (state != ZOMBIE_INACTIVE)
+		animations[state]->Render(nx, x, y);
 	this->isLastFame = animations[state]->IsCompleted();
 }
 
@@ -85,22 +89,25 @@ void Zombie::SetState(string state)
 
 	if (state == ZOMBIE_ACTIVE)
 	{
-		x = entryPosition.x;
-		y = entryPosition.y;
 		if (nx > 0) vx = ZOMBIE_WALKING_SPEED;
 		else vx = -ZOMBIE_WALKING_SPEED;
 		vy = 0;
-		//isDroppedItem = false;
+		vy = 0;
+		isDroppedItem = false;
 		respawnTimeStart = 0;
 		isRespawnWaiting = false;
 	}
 	else if (state == ZOMBIE_DESTROYED)
 	{
 		vx = 0;
+		animations[state]->SetAniStartTime(GetTickCount());
 	}
 	else if (state == ZOMBIE_INACTIVE)
 	{
+		x = entryPosition.x;
+		y = entryPosition.y;
 		vx = 0;
+		isSettedPosition = false;
 		StartRespawnTimeCounter();
 	}
 }

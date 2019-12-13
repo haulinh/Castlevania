@@ -11,6 +11,9 @@ using namespace std;
 #define SCREEN_WIDTH 512
 #define SCREEN_HEIGHT 480
 
+#define DEFAULT_CELL_WIDTH		256
+#define DEFAULT_CELL_HEIGHT		240
+
 #define MAX_FRAME_RATE 200
 
 #pragma endregion
@@ -329,6 +332,9 @@ constexpr float FISHMAN_RESPAWN_TIME = 5000;
 #define FISHMAN_BBOX_HEIGHT			60
 #define FISHMAN_ACTIVE_BBOX_WIDTH			150
 #define FISHMAN_ACTIVE_BBOX_HEIGHT			350
+
+#define ENEMY_DEFAULT_BBOX_WIDTH			32
+#define ENEMY_DEFAULT_BBOX_HEIGHT			32
 
 #pragma endregion
 

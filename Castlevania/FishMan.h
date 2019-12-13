@@ -7,6 +7,7 @@ class FishMan : public GameObject
 {
 	DWORD respawnTime_Start = 0;
 	bool isRespawnWaiting = false;
+	bool isSettedPosition = false;
 
 	DWORD lastTimeShoot = 0; // thời gian kể từ lúc vừa bắn xong đến lần bắn tiếp theo
 	DWORD deltaTimeToShoot = 0; // khoảng thời gian kể từ lúc fishman xuất hiện đến lúc bắn 
@@ -44,5 +45,8 @@ public:
 	void SetNxAfterShoot(int x) { nxAfterShoot = x; }
 
 	bool IsRenderingBubbles() { return isRenderingBubbles; }
+
+	bool IsSettedPosition() { return isSettedPosition; }
+	void SetIsSettedPosition(bool x) { isSettedPosition = x; }
 };
 

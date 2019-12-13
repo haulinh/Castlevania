@@ -18,12 +18,19 @@
 #include "FireBall.h"
 #include "FishMan.h"
 #include "Bubbles.h"
+#include "Grid.h"
 
 class SceneManager
 {
 	int IDScene;
 
 	Game* game;
+	Grid* grid;
+	Unit* unit;
+
+	vector<Unit*> listUnits;
+	vector<LPGAMEOBJECT> listObjects;
+
 	Simon* simon;
 	Candle* candle;
 	Ground* ground;
@@ -59,6 +66,8 @@ class SceneManager
 	vector<LPGAMEOBJECT> listFireBalls;
 
 	vector<LPCHANGESCENEOBJ> listChangeSceneObjs;
+	vector<LPGAMEOBJECT> listStaticObjectsToRender;
+	vector<LPGAMEOBJECT> listMovingObjectsToRender;
 
 	bool isSetSimonAutoWalk = false;
 	bool isMovingCamera = false;
@@ -72,9 +81,12 @@ public:
 	void LoadObjectsFromFile(LPCWSTR FilePath);		// load all objects (position, state, isenable) from file and save to vector Objects
 	void CreateListChangeSceneObjects();
 
+	void GetObjectFromGrid();
+
 	virtual void Update(DWORD dt);
 	virtual void Render();
 	void UpdateCameraPosition();
+	void UpdateGrid();
 
 	void SetDropItems(LPGAMEOBJECT object);
 	void SetInactivationByPosition();  // Nếu object ra khỏi toạ độ viewport thì set unable / inactive
@@ -86,5 +98,15 @@ public:
 	SubWeapon* GetSubWeapon() { return this->subweapon; }
 	vector<LPGAMEOBJECT>* GetListStairs() { return &(this->listStairs); }
 
+	// Các hàm update con
+	void Simon_Update(DWORD dt);
+	void Whip_Update(DWORD dt);
+	void Weapon_Update(DWORD dt);
+	void Item_Update(DWORD dt, LPGAMEOBJECT& object);
+	void Zombie_Update(DWORD dt, LPGAMEOBJECT& object);
+	void BlackLeopard_Update(DWORD dt, LPGAMEOBJECT& object);
+	void VampireBat_Update(DWORD dt, LPGAMEOBJECT& object);
+	void FishMan_Update(DWORD dt, LPGAMEOBJECT& object);
+	void Boss_Update(DWORD dt, LPGAMEOBJECT& object);
 };
 

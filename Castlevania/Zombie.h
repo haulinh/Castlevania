@@ -7,6 +7,8 @@ class Zombie : public GameObject
 {
 	DWORD respawnTimeStart = 0;
 	bool isRespawnWaiting = false;
+	bool isSettedPosition = false;
+
 public:
 	Zombie();
 
@@ -22,5 +24,8 @@ public:
 	void SetIsRespawnWaiting(bool x) { isRespawnWaiting = x; }
 	bool IsRespawnWaiting() { return isRespawnWaiting; }
 	bool IsAbleToActivate();
+
+	bool IsSettedPosition() { return isSettedPosition; }
+	void SetIsSettedPosition(bool x) { isSettedPosition = x; }
 };
 
