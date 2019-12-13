@@ -40,7 +40,9 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	// Calculate dx, dy 
 	GameObject::Update(dt);
 
-	if (state != STAIR_UP && state != STAIR_DOWN && isAutoWalk != true)
+	if (state != STAIR_UP && state != STAIR_DOWN &&
+		state != STAIR_UP_ATTACK && state != STAIR_DOWN_ATTACK &&
+		isAutoWalk != true)
 	{
 		if (vy < -0.2f || vy > 0.2f)
 			vy += SIMON_GRAVITY * dt;
@@ -246,7 +248,8 @@ void Simon::Render()
 
 	//RenderBoundingBox();
 	RenderBBSimon();
-
+	
+	DebugOut(L"collision with stair %d\n", isCollisionWithStair);
 }
 
 void Simon::SetState(string state)
@@ -264,6 +267,7 @@ void Simon::SetState(string state)
 
 	else if (state == WALK)
 	{
+		sitting = false;
 		isStandOnStair = false;
 		if (nx > 0) vx = SIMON_WALKING_SPEED;
 		else vx = -SIMON_WALKING_SPEED;
@@ -279,6 +283,7 @@ void Simon::SetState(string state)
 
 	else if (state == STAND_ATTACK)
 	{
+		sitting = false;
 		isStandOnStair = false;
 	}
 
