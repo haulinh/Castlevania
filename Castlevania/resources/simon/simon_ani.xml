@@ -57,4 +57,16 @@
         <frame spriteID="simon_9" time="400"/>
         <frame spriteID="simon_5" time="100"/>
     </animation>
+
+    <animation ID="SIMON_STAIR_UP_ATTACK" defaultTime="100">
+        <frame spriteID="simon_22" time="100"/>
+        <frame spriteID="simon_23" time="100"/>
+        <frame spriteID="simon_24" time="100"/>
+    </animation>
+
+    <animation ID="SIMON_STAIR_DOWN_ATTACK" defaultTime="100">
+        <frame spriteID="simon_19" time="100"/>
+        <frame spriteID="simon_20" time="100"/>
+        <frame spriteID="simon_21" time="100"/>
+    </animation>
 </animations>

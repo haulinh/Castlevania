@@ -209,7 +209,7 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	// clean up collision events
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 
-	if (state == STAND_ATTACK || state == SIT_ATTACK)
+	if (state == STAND_ATTACK || state == SIT_ATTACK || state == STAIR_UP_ATTACK || state == STAIR_DOWN_ATTACK)
 	{
 		weapon->SetN(nx);
 		weapon->SetWeaponPosition(D3DXVECTOR3(x, y, 0), sitting);
@@ -232,7 +232,7 @@ void Simon::Render()
 		animations[state]->Render(nx, x, y);
 	}
 
-	if (state == STAND_ATTACK || state == SIT_ATTACK)
+	if (state == STAND_ATTACK || state == SIT_ATTACK || state == STAIR_UP_ATTACK || state == STAIR_DOWN_ATTACK)
 	{
 		weapon->Render();
 	}
@@ -325,6 +325,15 @@ void Simon::SetState(string state)
 		vy = -SIMON_DEFLECT_SPEED_Y;
 		if (nx > 0) vx = -SIMON_DEFLECT_SPEED_X;
 		else vx = SIMON_DEFLECT_SPEED_X;
+	}
+
+	else if (state == STAIR_UP_ATTACK || state == STAIR_DOWN_ATTACK)
+	{
+		sitting = false;
+		vx = 0;
+		vy = 0;
+		animations[state]->Reset();
+		animations[state]->SetAniStartTime(GetTickCount());
 	}
 
 }
