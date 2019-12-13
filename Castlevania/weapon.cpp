@@ -6,6 +6,7 @@
 #include "Zombie.h"
 #include "BlackLeopard.h"
 #include "VampireBat.h"
+#include "FishMan.h"
 
 Weapon::Weapon()
 {
@@ -70,6 +71,18 @@ void Weapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				{
 					e->vx = 0;
 					e->SetState(VAMPIRE_BAT_DESTROYED);
+					e->isLastFame = false;
+				}
+			}
+
+			else if (dynamic_cast<FishMan*>(obj))
+			{
+				FishMan* e = dynamic_cast<FishMan*> (obj);
+
+				if (this->AABBx(e) == true)
+				{
+					e->vx = 0;
+					e->SetState(FISHMAN_DESTROYED);
 					e->isLastFame = false;
 				}
 			}

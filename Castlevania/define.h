@@ -302,7 +302,7 @@ constexpr float FISHMAN_RESPAWN_TIME = 5000;
 // Vampire Bat
 #define VAMPIRE_BAT_BBOX_WIDTH			10
 #define VAMPIRE_BAT_BBOX_HEIGHT			32
-#define VAMPIRE_BAT_ACTIVE_BBOX_WIDTH			450 
+#define VAMPIRE_BAT_ACTIVE_BBOX_WIDTH			400 
 #define VAMPIRE_BAT_ACTIVE_BBOX_HEIGHT			200
 
 // Fire ball
@@ -325,5 +325,6 @@ const string DOOR = "DOOR";
 const string ZOMBIE = "ZOMBIE";
 const string BLACK_LEOPARD = "BLACK_LEOPARD";
 const string VAMPIRE_BAT = "VAMPIRE_BAT";
+const string FISHMAN = "FISHMAN";
 
 #pragma endregion

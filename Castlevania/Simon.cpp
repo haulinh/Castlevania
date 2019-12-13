@@ -12,6 +12,7 @@
 #include "BlackLeopard.h"
 #include "Textures.h"
 #include "VampireBat.h"
+#include "FishMan.h"
 
 Simon::Simon() : GameObject() {
 
@@ -161,7 +162,10 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				}
 			}
 
-			else if (dynamic_cast<Zombie*>(e->obj) || dynamic_cast<BlackLeopard*>(e->obj) || dynamic_cast<VampireBat*>(e->obj))
+			else if (dynamic_cast<Zombie*>(e->obj) ||
+				dynamic_cast<BlackLeopard*>(e->obj) ||
+				dynamic_cast<VampireBat*>(e->obj) ||
+				dynamic_cast<FishMan*>(e->obj))
 			{
 				if (isUntouchable == false)
 				{
@@ -597,7 +601,7 @@ void Simon::CheckCollisionWithEnemyActiveArea(vector<LPGAMEOBJECT>* listEnemy)
 		float enemy_l, enemy_t, enemy_r, enemy_b;
 		enemy->GetActiveBoundingBox(enemy_l, enemy_t, enemy_r, enemy_b);
 
-		if (Game::AABB(simon_l, simon_t, simon_r, simon_b, enemy_l, enemy_t, enemy_r, enemy_b))
+		if (Game::AABB(simon_l, simon_t, simon_r, simon_b, enemy_l, enemy_t, enemy_r, enemy_b) == true)
 		{
 			D3DXVECTOR2 enemyEntryPostion = enemy->GetEntryPosition();
 
@@ -643,6 +647,25 @@ void Simon::CheckCollisionWithEnemyActiveArea(vector<LPGAMEOBJECT>* listEnemy)
 					bat->SetN(listNx[rndIndex]);
 
 					bat->SetState(VAMPIRE_BAT_ACTIVE);
+				}
+			}
+			else if (dynamic_cast<FishMan*>(enemy))
+			{
+				FishMan* fishman = dynamic_cast<FishMan*>(enemy);
+
+				if (fishman->IsAbleToActivate() == true)
+				{
+					// Giảm độ khó xuất hiện của fishman
+					if (abs(this->x - (fishman->GetEntryPosition()).x <= 50.0f))
+						return;
+
+					float fx = fishman->GetEntryPosition().x;
+
+					if (fx < this->x) fishman->SetN(1);
+					else fishman->SetN(-1);
+
+					fishman->SetIsAbleToShoot(rand() % 2);
+					fishman->SetState(FISHMAN_JUMP);
 				}
 			}
 		}

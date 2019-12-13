@@ -28,7 +28,7 @@ VampireBat::~VampireBat()
 
 void VampireBat::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 {
-	if (state == VAMPIRE_BAT_DESTROYED && isLastFame)
+	if (state == VAMPIRE_BAT_DESTROYED && animations[state]->IsOver(150) == true)
 	{
 		SetState(VAMPIRE_BAT_INACTIVE);
 		return;
@@ -48,7 +48,7 @@ void VampireBat::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 void VampireBat::Render()
 {
 	animations[state]->Render(nx, x, y);
-	this->isLastFame = animations[state]->IsCompleted();
+	//this->isLastFame = animations[state]->IsCompleted();
 }
 
 void VampireBat::SetState(string state)
@@ -67,11 +67,13 @@ void VampireBat::SetState(string state)
 	else if (state == VAMPIRE_BAT_DESTROYED)
 	{
 		vx = 0;
+		vy = 0;
+		animations[state]->SetAniStartTime(GetTickCount());
 	}
 	else if (state == VAMPIRE_BAT_INACTIVE)
 	{
-		vx = 0;
-		vy = 0;
+	/*	vx = 0;
+		vy = 0;*/
 		isSettedPosition = false;
 		StartRespawnTimeCounter();
 	}
