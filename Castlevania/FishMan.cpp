@@ -16,8 +16,6 @@ FishMan::FishMan()
 	{
 		AddAnimation(animation);
 	}
-
-	SetState(FIREBALL);
 }
 
 
@@ -52,6 +50,7 @@ void FishMan::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 	}
 	else if (state == FISHMAN_HIT && animations[state]->IsOver(1000) == true)
 	{
+		nx = nxAfterShoot;
 		SetState(FISHMAN_ACTIVE);
 		return;
 	}
@@ -83,12 +82,6 @@ void FishMan::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 
 		x += dx;
 		y += min_ty * dy + ny * 0.1f;
-
-		if (nx != 0)
-		{
-			this->nx *= -1;
-			this->vx *= -1;
-		}
 
 		if (ny != 0)
 		{
@@ -132,6 +125,8 @@ void FishMan::SetState(string state)
 	{
 		if (nx > 0) vx = FISHMAN_WALKING_SPEED_X;
 		else vx = -FISHMAN_WALKING_SPEED_X;
+		lastTimeShoot = GetTickCount();
+		deltaTimeToShoot = 500 + rand() % 1000; // Random trong khoảng thời gian là 2 - 5s
 	}
 	else if (state == FISHMAN_JUMP)
 	{
@@ -142,8 +137,6 @@ void FishMan::SetState(string state)
 		isNeedToCreateBubbles = false;
 		respawnTime_Start = 0;
 		isRespawnWaiting = false;
-		startTime = GetTickCount();
-		deltaTimeToShoot = rand() % 5000; // Random trong khoảng thời gian là 5s
 		bubbles = new Bubbles(x, y + 32);
 		isRenderingBubbles = true;
 		startTimeRenderBubbles = GetTickCount();
@@ -174,7 +167,7 @@ void FishMan::SetState(string state)
 void FishMan::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
 	left = x + 11; // 10,32
-	top = y;
+	top = y + 2;
 	right = left + FISHMAN_BBOX_WIDTH;
 	bottom = top + FISHMAN_BBOX_HEIGHT;
 }

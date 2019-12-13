@@ -62,6 +62,7 @@ void SceneManager::LoadObjectsFromFile(LPCWSTR FilePath)
 	listBlackLeopards.clear();
 	listVampireBats.clear();
 	listFishMans.clear();
+	listFireBalls.clear();
 
 	fstream fs;
 	fs.open(FilePath, ios::in);
@@ -434,7 +435,7 @@ void SceneManager::Update(DWORD dt)
 					// dơi bay ngang tầm simon, từ phía cuối của 2 đầu màn hình)
 					float bx, by;
 
-					by = simon->y;
+					by = simon->y + 30;
 
 					if (bat->GetN() == -1) bx = game->GetCamPos().x + SCREEN_WIDTH - VAMPIRE_BAT_BBOX_WIDTH;
 					else bx = game->GetCamPos().x;
@@ -451,10 +452,8 @@ void SceneManager::Update(DWORD dt)
 			fishman = dynamic_cast<FishMan*>(object);
 
 			if (fishman->GetState() == FISHMAN_ACTIVE &&
-				fishman->IsAbleToShoot() == true &&
-				GetTickCount() - fishman->GetStartTime() >= fishman->GetDeltaTimeToShoot())
+				GetTickCount() - fishman->GetLastTimeShoot() >= fishman->GetDeltaTimeToShoot())
 			{
-				fishman->SetIsAbleToShoot(false);
 				fishman->SetState(FISHMAN_HIT);
 
 				// Tạo fireball
@@ -469,6 +468,13 @@ void SceneManager::Update(DWORD dt)
 				fireball->SetEnable(true);
 				listFireBalls.push_back(fireball);
 				objects.push_back(fireball);
+
+				// Đặt hướng quay mặt của Fishman sau khi bắn (quay về phía simon)
+				float sx, sy;
+				simon->GetPosition(sx, sy);
+
+				if (fx < sx) fishman->SetNxAfterShoot(1);
+				else fishman->SetNxAfterShoot(-1);
 			}
 			else
 			{
@@ -483,19 +489,7 @@ void SceneManager::Update(DWORD dt)
 
 	// update camera
 
-	TileMap* map = tilemaps->Get(IDScene);
-	int min_col = map->min_max_col_to_draw[map->index][0];
-	int max_col = map->min_max_col_to_draw[map->index][1];
-
-	if (simon->x > SCREEN_WIDTH / 2 &&
-		simon->x + SCREEN_WIDTH / 2 < tilemaps->Get(IDScene)->GetMapWidth())
-	{
-		if (simon->x >= min_col * 32 + (SCREEN_WIDTH / 2 - 16) &&
-			simon->x <= max_col * 32 - (SCREEN_WIDTH / 2 - 16))
-		{
-			game->SetCamPos(simon->x - SCREEN_WIDTH / 2, 0);
-		}
-	}
+	UpdateCameraPosition();
 }
 
 void SceneManager::Render()
@@ -556,16 +550,23 @@ void SceneManager::Render()
 		fireball->RenderBoundingBox();
 	}
 
-	for (auto fishman : listFishMans)
+	for (auto fish : listFishMans)
 	{
-		fishman->Render();
+		fishman = dynamic_cast<FishMan*>(fish);
 
-		if (fishman->GetState() != FISHMAN_INACTIVE)
-			fishman->RenderBoundingBox();
+		if (fishman->GetState() == FISHMAN_INACTIVE)
+		{
+			if (fishman->IsRenderingBubbles() == true)
+				fishman->Render();
+			continue;
+		}
+
+		fishman->Render();
+		fishman->RenderBoundingBox();
 	}
 
 	simon->Render();
-	simon->RenderBoundingBox();
+	//simon->RenderBoundingBox();
 
 	for (auto door : listDoors)  // render door sau để chồng lên Simon
 	{
@@ -574,6 +575,23 @@ void SceneManager::Render()
 
 		door->Render();
 		door->RenderBoundingBox();
+	}
+}
+
+void SceneManager::UpdateCameraPosition()
+{
+	TileMap* map = tilemaps->Get(IDScene);
+	int min_col = map->min_max_col_to_draw[map->index][0];
+	int max_col = map->min_max_col_to_draw[map->index][1];
+
+	if (simon->x > SCREEN_WIDTH / 2 &&
+		simon->x + SCREEN_WIDTH / 2 < tilemaps->Get(IDScene)->GetMapWidth())
+	{
+		if (simon->x >= min_col * 32 + (SCREEN_WIDTH / 2 - 16) &&
+			simon->x <= max_col * 32 - (SCREEN_WIDTH / 2 - 16))
+		{
+			game->SetCamPos(simon->x - SCREEN_WIDTH / 2, 0);
+		}
 	}
 }
 
@@ -665,7 +683,9 @@ void SceneManager::SetInactivationByPosition()
 			if (fx + FISHMAN_BBOX_WIDTH < entryViewPort.x || fx > entryViewPort.x + SCREEN_WIDTH ||
 				fy > (fm->GetEntryPosition()).y)
 			{
-				fm->SetIsNeedToCreateBubbles(true);
+				if (fy > (fm->GetEntryPosition()).y) // rớt xuống nước mới có bọt nước
+					fm->SetIsNeedToCreateBubbles(true);
+
 				fm->SetState(FISHMAN_INACTIVE);
 			}
 		}

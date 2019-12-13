@@ -179,7 +179,7 @@ const string BUBBLES = "BUBBLES";
 // Simon
 constexpr float SIMON_WALKING_SPEED = 0.15f;
 constexpr float SIMON_WALKING_SPEED_LOWER = 0.05f;
-constexpr float SIMON_JUMP_SPEED_Y = 0.5f;
+constexpr float SIMON_JUMP_SPEED_Y = 0.55f;
 constexpr float SIMON_GRAVITY = 0.002f;
 constexpr float SIMON_GRAVITY_LOWER = 0.001f;
 constexpr float SIMON_STAIR_SPEED_X = 0.08f;
@@ -289,9 +289,9 @@ constexpr float FISHMAN_RESPAWN_TIME = 5000;
 
 // Zombie
 #define ZOMBIE_BBOX_WIDTH			32
-#define ZOMBIE_BBOX_HEIGHT			64
+#define ZOMBIE_BBOX_HEIGHT			60
 #define ZOMBIE_ACTIVE_BBOX_WIDTH			260
-#define ZOMBIE_ACTIVE_BBOX_HEIGHT			100
+#define ZOMBIE_ACTIVE_BBOX_HEIGHT			150
 
 // Black Leopard
 #define BLACK_LEOPARD_BBOX_WIDTH			10
@@ -307,13 +307,13 @@ constexpr float FISHMAN_RESPAWN_TIME = 5000;
 
 // Fire ball
 #define FIREBALL_BBOX_WIDTH				14
-#define FIREBALL_BBOX_HEIGHT			12
+#define FIREBALL_BBOX_HEIGHT			20
 
 // Fish man
 #define FISHMAN_BBOX_WIDTH			10
-#define FISHMAN_BBOX_HEIGHT			64
-#define FISHMAN_ACTIVE_BBOX_WIDTH			100
-#define FISHMAN_ACTIVE_BBOX_HEIGHT			300
+#define FISHMAN_BBOX_HEIGHT			60
+#define FISHMAN_ACTIVE_BBOX_WIDTH			150
+#define FISHMAN_ACTIVE_BBOX_HEIGHT			350
 
 #pragma endregion
 

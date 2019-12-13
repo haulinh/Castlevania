@@ -74,6 +74,7 @@ public:
 
 	virtual void Update(DWORD dt);
 	virtual void Render();
+	void UpdateCameraPosition();
 
 	void SetDropItems(LPGAMEOBJECT object);
 	void SetInactivationByPosition();  // Nếu object ra khỏi toạ độ viewport thì set unable / inactive

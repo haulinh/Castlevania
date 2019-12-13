@@ -46,6 +46,7 @@ void Zombie::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 	{
 		x += dx;
 		y += dy;
+		vy += ZOMBIE_GRAVITY * dt;
 	}
 	else
 	{
@@ -56,19 +57,15 @@ void Zombie::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 		x += min_tx * dx + nx * 0.1f;
 		y += min_ty * dy + ny * 0.1f;
 
-		if (nx != 0)
+		if (nx != 0 && ny == 0)
 		{
 			this->nx *= -1;
 			this->vx *= -1;
 		}
 
-		if (ny != 0)
+		else if (ny == -1.0f)
 		{
-			this->vy = 0;
-		}
-		else
-		{
-			this->vy += ZOMBIE_GRAVITY * dt;
+			vy = 0;
 		}
 	}
 
@@ -111,7 +108,7 @@ void Zombie::SetState(string state)
 void Zombie::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
 	left = x + 11;  // (10/32)
-	top = y;
+	top = y + 2;
 	right = left + ZOMBIE_BBOX_WIDTH;
 	bottom = top + ZOMBIE_BBOX_HEIGHT;
 }
