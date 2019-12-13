@@ -144,7 +144,10 @@ void KeyBoardInput::OnKeyDown(int KeyCode)
 		Simon_Jump();
 		break;
 	case DIK_D:
-		Simon_Hit();
+		if (game->IsKeyDown(DIK_UP))
+			Simon_Hit_SubWeapon();
+		else
+			Simon_Hit();
 		break;
 	case DIK_X:
 		Simon_Hit_SubWeapon();

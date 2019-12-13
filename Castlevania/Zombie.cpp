@@ -24,8 +24,6 @@ Zombie::Zombie()
 
 void Zombie::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 {
-	DWORD now = GetTickCount();
-
 	if (state == ZOMBIE_INACTIVE)
 		return;
 
@@ -65,7 +63,6 @@ void Zombie::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 			this->nx *= -1;
 			this->vx *= -1;
 		}
-
 		else if (ny == -1.0f)
 		{
 			vy = 0;
@@ -106,7 +103,6 @@ void Zombie::SetState(string state)
 	else if (state == ZOMBIE_INACTIVE)
 	{
 		x = entryPosition.x;
-		x = entryPosition.x;
 		y = entryPosition.y;
 		vx = 0;
 		isSettedPosition = false;
@@ -117,9 +113,14 @@ void Zombie::SetState(string state)
 void Zombie::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
 	left = x + 11;  // (10/32)
-	top = y + 2;
+	top = y + 2; // (60,64)
 	right = left + ZOMBIE_BBOX_WIDTH;
 	bottom = top + ZOMBIE_BBOX_HEIGHT;
+
+	if (isRespawnWaiting)
+	{
+		left = top = right = bottom = 0;
+	}
 }
 
 void Zombie::GetActiveBoundingBox(float& left, float& top, float& right, float& bottom)

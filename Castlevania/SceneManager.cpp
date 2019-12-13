@@ -52,18 +52,6 @@ void SceneManager::LoadResources()
 
 void SceneManager::LoadObjectsFromFile(LPCWSTR FilePath)
 {
-	objects.clear();
-	listCandles.clear();
-	listStairs.clear();
-	listGrounds.clear();
-	listItems.clear();
-	listDoors.clear();
-	listZombies.clear();
-	listBlackLeopards.clear();
-	listVampireBats.clear();
-	listFishMans.clear();
-	listFireBalls.clear();
-
 	fstream fs;
 	fs.open(FilePath, ios::in);
 	if (fs.fail())
@@ -126,9 +114,8 @@ void SceneManager::LoadObjectsFromFile(LPCWSTR FilePath)
 		{
 			zombie = new Zombie();
 			zombie->SetEntryPosition(pos_x, pos_y);
-			zombie->SetState(ZOMBIE_INACTIVE);
+			zombie->SetState(state);
 			zombie->SetEnable(isEnable);
-			listZombies.push_back(zombie);
 			unit = new Unit(grid, zombie, pos_x, pos_y);
 		}
 		else if (ID_Obj == BLACK_LEOPARD)
@@ -169,6 +156,7 @@ void SceneManager::LoadObjectsFromFile(LPCWSTR FilePath)
 	subweapon->SetEnable(false);
 	objects.push_back(subweapon);
 }
+
 
 void SceneManager::CreateListChangeSceneObjects()
 {
@@ -214,6 +202,7 @@ void SceneManager::GetObjectFromGrid()
 
 		if (dynamic_cast<Candle*>(obj) || dynamic_cast<Door*>(obj))
 			listStaticObjectsToRender.push_back(obj);
+
 		else if (dynamic_cast<Zombie*>(obj) || dynamic_cast<BlackLeopard*>(obj) ||
 			dynamic_cast<VampireBat*>(obj) || dynamic_cast<FishMan*>(obj) ||
 			dynamic_cast<FireBall*>(obj) ||
@@ -221,6 +210,7 @@ void SceneManager::GetObjectFromGrid()
 			listMovingObjectsToRender.push_back(obj);
 
 		listObjects.push_back(obj);
+
 	}
 }
 
@@ -332,6 +322,7 @@ void SceneManager::Update(DWORD dt)
 		}
 	}
 
+
 	// get object from grid by camera position
 	GetObjectFromGrid();
 
@@ -370,6 +361,7 @@ void SceneManager::Update(DWORD dt)
 			object->Update(dt, &listObjects);
 		}
 	}
+
 	//
 	SetInactivationByPosition();
 
@@ -387,18 +379,24 @@ void SceneManager::Render()
 	for (auto obj : listStaticObjectsToRender)
 	{
 		obj->Render();
-		obj->RenderBoundingBox();
+		//obj->RenderBoundingBox();
 	}
 
 	for (auto obj : listMovingObjectsToRender)
 	{
 		obj->Render();
-		obj->RenderBoundingBox();
+		//obj->RenderBoundingBox();
 		//obj->RenderActiveBoundingBox();
 	}
 
 	simon->Render();
-	simon->RenderBoundingBox();
+	//simon->RenderBoundingBox();
+
+	if (subweapon->IsEnable() == true)
+	{
+		subweapon->Render();
+		subweapon->RenderBoundingBox();
+	}
 }
 
 void SceneManager::UpdateCameraPosition()
@@ -508,15 +506,15 @@ void SceneManager::SetInactivationByPosition()
 		}
 	}
 
-	if (subweapon->IsEnable() == true)
+	if (weapon->IsEnable() == true)
 	{
 		float wx, wy;
-		subweapon->GetPosition(wx, wy);
+		weapon->GetPosition(wx, wy);
 
 		if (wx < entryViewPort.x || wx > entryViewPort.x + SCREEN_WIDTH ||
 			wy < entryViewPort.y || wy > entryViewPort.y + SCREEN_HEIGHT)
 		{
-			subweapon->SetEnable(false);
+			weapon->SetEnable(false);
 		}
 	}
 }
@@ -538,6 +536,8 @@ void SceneManager::ChangeScene(int scene)
 		grid = new Grid(5632, 480, DEFAULT_CELL_WIDTH, DEFAULT_CELL_HEIGHT);
 		LoadObjectsFromFile(FILEPATH_OBJECTS_SCENE_2);
 		CreateListChangeSceneObjects();
+		//simon->SetPosition(2560.0f, 335.0f);
+		//game->SetCamPos(0.0f, 0.0f);
 		simon->SetPosition(0.0f, 335.0f);
 		game->SetCamPos(0.0f, 0.0f);
 		break;
@@ -545,7 +545,7 @@ void SceneManager::ChangeScene(int scene)
 		grid = new Grid(1024, 480, DEFAULT_CELL_WIDTH, DEFAULT_CELL_HEIGHT);
 		LoadObjectsFromFile(FILEPATH_OBJECTS_SCENE_3);
 		CreateListChangeSceneObjects();
-		simon->SetPosition(93.0f, 48.0f);
+		simon->SetPosition(100.0f, 48.0f);
 		simon->SetState(STAIR_DOWN);
 		game->SetCamPos(0.0f, 0.0f);
 		break;
@@ -560,10 +560,11 @@ void SceneManager::Simon_Update(DWORD dt)
 
 	for (auto obj : listObjects)
 	{
-		if ((dynamic_cast<Ground*>(obj) || dynamic_cast<Door*>(obj) ||
+		if ((dynamic_cast<Candle*>(obj) || dynamic_cast<Ground*>(obj) || dynamic_cast<Door*>(obj) ||
 			dynamic_cast<FireBall*>(obj) || dynamic_cast<Zombie*>(obj) ||
 			dynamic_cast<BlackLeopard*>(obj) || dynamic_cast<VampireBat*>(obj) ||
-			dynamic_cast<FishMan*>(obj) || dynamic_cast<Candle*>(obj) && obj->GetState() != INACTIVE && obj->IsEnable() == true))
+			dynamic_cast<FishMan*>(obj)) &&
+			obj->GetState() != INACTIVE && obj->IsEnable() == true)
 		{
 			coObjects.push_back(obj);
 		}
@@ -577,7 +578,8 @@ void SceneManager::Simon_Update(DWORD dt)
 
 void SceneManager::Weapon_Update(DWORD dt)
 {
-	if (weapon->IsEnable() == false)
+
+	if (subweapon->IsEnable() == false)
 		return;
 
 	vector<LPGAMEOBJECT> coObjects;
@@ -588,13 +590,14 @@ void SceneManager::Weapon_Update(DWORD dt)
 		if ((dynamic_cast<Candle*>(obj) || dynamic_cast<Ground*>(obj) ||
 			dynamic_cast<FireBall*>(obj) || dynamic_cast<Zombie*>(obj) ||
 			dynamic_cast<BlackLeopard*>(obj) || dynamic_cast<VampireBat*>(obj) ||
-			dynamic_cast<FishMan*>(obj)) && obj->GetState() != INACTIVE && obj->IsEnable() == true)
+			dynamic_cast<FishMan*>(obj)) &&
+			obj->GetState() != INACTIVE && obj->IsEnable() == true)
 		{
 			coObjects.push_back(obj);
 		}
 	}
 
-	weapon->Update(dt, &coObjects);
+	subweapon->Update(dt, &coObjects);
 }
 
 void SceneManager::Item_Update(DWORD dt, LPGAMEOBJECT& item)

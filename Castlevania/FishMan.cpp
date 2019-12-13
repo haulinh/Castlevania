@@ -173,6 +173,10 @@ void FishMan::GetBoundingBox(float& left, float& top, float& right, float& botto
 	top = y + 2;
 	right = left + FISHMAN_BBOX_WIDTH;
 	bottom = top + FISHMAN_BBOX_HEIGHT;
+	if (isRespawnWaiting)
+	{
+		left = top = right = bottom = 0;
+	}
 }
 
 void FishMan::GetActiveBoundingBox(float& left, float& top, float& right, float& bottom)

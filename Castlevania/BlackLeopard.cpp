@@ -130,6 +130,10 @@ void BlackLeopard::GetBoundingBox(float& left, float& top, float& right, float& 
 	top = y;
 	right = left + BLACK_LEOPARD_BBOX_WIDTH;
 	bottom = top + BLACK_LEOPARD_BBOX_HEIGHT;
+	if (isRespawnWaiting)
+	{
+		left = top = right = bottom = 0;
+	}
 }
 
 void BlackLeopard::GetActiveBoundingBox(float& left, float& top, float& right, float& bottom)
