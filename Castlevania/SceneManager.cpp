@@ -507,15 +507,15 @@ void SceneManager::SetInactivationByPosition()
 		}
 	}
 
-	if (weapon->IsEnable() == true)
+	if (subweapon->IsEnable() == true)
 	{
 		float wx, wy;
-		weapon->GetPosition(wx, wy);
+		subweapon->GetPosition(wx, wy);
 
 		if (wx < entryViewPort.x || wx > entryViewPort.x + SCREEN_WIDTH ||
 			wy < entryViewPort.y || wy > entryViewPort.y + SCREEN_HEIGHT)
 		{
-			weapon->SetEnable(false);
+			subweapon->SetEnable(false);
 		}
 	}
 }

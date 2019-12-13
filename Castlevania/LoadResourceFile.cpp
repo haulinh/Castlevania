@@ -137,7 +137,7 @@ vector<string> LoadResourceFile::GetAnimations(const char* filePath)
 
 void LoadResourceFile::LoadTextures()
 {
-	Textures* textures = Textures::GetInstance();
+	//Textures* textures = Textures::GetInstance();
 
 	//textures->Add(ID_BBOX, L"resources\\bbox.png", D3DCOLOR_XRGB(255, 255, 255));
 	//textures->Add(ID_TEX_SIMON, L"resources\\simon\\simon.png", D3DCOLOR_XRGB(255, 0, 255));

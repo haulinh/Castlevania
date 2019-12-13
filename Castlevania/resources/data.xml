@@ -26,7 +26,7 @@
 		<sprite path="resources\\weapons\\weapons.xml" texid="400000"/>
 		<sprite path="resources\\candle\\candle.xml" texid="500000"/>
 		<sprite path="resources\\items\\items.xml" texid="600000"/>
-		<sprite path="resources\\effect\\effect.xml" texid="7"/>
+		<sprite path="resources\\effect\\effect.xml" texid="700000"/>
 		<sprite path="resources\\sub_weapons\\sub_weapons.xml" texid="800000"/>
 		<sprite path="resources\\stair\\stair.xml" texid="900000"/>
 		<sprite path="resources\\door\\door.xml" texid="1000000"/>
