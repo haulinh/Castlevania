@@ -57,6 +57,6 @@ void Candle::SetState(string state)
 
 void Candle::Render()
 {
-	animations[state]->Render(-1, x, y);
+	animations[state]->Render(1, x, y);
 	this->isLastFame = animations[state]->IsCompleted();
 }

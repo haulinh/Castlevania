@@ -105,6 +105,9 @@
     <ClInclude Include="FishMan.h">
       <Filter>Objects</Filter>
     </ClInclude>
+    <ClInclude Include="Grid.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -184,6 +187,9 @@
     </ClCompile>
     <ClCompile Include="FishMan.cpp">
       <Filter>Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="Grid.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
