@@ -13,6 +13,7 @@
 #include "Textures.h"
 #include "VampireBat.h"
 #include "FishMan.h"
+#include "FireBall.h"
 
 Simon::Simon() : GameObject() {
 
@@ -165,7 +166,8 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			else if (dynamic_cast<Zombie*>(e->obj) ||
 				dynamic_cast<BlackLeopard*>(e->obj) ||
 				dynamic_cast<VampireBat*>(e->obj) ||
-				dynamic_cast<FishMan*>(e->obj))
+				dynamic_cast<FishMan*>(e->obj) ||
+				dynamic_cast<FireBall*>(e->obj))
 			{
 				if (isUntouchable == false)
 				{
@@ -614,7 +616,7 @@ void Simon::CheckCollisionWithEnemyActiveArea(vector<LPGAMEOBJECT>* listEnemy)
 					// Để đảm bảo zombie xuất hiện và đi từ cuối màn hình ra, do đó cần giới hạn lại khoảng cách của 
 					// Simon và zombie để có thể set active cho zombie
 					if ((enemyEntryPostion.x > x&& enemyEntryPostion.x - x > 220 && enemyEntryPostion.x - x < 250) ||
-						(enemyEntryPostion.x < x && x - enemyEntryPostion.x > 230 && x - enemyEntryPostion.x < 260))
+						(enemyEntryPostion.x < x && x - enemyEntryPostion.x > 230 && x - enemyEntryPostion.x < 270))
 					{
 						if (enemyEntryPostion.x < x) zombie->SetN(1);
 						else zombie->SetN(-1);
@@ -656,16 +658,15 @@ void Simon::CheckCollisionWithEnemyActiveArea(vector<LPGAMEOBJECT>* listEnemy)
 				if (fishman->IsAbleToActivate() == true)
 				{
 					// Giảm độ khó xuất hiện của fishman
-					if (abs(this->x - (fishman->GetEntryPosition()).x <= 50.0f))
-						return;
+					if (abs(this->x - (fishman->GetEntryPosition()).x >= 80.0f))
+					{
+						float fx = fishman->GetEntryPosition().x;
 
-					float fx = fishman->GetEntryPosition().x;
+						if (fx < this->x) fishman->SetN(1);
+						else fishman->SetN(-1);
 
-					if (fx < this->x) fishman->SetN(1);
-					else fishman->SetN(-1);
-
-					fishman->SetIsAbleToShoot(rand() % 2);
-					fishman->SetState(FISHMAN_JUMP);
+						fishman->SetState(FISHMAN_JUMP);
+					}
 				}
 			}
 		}

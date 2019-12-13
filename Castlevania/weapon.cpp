@@ -7,6 +7,7 @@
 #include "BlackLeopard.h"
 #include "VampireBat.h"
 #include "FishMan.h"
+#include "FireBall.h"
 
 Weapon::Weapon()
 {
@@ -18,7 +19,7 @@ Weapon::Weapon()
 		AddAnimation(animation);
 	}
 
-	state = MAGIC_WHIP;
+	state = LONG_CHAIN;
 }
 
 void Weapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
@@ -83,6 +84,18 @@ void Weapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				{
 					e->vx = 0;
 					e->SetState(FISHMAN_DESTROYED);
+					e->isLastFame = false;
+				}
+			}
+
+			else if (dynamic_cast<FireBall*>(obj))
+			{
+				FireBall* e = dynamic_cast<FireBall*> (obj);
+
+				if (this->AABBx(e) == true)
+				{
+					e->vx = 0;
+					e->SetEnable(false);
 					e->isLastFame = false;
 				}
 			}
