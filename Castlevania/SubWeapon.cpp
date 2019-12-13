@@ -81,8 +81,6 @@ void SubWeapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				if (state == DAGGER_SUB || state == AXE_SUB || state == BOOMERANG_SUB)
 				{
 					this->isEnable = false;
-					vx = 0;
-					vy = 0;
 				}
 			}
 			else if (dynamic_cast<FireBall*>(e->obj))
@@ -129,7 +127,7 @@ void SubWeapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			{
 				if (state == HOLY_WATER_SUB && e->ny == -1)
 					SetState(HOLY_WATER_SHATTERED_SUB);
-
+				
 				x += dx;
 				y += dy;
 			}

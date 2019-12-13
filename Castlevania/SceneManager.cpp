@@ -411,7 +411,7 @@ void SceneManager::Update(DWORD dt)
 				coObjects.push_back(ground);
 			}
 
-			if (weapon->IsEnable() == false)
+			if (subweapon->IsEnable() == false)
 				continue;
 
 			for (auto candle : listCandles)
@@ -472,7 +472,7 @@ void SceneManager::Update(DWORD dt)
 		else if (dynamic_cast<BlackLeopard*>(object))
 		{
 			if (object->GetState() != BLACK_LEOPARD_INACTIVE)
-				object->Update(dt,&listGrounds);
+				object->Update(dt, &listGrounds);
 		}
 		else if (dynamic_cast<VampireBat*>(object))
 		{
@@ -536,7 +536,7 @@ void SceneManager::Update(DWORD dt)
 		}
 		else
 		{
-			object->Update(dt,&coObjects);
+			object->Update(dt, &coObjects);
 		}
 	}
 
@@ -630,11 +630,21 @@ void SceneManager::Render()
 		door->RenderBoundingBox();
 	}
 
+	for (auto ground : listGrounds)
+	{
+		if (ground->IsEnable() == false)
+			continue;
+
+		ground->RenderBoundingBox();
+
+	}
+
 	if (subweapon->IsEnable() == true)
 	{
 		subweapon->Render();
 		subweapon->RenderBoundingBox();
 	}
+
 }
 
 void SceneManager::UpdateCameraPosition()
@@ -716,7 +726,7 @@ void SceneManager::SetInactivationByPosition()
 
 	for (auto bat : listVampireBats)
 	{
-		VampireBat * vb = dynamic_cast<VampireBat*>(bat);
+		VampireBat* vb = dynamic_cast<VampireBat*>(bat);
 
 		if (vb->GetState() == VAMPIRE_BAT_ACTIVE && vb->IsSettedPosition() == true)
 		{

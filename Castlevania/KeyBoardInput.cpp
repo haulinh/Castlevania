@@ -238,7 +238,7 @@ void KeyBoardInput::Simon_Hit_SubWeapon()
 		if (simon->GetState() == SIT) sy += 25.0f; // khớp vị trí tay
 		else sy += 10.0f;
 		if (simon->GetN() < 0) sx += 30.0f;
-		else sx += 15.0f;
+		else sx += 30.0f;
 
 		subweapon->SetPosition(sx, sy);
 
