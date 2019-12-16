@@ -126,7 +126,7 @@ void FishMan::SetState(string state)
 		if (nx > 0) vx = FISHMAN_WALKING_SPEED_X;
 		else vx = -FISHMAN_WALKING_SPEED_X;
 		lastTimeShoot = GetTickCount();
-		deltaTimeToShoot = 500 + rand() % 2000; // Random trong khoảng thời gian là 0.5 - 2s
+		deltaTimeToShoot = 500 + rand() % 1000; // Random trong khoảng thời gian là 0.5 - 2s
 	}
 	else if (state == FISHMAN_JUMP)
 	{
