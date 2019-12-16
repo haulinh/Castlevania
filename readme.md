@@ -1,6 +1,6 @@
 * BC lần 1 (13/11/2019)
 * BC lần 2 (14/12/2019)
-- [ ] ```c++ Đang đi đánh không được```
+- [ ] ```Đang đi đánh không được```
 - [ ] Bị hit ở cầu thang bị văng ra
 - [ ] Chưa có gạch bị mất ở cảnh 1-2
 - [ ] Có rớt thánh giá nhưng chưa có tác dụng
