@@ -195,7 +195,7 @@ void SceneManager::GetObjectFromGrid()
 
 	grid->Get(game->GetCamPos(), listUnits);
 
-	DebugOut(L"%d \n", listUnits.size());
+	DebugOut(L"%d list unit: \n", listUnits.size());
 
 	for (int i = 0; i < listUnits.size(); i++)
 	{
@@ -390,8 +390,15 @@ void SceneManager::Render()
 		//obj->RenderActiveBoundingBox();
 	}
 
+	for (auto obj : listStairs)
+	{
+		obj->RenderBoundingBox();
+		//obj->RenderBoundingBox();
+		//obj->RenderActiveBoundingBox();
+	}
+
 	simon->Render();
-	simon->RenderBoundingBox();
+	//simon->RenderBoundingBox();
 
 	if (subweapon->IsEnable() == true)
 	{

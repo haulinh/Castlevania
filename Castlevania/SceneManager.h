@@ -100,13 +100,11 @@ public:
 
 	// Các hàm update con
 	void Simon_Update(DWORD dt);
-	void Whip_Update(DWORD dt);
 	void Weapon_Update(DWORD dt);
 	void Item_Update(DWORD dt, LPGAMEOBJECT& object);
 	void Zombie_Update(DWORD dt, LPGAMEOBJECT& object);
 	void BlackLeopard_Update(DWORD dt, LPGAMEOBJECT& object);
 	void VampireBat_Update(DWORD dt, LPGAMEOBJECT& object);
 	void FishMan_Update(DWORD dt, LPGAMEOBJECT& object);
-	void Boss_Update(DWORD dt, LPGAMEOBJECT& object);
 };
 
