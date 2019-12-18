@@ -179,6 +179,7 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			{
 				if (isUntouchable == false)
 				{
+
 					// nếu dơi tông trúng simon thì cho huỷ
 					if (dynamic_cast<VampireBat*>(e->obj))
 					{
@@ -193,7 +194,11 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						else if (e->nx == -1.0f && this->nx == -1) this->nx = 1;
 					}
 
-					SetState(DEFLECT);
+					if (!isCollisionWithStair)
+					{
+						SetState(DEFLECT);
+					}
+
 					StartUntouchable();
 
 					//HP = HP - 2;
@@ -340,7 +345,6 @@ void Simon::SetState(string state)
 		vy = -SIMON_DEFLECT_SPEED_Y;
 		if (nx > 0) vx = -SIMON_DEFLECT_SPEED_X;
 		else vx = SIMON_DEFLECT_SPEED_X;
-		isCollisionWithStair = false;
 	}
 
 	else if (state == STAIR_UP_ATTACK || state == STAIR_DOWN_ATTACK)
