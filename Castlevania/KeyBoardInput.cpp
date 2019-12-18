@@ -167,7 +167,6 @@ void KeyBoardInput::OnKeyDown(int KeyCode)
 	case DIK_4:
 		scene->GetSimon()->SetSubWeapon(STOP_WATCH_SUB);
 		break;
-
 	case DIK_Q:
 		scene->ChangeScene(SCENE_1);
 		break;
@@ -212,9 +211,13 @@ void KeyBoardInput::Simon_Hit()
 {
 	if ((scene->GetSimon()->GetState() == STAND_ATTACK || scene->GetSimon()->GetState() == SIT_ATTACK))
 		return;
-	if (scene->GetSimon()->GetState() == IDLE || scene->GetSimon()->GetState() == JUMP)
+	if (scene->GetSimon()->GetState() == IDLE || scene->GetSimon()->GetState() == JUMP || scene->GetSimon()->GetState() == WALK)
 	{
 		scene->GetSimon()->SetState(STAND_ATTACK);
+		if (!scene->GetSimon()->jumping)
+		{
+			scene->GetSimon()->vx = 0;
+		}
 	}
 	else if (scene->GetSimon()->GetState() == SIT)
 	{
@@ -235,7 +238,7 @@ void KeyBoardInput::Simon_Hit_SubWeapon()
 	Simon* simon = scene->GetSimon();
 	SubWeapon* subweapon = scene->GetSubWeapon();
 
-	if(subweapon->IsEnable() == true) // đang phóng rồi
+	if (subweapon->IsEnable() == true) // đang phóng rồi
 		return;
 
 	if (simon->GetState() == IDLE || simon->GetState() == JUMP ||
