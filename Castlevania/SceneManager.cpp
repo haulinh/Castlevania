@@ -393,7 +393,12 @@ void SceneManager::Render()
 	for (auto obj : listStairs)
 	{
 		obj->RenderBoundingBox();
-		//obj->RenderBoundingBox();
+		//obj->RenderActiveBoundingBox();
+	}
+
+	for (auto obj : listGrounds)
+	{
+		obj->RenderBoundingBox();
 		//obj->RenderActiveBoundingBox();
 	}
 
