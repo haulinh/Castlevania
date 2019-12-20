@@ -61,7 +61,7 @@ void Animation::Add(string spriteId, DWORD time)
 void Animation::Render(int nx, float x, float y, int alpha)
 {
 	this->completed = false;
-	DWORD now = GetTickCount();
+	DWORD now = NOW;
 	if (currentFrame == -1)
 	{
 		currentFrame = 0;
@@ -92,7 +92,7 @@ void Animation::Render(int nx, float x, float y, int alpha)
 void Animation::Render(float x, float y, int alpha)
 {
 	this->completed = false;
-	DWORD now = GetTickCount();
+	DWORD now = NOW;
 	if (currentFrame == -1)
 	{
 		currentFrame = 0;

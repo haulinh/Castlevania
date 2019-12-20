@@ -15,7 +15,7 @@ public:
 	void Render();
 	void SetState(string state);
 
-	void StartRespawnTimeCounter() { isRespawnWaiting = true; respawnTimeStart = GetTickCount(); }
+	void StartRespawnTimeCounter() { isRespawnWaiting = true; respawnTimeStart = NOW; }
 
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	void GetActiveBoundingBox(float& left, float& top, float& right, float& bottom);

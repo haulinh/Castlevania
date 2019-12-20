@@ -34,6 +34,9 @@ void VampireBat::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 		return;
 	}
 
+	//if (stopMovement == true)
+	//	return;
+
 	GameObject::Update(dt);
 
 	vy += velocityVariation;
@@ -48,7 +51,10 @@ void VampireBat::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 void VampireBat::Render()
 {
 	if (state != VAMPIRE_BAT_INACTIVE)
+	{
 		animations[state]->Render(nx, x, y);
+		isLastFame = animations[state]->IsCompleted();
+	}
 }
 
 void VampireBat::SetState(string state)
@@ -68,12 +74,13 @@ void VampireBat::SetState(string state)
 	{
 		vx = 0;
 		vy = 0;
-		animations[state]->SetAniStartTime(GetTickCount());
 	}
 	else if (state == VAMPIRE_BAT_INACTIVE)
 	{
-	/*	vx = 0;
-		vy = 0;*/
+		x = entryPosition.x;
+		y = entryPosition.y;
+		vx = 0;
+		vy = 0;
 		isSettedPosition = false;
 		StartRespawnTimeCounter();
 	}
@@ -82,13 +89,9 @@ void VampireBat::SetState(string state)
 void VampireBat::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
 	left = x + 11; // 10,32
-	top = y;
+	top = y + 11;
 	right = left + VAMPIRE_BAT_BBOX_WIDTH;
 	bottom = top + VAMPIRE_BAT_BBOX_HEIGHT;
-	if (isRespawnWaiting)
-	{
-		left = top = right = bottom = 0;
-	}
 }
 
 void VampireBat::GetActiveBoundingBox(float& left, float& top, float& right, float& bottom)
@@ -101,7 +104,7 @@ void VampireBat::GetActiveBoundingBox(float& left, float& top, float& right, flo
 
 bool VampireBat::IsAbleToActivate()
 {
-	DWORD now = GetTickCount();
+	DWORD now = NOW;
 
 	if (isRespawnWaiting == true && now - respawnTimeStart >= VAMPIRE_BAT_RESPAWN_TIME)
 		return true;
