@@ -28,7 +28,7 @@ VampireBat::~VampireBat()
 
 void VampireBat::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 {
-	if (state == VAMPIRE_BAT_DESTROYED && animations[state]->IsOver(150) == true)
+	if (state == VAMPIRE_BAT_DESTROYED && isLastFame)
 	{
 		SetState(VAMPIRE_BAT_INACTIVE);
 		return;

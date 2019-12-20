@@ -27,9 +27,9 @@ FishMan::~FishMan()
 void FishMan::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 {
 	// Update bubbles
-	if (isRenderingBubbles == true/* && stopMovement == false*/)
+	if (isRenderingBubbles == true /*&& stopMovement == false*/)
 	{
-		DWORD now = NOW;
+		DWORD now = GetTickCount();
 
 		if (now - startTimeRenderBubbles <= 1000)
 		{
@@ -43,7 +43,7 @@ void FishMan::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 	}
 
 	// Update fishman
-	if (state == FISHMAN_DESTROYED && isLastFame)
+	if (state == FISHMAN_DESTROYED && animations[state]->IsOver(150) == true)
 	{
 		SetState(FISHMAN_INACTIVE);
 		return;
@@ -52,7 +52,7 @@ void FishMan::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 	//if (stopMovement == true)
 	//	return;
 
-	if (state == FISHMAN_HIT && isLastFame)
+	if (state == FISHMAN_HIT && animations[state]->IsOver(1000) == true)
 	{
 		nx = nxAfterShoot;
 		SetState(FISHMAN_ACTIVE);
@@ -178,10 +178,6 @@ void FishMan::GetBoundingBox(float& left, float& top, float& right, float& botto
 	top = y + 2;
 	right = left + FISHMAN_BBOX_WIDTH;
 	bottom = top + FISHMAN_BBOX_HEIGHT;
-	if (isRespawnWaiting)
-	{
-		left = top = right = bottom = 0;
-	}
 }
 
 void FishMan::GetActiveBoundingBox(float& left, float& top, float& right, float& bottom)

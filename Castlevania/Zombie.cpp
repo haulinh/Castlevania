@@ -27,11 +27,14 @@ void Zombie::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 	if (state == ZOMBIE_INACTIVE)
 		return;
 
-	if (state == ZOMBIE_DESTROYED && animations[state]->IsOver(150) == true)
+	if (state == ZOMBIE_DESTROYED && isLastFame)
 	{
 		SetState(ZOMBIE_INACTIVE);
 		return;
 	}
+
+	//if (stopMovement == true)
+	//	return;
 
 	GameObject::Update(dt);
 
@@ -116,11 +119,6 @@ void Zombie::GetBoundingBox(float& left, float& top, float& right, float& bottom
 	top = y + 2; // (60,64)
 	right = left + ZOMBIE_BBOX_WIDTH;
 	bottom = top + ZOMBIE_BBOX_HEIGHT;
-
-	if (isRespawnWaiting)
-	{
-		left = top = right = bottom = 0;
-	}
 }
 
 void Zombie::GetActiveBoundingBox(float& left, float& top, float& right, float& bottom)
@@ -133,7 +131,7 @@ void Zombie::GetActiveBoundingBox(float& left, float& top, float& right, float& 
 
 bool Zombie::IsAbleToActivate()
 {
-	DWORD now = GetTickCount();
+	DWORD now = NOW;
 
 	if (isRespawnWaiting == true && now - respawnTimeStart >= ZOMBIE_RESPAWN_TIME)
 		return true;

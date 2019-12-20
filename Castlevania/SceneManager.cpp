@@ -16,7 +16,6 @@ void SceneManager::LoadResources()
 {
 
 	LoadResourceFile* LoadResourceFile = LoadResourceFile::GetInstance();
-	//LoadResourceFile->LoadAllResource();
 	LoadResourceFile->LoadData("resources\\data.xml");
 
 
@@ -157,7 +156,6 @@ void SceneManager::LoadObjectsFromFile(LPCWSTR FilePath)
 	subweapon->SetEnable(false);
 	objects.push_back(subweapon);
 }
-
 
 void SceneManager::CreateListChangeSceneObjects()
 {
@@ -386,14 +384,13 @@ void SceneManager::Render()
 	for (auto obj : listMovingObjectsToRender)
 	{
 		obj->Render();
-		//obj->RenderBoundingBox();
-		//obj->RenderActiveBoundingBox();
+		obj->RenderBoundingBox();
+		obj->RenderActiveBoundingBox();
 	}
 
 	for (auto obj : listStairs)
 	{
 		obj->RenderBoundingBox();
-		//obj->RenderActiveBoundingBox();
 	}
 
 	for (auto obj : listGrounds)
