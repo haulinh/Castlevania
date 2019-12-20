@@ -341,4 +341,3 @@ const string FISHMAN = "FISHMAN";
 #pragma endregion
 
 #define NOW GetTickCount();
-#define NOW_ GetTickCount;
