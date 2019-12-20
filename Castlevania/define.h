@@ -1,5 +1,9 @@
 #pragma once
 #include <string>
+
+#include <Windows.h>
+#include <d3dx9.h>
+
 using namespace std;
 
 #pragma region define window
@@ -52,27 +56,11 @@ enum TexId
 	SCENE_1,
 	SCENE_2,
 	SCENE_3,
-	//ID_BBOX,
-	//ID_TEX_SIMON,
-	//ID_TEX_WEAPON,
-	//ID_TEX_GROUND,
-	//ID_TEX_CANDLE,
-	//ID_TEX_ITEMS,
-	//ID_TEX_EFFECT,
 	ID_TEX_HP,
-	//ID_TEX_SUB_WEAPONS,
-	//ID_TEX_STAIR,
-	//ID_TEX_DOOR,
-	//ID_TEX_GATE,
-	//ID_TEX_ZOMBIE,
-	//ID_TEX_BLACK_LEOPARD,
-	//ID_TEX_VAMPIRE_BAT,
-	//ID_TEX_FISHMAN,
-	//ID_TEX_FIREBALL,
-	//ID_TEX_BUBBLES,
 };
 
 const int ID_BBOX = 100000;
+const int ID_BBOX_2 = 9999;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma region define State
@@ -260,7 +248,7 @@ constexpr float FISHMAN_RESPAWN_TIME = 5000;
 
 // Ground
 #define GROUND_BBOX_WIDTH 32
-#define GROUND_BBOX_HEIGHT 32
+#define GROUND_BBOX_HEIGHT 10
 
 // Candle
 #define LARGE_CANDLE_BBOX_WIDTH			32
@@ -308,9 +296,9 @@ constexpr float FISHMAN_RESPAWN_TIME = 5000;
 #define CHANGE_SCENE_BBOX_HEIGHT	32
 
 // Zombie
-#define ZOMBIE_BBOX_WIDTH			32
+#define ZOMBIE_BBOX_WIDTH			10
 #define ZOMBIE_BBOX_HEIGHT			60
-#define ZOMBIE_ACTIVE_BBOX_WIDTH		    150
+#define ZOMBIE_ACTIVE_BBOX_WIDTH		    200
 #define ZOMBIE_ACTIVE_BBOX_HEIGHT			200
 
 // Black Leopard
@@ -321,7 +309,7 @@ constexpr float FISHMAN_RESPAWN_TIME = 5000;
 
 // Vampire Bat
 #define VAMPIRE_BAT_BBOX_WIDTH			10
-#define VAMPIRE_BAT_BBOX_HEIGHT			32
+#define VAMPIRE_BAT_BBOX_HEIGHT			10
 #define VAMPIRE_BAT_ACTIVE_BBOX_WIDTH			250 
 #define VAMPIRE_BAT_ACTIVE_BBOX_HEIGHT			200
 
@@ -351,3 +339,6 @@ const string VAMPIRE_BAT = "VAMPIRE_BAT";
 const string FISHMAN = "FISHMAN";
 
 #pragma endregion
+
+#define NOW GetTickCount();
+#define NOW_ GetTickCount;

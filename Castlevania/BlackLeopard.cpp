@@ -21,13 +21,16 @@ BlackLeopard::BlackLeopard()
 
 void BlackLeopard::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 {
-	DWORD now = GetTickCount();
+	DWORD now = NOW;
 
 	if (state == BLACK_LEOPARD_DESTROYED && isLastFame)
 	{
 		SetState(BLACK_LEOPARD_INACTIVE);
 		return;
 	}
+
+	//if (stopMovement == true)
+	//	return;
 
 	vy += BLACK_LEOPARD_GRAVITY * dt;
 	GameObject::Update(dt);
@@ -100,7 +103,7 @@ void BlackLeopard::SetState(string state)
 		if (nx > 0) vx = BLACK_LEOPARD_RUNNING_SPEED_X;
 		else vx = -BLACK_LEOPARD_RUNNING_SPEED_X;
 		vy = BLACK_LEOPARD_RUNNING_SPEED_Y;
-		//isDroppedItem = false;
+		isDroppedItem = false;
 		respawnTimeStart = 0;
 		isRespawnWaiting = false;
 	}
@@ -110,6 +113,8 @@ void BlackLeopard::SetState(string state)
 	}
 	else if (state == BLACK_LEOPARD_INACTIVE)
 	{
+		x = entryPosition.x;
+		y = entryPosition.y;
 		vx = 0;
 		vy = 0;
 		StartRespawnTimeCounter();
@@ -130,10 +135,6 @@ void BlackLeopard::GetBoundingBox(float& left, float& top, float& right, float& 
 	top = y;
 	right = left + BLACK_LEOPARD_BBOX_WIDTH;
 	bottom = top + BLACK_LEOPARD_BBOX_HEIGHT;
-	if (isRespawnWaiting)
-	{
-		left = top = right = bottom = 0;
-	}
 }
 
 void BlackLeopard::GetActiveBoundingBox(float& left, float& top, float& right, float& bottom)
@@ -146,7 +147,7 @@ void BlackLeopard::GetActiveBoundingBox(float& left, float& top, float& right, f
 
 bool BlackLeopard::IsAbleToActivate()
 {
-	DWORD now = GetTickCount();
+	DWORD now = NOW;
 
 	if (isRespawnWaiting == true && now - respawnTimeStart >= BLACK_LEOPARD_RESPAWN_TIME)
 		return true;

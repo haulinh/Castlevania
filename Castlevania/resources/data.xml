@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <game>
 	<textures>
+		<texture id="9999" path="resources\\bbox2.png" red="255" green="255" blue="255"/>
 		<texture id="100000" path="resources\\bbox.png" red="255" green="255" blue="255"/>
 		<texture id="200000" path="resources\\simon\\simon.png" red="255" green="0" blue="255"/>
 		<texture id="300000" path="resources\\ground\\ground.png" red="255" green="0" blue="255"/>

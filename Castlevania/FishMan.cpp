@@ -26,11 +26,11 @@ FishMan::~FishMan()
 
 void FishMan::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 {
-	DWORD now = GetTickCount();
-
 	// Update bubbles
-	if (isRenderingBubbles == true)
+	if (isRenderingBubbles == true/* && stopMovement == false*/)
 	{
+		DWORD now = NOW;
+
 		if (now - startTimeRenderBubbles <= 1000)
 		{
 			bubbles->Update(dt);
@@ -43,18 +43,23 @@ void FishMan::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 	}
 
 	// Update fishman
-	if (state == FISHMAN_DESTROYED && animations[state]->IsOver(150) == true)
+	if (state == FISHMAN_DESTROYED && isLastFame)
 	{
 		SetState(FISHMAN_INACTIVE);
 		return;
 	}
-	else if (state == FISHMAN_HIT && animations[state]->IsOver(1000) == true)
+
+	//if (stopMovement == true)
+	//	return;
+
+	if (state == FISHMAN_HIT && isLastFame)
 	{
 		nx = nxAfterShoot;
 		SetState(FISHMAN_ACTIVE);
 		return;
 	}
-	else if (state == FISHMAN_INACTIVE)
+
+	if (state == FISHMAN_INACTIVE)
 	{
 		return;
 	}
@@ -92,7 +97,6 @@ void FishMan::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 				if (state == FISHMAN_JUMP) // jump xong chạm đất -> walk
 				{
 					SetState(FISHMAN_ACTIVE);
-
 				}
 			}
 			else
@@ -114,7 +118,10 @@ void FishMan::Render()
 
 	// render fishman
 	if (state != FISHMAN_INACTIVE)
+	{
 		animations[state]->Render(nx, x, y);
+		isLastFame = animations[state]->IsCompleted();
+	}
 }
 
 void FishMan::SetState(string state)
@@ -125,8 +132,8 @@ void FishMan::SetState(string state)
 	{
 		if (nx > 0) vx = FISHMAN_WALKING_SPEED_X;
 		else vx = -FISHMAN_WALKING_SPEED_X;
-		lastTimeShoot = GetTickCount();
-		deltaTimeToShoot = 500 + rand() % 1000; // Random trong khoảng thời gian là 0.5 - 2s
+		lastTimeShoot = NOW;
+		deltaTimeToShoot = 500 + rand() % 1000; // Random trong khoảng thời gian là 0.5 - 1s
 	}
 	else if (state == FISHMAN_JUMP)
 	{
@@ -135,16 +142,15 @@ void FishMan::SetState(string state)
 		vy = -FISHMAN_JUMP_SPEED_Y;
 		isDroppedItem = false;
 		isNeedToCreateBubbles = false;
-		respawnTime_Start = 0;
+		respawnTimeStart = 0;
 		isRespawnWaiting = false;
 		bubbles = new Bubbles(x, y + 32);
 		isRenderingBubbles = true;
-		startTimeRenderBubbles = GetTickCount();
+		startTimeRenderBubbles = NOW;
 	}
 	else if (state == FISHMAN_DESTROYED)
 	{
 		vx = vy = 0;
-		animations[state]->SetAniStartTime(GetTickCount());
 	}
 	else if (state == FISHMAN_INACTIVE)
 	{
@@ -152,7 +158,7 @@ void FishMan::SetState(string state)
 		{
 			bubbles = new Bubbles(x, y + 32);
 			isRenderingBubbles = true;
-			startTimeRenderBubbles = GetTickCount();
+			startTimeRenderBubbles = NOW;
 		}
 		x = entryPosition.x;
 		y = entryPosition.y;
@@ -163,7 +169,6 @@ void FishMan::SetState(string state)
 	else if (state == FISHMAN_HIT)
 	{
 		vx = vy = 0;
-		animations[state]->SetAniStartTime(GetTickCount());
 	}
 }
 
@@ -189,9 +194,9 @@ void FishMan::GetActiveBoundingBox(float& left, float& top, float& right, float&
 
 bool FishMan::IsAbleToActivate()
 {
-	DWORD now = GetTickCount();
+	DWORD now = NOW;
 
-	if (isRespawnWaiting == true && now - respawnTime_Start >= FISHMAN_RESPAWN_TIME)
+	if (isRespawnWaiting == true && now - respawnTimeStart >= FISHMAN_RESPAWN_TIME)
 		return true;
 
 	return false;

@@ -5,7 +5,7 @@
 
 class FishMan : public GameObject
 {
-	DWORD respawnTime_Start = 0;
+	DWORD respawnTimeStart = 0;
 	bool isRespawnWaiting = false;
 	bool isSettedPosition = false;
 
@@ -28,7 +28,7 @@ public:
 	void Render();
 	void SetState(string state);
 
-	void StartRespawnTimeCounter() { isRespawnWaiting = true; respawnTime_Start = GetTickCount(); }
+	void StartRespawnTimeCounter() { isRespawnWaiting = true; respawnTimeStart = GetTickCount(); }
 
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	void GetActiveBoundingBox(float& left, float& top, float& right, float& bottom);

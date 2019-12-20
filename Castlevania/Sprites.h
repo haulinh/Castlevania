@@ -4,6 +4,7 @@
 #include <unordered_map>
 #include <rapidxml/rapidxml.hpp>
 #include <rapidxml/rapidxml_utils.hpp>
+#include "define.h"
 
 using namespace rapidxml;
 
@@ -71,7 +72,7 @@ class Animation
 	DWORD lastFrameTime;
 	int defaultTime;
 	int currentFrame;
-	
+
 	vector<LPANIMATION_FRAME> frames;
 
 public:
