@@ -76,7 +76,7 @@ void SubWeapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			if (dynamic_cast<Candle*>(e->obj))
 			{
 				Candle* candle = dynamic_cast<Candle*>(e->obj);
-				candle->SetState(CANDLE_DESTROY);
+				candle->SetState(CANDLE_DESTROYED);
 
 				if (state == DAGGER_SUB || state == AXE_SUB || state == BOOMERANG_SUB)
 				{

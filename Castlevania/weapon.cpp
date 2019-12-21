@@ -35,7 +35,7 @@ void Weapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 				if (this->AABBx(e) == true)
 				{
-					e->SetState(CANDLE_DESTROY);
+					e->SetState(CANDLE_DESTROYED);
 					e->isLastFame = false;
 				}
 			}

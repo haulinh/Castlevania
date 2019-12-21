@@ -89,7 +89,7 @@ const string LONG_CHAIN = "LONG_CHAIN";
 
 // Candle
 const string LARGE_CANDLE = "LARGE_CANDLE";
-const string CANDLE_DESTROY = "EFFECT";
+const string CANDLE_DESTROYED = "EFFECT";
 const string CANDLE = "CANDLE";
 
 // Ground
@@ -133,32 +133,32 @@ const string  DOOR_1 = "DOOR_1";
 const string  DOOR_2_IDLE = "DOOR_2_IDLE";
 const string  DOOR_2_OPEN = "DOOR_2_OPEN";
 
+// Enemy (chung cho Zombie, Black Leopard, Bat...)
+const string ACTIVE = "ACTIVE";
+const string DESTROYED = "DESTROYED";
+const string INACTIVE = "INACTIVE";
+
 // Zombie 
 const string  ZOMBIE_ACTIVE = "ZOMBIE_ACTIVE";
 const string  ZOMBIE_DESTROYED = "EFFECT";
-const string  ZOMBIE_INACTIVE = "ZOMBIE_INACTIVE";
+const string  ZOMBIE_INACTIVE = "INACTIVE";
 
 // Black Leopard
 const string BLACK_LEOPARD_ACTIVE = "BLACK_LEOPARD_ACTIVE";
 const string BLACK_LEOPARD_DESTROYED = "EFFECT";
-const string BLACK_LEOPARD_INACTIVE = "BLACK_LEOPARD_INACTIVE";
+const string BLACK_LEOPARD_INACTIVE = "INACTIVE";
 const string BLACK_LEOPARD_IDLE = "BLACK_LEOPARD_IDLE";
 const string BLACK_LEOPARD_JUMP = "BLACK_LEOPARD_JUMP";
 
 // Vampire Bat
 const string VAMPIRE_BAT_ACTIVE = "VAMPIRE_BAT_ACTIVE";
 const string VAMPIRE_BAT_DESTROYED = "EFFECT";
-const string VAMPIRE_BAT_INACTIVE = "VAMPIRE_BAT_INACTIVE";
-
-// Enemy (chung cho Zombie, Black Leopard, Bat...)
-const string ACTIVE = "ACTIVE";
-const string DESTROYED = "DESTROYED";
-const string INACTIVE = "INACTIVE";
+const string VAMPIRE_BAT_INACTIVE = "INACTIVE";
 
 // Fish man
 const string FISHMAN_ACTIVE = "FISHMAN_ACTIVE";
 const string FISHMAN_DESTROYED = "EFFECT";
-const string FISHMAN_INACTIVE = "FISHMAN_INACTIVE";
+const string FISHMAN_INACTIVE = "INACTIVE";
 const string FISHMAN_JUMP = "FISHMAN_JUMP";
 const string FISHMAN_HIT = "FISHMAN_HIT";
 

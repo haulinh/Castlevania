@@ -439,7 +439,7 @@ void SceneManager::UpdateGrid()
 
 void SceneManager::SetDropItems(LPGAMEOBJECT object)
 {
-	if ((dynamic_cast<Candle*>(object) && object->GetState() == CANDLE_DESTROY) ||
+	if ((dynamic_cast<Candle*>(object) && object->GetState() == CANDLE_DESTROYED) ||
 		(dynamic_cast<Zombie*>(object) && object->GetState() == ZOMBIE_DESTROYED) ||
 		(dynamic_cast<VampireBat*>(object) && object->GetState() == VAMPIRE_BAT_DESTROYED) ||
 		(dynamic_cast<FishMan*>(object) && object->GetState() == FISHMAN_DESTROYED))

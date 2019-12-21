@@ -183,8 +183,8 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					// nếu dơi tông trúng simon thì cho huỷ
 					if (dynamic_cast<VampireBat*>(e->obj))
 					{
+						e->obj->vx = 0;
 						e->obj->SetState(VAMPIRE_BAT_DESTROYED);
-						e->obj->x = 0;
 						e->obj->isLastFame = false;
 					}
 
