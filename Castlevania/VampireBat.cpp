@@ -74,6 +74,7 @@ void VampireBat::SetState(string state)
 	{
 		vx = 0;
 		vy = 0;
+		animations[state]->SetAniStartTime(GetTickCount());
 	}
 	else if (state == VAMPIRE_BAT_INACTIVE)
 	{

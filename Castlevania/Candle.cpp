@@ -24,7 +24,7 @@ Candle::Candle()
 
 void Candle::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	if (state == CANDLE_DESTROY && isLastFame) 	//nếu render xong hết đốm lửa rồi thì set enable = false -> biến mất
+	if (state == CANDLE_DESTROYED && isLastFame) 	//nếu render xong hết đốm lửa rồi thì set enable = false -> biến mất
 	{
 		this->isEnable = false;
 	}
