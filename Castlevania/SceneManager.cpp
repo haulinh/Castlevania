@@ -388,10 +388,10 @@ void SceneManager::Render()
 		//obj->RenderActiveBoundingBox();
 	}
 
-	//for (auto obj : listStairs)
-	//{
-	//	obj->RenderBoundingBox();
-	//}
+	for (auto obj : listStairs)
+	{
+		obj->RenderBoundingBox();
+	}
 
 	simon->Render();
 	//simon->RenderBoundingBox();
