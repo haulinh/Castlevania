@@ -171,6 +171,7 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				}
 			}
 
+			else if (e->obj->GetState() == DESTROYED) x += dx;
 			else if (dynamic_cast<Zombie*>(e->obj) ||
 				dynamic_cast<BlackLeopard*>(e->obj) ||
 				dynamic_cast<VampireBat*>(e->obj) ||
@@ -432,21 +433,21 @@ void Simon::RenderBBSimon()
 
 void Simon::CheckCollisionWithStair(vector<LPGAMEOBJECT>* listStair)
 {
-	float simon_l, simon_t, simon_r, simon_b;
-	GetBoundingBox(simon_l, simon_t, simon_r, simon_b);
+	float simonLeft, simonTop, simonRight, simonBottom;
+	GetBoundingBox(simonLeft, simonTop, simonRight, simonBottom);
 
 	//thu nhỏ vùng xét va chạm, chỉ xét va chạm với chân của Simon
-	simon_t += 55;
-	simon_b += 10;  // bottom +5 để xét cho va chạm với bậc thang đầu tiên khi bước xuống
-	simon_l += 5;
-	simon_r -= 5;
+	simonTop += 55;
+	simonBottom += 10;  // bottom +5 để xét cho va chạm với bậc thang đầu tiên khi bước xuống
+	simonLeft += 5;
+	simonRight -= 5;
 	for (UINT i = 0; i < listStair->size(); i++)
 	{
 		if (listStair->at(i)->GetType() == "BOTTOM")
 		{
 			float stair_l, stair_t, stair_r, stair_b;
 			listStair->at(i)->GetBoundingBox(stair_l, stair_t, stair_r, stair_b);
-			if (Game::AABB(simon_l, simon_t, simon_r, simon_b, stair_l, stair_t, stair_r, stair_b))
+			if (Game::AABB(simonLeft, simonTop, simonRight, simonBottom, stair_l, stair_t, stair_r, stair_b))
 			{
 				if (listStair->at(i)->GetState() == STAIR_LEFT_UP) stairDirection = 1;
 				else stairDirection = -1;
@@ -454,21 +455,21 @@ void Simon::CheckCollisionWithStair(vector<LPGAMEOBJECT>* listStair)
 				stairCollided = listStair->at(i);
 				isCollisionWithStair = true;
 				isMovingUp = true;
-				if (simon_b > stair_b)
+				if (simonBottom > stair_b)
 				{
 					isMovingDown = false;
 				}
-				else if (simon_t - 10 < stair_t) // -10 have it to moving down first stair
+				else if (simonTop - 10 < stair_t) // -10 have it to moving down first stair
 				{
 					isMovingDown = true;
 				}
 				break;
 			}
-			/*	else if (simon_b < stair_t)
+			/*	else if (simonBottom < stair_t)
 				{
 					isCollisionWithStair = true;
 				}*/
-				/*	else if (simon_b > stair_b && simon_r < stair_l) {
+				/*	else if (simonBottom > stair_b && simonRight < stair_l) {
 						isCollisionWithStair = false;
 					}*/
 		}
@@ -477,7 +478,7 @@ void Simon::CheckCollisionWithStair(vector<LPGAMEOBJECT>* listStair)
 			float stair_l, stair_t, stair_r, stair_b;
 			listStair->at(i)->GetBoundingBox(stair_l, stair_t, stair_r, stair_b);
 
-			if (Game::AABB(simon_l, simon_t, simon_r, simon_b, stair_l, stair_t, stair_r, stair_b))
+			if (Game::AABB(simonLeft, simonTop, simonRight, simonBottom, stair_l, stair_t, stair_r, stair_b))
 			{
 				if (listStair->at(i)->GetState() == STAIR_LEFT_UP) stairDirection = 1;
 				else stairDirection = -1;
@@ -486,13 +487,13 @@ void Simon::CheckCollisionWithStair(vector<LPGAMEOBJECT>* listStair)
 				isCollisionWithStair = true;
 				isMovingDown = true;
 				isMovingUp = false;
-				if (simon_b > stair_b)
+				if (simonBottom > stair_b)
 				{
 					isMovingUp = true;
 				}
 				break;
 			}
-			/*	else if (simon_b > stair_t_ && simon_l > stair_r_)
+			/*	else if (simonBottom > stair_t_ && simonLeft > stair_r_)
 				{
 					isCollisionWithStair = false;
 				}*/
@@ -503,17 +504,17 @@ void Simon::CheckCollisionWithStair(vector<LPGAMEOBJECT>* listStair)
 // Kiểm tra va chạm với danh sách item
 bool Simon::CheckCollisionWithItem(vector<LPGAMEOBJECT>* listItem)
 {
-	float simon_l, simon_t, simon_r, simon_b;
-	float item_l, item_t, item_r, item_b;
+	float simonLeft, simonTop, simonRight, simonBottom;
+	float itemLeft, itemTop, itemRight, itemBottom;
 
-	GetBoundingBox(simon_l, simon_t, simon_r, simon_b);
+	GetBoundingBox(simonLeft, simonTop, simonRight, simonBottom);
 
 	for (UINT i = 0; i < listItem->size(); i++)
 	{
 		if (listItem->at(i)->IsEnable() == false)
 			continue;
 
-		listItem->at(i)->GetBoundingBox(item_l, item_t, item_r, item_b);
+		listItem->at(i)->GetBoundingBox(itemLeft, itemTop, itemRight, itemBottom);
 
 		if (this->AABBx(listItem->at(i)))
 		{
@@ -559,22 +560,26 @@ bool Simon::CheckCollisionWithItem(vector<LPGAMEOBJECT>* listItem)
 // Kiểm tra va chạm với vùng hoạt động của enemy
 void Simon::CheckCollisionWithEnemyActiveArea(vector<LPGAMEOBJECT>* listEnemy)
 {
-	float simon_l, simon_t, simon_r, simon_b;
+	float simonLeft, simonTop, simonRight, simonBottom;
 
-	GetBoundingBox(simon_l, simon_t, simon_r, simon_b);
+	GetBoundingBox(simonLeft, simonTop, simonRight, simonBottom);
 
 	for (UINT i = 0; i < listEnemy->size(); i++)
 	{
 		LPGAMEOBJECT enemy = listEnemy->at(i);
 
 		// Không cần xét vùng active nữa khi nó đang active / destroyed
-		if (enemy->GetState() == ACTIVE || enemy->GetState() == DESTROYED)
+		if (enemy->GetState() == ZOMBIE_ACTIVE ||
+			enemy->GetState() == BLACK_LEOPARD_ACTIVE ||
+			enemy->GetState() == VAMPIRE_BAT_ACTIVE ||
+			enemy->GetState() == ZOMBIE_ACTIVE ||
+			enemy->GetState() == DESTROYED)
 			continue;
 
-		float enemy_l, enemy_t, enemy_r, enemy_b;
-		enemy->GetActiveBoundingBox(enemy_l, enemy_t, enemy_r, enemy_b);
+		float enemyLeft, enemyTop, enemyRight, enemyBottom;
+		enemy->GetActiveBoundingBox(enemyLeft, enemyTop, enemyRight, enemyBottom);
 
-		if (Game::AABB(simon_l, simon_t, simon_r, simon_b, enemy_l, enemy_t, enemy_r, enemy_b) == true)
+		if (Game::AABB(simonLeft, simonTop, simonRight, simonBottom, enemyLeft, enemyTop, enemyRight, enemyBottom) == true)
 		{
 			D3DXVECTOR2 enemyEntryPostion = enemy->GetEntryPosition();
 
@@ -621,18 +626,18 @@ void Simon::CheckCollisionWithEnemyActiveArea(vector<LPGAMEOBJECT>* listEnemy)
 // Kiểm tra va chạm với trigger change scene
 bool Simon::CheckChangeScene(vector<LPCHANGESCENEOBJ>* listChangeScene)
 {
-	float simon_l, simon_t, simon_r, simon_b;
-	float obj_l, obj_t, obj_r, obj_b;
+	float simonLeft, simonTop, simonRight, simonBottom;
+	float objLeft, objTop, objRight, objBottom;
 
-	GetBoundingBox(simon_l, simon_t, simon_r, simon_b);
+	GetBoundingBox(simonLeft, simonTop, simonRight, simonBottom);
 
 	for (UINT i = 0; i < listChangeScene->size(); i++)
 	{
-		listChangeScene->at(i)->GetBoundingBox(obj_l, obj_t, obj_r, obj_b);
+		listChangeScene->at(i)->GetBoundingBox(objLeft, objTop, objRight, objBottom);
 
 		float t, nx, ny;
-		Game::SweptAABB(simon_l, simon_t, simon_r, simon_b, dx, dy, obj_l, obj_t, obj_r, obj_b, t, nx, ny);
-		bool collision = Game::AABB(simon_l, simon_t, simon_r, simon_b, obj_l, obj_t, obj_r, obj_b);
+		Game::SweptAABB(simonLeft, simonTop, simonRight, simonBottom, dx, dy, objLeft, objTop, objRight, objBottom, t, nx, ny);
+		bool collision = Game::AABB(simonLeft, simonTop, simonRight, simonBottom, objLeft, objTop, objRight, objBottom);
 
 		if (nx != 0 || ny != 0 || collision == true)
 		{
