@@ -43,7 +43,7 @@ void FishMan::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 	}
 
 	// Update fishman
-	if (state == FISHMAN_DESTROYED && animations[state]->IsOver(150) == true)
+	if (state == FISHMAN_DESTROYED && isLastFame)
 	{
 		SetState(FISHMAN_INACTIVE);
 		return;

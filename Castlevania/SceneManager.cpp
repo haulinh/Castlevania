@@ -384,20 +384,14 @@ void SceneManager::Render()
 	for (auto obj : listMovingObjectsToRender)
 	{
 		obj->Render();
-		obj->RenderBoundingBox();
-		obj->RenderActiveBoundingBox();
-	}
-
-	for (auto obj : listStairs)
-	{
-		obj->RenderBoundingBox();
-	}
-
-	for (auto obj : listGrounds)
-	{
-		obj->RenderBoundingBox();
+		//obj->RenderBoundingBox();
 		//obj->RenderActiveBoundingBox();
 	}
+
+	//for (auto obj : listStairs)
+	//{
+	//	obj->RenderBoundingBox();
+	//}
 
 	simon->Render();
 	//simon->RenderBoundingBox();
@@ -405,7 +399,7 @@ void SceneManager::Render()
 	if (subweapon->IsEnable() == true)
 	{
 		subweapon->Render();
-		subweapon->RenderBoundingBox();
+		//subweapon->RenderBoundingBox();
 	}
 }
 

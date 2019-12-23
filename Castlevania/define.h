@@ -135,7 +135,7 @@ const string  DOOR_2_OPEN = "DOOR_2_OPEN";
 
 // Enemy (chung cho Zombie, Black Leopard, Bat...)
 const string ACTIVE = "ACTIVE";
-const string DESTROYED = "DESTROYED";
+const string DESTROYED = "EFFECT";
 const string INACTIVE = "INACTIVE";
 
 // Zombie 
