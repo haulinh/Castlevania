@@ -19,10 +19,12 @@
 #include "FishMan.h"
 #include "Bubbles.h"
 #include "Grid.h"
+#include "Boss.h"
 
 class SceneManager
 {
 	int IDScene;
+	bool isBossFighting = false;
 
 	Game* game;
 	Grid* grid;
@@ -45,6 +47,7 @@ class SceneManager
 	FishMan* fishman;
 	FireBall* fireball;
 	Bubble* bubble;
+	Boss* boss;
 
 	ChangeSceneObject* changeScene;
 
@@ -95,6 +98,7 @@ public:
 	int GetIDScene() { return this->IDScene; }
 
 	Simon* GetSimon() { return this->simon; }
+	Boss* GetBoss() { return this->boss; }
 	SubWeapon* GetSubWeapon() { return this->subweapon; }
 	vector<LPGAMEOBJECT>* GetListStairs() { return &(this->listStairs); }
 
@@ -106,5 +110,6 @@ public:
 	void BlackLeopard_Update(DWORD dt, LPGAMEOBJECT& object);
 	void VampireBat_Update(DWORD dt, LPGAMEOBJECT& object);
 	void FishMan_Update(DWORD dt, LPGAMEOBJECT& object);
+	void Boss_Update(DWORD dt, LPGAMEOBJECT& object);
 };
 

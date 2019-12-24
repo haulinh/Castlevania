@@ -8,6 +8,7 @@
 #include "FishMan.h"
 #include "Ground.h"
 #include "simon.h"
+#include "Boss.h"
 
 SubWeapon::SubWeapon()
 {
@@ -119,6 +120,14 @@ void SubWeapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			{
 				FishMan* fishman = dynamic_cast<FishMan*>(e->obj);
 				fishman->SetState(FISHMAN_DESTROYED);
+
+				if (state == DAGGER_SUB || state == AXE_SUB || state == BOOMERANG_SUB)
+					this->isEnable = false;
+			}
+			else if (dynamic_cast<Boss*>(e->obj))
+			{
+				Boss* boss = dynamic_cast<Boss*>(e->obj);
+				boss->LoseHP(2);
 
 				if (state == DAGGER_SUB || state == AXE_SUB || state == BOOMERANG_SUB)
 					this->isEnable = false;

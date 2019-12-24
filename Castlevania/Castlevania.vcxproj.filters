@@ -106,6 +106,9 @@
       <Filter>Objects</Filter>
     </ClInclude>
     <ClInclude Include="Grid.h">
+      <Filter>Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Boss.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -189,6 +192,9 @@
       <Filter>Objects</Filter>
     </ClCompile>
     <ClCompile Include="Grid.cpp">
+      <Filter>Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="Boss.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

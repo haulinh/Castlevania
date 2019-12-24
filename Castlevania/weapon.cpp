@@ -8,6 +8,7 @@
 #include "VampireBat.h"
 #include "FishMan.h"
 #include "FireBall.h"
+#include "Boss.h"
 
 Weapon::Weapon()
 {
@@ -39,7 +40,7 @@ void Weapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					e->isLastFame = false;
 				}
 			}
-			
+
 			else if (dynamic_cast<Zombie*>(obj))
 			{
 				Zombie* e = dynamic_cast<Zombie*> (obj);
@@ -97,6 +98,16 @@ void Weapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					e->vx = 0;
 					e->SetEnable(false);
 					e->isLastFame = false;
+				}
+			}
+
+			else if (dynamic_cast<Boss*>(obj))
+			{
+				Boss* e = dynamic_cast<Boss*> (obj);
+
+				if (this->AABBx(e) == true)
+				{
+					e->LoseHP(1);
 				}
 			}
 		}

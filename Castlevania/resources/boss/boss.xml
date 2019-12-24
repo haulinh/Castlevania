@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with TexturePacker https://www.codeandweb.com/texturepacker -->
-<!-- $TexturePacker:SmartUpdate:d1984a9cd3c2120fd6e45ee32693b5c9:5d96ae5efaf005fa5cf503978b4625d0:a1df5cf04de89be7624f3fe194d31745$ -->
+<!-- $TexturePacker:SmartUpdate:973284f48a9315a2d3b7f775b22ddee1:555701ed9c152d4282f9fb4d35c91223:531ae9206c3c78e8bfbb0b8191c5c7cb$ -->
 <!--Format:
 n  => name of the sprite
 x  => sprite x pos in texture
@@ -19,11 +19,8 @@ vertices   => points in sprite coordinate system (x0,y0,x1,y1,x2,y2, ...)
 verticesUV => points in sheet coordinate system (x0,y0,x1,y1,x2,y2, ...)
 triangles  => sprite triangulation, 3 vertex indices per triangle
 -->
-<TextureAtlas imagePath="effect" width="384" height="60">
-    <sprite n="effect_1_1" x="0" y="0" w="32" h="60"/>
-    <sprite n="effect_1_2" x="32" y="0" w="32" h="60"/>
-    <sprite n="effect_1_3" x="64" y="0" w="32" h="60"/>
-    <sprite n="effect_2" x="96" y="0" w="96" h="60"/>
-    <sprite n="effect_3" x="192" y="0" w="96" h="60"/>
-    <sprite n="effect_4" x="288" y="0" w="96" h="60"/>
+<TextureAtlas imagePath="boss.png" width="288" height="46">
+    <sprite n="boss_1" x="0" y="0" w="96" h="46"/>
+    <sprite n="boss_2" x="96" y="0" w="96" h="46"/>
+    <sprite n="boss_3" x="192" y="0" w="96" h="46"/>
 </TextureAtlas>

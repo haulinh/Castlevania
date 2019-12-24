@@ -14,6 +14,8 @@
 #include "VampireBat.h"
 #include "FishMan.h"
 #include "FireBall.h"
+#include "Boss.h"
+#include "Stair.h"
 
 Simon::Simon() : GameObject() {
 
@@ -118,19 +120,6 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					jumping = false;
 					isCollisionWithStair = false;
 				}
-				/*	if (e->nx) x += dx;
-
-					if (ny != 0)
-					{
-						if (ny == -1)
-						{
-							vy = 0;
-						}
-						else
-						{
-							y += dy;
-						}
-					}*/
 
 				if (state == STAIR_UP || state == STAIR_DOWN)
 				{
@@ -139,7 +128,9 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			}
 
 			// no collision of Simon and Candle
-			if (dynamic_cast<Candle*>(e->obj))
+			if (dynamic_cast<Candle*>(e->obj) ||
+				dynamic_cast<Stair*>(e->obj) ||
+				dynamic_cast<Items*>(e->obj))
 			{
 				if (e->nx != 0) x += dx;
 				if (e->ny != 0) y += dy;
@@ -176,7 +167,8 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				dynamic_cast<BlackLeopard*>(e->obj) ||
 				dynamic_cast<VampireBat*>(e->obj) ||
 				dynamic_cast<FishMan*>(e->obj) ||
-				dynamic_cast<FireBall*>(e->obj))
+				dynamic_cast<FireBall*>(e->obj) ||
+				dynamic_cast<Boss*>(e->obj))
 			{
 				if (isUntouchable == false)
 				{
@@ -618,6 +610,11 @@ void Simon::CheckCollisionWithEnemyActiveArea(vector<LPGAMEOBJECT>* listEnemy)
 				{
 					fishman->SetState(FISHMAN_JUMP);
 				}
+			}
+			else if (dynamic_cast<Boss*>(enemy))
+			{
+				Boss* boss = dynamic_cast<Boss*>(enemy);
+				boss->SetState(BOSS_ACTIVE);
 			}
 		}
 	}
