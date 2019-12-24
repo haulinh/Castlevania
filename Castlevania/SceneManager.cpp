@@ -45,6 +45,8 @@ void SceneManager::LoadResources()
 
 	bat = new VampireBat();
 
+	boss = new Boss();
+
 	tilemaps->Add(SCENE_1, FILEPATH_TEX_MAP_SCENE_1, FILEPATH_DATA_MAP_SCENE_1, 1536, 320, 32, 32);
 	tilemaps->Add(SCENE_2, FILEPATH_TEX_MAP_SCENE_2, FILEPATH_DATA_MAP_SCENE_2, 5632, 352, 32, 32);
 	tilemaps->Add(SCENE_3, FILEPATH_TEX_MAP_SCENE_3, FILEPATH_DATA_MAP_SCENE_3, 1024, 352, 32, 32);
@@ -147,6 +149,15 @@ void SceneManager::LoadObjectsFromFile(LPCWSTR FilePath)
 			listFishMans.push_back(fishman);
 			unit = new Unit(grid, fishman, pos_x, pos_y);
 		}
+		else if (ID_Obj == BOSS)
+		{
+			boss = new Boss();
+			boss->SetEntryPosition(pos_x, pos_y);
+			boss->SetPosition(pos_x, pos_y);
+			boss->SetState(BOSS_INACTIVE);
+			boss->SetEnable(true);
+			unit = new Unit(grid, boss, pos_x, pos_y);
+		}
 
 	}
 	fs.close();
@@ -204,7 +215,7 @@ void SceneManager::GetObjectFromGrid()
 
 		else if (dynamic_cast<Zombie*>(obj) || dynamic_cast<BlackLeopard*>(obj) ||
 			dynamic_cast<VampireBat*>(obj) || dynamic_cast<FishMan*>(obj) ||
-			dynamic_cast<FireBall*>(obj) ||
+			dynamic_cast<FireBall*>(obj) || dynamic_cast<Boss*>(obj) ||
 			dynamic_cast<Items*>(obj))
 			listMovingObjectsToRender.push_back(obj);
 
@@ -355,10 +366,19 @@ void SceneManager::Update(DWORD dt)
 		{
 			FishMan_Update(dt, object);
 		}
+		else if (dynamic_cast<Boss*>(object))
+		{
+			Boss_Update(dt, object);
+		}
 		else
 		{
 			object->Update(dt, &listObjects);
 		}
+	}
+
+	if (isBossFighting == true && simon->x < game->GetCamPos().x)
+	{
+		simon->x = game->GetCamPos().x;
 	}
 
 	//
@@ -405,6 +425,16 @@ void SceneManager::Render()
 
 void SceneManager::UpdateCameraPosition()
 {
+	if (isBossFighting == true) // Boss fight -> not moving camera
+		return;
+
+	if (IDScene == SCENE_2 &&
+		tilemaps->Get(IDScene)->index == 2 &&
+		simon->x + SCREEN_WIDTH / 2 >= tilemaps->Get(IDScene)->GetMapWidth())
+	{
+		isBossFighting = true;
+		return; // Boss fight
+	}
 
 	if (simon->x > SCREEN_WIDTH / 2 &&
 		simon->x + SCREEN_WIDTH / 2 < tilemaps->Get(IDScene)->GetMapWidth())
@@ -567,7 +597,7 @@ void SceneManager::Simon_Update(DWORD dt)
 		if ((dynamic_cast<Candle*>(obj) || dynamic_cast<Ground*>(obj) || dynamic_cast<Door*>(obj) ||
 			dynamic_cast<FireBall*>(obj) || dynamic_cast<Zombie*>(obj) ||
 			dynamic_cast<BlackLeopard*>(obj) || dynamic_cast<VampireBat*>(obj) ||
-			dynamic_cast<FishMan*>(obj)) &&
+			dynamic_cast<FishMan*>(obj) || dynamic_cast<Boss*>(obj)) &&
 			obj->GetState() != INACTIVE && obj->IsEnable() == true)
 		{
 			coObjects.push_back(obj);
@@ -594,7 +624,7 @@ void SceneManager::Weapon_Update(DWORD dt)
 		if ((dynamic_cast<Candle*>(obj) || dynamic_cast<Ground*>(obj) ||
 			dynamic_cast<FireBall*>(obj) || dynamic_cast<Zombie*>(obj) ||
 			dynamic_cast<BlackLeopard*>(obj) || dynamic_cast<VampireBat*>(obj) ||
-			dynamic_cast<FishMan*>(obj)) &&
+			dynamic_cast<FishMan*>(obj) || dynamic_cast<Boss*>(obj)) &&
 			obj->GetState() != INACTIVE && obj->IsEnable() == true)
 		{
 			coObjects.push_back(obj);
@@ -761,5 +791,20 @@ void SceneManager::FishMan_Update(DWORD dt, LPGAMEOBJECT& object)
 
 		fishman->Update(dt, &coObjects);
 	}
+}
+
+void SceneManager::Boss_Update(DWORD dt, LPGAMEOBJECT& object)
+{
+	if (object->GetState() == BOSS_INACTIVE)
+		return;
+
+	boss = dynamic_cast<Boss*>(object);
+
+	// Passing simon's position for boss movement
+	float sx, sy;
+	simon->GetPosition(sx, sy);
+	boss->SetSimonPosition(sx, sy);
+
+	boss->Update(dt);
 }
 

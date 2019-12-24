@@ -162,6 +162,11 @@ const string FISHMAN_INACTIVE = "INACTIVE";
 const string FISHMAN_JUMP = "FISHMAN_JUMP";
 const string FISHMAN_HIT = "FISHMAN_HIT";
 
+// Boss (Phantom Bat)
+const string BOSS_ACTIVE = "BOSS_ACTIVE";
+const string BOSS_DESTROYED = "EFFECT_2";
+const string BOSS_INACTIVE = "INACTIVE";
+
 // Fire ball
 const string FIREBALL = "FIREBALL";
 
@@ -236,6 +241,13 @@ constexpr float FISHMAN_JUMP_SPEED_Y = 0.7f;
 constexpr float FISHMAN_GRAVITY = 0.0015f;
 constexpr float FISHMAN_WALKING_SPEED_X = 0.1f;
 constexpr float FISHMAN_RESPAWN_TIME = 5000;
+
+// Boss
+constexpr float BOSS_HP = 16;
+constexpr float BOSS_DEFAULT_VELOCITY = 0.1f;
+constexpr float BOSS_MIN_VELOCITY = 0.7f;
+constexpr float BOSS_MAX_VELOCITY = 0.13f;
+constexpr float BOSS_STOP_TIME_WAITING = 2000;
 
 #pragma endregion
 
@@ -323,6 +335,14 @@ constexpr float FISHMAN_RESPAWN_TIME = 5000;
 #define FISHMAN_ACTIVE_BBOX_WIDTH			100
 #define FISHMAN_ACTIVE_BBOX_HEIGHT			200
 
+// Boss
+#define BOSS_BBOX_WIDTH				46
+#define BOSS_BBOX_HEIGHT			46
+#define BOSS_ACTIVE_BBOX_WIDTH		50
+#define BOSS_ACTIVE_BBOX_HEIGHT		400
+#define BOSS_RECT_RANDOMSPOT_BBOX_WIDTH		200
+#define BOSS_RECT_RANDOMSPOT_BBOX_HEIGHT	200
+
 #define ENEMY_DEFAULT_BBOX_WIDTH			32
 #define ENEMY_DEFAULT_BBOX_HEIGHT			32
 
@@ -337,6 +357,7 @@ const string ZOMBIE = "ZOMBIE";
 const string BLACK_LEOPARD = "BLACK_LEOPARD";
 const string VAMPIRE_BAT = "VAMPIRE_BAT";
 const string FISHMAN = "FISHMAN";
+const string BOSS = "BOSS";
 
 #pragma endregion
 
