@@ -34,8 +34,8 @@ void VampireBat::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 		return;
 	}
 
-	//if (stopMovement == true)
-	//	return;
+	if (stopMovement == true)
+		return;
 
 	GameObject::Update(dt);
 
