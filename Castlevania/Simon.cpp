@@ -496,17 +496,10 @@ void Simon::CheckCollisionWithStair(vector<LPGAMEOBJECT>* listStair)
 // Kiểm tra va chạm với danh sách item
 bool Simon::CheckCollisionWithItem(vector<LPGAMEOBJECT>* listItem)
 {
-	float simonLeft, simonTop, simonRight, simonBottom;
-	float itemLeft, itemTop, itemRight, itemBottom;
-
-	GetBoundingBox(simonLeft, simonTop, simonRight, simonBottom);
-
 	for (UINT i = 0; i < listItem->size(); i++)
 	{
 		if (listItem->at(i)->IsEnable() == false)
 			continue;
-
-		listItem->at(i)->GetBoundingBox(itemLeft, itemTop, itemRight, itemBottom);
 
 		if (this->AABBx(listItem->at(i)))
 		{
@@ -514,7 +507,12 @@ bool Simon::CheckCollisionWithItem(vector<LPGAMEOBJECT>* listItem)
 
 			string nameItem = listItem->at(i)->GetState();
 
-			if (nameItem == CROSS || nameItem == DAGGER || nameItem == AXE || nameItem == HOLY_WATER || nameItem == BOOMERANG)
+			if (nameItem == CROSS ||
+				nameItem == DAGGER ||
+				nameItem == AXE ||
+				nameItem == HOLY_WATER ||
+				nameItem == BOOMERANG ||
+				nameItem == STOP_WATCH)
 			{
 				nameWeapon = ItemToSubWeapon(nameItem);
 			}
@@ -542,6 +540,32 @@ bool Simon::CheckCollisionWithItem(vector<LPGAMEOBJECT>* listItem)
 			else if (nameItem == MONEY_BAG_RED)
 			{
 				score += 100;
+			}
+			else if (nameItem == MONEY_BAG_BLUE)
+			{
+				score += 400;
+			}
+			else if (nameItem == MONEY_BAG_WHITE)
+			{
+				score += 700;
+			}
+			else if (nameItem == MONEY_BAG_FLASHING)
+			{
+				score += 1000;
+			}
+
+			else if (nameItem == DOUBLE_SHOT || nameItem == TRIPLE_SHOT)
+			{
+				item = nameItem;
+			}
+		
+			else if (nameItem == PORK_CHOP)
+			{
+				HP += 2;
+			}
+			else if (nameItem == MAGIC_CRYSTAL)
+			{
+				HP += 2;
 			}
 
 			return true;

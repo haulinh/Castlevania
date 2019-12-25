@@ -68,6 +68,9 @@ class SceneManager
 	bool isMovingCamera = false;
 	int countDxCamera = 0;
 
+	bool isUsingStopWatch = false; // xác định xem là có đang dùng stopwatch hay không
+	int stopWatchCounter = 0;
+
 public:
 	SceneManager(Game* game, int idScene);
 	~SceneManager();
@@ -93,6 +96,9 @@ public:
 	Boss* GetBoss() { return this->boss; }
 	SubWeapon* GetSubWeapon() { return this->subweapon; }
 	vector<LPGAMEOBJECT>* GetListStairs() { return &(this->listStairs); }
+
+	bool IsUsingStopWatch() { return isUsingStopWatch; }
+	void StartStopWatch() { isUsingStopWatch = true; stopWatchCounter = GetTickCount(); }
 
 	// Các hàm update con
 	void Simon_Update(DWORD dt);

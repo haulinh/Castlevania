@@ -12,7 +12,7 @@ class Simon : public GameObject
 	string nameWeapon;
 
 	int score;
-	int item;
+	string item;
 	int energy;
 	int life;
 	int HP;
@@ -70,7 +70,7 @@ public:
 	int GetEnergy() { return this->energy; }
 	int GetLife() { return this->life; }
 	int GetScore() { return this->score; }
-	int GetItem() { return this->item; }
+	string GetItem() { return this->item; }
 	int GetHP() { return this->HP; }
 	string GetSubWeapon() { return this->nameWeapon; }
 	string ItemToSubWeapon(string itemName) { return itemName + "_SUB"; }

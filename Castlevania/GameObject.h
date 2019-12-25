@@ -54,6 +54,7 @@ public:
 	string nameItem; // id cua object chua item (string empty = ko co item)
 	string type;
 
+	bool stopMovement = false;
 	bool isDroppedItem = false;
 
 	D3DXVECTOR2 entryPosition; // đưa enemy về vị trí entry sau thời gian respawn
@@ -75,6 +76,7 @@ public:
 	void SetEntryPosition(float x, float y) { entryPosition.x = x; entryPosition.y = y; }
 	void SetType(string type) { this->type = type; }
 	void SetIsDroppedItem(bool x) { this->isDroppedItem = x; }
+	void SetStopMovement(bool x) { this->stopMovement = x; }
 
 	void GetPosition(float& x, float& y) { x = this->x; y = this->y; }
 	int GetN() { return nx; }

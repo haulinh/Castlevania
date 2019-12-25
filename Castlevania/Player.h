@@ -29,7 +29,7 @@ private:
 	int score;
 	int time;
 	int scene;
-	int item;
+	string item;
 	int energy;
 	int life;
 	int subWeapon;
