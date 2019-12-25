@@ -29,7 +29,7 @@ void Boss::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject, bool stopMovement)
 {
 	if (state == BOSS_DESTROYED)
 	{
-		if (animations[state]->IsOver(1500) == true)
+		if (isLastFame)
 		{
 			//this->isEnable = false;
 			dropItem = true;
@@ -78,6 +78,7 @@ void Boss::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject, bool stopMovement)
 void Boss::Render()
 {
 	animations[state]->Render(nx, x, y);
+	isLastFame = animations[state]->IsCompleted();
 }
 
 void Boss::SetState(string state)

@@ -149,6 +149,7 @@ void SceneManager::LoadObjectsFromFile(LPCWSTR FilePath)
 			boss->SetEntryPosition(pos_x, pos_y);
 			boss->SetPosition(pos_x, pos_y);
 			boss->SetState(BOSS_INACTIVE);
+			boss->SetIdItem(nameItem);
 			boss->SetEnable(true);
 			unit = new Unit(grid, boss, pos_x, pos_y);
 		}
@@ -328,11 +329,11 @@ void SceneManager::Update(DWORD dt)
 
 	// Stop Watch
 
-	//if (isUsingStopWatch == true && GetTickCount() - stopWatchCounter > WEAPONS_STOP_WATCH_TIME)
-	//{
-	//	isUsingStopWatch = false;
-	//	stopWatchCounter = 0;
-	//}
+	if (isUsingStopWatch == true && GetTickCount() - stopWatchCounter > WEAPONS_STOP_WATCH_TIME)
+	{
+		isUsingStopWatch = false;
+		stopWatchCounter = 0;
+	}
 
 	// get object from grid by camera position
 	GetObjectFromGrid();
@@ -467,21 +468,45 @@ void SceneManager::SetDropItems(LPGAMEOBJECT object)
 	if ((dynamic_cast<Candle*>(object) && object->GetState() == CANDLE_DESTROYED) ||
 		(dynamic_cast<Zombie*>(object) && object->GetState() == ZOMBIE_DESTROYED) ||
 		(dynamic_cast<VampireBat*>(object) && object->GetState() == VAMPIRE_BAT_DESTROYED) ||
-		(dynamic_cast<FishMan*>(object) && object->GetState() == FISHMAN_DESTROYED))
+		(dynamic_cast<FishMan*>(object) && object->GetState() == FISHMAN_DESTROYED) || 
+		(dynamic_cast<Boss*>(object) && object->GetState() == BOSS_DESTROYED))
 	{
 		if (object->nameItem != "" && object->IsDroppedItem() == false)
 		{
-			object->SetIsDroppedItem(true);
+			if (dynamic_cast<Boss*>(object))
+			{
+				boss = dynamic_cast<Boss*>(object);
 
-			// Tạo một item theo id
+				if (boss->DropItem() == true)
+				{
+					object->SetIsDroppedItem(true);
+					boss->SetEnable(false);
 
-			item = new Items();
-			item->SetEnable(true);
-			item->SetPosition(object->x, object->y);
-			item->SetItem(object->nameItem);
+					float ix = game->GetCamPos().x + SCREEN_WIDTH / 2;
+					float iy = game->GetCamPos().y + SCREEN_HEIGHT / 2;
 
-			listItems.push_back(item);
-			unit = new Unit(grid, item, object->x, object->y);
+					item = new Items();
+					item->SetEnable(true);
+					item->SetPosition(ix, iy);
+					item->SetItem(object->nameItem);
+
+					listItems.push_back(item);
+					unit = new Unit(grid, item, ix, iy);
+				}
+			}
+			else
+			{
+				object->SetIsDroppedItem(true);
+				// Tạo một item theo id
+
+				item = new Items();
+				item->SetEnable(true);
+				item->SetPosition(object->x, object->y);
+				item->SetItem(object->nameItem);
+
+				listItems.push_back(item);
+				unit = new Unit(grid, item, object->x, object->y);
+			}
 		}
 	}
 }
@@ -680,8 +705,8 @@ void SceneManager::Zombie_Update(DWORD dt, LPGAMEOBJECT& object)
 				coObjects.push_back(obj);
 			}
 		}
-		
-		//object->SetStopMovement(isUsingStopWatch);
+
+		object->SetStopMovement(isUsingStopWatch);
 		object->Update(dt, &coObjects);
 	}
 
@@ -701,6 +726,7 @@ void SceneManager::BlackLeopard_Update(DWORD dt, LPGAMEOBJECT& object)
 			}
 		}
 
+		object->SetStopMovement(isUsingStopWatch);
 		object->Update(dt, &coObjects);
 	}
 }
@@ -734,6 +760,7 @@ void SceneManager::VampireBat_Update(DWORD dt, LPGAMEOBJECT& object)
 			bat->SetState(VAMPIRE_BAT_ACTIVE);
 		}
 
+		object->SetStopMovement(isUsingStopWatch);
 		bat->Update(dt, NULL);
 	}
 }
@@ -794,6 +821,7 @@ void SceneManager::FishMan_Update(DWORD dt, LPGAMEOBJECT& object)
 			}
 		}
 
+		fishman->SetStopMovement(isUsingStopWatch);
 		fishman->Update(dt, &coObjects);
 	}
 }
