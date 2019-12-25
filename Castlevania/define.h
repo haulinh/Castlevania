@@ -209,6 +209,8 @@ constexpr float WEAPONS_HOLY_WATER_TIME_EFFECT = 1000;
 constexpr float WEAPONS_BOOMERANG_SPEED = 0.5f;
 constexpr float WEAPONS_BOOMERANG_TURNBACK_SPEED = 0.01f;
 
+constexpr float WEAPONS_STOP_WATCH_TIME = 2000;
+
 // Zombie
 constexpr float ZOMBIE_WALKING_SPEED = 0.1f;
 constexpr float ZOMBIE_RESPAWN_TIME = 5000;

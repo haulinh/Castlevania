@@ -326,6 +326,13 @@ void SceneManager::Update(DWORD dt)
 		}
 	}
 
+	// Stop Watch
+
+	//if (isUsingStopWatch == true && GetTickCount() - stopWatchCounter > WEAPONS_STOP_WATCH_TIME)
+	//{
+	//	isUsingStopWatch = false;
+	//	stopWatchCounter = 0;
+	//}
 
 	// get object from grid by camera position
 	GetObjectFromGrid();
@@ -607,6 +614,9 @@ void SceneManager::Simon_Update(DWORD dt)
 void SceneManager::Weapon_Update(DWORD dt)
 {
 
+	if (subweapon->GetState() == STOP_WATCH_SUB)
+		return;
+
 	if (subweapon->IsEnable() == false)
 		return;
 
@@ -670,7 +680,8 @@ void SceneManager::Zombie_Update(DWORD dt, LPGAMEOBJECT& object)
 				coObjects.push_back(obj);
 			}
 		}
-
+		
+		//object->SetStopMovement(isUsingStopWatch);
 		object->Update(dt, &coObjects);
 	}
 

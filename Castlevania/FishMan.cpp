@@ -49,8 +49,8 @@ void FishMan::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 		return;
 	}
 
-	//if (stopMovement == true)
-	//	return;
+	if (stopMovement == true)
+		return;
 
 	if (state == FISHMAN_HIT && animations[state]->IsOver(1000) == true)
 	{

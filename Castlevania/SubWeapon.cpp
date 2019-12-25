@@ -154,7 +154,8 @@ void SubWeapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 void SubWeapon::Render()
 {
-	animations[state]->Render(nx, x, y);
+	if (state != STOP_WATCH_SUB)
+		animations[state]->Render(nx, x, y);
 }
 
 void SubWeapon::SetState(string state)

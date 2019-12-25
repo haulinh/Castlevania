@@ -29,8 +29,8 @@ void BlackLeopard::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 		return;
 	}
 
-	//if (stopMovement == true)
-	//	return;
+	if (stopMovement == true)
+		return;
 
 	vy += BLACK_LEOPARD_GRAVITY * dt;
 	GameObject::Update(dt);
