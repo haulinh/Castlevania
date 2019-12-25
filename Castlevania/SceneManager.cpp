@@ -81,7 +81,6 @@ void SceneManager::LoadObjectsFromFile(LPCWSTR FilePath)
 			candle->SetState(state);
 			candle->isEnable = isEnable;
 			candle->SetIdItem(nameItem);
-			listCandles.push_back(candle);
 			unit = new Unit(grid, candle, pos_x, pos_y);
 		}
 		else if (ID_Obj == GROUND)
@@ -90,7 +89,6 @@ void SceneManager::LoadObjectsFromFile(LPCWSTR FilePath)
 			ground->SetPosition(pos_x, pos_y);
 			ground->SetState(state);
 			ground->isEnable = isEnable;
-			listGrounds.push_back(ground);
 			unit = new Unit(grid, ground, pos_x, pos_y);
 		}
 		else if (ID_Obj == STAIR)
@@ -109,7 +107,6 @@ void SceneManager::LoadObjectsFromFile(LPCWSTR FilePath)
 			door->SetPosition(pos_x, pos_y);
 			door->SetState(state);
 			door->SetEnable(isEnable);
-			listDoors.push_back(door);
 			unit = new Unit(grid, door, pos_x, pos_y);
 		}
 		else if (ID_Obj == ZOMBIE)
@@ -128,7 +125,6 @@ void SceneManager::LoadObjectsFromFile(LPCWSTR FilePath)
 			leopard->SetState(state);
 			leopard->SetIsRespawnWaiting(false);
 			leopard->SetEnable(true);
-			listBlackLeopards.push_back(leopard);
 			unit = new Unit(grid, leopard, pos_x, pos_y);
 		}
 		else if (ID_Obj == VAMPIRE_BAT)
@@ -137,7 +133,6 @@ void SceneManager::LoadObjectsFromFile(LPCWSTR FilePath)
 			bat->SetEntryPosition(pos_x, pos_y);
 			bat->SetState(VAMPIRE_BAT_INACTIVE);
 			bat->SetEnable(true);
-			listVampireBats.push_back(bat);
 			unit = new Unit(grid, bat, pos_x, pos_y);
 		}
 		else if (ID_Obj == FISHMAN)
@@ -146,7 +141,6 @@ void SceneManager::LoadObjectsFromFile(LPCWSTR FilePath)
 			fishman->SetEntryPosition(pos_x, pos_y);
 			fishman->SetState(FISHMAN_INACTIVE);
 			fishman->SetEnable(true);
-			listFishMans.push_back(fishman);
 			unit = new Unit(grid, fishman, pos_x, pos_y);
 		}
 		else if (ID_Obj == BOSS)
@@ -408,10 +402,10 @@ void SceneManager::Render()
 		//obj->RenderActiveBoundingBox();
 	}
 
-	for (auto obj : listStairs)
-	{
-		obj->RenderBoundingBox();
-	}
+	//for (auto obj : listStairs)
+	//{
+	//	obj->RenderBoundingBox();
+	//}
 
 	simon->Render();
 	//simon->RenderBoundingBox();

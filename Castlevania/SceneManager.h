@@ -57,16 +57,8 @@ class SceneManager
 	Animations* animations = Animations::GetInstance();
 
 	vector<LPGAMEOBJECT> objects;
-	vector<LPGAMEOBJECT> listCandles;
 	vector<LPGAMEOBJECT> listStairs;
-	vector<LPGAMEOBJECT> listGrounds;
 	vector<LPGAMEOBJECT> listItems;
-	vector<LPGAMEOBJECT> listDoors;
-	vector<LPGAMEOBJECT> listBlackLeopards;
-	vector<LPGAMEOBJECT> listZombies;
-	vector<LPGAMEOBJECT> listVampireBats;
-	vector<LPGAMEOBJECT> listFishMans;
-	vector<LPGAMEOBJECT> listFireBalls;
 
 	vector<LPCHANGESCENEOBJ> listChangeSceneObjs;
 	vector<LPGAMEOBJECT> listStaticObjectsToRender;
