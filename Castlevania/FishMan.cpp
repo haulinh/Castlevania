@@ -137,8 +137,7 @@ void FishMan::SetState(string state)
 	}
 	else if (state == FISHMAN_JUMP)
 	{
-		x = entryPosition.x;
-		y = entryPosition.y;
+		vx = 0;
 		vy = -FISHMAN_JUMP_SPEED_Y;
 		isDroppedItem = false;
 		isNeedToCreateBubbles = false;

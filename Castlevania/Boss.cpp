@@ -31,11 +31,15 @@ void Boss::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject, bool stopMovement)
 	{
 		if (isLastFame)
 		{
-			//this->isEnable = false;
 			dropItem = true;
 		}
 
 		return;
+	}
+
+	if (state == BOSS_HURT && isLastFame)
+	{
+		SetState(BOSS_ACTIVE);
 	}
 
 	if (isStopWaiting == true)
@@ -87,7 +91,6 @@ void Boss::SetState(string state)
 
 	if (state == BOSS_ACTIVE)
 	{
-		idTarget = 0;
 	}
 	else if (state == BOSS_DESTROYED)
 	{
@@ -99,6 +102,10 @@ void Boss::SetState(string state)
 	{
 		vx = 0;
 		vy = 0;
+	}
+	else if (state == BOSS_HURT)
+	{
+		animations[state]->Reset();
 	}
 }
 
@@ -175,7 +182,7 @@ void Boss::GetVelocity()
 
 void Boss::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
-	left = x + 25; // 46, 96
+	left = x + 13; // 70, 96
 	top = y;
 	right = left + BOSS_BBOX_WIDTH;
 	bottom = top + BOSS_BBOX_HEIGHT;
@@ -192,7 +199,7 @@ void Boss::GetActiveBoundingBox(float& left, float& top, float& right, float& bo
 void Boss::LoseHP(int x)
 {
 	HP -= x;
-	if (HP < 0) {
+	if (HP <= 0) {
 		HP = 0;
 		SetState(BOSS_DESTROYED);
 	}

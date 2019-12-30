@@ -7,6 +7,7 @@ Player::Player(SceneManager* scenes, Game* game)
 	this->scenes = scenes;
 	this->game = game;
 	this->simon = scenes->GetSimon();
+	this->boss = scenes->GetBoss();
 
 	time = 0;
 }
@@ -21,7 +22,10 @@ void Player::Init()
 	// Khởi tạo list máu của Simon và Enemy
 	Textures* texture = Textures::GetInstance();
 	texture->Add(ID_TEX_HP, FILEPATH_TEX_HP, D3DCOLOR_XRGB(255, 255, 255));
+	texture->Add(ID_TEX_RECT, FILEPATH_TEX_RECT, D3DCOLOR_XRGB(255, 255, 255));
+
 	LPDIRECT3DTEXTURE9 texHP = texture->Get(ID_TEX_HP);
+	LPDIRECT3DTEXTURE9 texRect = texture->Get(ID_TEX_RECT);
 
 	for (int i = 0; i < 16; i++)
 	{

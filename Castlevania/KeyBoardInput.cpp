@@ -13,15 +13,19 @@ KeyBoardInput::~KeyBoardInput()
 
 void KeyBoardInput::KeyState(BYTE* state)
 {
+	DebugOut(L"[INFO] KeyUp: %d\n", state);
 	Simon* simon = scene->GetSimon();
+
+	if (simon->GetState() == DEAD)
+		return;
 
 	if (simon->IsAutoWalk() == true)
 		return;
 
 	if (isNeedToWaitingAnimation == true)
 	{
-		if (scene->GetSimon()->IsJumping())
-			return;
+	/*	if (scene->GetSimon()->IsJumping())
+			return;*/
 
 		if (scene->GetSimon()->IsStandAttacking())
 			return;
@@ -41,6 +45,11 @@ void KeyBoardInput::KeyState(BYTE* state)
 		if (scene->GetSimon()->IsAutoWalk() == true)
 			return;
 
+		// nếu simon đang nhảy và chưa chạm đất, tiếp tục render trạng thái nhảy
+		if ((simon->GetState() == JUMP || simon->GetState() == IDLE)
+			&& simon->IsTouchGround() == false)
+			return;
+	
 		if (scene->GetSimon()->GetState() == STAIR_UP && scene->GetSimon()->animations[STAIR_UP]->IsOver(200) == false)
 			return;
 
@@ -138,6 +147,11 @@ void KeyBoardInput::KeyState(BYTE* state)
 
 void KeyBoardInput::OnKeyDown(int KeyCode)
 {
+	DebugOut(L"[INFO] KeyUp: %d\n", KeyCode);
+
+	if (scene->GetSimon()->GetState() == DEAD)
+		return;
+
 	switch (KeyCode)
 	{
 	case DIK_SPACE:
@@ -166,6 +180,15 @@ void KeyBoardInput::OnKeyDown(int KeyCode)
 		break;
 	case DIK_4:
 		scene->GetSimon()->SetSubWeapon(STOP_WATCH_SUB);
+		break;
+	case DIK_5:
+		scene->GetSimon()->SetCrossCollected(true);
+		break;
+	case DIK_6:
+		scene->GetSimon()->SetGotDoubleShotItem(true);
+		break;
+	case DIK_7:
+		scene->GetSimon()->SetGotTripleShotItem(true);
 		break;
 	case DIK_Q:
 		scene->ChangeScene(SCENE_1);
@@ -214,7 +237,7 @@ void KeyBoardInput::Simon_Hit()
 	if (scene->GetSimon()->GetState() == IDLE || scene->GetSimon()->GetState() == JUMP || scene->GetSimon()->GetState() == WALK)
 	{
 		scene->GetSimon()->SetState(STAND_ATTACK);
-		if (!scene->GetSimon()->jumping)
+		if (scene->GetSimon()->IsTouchGround() == true)
 		{
 			scene->GetSimon()->vx = 0;
 		}
@@ -236,16 +259,27 @@ void KeyBoardInput::Simon_Hit()
 void KeyBoardInput::Simon_Hit_SubWeapon()
 {
 	Simon* simon = scene->GetSimon();
-	SubWeapon* subweapon = scene->GetSubWeapon();
+	//SubWeapon* subweapon = scene->GetSubWeapon();
+	
+	vector<SubWeapon*>* subweaponList = scene->GetWeaponList();
+	SubWeapon* subweapon;
+
+	if (simon->GetSubWeapon() == "" ) // không có vũ khí 
+		return;
 
 	if (simon->GetSubWeapon() == STOP_WATCH_SUB && simon->GetEnergy() < 5)
 		return;
 
-	if (subweapon->GetState() != STOP_WATCH_SUB && subweapon->IsEnable() == true) // đang phóng rồi
+	if (subweaponList->at(0)->GetState() == STOP_WATCH && scene->IsUsingStopWatch() == true) // đang sử dụng stop watch
 		return;
 
-	if (subweapon->GetState() == STOP_WATCH_SUB && scene->IsUsingStopWatch() == true) // đang sử dụng stop watch
-		return;
+	if (subweaponList->at(0)->IsEnable() == false)
+		subweapon = subweaponList->at(0);
+	else if (subweaponList->at(1)->IsEnable() == false && (scene->IsDoubleShotEffect() || scene->IsTripleShotEffect()))
+		subweapon = subweaponList->at(1);
+	else if (subweaponList->at(2)->IsEnable() == false && scene->IsTripleShotEffect())
+		subweapon = subweaponList->at(2);
+	else return;
 
 	if (simon->GetState() == IDLE || simon->GetState() == JUMP ||
 		simon->GetState() == SIT || simon->GetState() == STAIR_UP ||
@@ -266,9 +300,9 @@ void KeyBoardInput::Simon_Hit_SubWeapon()
 		// orientation
 		subweapon->SetN(simon->GetN());
 
-		// state weapon
-		subweapon->SetState(simon->GetSubWeapon());
+		// state subweapon
 		subweapon->SetEnable(true);
+		subweapon->SetState(simon->GetSubWeapon());
 
 		if (subweapon->GetState() == STOP_WATCH_SUB)
 		{
