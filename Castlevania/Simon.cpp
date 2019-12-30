@@ -28,17 +28,20 @@ Simon::Simon() : GameObject() {
 	}
 
 	weapon = new Weapon();
-	nameWeapon = DAGGER_SUB;
+	nameWeapon = AXE_SUB;
 
 	score = 0;
 	item = -1;
-	energy = 99;
+	energy = 55;
 	life = 3;
-	HP = 10;
+	HP = 2;
 }
 
 void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
+	if (state == DEAD)
+		return;
+
 	// Calculate dx, dy 
 	GameObject::Update(dt);
 
@@ -114,16 +117,25 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 			if (dynamic_cast<Ground*>(e->obj))
 			{
-				if (e->ny != 0)
+				if (ny != 0)
 				{
-					//vy = 0;
-					jumping = false;
-					isCollisionWithStair = false;
-				}
+					if (ny == -1)
+					{
+						vy = 0;
+						isTouchGround = true;
 
-				if (state == STAIR_UP || state == STAIR_DOWN)
-				{
-					if (nx != 0) x -= nx * 0.1f;
+						if ((state == DEFLECT || state == IDLE) && HP == 0)
+						{
+							isUntouchable = false;
+							SetState(DEAD);
+							return;
+						}
+					}
+					else
+					{
+						y += dy;
+						isTouchGround = false;
+					}
 				}
 			}
 
@@ -162,12 +174,17 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				}
 			}
 
+			else if (dynamic_cast<FireBall*>(e->obj))
+			{
+				LoseHP(2);
+				e->obj->SetEnable(false);
+			}
+
 			else if (e->obj->GetState() == DESTROYED) x += dx;
 			else if (dynamic_cast<Zombie*>(e->obj) ||
 				dynamic_cast<BlackLeopard*>(e->obj) ||
 				dynamic_cast<VampireBat*>(e->obj) ||
 				dynamic_cast<FishMan*>(e->obj) ||
-				dynamic_cast<FireBall*>(e->obj) ||
 				dynamic_cast<Boss*>(e->obj))
 			{
 				if (isUntouchable == false)
@@ -194,6 +211,7 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 					StartUntouchable();
 
+					LoseHP(2);
 					//HP = HP - 2;
 				}
 				else
@@ -212,6 +230,8 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		}
 	}
 
+	//DebugOut(L"simon sate: %s\n", state + "fsdfsdfsd");
+
 	// clean up collision events
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 
@@ -222,6 +242,23 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	}
 
 	if (!isHitSubWeapons) weapon->Update(dt, coObjects);
+
+	if (state == STAIR_UP_ATTACK)
+	{
+		DebugOut(L"Fuck 1\n");
+	}
+
+	if (state == STAIR_UP)
+	{
+		DebugOut(L"up \n");
+	}
+
+	DebugOut(L"Update \n");
+
+	if (stairCollided)
+	{
+		//DebugOut(L"cau thang va cham x: %f\n", stairCollided->x);
+	}
 }
 
 void Simon::Render()
@@ -279,9 +316,10 @@ void Simon::SetState(string state)
 
 	else if (state == JUMP)
 	{
-		jumping = true;
+		isTouchGround = false;
 		sitting = false;
 		isStandOnStair = false;
+		isCollisionWithStair = false;
 		vy = -SIMON_JUMP_SPEED_Y;
 	}
 
@@ -317,6 +355,8 @@ void Simon::SetState(string state)
 
 	else if (state == STAIR_UP)
 	{
+		isTouchGround = false;
+
 		if (nx > 0) vx = SIMON_STAIR_SPEED_X;
 		else vx = -SIMON_STAIR_SPEED_X;
 		vy = -SIMON_STAIR_SPEED_Y;
@@ -350,6 +390,11 @@ void Simon::SetState(string state)
 		animations[state]->SetAniStartTime(GetTickCount());
 	}
 
+	else if (state == DEAD)
+	{
+		vx = 0;
+	}
+
 }
 
 void Simon::GetBoundingBox(float& left, float& top, float& right, float& bottom)
@@ -360,6 +405,14 @@ void Simon::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 	right = left + SIMON_BBOX_WIDTH;
 	bottom = top + SIMON_BBOX_HEIGHT;
 
+}
+
+void Simon::GetBoundingBoxFoot(float& left, float& top, float& right, float& bottom)
+{
+	top += 55;
+	bottom += 10;  // bottom +5 để xét cho va chạm với bậc thang đầu tiên khi bước xuống
+	left += 5;
+	right -= 5;
 }
 
 #pragma region CheckState
@@ -423,16 +476,29 @@ void Simon::RenderBBSimon()
 
 #pragma endregion CheckState
 
+void Simon::LoseHP(int x)
+{
+	HP -= x;
+
+	if (HP <= 0)
+	{
+		HP = 0;
+		life -= 1;
+	}
+}
+
 void Simon::CheckCollisionWithStair(vector<LPGAMEOBJECT>* listStair)
 {
 	float simonLeft, simonTop, simonRight, simonBottom;
 	GetBoundingBox(simonLeft, simonTop, simonRight, simonBottom);
 
-	//thu nhỏ vùng xét va chạm, chỉ xét va chạm với chân của Simon
-	simonTop += 55;
-	simonBottom += 10;  // bottom +5 để xét cho va chạm với bậc thang đầu tiên khi bước xuống
-	simonLeft += 5;
-	simonRight -= 5;
+	////thu nhỏ vùng xét va chạm, chỉ xét va chạm với chân của Simon
+	//simonTop += 55;
+	//simonBottom += 10;  // bottom +5 để xét cho va chạm với bậc thang đầu tiên khi bước xuống
+	//simonLeft += 5;
+	//simonRight -= 5;
+
+	GetBoundingBoxFoot(simonLeft, simonTop, simonRight, simonBottom);
 	for (UINT i = 0; i < listStair->size(); i++)
 	{
 		if (listStair->at(i)->GetType() == "BOTTOM")
@@ -457,13 +523,6 @@ void Simon::CheckCollisionWithStair(vector<LPGAMEOBJECT>* listStair)
 				}
 				break;
 			}
-			/*	else if (simonBottom < stair_t)
-				{
-					isCollisionWithStair = true;
-				}*/
-				/*	else if (simonBottom > stair_b && simonRight < stair_l) {
-						isCollisionWithStair = false;
-					}*/
 		}
 		else if (listStair->at(i)->GetType() == "TOP")
 		{
@@ -485,10 +544,6 @@ void Simon::CheckCollisionWithStair(vector<LPGAMEOBJECT>* listStair)
 				}
 				break;
 			}
-			/*	else if (simonBottom > stair_t_ && simonLeft > stair_r_)
-				{
-					isCollisionWithStair = false;
-				}*/
 		}
 	}
 }
@@ -507,8 +562,7 @@ bool Simon::CheckCollisionWithItem(vector<LPGAMEOBJECT>* listItem)
 
 			string nameItem = listItem->at(i)->GetState();
 
-			if (nameItem == CROSS ||
-				nameItem == DAGGER ||
+			if (nameItem == DAGGER ||
 				nameItem == AXE ||
 				nameItem == HOLY_WATER ||
 				nameItem == BOOMERANG ||
@@ -525,7 +579,16 @@ bool Simon::CheckCollisionWithItem(vector<LPGAMEOBJECT>* listItem)
 			else if (nameItem == LARGE_HEART)
 			{
 				energy += 5;
+			}
 
+			else if (nameItem == CROSS)
+			{
+				isCrossCollected = true;
+			}
+
+			else if (nameItem == INVISIBILITY_POTION)
+			{
+				StartUntouchable();
 			}
 
 			else if (nameItem == CHAIN)
@@ -554,18 +617,25 @@ bool Simon::CheckCollisionWithItem(vector<LPGAMEOBJECT>* listItem)
 				score += 1000;
 			}
 
-			else if (nameItem == DOUBLE_SHOT || nameItem == TRIPLE_SHOT)
+			else if (nameItem == DOUBLE_SHOT)
 			{
 				item = nameItem;
+				isGotDoubleShotItem = true;
 			}
-		
+
+			else if (nameItem == TRIPLE_SHOT)
+			{
+				item = nameItem;
+				isGotTripleShotItem = true;
+			}
+
 			else if (nameItem == PORK_CHOP)
 			{
 				HP += 2;
 			}
 			else if (nameItem == MAGIC_CRYSTAL)
 			{
-				HP += 2;
+				HP += SIMON_HP;
 			}
 
 			return true;
@@ -632,7 +702,7 @@ void Simon::CheckCollisionWithEnemyActiveArea(vector<LPGAMEOBJECT>* listEnemy)
 
 				if (fishman->GetState() == FISHMAN_INACTIVE && fishman->IsAbleToActivate() == true)
 				{
-					fishman->SetState(FISHMAN_JUMP);
+					fishman->SetState(FISHMAN_ACTIVE);
 				}
 			}
 			else if (dynamic_cast<Boss*>(enemy))

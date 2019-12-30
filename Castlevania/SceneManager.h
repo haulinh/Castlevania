@@ -39,6 +39,7 @@ class SceneManager
 	Items* item;
 	Weapon* weapon;
 	SubWeapon* subweapon;
+	vector<SubWeapon*> subweaponList;  // for double-shot, triple-shot
 	Stair* stair;
 	Door* door;
 	Zombie* zombie;
@@ -71,6 +72,18 @@ class SceneManager
 	bool isUsingStopWatch = false; // xác định xem là có đang dùng stopwatch hay không
 	int stopWatchCounter = 0;
 
+	bool isSimonDead = false;		// dừng update simon khi ở trạng thái dead
+	int simonDeadTimeCounter = 0;
+
+	bool isCrossEffect = false;
+	int crossEffectTimeCounter = 0;
+
+	bool isDoubleShotEffect = false;
+	int doubleShotEffectTimeCounter = 0;
+
+	bool isTripleShotEffect = false;
+	int tripleShotEffectTimeCounter = 0;
+
 public:
 	SceneManager(Game* game, int idScene);
 	~SceneManager();
@@ -92,17 +105,30 @@ public:
 	void ChangeScene(int scene);
 	int GetIDScene() { return this->IDScene; }
 
+	void ResetGameState(); // Reset lại trạng thái của game (map, simon...) sau khi simon chết
+
 	Simon* GetSimon() { return this->simon; }
 	Boss* GetBoss() { return this->boss; }
 	SubWeapon* GetSubWeapon() { return this->subweapon; }
+	vector<SubWeapon*>* GetWeaponList() { return &subweaponList; }
 	vector<LPGAMEOBJECT>* GetListStairs() { return &(this->listStairs); }
 
 	bool IsUsingStopWatch() { return isUsingStopWatch; }
 	void StartStopWatch() { isUsingStopWatch = true; stopWatchCounter = GetTickCount(); }
 
+	void StartSimonDeadTimeCounter() { isSimonDead = true; simonDeadTimeCounter = GetTickCount(); }
+
+	void CrossEffect();
+
+	void DoubleShotEffect();
+	void TripleShotEffect();
+
+	bool IsDoubleShotEffect() { return isDoubleShotEffect; }
+	bool IsTripleShotEffect() { return isTripleShotEffect; }
+
 	// Các hàm update con
 	void Simon_Update(DWORD dt);
-	void Weapon_Update(DWORD dt);
+	void Weapon_Update(DWORD dt, int index);
 	void Item_Update(DWORD dt, LPGAMEOBJECT& object);
 	void Zombie_Update(DWORD dt, LPGAMEOBJECT& object);
 	void BlackLeopard_Update(DWORD dt, LPGAMEOBJECT& object);

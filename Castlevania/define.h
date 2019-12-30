@@ -45,8 +45,8 @@ using namespace std;
 #define FILEPATH_OBJECTS_SCENE_3		L"Scenes\\Scene3_objects.txt"
 
 // Player
-#define FILEPATH_TEX_HP L"Textures\\HP.png"
-#define FILEPATH_TEX_RECT L"Textures\\Rect.png"
+#define FILEPATH_TEX_HP L"resources\\HP.png"
+#define FILEPATH_TEX_RECT L"resources\\Rect.png"
 
 #pragma endregion
 
@@ -57,6 +57,7 @@ enum TexId
 	SCENE_2,
 	SCENE_3,
 	ID_TEX_HP,
+	ID_TEX_RECT
 };
 
 const int ID_BBOX = 100000;
@@ -81,6 +82,7 @@ const string AUTO_WALK = "SIMON_AUTO_WALK";
 const string DEFLECT = "SIMON_DEFLECT";
 const string STAIR_UP_ATTACK = "SIMON_STAIR_UP_ATTACK";
 const string STAIR_DOWN_ATTACK = "SIMON_STAIR_DOWN_ATTACK";
+const string DEAD = "SIMON_DEAD";
 
 // Weapon
 const string MAGIC_WHIP = "MAGIC_WHIP";
@@ -166,6 +168,7 @@ const string FISHMAN_HIT = "FISHMAN_HIT";
 const string BOSS_ACTIVE = "BOSS_ACTIVE";
 const string BOSS_DESTROYED = "EFFECT_2";
 const string BOSS_INACTIVE = "INACTIVE";
+const string BOSS_HURT = "EFFECT";
 
 // Fire ball
 const string FIREBALL = "FIREBALL";
@@ -178,6 +181,8 @@ const string BUBBLES = "BUBBLES";
 #pragma region define Properties
 
 // Simon
+constexpr float SIMON_HP = 16;
+constexpr float SIMON_ENERGY = 5;
 constexpr float SIMON_WALKING_SPEED = 0.13f;
 constexpr float SIMON_WALKING_SPEED_LOWER = 0.05f;
 constexpr float SIMON_JUMP_SPEED_Y = 0.55f;
@@ -186,13 +191,16 @@ constexpr float SIMON_GRAVITY_LOWER = 0.001f;
 constexpr float SIMON_STAIR_SPEED_X = 0.08f;
 constexpr float SIMON_STAIR_SPEED_Y = 0.08f;
 constexpr float SIMON_UNTOUCHABLE_TIME = 3000;
+constexpr float SIMON_DEAD_TIME = 3000;
 constexpr float SIMON_DEFLECT_SPEED_X = 0.15f;
 constexpr float SIMON_DEFLECT_SPEED_Y = 0.3f;
 
 // Item
 constexpr float ITEM_FALLING_SPEED = 0.1f;
 constexpr float ITEM_TIME_DESTROYED = 5000;
-constexpr float ITEM_DAGGER_SPEED = 0.3f;
+constexpr float ITEM_CROSS_EFFECT_TIME = 1000;
+constexpr float ITEM_DOUBLE_SHOT_EFFECT_TIME = 10000;
+constexpr float ITEM_TRIPLE_SHOT_EFFECT_TIME = 10000;
 
 // SubWeapons
 constexpr float WEAPONS_DAGGER_SPEED = 0.3f;
@@ -242,7 +250,7 @@ constexpr float FIREBALL_SPEED = 0.13f;
 constexpr float FISHMAN_JUMP_SPEED_Y = 0.7f;
 constexpr float FISHMAN_GRAVITY = 0.0015f;
 constexpr float FISHMAN_WALKING_SPEED_X = 0.1f;
-constexpr float FISHMAN_RESPAWN_TIME = 5000;
+constexpr float FISHMAN_RESPAWN_TIME = 3000;
 
 // Boss
 constexpr float BOSS_HP = 16;
@@ -334,11 +342,11 @@ constexpr float BOSS_STOP_TIME_WAITING = 2000;
 // Fish man
 #define FISHMAN_BBOX_WIDTH			10
 #define FISHMAN_BBOX_HEIGHT			60
-#define FISHMAN_ACTIVE_BBOX_WIDTH			100
+#define FISHMAN_ACTIVE_BBOX_WIDTH			150
 #define FISHMAN_ACTIVE_BBOX_HEIGHT			200
 
 // Boss
-#define BOSS_BBOX_WIDTH				46
+#define BOSS_BBOX_WIDTH				70
 #define BOSS_BBOX_HEIGHT			46
 #define BOSS_ACTIVE_BBOX_WIDTH		50
 #define BOSS_ACTIVE_BBOX_HEIGHT		400

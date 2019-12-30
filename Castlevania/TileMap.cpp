@@ -113,10 +113,13 @@ void TileMap::CreateZoneToDraw()
 	}
 }
 
-void TileMap::Draw(D3DXVECTOR2 camPosition)
+void TileMap::Draw(D3DXVECTOR2 camPosition, bool isCrossEffect)
 {
 	start_col_to_draw = (int)camPosition.x / 32;
 	end_col_to_draw = start_col_to_draw + SCREEN_WIDTH / 32;
+
+	int alpha = 255;
+	if (isCrossEffect == true) alpha = rand() % 255;
 
 	for (int i = 0; i < numsRow; i++)
 	{
@@ -128,7 +131,7 @@ void TileMap::Draw(D3DXVECTOR2 camPosition)
 			float y = tileHeight * i + 80;
 
 			string tile = to_string(mapData[i][j] + ID * 1000);
-			sprites->Get(tile)->Draw(-1, x, y);
+			sprites->Get(tile)->Draw(-1, x, y, alpha);
 		}
 	}
 }

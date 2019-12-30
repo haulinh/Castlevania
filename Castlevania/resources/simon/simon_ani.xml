@@ -69,4 +69,9 @@
         <frame spriteID="simon_20" time="100"/>
         <frame spriteID="simon_21" time="100"/>
     </animation>
+
+      <animation ID="SIMON_DEAD" defaultTime="100">
+        <frame spriteID="simon_29" time="100"/>
+    </animation>
+
 </animations>

@@ -83,6 +83,11 @@ void SubWeapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				{
 					this->isEnable = false;
 				}
+				else
+				{
+					x += dx;
+					y += dy;
+				}
 			}
 			else if (dynamic_cast<FireBall*>(e->obj))
 			{
@@ -91,6 +96,11 @@ void SubWeapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 				if (state == DAGGER_SUB || state == AXE_SUB || state == BOOMERANG_SUB)
 					this->isEnable = false;
+				else
+				{
+					x += dx;
+					y += dy;
+				}
 			}
 			else if (dynamic_cast<Zombie*>(e->obj))
 			{
@@ -99,6 +109,11 @@ void SubWeapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 				if (state == DAGGER_SUB || state == AXE_SUB || state == BOOMERANG_SUB)
 					this->isEnable = false;
+				else
+				{
+					x += dx;
+					y += dy;
+				}
 			}
 			else if (dynamic_cast<BlackLeopard*>(e->obj))
 			{
@@ -107,6 +122,11 @@ void SubWeapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 				if (state == DAGGER_SUB || state == AXE_SUB || state == BOOMERANG_SUB)
 					this->isEnable = false;
+				else
+				{
+					x += dx;
+					y += dy;
+				}
 			}
 			else if (dynamic_cast<VampireBat*>(e->obj))
 			{
@@ -115,6 +135,11 @@ void SubWeapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 				if (state == DAGGER_SUB || state == AXE_SUB || state == BOOMERANG_SUB)
 					this->isEnable = false;
+				else
+				{
+					x += dx;
+					y += dy;
+				}
 			}
 			else if (dynamic_cast<FishMan*>(e->obj))
 			{
@@ -123,6 +148,11 @@ void SubWeapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 				if (state == DAGGER_SUB || state == AXE_SUB || state == BOOMERANG_SUB)
 					this->isEnable = false;
+				else
+				{
+					x += dx;
+					y += dy;
+				}
 			}
 			else if (dynamic_cast<Boss*>(e->obj))
 			{
@@ -131,6 +161,11 @@ void SubWeapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 				if (state == DAGGER_SUB || state == AXE_SUB || state == BOOMERANG_SUB)
 					this->isEnable = false;
+				else
+				{
+					x += dx;
+					y += dy;
+				}
 			}
 			else if (dynamic_cast<Ground*>(e->obj))
 			{

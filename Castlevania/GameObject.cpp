@@ -162,7 +162,7 @@ void GameObject::RenderActiveBoundingBox()
 	rect.right = (int)r - (int)l;
 	rect.bottom = (int)b - (int)t;
 
-	Game::GetInstance()->Draw(1, l, t, bbox, 0, 0, rect.right, rect.bottom, 100);
+	Game::GetInstance()->Draw(1, l, t, bbox, 0, 0, rect.right, rect.bottom, 50);
 }
 
 void GameObject::AddAnimation(string aniId)

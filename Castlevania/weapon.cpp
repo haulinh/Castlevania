@@ -20,7 +20,7 @@ Weapon::Weapon()
 		AddAnimation(animation);
 	}
 
-	state = LONG_CHAIN;
+	state = MAGIC_WHIP;
 }
 
 void Weapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
@@ -91,7 +91,7 @@ void Weapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 			else if (dynamic_cast<FireBall*>(obj))
 			{
-				FireBall* e = dynamic_cast<FireBall*> (obj);
+				FireBall* e = dynamic_cast<FireBall*>(obj);
 
 				if (this->AABBx(e) == true)
 				{
@@ -107,6 +107,7 @@ void Weapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 				if (this->AABBx(e) == true)
 				{
+					e->SetState(BOSS_HURT);
 					e->LoseHP(1);
 				}
 			}

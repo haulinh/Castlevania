@@ -5,9 +5,9 @@
         <frame spriteID="effect_1_3" time="50"/>
     </animation>
 
-     <animation ID="EFFECT_2" defaultTime="50">
-        <frame spriteID="effect_2" time="50"/>
-        <frame spriteID="effect_3" time="50"/>
-        <frame spriteID="effect_4" time="50"/>
+     <animation ID="EFFECT_2" defaultTime="100">
+        <frame spriteID="effect_2" time="100"/>
+        <frame spriteID="effect_3" time="100"/>
+        <frame spriteID="effect_4" time="100"/>
     </animation>
 </animations>
