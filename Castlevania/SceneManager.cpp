@@ -436,7 +436,7 @@ void SceneManager::Render()
 		if (subweaponList[i]->IsEnable() == true)
 		{
 			subweaponList[i]->Render();
-			subweaponList[i]->RenderBoundingBox();
+			//subweaponList[i]->RenderBoundingBox();
 		}
 	}
 
@@ -455,17 +455,11 @@ void SceneManager::Render()
 
 	for (auto obj : listStairs)
 	{
-		obj->RenderBoundingBox();
+		//obj->RenderBoundingBox();
 	}
 
 	simon->Render();
 	//simon->RenderBoundingBox();
-
-	if (subweapon->IsEnable() == true)
-	{
-		subweapon->Render();
-		//subweapon->RenderBoundingBox();
-	}
 }
 
 void SceneManager::UpdateCameraPosition()

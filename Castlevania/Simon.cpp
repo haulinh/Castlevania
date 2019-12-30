@@ -34,7 +34,7 @@ Simon::Simon() : GameObject() {
 	item = -1;
 	energy = 55;
 	life = 3;
-	HP = 2;
+	HP = 16;
 }
 
 void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
@@ -123,6 +123,7 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					{
 						vy = 0;
 						isTouchGround = true;
+						isCollisionWithStair = false;
 
 						if ((state == DEFLECT || state == IDLE) && HP == 0)
 						{
@@ -131,16 +132,17 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 							return;
 						}
 					}
-					else
+					else 
 					{
 						y += dy;
+						x += dx;
 						isTouchGround = false;
 					}
 				}
 			}
 
 			// no collision of Simon and Candle
-			if (dynamic_cast<Candle*>(e->obj) ||
+			else if (dynamic_cast<Candle*>(e->obj) ||
 				dynamic_cast<Stair*>(e->obj) ||
 				dynamic_cast<Items*>(e->obj))
 			{
@@ -288,9 +290,8 @@ void Simon::Render()
 	deflecting = !animations[state]->IsCompleted();
 
 	//RenderBoundingBox();
-	RenderBBSimon();
+	//RenderBBSimon();
 
-	//DebugOut(L"collision with stair %d\n", isCollisionWithStair);
 }
 
 void Simon::SetState(string state)
