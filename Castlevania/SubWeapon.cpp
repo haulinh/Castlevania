@@ -157,6 +157,7 @@ void SubWeapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			else if (dynamic_cast<Boss*>(e->obj))
 			{
 				Boss* boss = dynamic_cast<Boss*>(e->obj);
+				boss->SetState(BOSS_HURT);
 				boss->LoseHP(2);
 
 				if (state == DAGGER_SUB || state == AXE_SUB || state == BOOMERANG_SUB)
