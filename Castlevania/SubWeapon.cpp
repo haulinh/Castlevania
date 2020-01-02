@@ -109,8 +109,12 @@ void SubWeapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				Zombie* zombie = dynamic_cast<Zombie*>(e->obj);
 				zombie->SetState(ZOMBIE_DESTROYED);
 
+				DebugOut(L"hit zombie \n");
+
 				if (state == DAGGER_SUB || state == AXE_SUB || state == BOOMERANG_SUB)
+				{
 					this->isEnable = false;
+				}
 				else
 				{
 					x += dx;
@@ -159,7 +163,6 @@ void SubWeapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			else if (dynamic_cast<Boss*>(e->obj))
 			{
 				Boss* boss = dynamic_cast<Boss*>(e->obj);
-				//boss->SetState(BOSS_HURT);
 				boss->LoseHP(2);
 
 				if (state == DAGGER_SUB || state == AXE_SUB || state == BOOMERANG_SUB)
@@ -193,7 +196,10 @@ void SubWeapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 void SubWeapon::Render()
 {
 	if (this->isEnable == true && state != STOP_WATCH_SUB)
+	{
 		animations[state]->Render(nx, x, y);
+		//RenderBoundingBox();
+	}
 }
 
 void SubWeapon::SetState(string state)
@@ -271,6 +277,12 @@ void SubWeapon::GetBoundingBox(float& left, float& top, float& right, float& bot
 	{
 		right = left + WEAPONS_BOOMERANG_BBOX_WIDTH;
 		bottom = top + WEAPONS_BOOMERANG_BBOX_HEIGHT;
+	}
+
+	else
+	{
+		right = left;
+		bottom = top;
 	}
 }
 

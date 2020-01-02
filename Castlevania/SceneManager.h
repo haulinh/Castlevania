@@ -102,7 +102,7 @@ public:
 
 	bool SimonWalkThroughDoor();				// Di chuyển camera -> Simon auto walk -> di chuyển camera
 
-	int GetRandomItem();						// Random item cho object bị huỷ
+	string GetRandomItem();						// Random item cho object bị huỷ
 	void SetDropItems();						// Xét rơi item cho các object bị huỷ	
 
 	bool IsInViewport(LPGAMEOBJECT object);

@@ -13,7 +13,7 @@ KeyBoardInput::~KeyBoardInput()
 
 void KeyBoardInput::KeyState(BYTE* state)
 {
-	DebugOut(L"[INFO] KeyUp: %d\n", state);
+	//DebugOut(L"[INFO] KeyUp: %d\n", state);
 	Simon* simon = scene->GetSimon();
 
 	if (simon->GetState() == DEAD)
@@ -147,7 +147,7 @@ void KeyBoardInput::KeyState(BYTE* state)
 
 void KeyBoardInput::OnKeyDown(int KeyCode)
 {
-	DebugOut(L"[INFO] KeyUp: %d\n", KeyCode);
+	//DebugOut(L"[INFO] KeyUp: %d\n", KeyCode);
 
 	if (scene->GetSimon()->GetState() == DEAD)
 		return;
@@ -288,8 +288,8 @@ void KeyBoardInput::Simon_Hit_SubWeapon()
 
 	if (simon->GetSubWeapon() == STOP_WATCH_SUB)
 	{
-		if (simon->GetEnergy() < 5)
-			return;
+	/*	if (simon->GetEnergy() < 5)
+			return;*/
 		if (scene->stopWatchTimer->IsTimeUp() == false) // đang sử dụng stop watch
 			return;
 

@@ -90,7 +90,7 @@ void BlackLeopard::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 void BlackLeopard::Render()
 {
 	if (state != BLACK_LEOPARD_INACTIVE)
-		animations[state]->Render(1, nx, x, y);
+		animations[state]->Render(nx, x, y);
 }
 
 void BlackLeopard::SetState(string state)

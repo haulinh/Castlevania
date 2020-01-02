@@ -40,7 +40,7 @@ Animations* animations = Animations::GetInstance();
 void Update(DWORD dt)
 {
 
-	player->Update(dt);
+	//player->Update(dt);
 	scenes->Update(dt);
 }
 
@@ -97,7 +97,7 @@ void Render()
 		spriteHandler->Begin(D3DXSPRITE_ALPHABLEND);
 
 		scenes->Render();
-		player->Render();
+		//player->Render();
 
 		spriteHandler->End();
 		d3ddv->EndScene();
@@ -120,8 +120,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	input = new KeyBoardInput(game, scenes);
 	game->InitKeyboard(input);
 
-	player = new Player(scenes, game);
-	player->Init();
+	//player = new Player(scenes, game);
+	//player->Init();
 
 	SetWindowPos(hWnd, 0, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, SWP_NOMOVE | SWP_NOOWNERZORDER | SWP_NOZORDER);
 
