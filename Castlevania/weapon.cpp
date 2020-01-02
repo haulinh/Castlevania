@@ -21,7 +21,7 @@ Weapon::Weapon()
 		AddAnimation(animation);
 	}
 
-	state = MAGIC_WHIP;
+	state = LONG_CHAIN;
 }
 
 void Weapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)

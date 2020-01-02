@@ -313,7 +313,7 @@ constexpr float WALLPIECES_TIME = 2000;
 
 // Ground
 #define GROUND_BBOX_WIDTH 32
-#define GROUND_BBOX_HEIGHT 10
+#define GROUND_BBOX_HEIGHT 32 
 
 // Candle
 #define LARGE_CANDLE_BBOX_WIDTH			32

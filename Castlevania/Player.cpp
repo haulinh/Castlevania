@@ -105,7 +105,7 @@ void Player::Render()
 
 	for (int i = 0; i < simonHP; i++)
 	{
-		playerHP[i]->Draw(105 + i * 9, 31);
+		//playerHP[i]->Draw(105 + i * 9, 31);
 		//enemyHP[i]->Draw(0, -1, 106 + i * 9, 47);
 	}
 
