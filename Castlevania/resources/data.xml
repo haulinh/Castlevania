@@ -20,6 +20,7 @@
         <texture id="1600000" path="resources\\fire_ball\\fire_ball.png" red="255" green="0" blue="255"/>
         <texture id="1700000" path="resources\\bubbles\\bubbles.png" red="255" green="0" blue="255"/>
         <texture id="1800000" path="resources\\boss\\boss.png" red="255" green="0" blue="255"/>
+        <texture id="1900000" path="resources\\spark\\spark.png" red="255" green="0" blue="255"/>
 	</textures>
 
 	<sprites>
@@ -40,6 +41,7 @@
         <sprite path="resources\\fire_ball\\fire_ball.xml" texid="1600000"/>
         <sprite path="resources\\bubbles\\bubbles.xml" texid="1700000"/>
         <sprite path="resources\\boss\\boss.xml" texid="1800000"/>
+        <sprite path="resources\\spark\\spark.xml" texid="1900000"/>
 	</sprites>
 
 	<animations AtlasPath="Effect_sprite.xml">
@@ -60,5 +62,6 @@
         <animation path="resources\\fire_ball\\fire_ball_ani.xml" />
         <animation path="resources\\bubbles\\bubbles_ani.xml" />
         <animation path="resources\\boss\\boss_ani.xml" />
+        <animation path="resources\\spark\\spark_ani.xml" />
 	</animations>
 </game>

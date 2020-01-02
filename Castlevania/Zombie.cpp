@@ -20,6 +20,10 @@ Zombie::Zombie()
 		AddAnimation(animation);
 	}
 
+	HP = 1;
+	score = 100;
+	attack = 2;
+	respawnWaitingTime = 5000;
 }
 
 void Zombie::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
@@ -27,7 +31,7 @@ void Zombie::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 	if (state == ZOMBIE_INACTIVE)
 		return;
 
-	if (state == ZOMBIE_DESTROYED && isLastFame)
+	if (state == ZOMBIE_DESTROYED && animations[state]->IsOver(EFFECT_ANI_TIME_DELAY) == true)
 	{
 		SetState(ZOMBIE_INACTIVE);
 		return;
@@ -36,7 +40,7 @@ void Zombie::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 	if (stopMovement == true)
 		return;
 
-	GameObject::Update(dt);
+	Enemy::Update(dt);
 
 	// Check collision between zombie and ground (falling on ground)
 	vector<LPCOLLISIONEVENT> coEvents;
@@ -79,15 +83,12 @@ void Zombie::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 void Zombie::Render()
 {
 	if (state != ZOMBIE_INACTIVE)
-	{
 		animations[state]->Render(nx, x, y);
-		this->isLastFame = animations[state]->IsCompleted();
-	}
 }
 
 void Zombie::SetState(string state)
 {
-	GameObject::SetState(state);
+	Enemy::SetState(state);
 
 	if (state == ZOMBIE_ACTIVE)
 	{
@@ -95,7 +96,7 @@ void Zombie::SetState(string state)
 		else vx = -ZOMBIE_WALKING_SPEED;
 		vy = 0;
 		isDroppedItem = false;
-		respawnTimeStart = 0;
+		respawnTime_Start = 0;
 		isRespawnWaiting = false;
 	}
 	else if (state == ZOMBIE_DESTROYED)
@@ -129,14 +130,12 @@ void Zombie::GetActiveBoundingBox(float& left, float& top, float& right, float& 
 	bottom = entryPosition.y + ZOMBIE_ACTIVE_BBOX_HEIGHT;
 }
 
-bool Zombie::IsAbleToActivate()
+void Zombie::LoseHP(int x)
 {
-	DWORD now = NOW;
+	Enemy::LoseHP(x);
 
-	if (isRespawnWaiting == true && now - respawnTimeStart >= ZOMBIE_RESPAWN_TIME)
-		return true;
-
-	return false;
+	if (HP == 0)
+		SetState(ZOMBIE_DESTROYED);
 }
 
 

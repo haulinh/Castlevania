@@ -20,7 +20,7 @@ typedef Bubble* LPBUBBLE;
 // Vì mỗi cụm có 3 Bubble nên tạo class Bubbles để quản lí
 class Bubbles
 {
-
+	DWORD startTime = 0;
 
 public:
 	vector<LPBUBBLE> bubbles;
@@ -30,5 +30,7 @@ public:
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObject = NULL);
 	void Render();
 
+	DWORD GetStartTimeRender() { return startTime; }
+	void SetStartTimeRender(DWORD x) { startTime = x; }
 };
 

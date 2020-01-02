@@ -20,11 +20,16 @@
 #include "Bubbles.h"
 #include "Grid.h"
 #include "Boss.h"
+#include "Water.h"
+#include "Timer.h"
+
+#include <map>
+
+using namespace std;
 
 class SceneManager
 {
 	int IDScene;
-	bool isBossFighting = false;
 
 	Game* game;
 	Grid* grid;
@@ -32,6 +37,8 @@ class SceneManager
 
 	vector<Unit*> listUnits;
 	vector<LPGAMEOBJECT> listObjects;
+	vector<LPGAMEOBJECT> listItems;
+	vector<LPGAMEOBJECT> listStairs;
 
 	Simon* simon;
 	Candle* candle;
@@ -39,7 +46,6 @@ class SceneManager
 	Items* item;
 	Weapon* weapon;
 	SubWeapon* subweapon;
-	vector<SubWeapon*> subweaponList;  // for double-shot, triple-shot
 	Stair* stair;
 	Door* door;
 	Zombie* zombie;
@@ -49,84 +55,79 @@ class SceneManager
 	FireBall* fireball;
 	Bubble* bubble;
 	Boss* boss;
-
-	ChangeSceneObject* changeScene;
+	Water* water;
 
 	TileMaps* tilemaps = TileMaps::GetInstance();
 	Textures* textures = Textures::GetInstance();
 	Sprites* sprites = Sprites::GetInstance();
 	Animations* animations = Animations::GetInstance();
 
-	vector<LPGAMEOBJECT> objects;
-	vector<LPGAMEOBJECT> listStairs;
-	vector<LPGAMEOBJECT> listItems;
-
-	vector<LPCHANGESCENEOBJ> listChangeSceneObjs;
 	vector<LPGAMEOBJECT> listStaticObjectsToRender;
 	vector<LPGAMEOBJECT> listMovingObjectsToRender;
+	vector<LPGAMEOBJECT> listDoors;
+	vector<SubWeapon*> subweaponList;		// dùng mảng để sử dụng double shot, triple shot
 
-	bool isSetSimonAutoWalk = false;
-	bool isMovingCamera = false;
+	bool isSetSimonAutoWalk = false;	//
+	bool isMovingCamera1 = false;
+	bool isMovingCamera2 = false;
 	int countDxCamera = 0;
 
-	bool isUsingStopWatch = false; // xác định xem là có đang dùng stopwatch hay không
-	int stopWatchCounter = 0;
-
-	bool isSimonDead = false;		// dừng update simon khi ở trạng thái dead
-	int simonDeadTimeCounter = 0;
-
-	bool isCrossEffect = false;
-	int crossEffectTimeCounter = 0;
-
-	bool isDoubleShotEffect = false;
-	int doubleShotEffectTimeCounter = 0;
-
-	bool isTripleShotEffect = false;
-	int tripleShotEffectTimeCounter = 0;
+	bool isBossFighting = false;
+	bool isSimonDead = false;
 
 public:
-	SceneManager(Game* game, int idScene);
+	Timer* stopWatchTimer = new Timer(WEAPONS_STOP_WATCH_TIME);
+	Timer* simonDeadTimer = new Timer(SIMON_DEAD_TIME);
+	Timer* crossEffectTimer = new Timer(ITEM_CROSS_EFFECT_TIME);
+	Timer* doubleShotTimer = new Timer(ITEM_DOUBLE_SHOT_EFFECT_TIME);
+	Timer* tripleShotTimer = new Timer(ITEM_TRIPLE_SHOT_EFFECT_TIME);
+
+	SceneManager(Game* game);
 	~SceneManager();
 
-	void LoadResources();		// load all sprites and tilemaps
-	void LoadObjectsFromFile(LPCWSTR FilePath);		// load all objects (position, state, isenable) from file and save to vector Objects
-	void CreateListChangeSceneObjects();
+	bool isGameReset = false;
+
+	void Init(int idScene);						// init simon position, camera position, grid..
+	void LoadResources();						// load all sprites, textures and tilemaps
+	void LoadObjectsFromFile(LPCWSTR FilePath);	// load all objects (position, state, isEnable) from file 
 
 	void GetObjectFromGrid();
 
-	virtual void Update(DWORD dt);
-	virtual void Render();
+	void Update(DWORD dt);
+	void UpdateTimeCounter();
 	void UpdateCameraPosition();
 	void UpdateGrid();
 
-	void SetDropItems(LPGAMEOBJECT object);
-	void SetInactivationByPosition();  // Nếu object ra khỏi toạ độ viewport thì set unable / inactive
+	void Render();
 
-	void ChangeScene(int scene);
+	bool SimonWalkThroughDoor();				// Di chuyển camera -> Simon auto walk -> di chuyển camera
+
+	int GetRandomItem();						// Random item cho object bị huỷ
+	void SetDropItems();						// Xét rơi item cho các object bị huỷ	
+
+	bool IsInViewport(LPGAMEOBJECT object);
+	void SetInactivationByPosition();			// Nếu object ra khỏi vùng viewport thì set unable / inactive
+
+	void ChangeScene();							// Chuyển đổi scene khi Simon va chạm với ChangeSceneObject
+
+	void SetGameState(int state);				// Set vị trí của simon, camera theo id state
+	void ResetGame();							// Reset lại trạng thái của game (map, simon...) sau khi simon chết
+
+	// Get, Set
 	int GetIDScene() { return this->IDScene; }
-
-	void ResetGameState(); // Reset lại trạng thái của game (map, simon...) sau khi simon chết
-
 	Simon* GetSimon() { return this->simon; }
 	Boss* GetBoss() { return this->boss; }
-	SubWeapon* GetSubWeapon() { return this->subweapon; }
 	vector<SubWeapon*>* GetWeaponList() { return &subweaponList; }
-	vector<LPGAMEOBJECT>* GetListStairs() { return &(this->listStairs); }
+	vector<LPGAMEOBJECT>* GetListStairs() { return &(listStairs); }
 
-	bool IsUsingStopWatch() { return isUsingStopWatch; }
-	void StartStopWatch() { isUsingStopWatch = true; stopWatchCounter = GetTickCount(); }
+	bool IsMovingCamera() { return isMovingCamera1 || isMovingCamera2; }
 
-	void StartSimonDeadTimeCounter() { isSimonDead = true; simonDeadTimeCounter = GetTickCount(); }
-
+	// Item Effect
 	void CrossEffect();
-
 	void DoubleShotEffect();
 	void TripleShotEffect();
 
-	bool IsDoubleShotEffect() { return isDoubleShotEffect; }
-	bool IsTripleShotEffect() { return isTripleShotEffect; }
-
-	// Các hàm update con
+	// Các hàm con của hàm Update()
 	void Simon_Update(DWORD dt);
 	void Weapon_Update(DWORD dt, int index);
 	void Item_Update(DWORD dt, LPGAMEOBJECT& object);
@@ -135,5 +136,7 @@ public:
 	void VampireBat_Update(DWORD dt, LPGAMEOBJECT& object);
 	void FishMan_Update(DWORD dt, LPGAMEOBJECT& object);
 	void Boss_Update(DWORD dt, LPGAMEOBJECT& object);
+
+
 };
 

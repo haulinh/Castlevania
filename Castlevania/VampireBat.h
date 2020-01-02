@@ -1,35 +1,20 @@
 #pragma once
 
-#include "GameObject.h"
+#include "Enemy.h"
 
-class VampireBat : public GameObject
+class VampireBat : public Enemy
 {
-	DWORD respawnTimeStart = 0;
-	bool isRespawnWaiting = false;
-	float velocityVariation = VAMPIRE_BAT_SPEED_VARIATION;
-	bool isSettedPosition = false;
-
+	float velocityVariation;
 public:
 	VampireBat();
-	~VampireBat();
 
-	virtual void Update(DWORD dt,  vector<LPGAMEOBJECT>* coObject = NULL);
-	void Render();
-	void SetState(string state);
-
-	void StartRespawnTimeCounter() { isRespawnWaiting = true; respawnTimeStart = GetTickCount(); }
+	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObject = NULL);
+	virtual void Render();
+	virtual void SetState(string state);
 
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
-	void GetActiveBoundingBox(float& left, float& top, float& right, float& bottom);
+	virtual void GetActiveBoundingBox(float& left, float& top, float& right, float& bottom);
 
-	void SetIsRespawnWaiting(bool x) { isRespawnWaiting = x; }
-	bool IsRespawnWaiting() { return isRespawnWaiting; }
-
-	bool IsSettedPosition() { return isSettedPosition; }
-	void SetIsSettedPosition(bool x) { isSettedPosition = x; }
-
-	bool IsAbleToActivate();
-
-	DWORD get() { return this->respawnTimeStart; }
+	virtual void LoseHP(int x);
 };
 

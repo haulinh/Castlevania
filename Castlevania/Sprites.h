@@ -5,6 +5,7 @@
 #include <rapidxml/rapidxml.hpp>
 #include <rapidxml/rapidxml_utils.hpp>
 #include "define.h"
+#include "Game.h"
 
 using namespace rapidxml;
 

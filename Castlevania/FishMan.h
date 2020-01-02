@@ -1,52 +1,28 @@
 ﻿#pragma once
 
-#include "GameObject.h"
-#include "Bubbles.h"
+#include "Enemy.h"
 
-class FishMan : public GameObject
+class FishMan :public Enemy
 {
-	DWORD respawnTimeStart = 0;
-	bool isRespawnWaiting = false;
-	bool isSettedPosition = false;
-
-	DWORD lastTimeShoot = 0; // thời gian kể từ lúc vừa bắn xong đến lần bắn tiếp theo
-	DWORD deltaTimeToShoot = 0; // khoảng thời gian kể từ lúc fishman xuất hiện đến lúc bắn 
-
-	int nxAfterShoot = 0; // Hướng quay mặt sau khi bắn (để luôn quay mặt về phía Simon)
-
-	// Hiệu ứng bọt nước
-	bool isNeedToCreateBubbles = false;
-	bool isRenderingBubbles = false;
-	DWORD startTimeRenderBubbles = 0;
-	Bubbles* bubbles;
+	DWORD lastTimeShoot; // thời gian kể từ lúc vừa bắn xong đến lần bắn tiếp theo
+	DWORD deltaTimeToShoot; // khoảng thời gian kể từ lúc fishman xuất hiện đến lúc bắn 
+	int nxAfterShoot; // Hướng quay mặt sau khi bắn (để luôn quay mặt về phía Simon)
 
 public:
 	FishMan();
-	~FishMan();
 
-	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObject = NULL);
-	void Render();
-	void SetState(string state);
-
-	void StartRespawnTimeCounter() { isRespawnWaiting = true; respawnTimeStart = GetTickCount(); }
+	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObject = NULL, bool stopMovement = false);
+	virtual void Render();
+	virtual void SetState(string state);
 
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
-	void GetActiveBoundingBox(float& left, float& top, float& right, float& bottom);
+	virtual void GetActiveBoundingBox(float& left, float& top, float& right, float& bottom);
 
-	void SetIsRespawnWaiting(bool x) { isRespawnWaiting = x; }
-	bool IsRespawnWaiting() { return isRespawnWaiting; }
-
-	bool IsAbleToActivate();
+	virtual void LoseHP(int x);
 
 	int GetLastTimeShoot() { return lastTimeShoot; }
 	int GetDeltaTimeToShoot() { return deltaTimeToShoot; }
 
-	void SetIsNeedToCreateBubbles(bool x) { isNeedToCreateBubbles = x; }
 	void SetNxAfterShoot(int x) { nxAfterShoot = x; }
-
-	bool IsRenderingBubbles() { return isRenderingBubbles; }
-
-	bool IsSettedPosition() { return isSettedPosition; }
-	void SetIsSettedPosition(bool x) { isSettedPosition = x; }
 };
 

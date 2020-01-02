@@ -111,6 +111,21 @@
     <ClInclude Include="Boss.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Water.h">
+      <Filter>Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Timer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BreakWall.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WallPieces.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -196,6 +211,18 @@
     </ClCompile>
     <ClCompile Include="Boss.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Water.cpp">
+      <Filter>Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="BreakWall.cpp">
+      <Filter>Header Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WallPieces.cpp">
+      <Filter>Header Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy.cpp">
+      <Filter>Header Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

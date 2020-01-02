@@ -1,19 +1,15 @@
 #pragma once
 
-#include <vector>
-#include "GameObject.h"
+#include "Enemy.h"
 
-class Boss : public GameObject
+class Boss : public Enemy
 {
-	int HP = BOSS_HP; 
-
 	bool isFlyToTarget = false;
 	bool isFlyToSimon = false;
 
+	int idTarget = 0;
 	D3DXVECTOR2 simonPostion;
 	D3DXVECTOR2 target;
-
-	int idTarget = 0;
 
 	int startTimeWaiting = 0;
 	bool isStopWaiting = false;
@@ -22,11 +18,15 @@ class Boss : public GameObject
 
 public:
 	Boss();
-	~Boss();
 
-	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObject = NULL, bool stopMovement = false);
-	void Render();
-	void SetState(string state);
+	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObject = NULL);
+	virtual void Render();
+	virtual void SetState(string state);
+
+	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
+	virtual void GetActiveBoundingBox(float& left, float& top, float& right, float& bottom);
+
+	virtual void LoseHP(int x);
 
 	D3DXVECTOR2 GetRandomSpot();
 	void FlyToTarget(DWORD dt);
@@ -34,17 +34,11 @@ public:
 
 	void StartStopTimeCounter() { isStopWaiting = true; startTimeWaiting = GetTickCount(); }
 
-	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
-	void GetActiveBoundingBox(float& left, float& top, float& right, float& bottom);
-
 	void SetSimonPosition(float sx, float sy) { simonPostion.x = sx; simonPostion.y = sy; }
 
 	int GetIdTarget() { return idTarget; }
 
 	bool DropItem() { return dropItem; }
-
-	void LoseHP(int x);
-	int GetHP() { return HP; }
 };
 
 

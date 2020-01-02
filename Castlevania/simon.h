@@ -6,35 +6,28 @@
 #include "SubWeapon.h"
 #include "ChangeSceneObject.h"
 #include "Stair.h"
+#include "Timer.h"
 
 class Simon : public GameObject
 {
 	Weapon *weapon;
-	string nameWeapon;
 
+	string nameWeapon;
 	int score;
 	string item;
 	int energy;
 	int life;
 	int HP;
 
+	// auto-walk
 	float autoWalkDistance = 0;
 	string stateAfterAutoWalk = "";
 	int nxAfterAutoWalk = 0;
 
-	bool isUntouchable = false;
-	DWORD untouchable_start = 0;
-
-	bool isHitSubWeapons = false; // xác định xem là hit bằng roi hay subweapon
-
-	bool isGotDoubleShotItem = false;
-	bool isGotTripleShotItem = false;
-
-	bool isDead = false;
-
-	bool isCrossCollected = false;
-
 public:
+
+	Timer* untouchableTimer = new Timer(SIMON_UNTOUCHABLE_TIME);
+	Timer* invisibilityTimer = new Timer(SIMON_INVISIBILITY_TIME);
 
 	bool jumping = false;
 	bool sitting = false;
@@ -45,29 +38,37 @@ public:
 	bool stairUpping = false;
 	bool deflecting = false;
 
-	bool isPowered = false;
-	bool isAutoWalk = false;
-	bool isWalkThroughDoor = false;
+	bool isDead = false;
 	bool isTouchGround = false;
-	bool isStandOnStair = false; // trạng thái đang đứng trên cầu thang 
-	bool isMovingUp = false;
-	bool isMovingDown = false;
+	bool isFalling = false;
+	bool isFallingWater = false;
+	bool isStandOnStair = false;	// trạng thái đang đứng trên cầu thang 
+	bool canMoveUpStair = false;	// có thể di chuyển lên cầu thang
+	bool canMoveDownStair = false;	// có thể di chuyển xuống cầu thang
+	bool isAutoWalk = false;		// tự động đi
+	bool isWalkThroughDoor = false;	// đi qua cửa
+	bool isHitSubWeapons = false;	// xác định xem là hit bằng roi hay subweapon
+	bool isGotChainItem = false;	// xác định xem có nhặt được Chain item hay không, dùng để update whip
+	bool isGotDoubleShotItem = false; // Double shot item
+	bool isGotTripleShotItem = false; // Triple shot item
+	bool isGotCrossItem = false;
 	bool isCollisionWithStair = false;
-	int stairDirection = 0; // 1: trái dưới - phải trên, -1: trái trên - phải dưới
 
+	int changeScene = -1;			// lưu id Scene kế tiếp khi Simon va chạm với ChangeSceneObject
 
-	int changeScene = -1;
+	int stairDirection = 0;			// 1: trái dưới - phải trên, -1: trái trên - phải dưới
 
 	LPGAMEOBJECT stairCollided = nullptr; // lưu bậc thang va chạm với simon -> để xét vị trí cho chuẩn trong hàm PositionCorrection
 
+	///
 	Simon();
 
-	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *colliable_objects = NULL);
-	virtual void Render();
-	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
-	virtual void GetBoundingBoxFoot(float& left, float& top, float& right, float& bottom);
-
+	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects = NULL);
+	void Render();
 	void SetState(string state);
+
+	virtual void GetBoundingBoxFoot(float& left, float& top, float& right, float& bottom);
+	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 
 	bool IsJumping();
 	bool IsSitting() { return sitting; }
@@ -78,62 +79,40 @@ public:
 	bool IsDeflecting();
 	bool IsStairUpping();
 
+	// Get function
 	int GetEnergy() { return this->energy; }
 	int GetLife() { return this->life; }
 	int GetScore() { return this->score; }
-	string GetItem() { return this->item; }
 	int GetHP() { return this->HP; }
+	string GetItem() { return this->item; }
 	Weapon* GetWeapon() { return this->weapon; }
 	string GetSubWeapon() { return this->nameWeapon; }
 	string ItemToSubWeapon(string itemName) { return itemName + "_SUB"; }
-	int GetStairDirection() { return this->stairDirection; }
-	void RenderBBSimon();
 
-	int GetChangeScene() { return this->changeScene; }
-	void SetChangeScene(int x) { this->changeScene = x; }
-
-	bool IsTouchGround() { return isTouchGround; }
-
-	bool IsStandOnStair() { return this->isStandOnStair; }
-	void SetStandOnStair(bool x) { this->isStandOnStair = x; }
-
-	bool IsMovingUp() { return this->isMovingUp; }
-	bool IsMovingDown() { return this->isMovingDown; }
-
-	void LoseEnergy(int amount) { energy -= amount; }
+	// Properties change
+	void AddScore(int x) { score += x; }
+	void LoseEnergy(int x) { energy -= x; }
 	void LoseHP(int x);
 	void SetHP(int x) { HP = x; }
 	void SetEnergy(int x) { energy = x; }
-
-	void CheckCollisionWithStair(vector<LPGAMEOBJECT>* listStair);
-	LPGAMEOBJECT GetStairCollided() { return this->stairCollided; }
-
-	bool CheckCollisionWithItem(vector<LPGAMEOBJECT>* listItem);
-	void CheckCollisionWithEnemyActiveArea(vector<LPGAMEOBJECT>* listEnemy);
-	bool CheckChangeScene(vector<LPCHANGESCENEOBJ>* listChangeScene);
-
-	// Giữ cho Simon đứng yên trên bậc thang
-	void StandOnStair();
-
-	void AutoWalk(float distance, string new_state, int new_nx);
-	bool IsAutoWalk() { return this->isAutoWalk; }
-
-	void StartUntouchable() { isUntouchable = true; untouchable_start = GetTickCount(); }
-
-	bool IsHitSubWeapons() { return isHitSubWeapons; }
-	void SetHitSubWeapons(bool x) { isHitSubWeapons = x; }
-
 	void SetSubWeapon(string x) { nameWeapon = x; }
 
-	bool IsGotDoubleShotItem() { return isGotDoubleShotItem; }
-	void SetGotDoubleShotItem(bool x) { isGotDoubleShotItem = x; }
+	// Kiểm tra va chạm với danh sách bậc thang
+	void CheckCollisionWithStair(vector<LPGAMEOBJECT>* listStair);
 
-	bool IsGotTripleShotItem() { return isGotTripleShotItem; }
-	void SetGotTripleShotItem(bool x) { isGotTripleShotItem = x; }
+	// Kiểm tra va chạm với danh sách item
+	bool CheckCollisionWithItem(vector<LPGAMEOBJECT>* listItem);
 
-	bool IsDead() { return isDead; }
+	// Kiểm tra va chạm với vùng hoạt động của enemy
+	void CheckCollisionWithEnemyActiveArea(vector<LPGAMEOBJECT>* listObjects);
 
-	bool IsCrossCollected() { return isCrossCollected; }
-	void SetCrossCollected(bool x) { isCrossCollected = x; }
+	// Giữ cho Simon đứng yên trên bậc thang
+	void StandOnStair() { vx = vy = 0; }
 
+	// Auto-walk
+	void AutoWalk(float distance, string new_state, int new_nx);
+	void DoAutoWalk();
+
+	// Xác định trạng thái đang đánh
+	bool IsHit();
 };

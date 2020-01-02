@@ -16,14 +16,19 @@ BlackLeopard::BlackLeopard()
 	{
 		AddAnimation(animation);
 	}
-	nx = -1;
+
+	isJumping = false;
+	HP = 1;
+	score = 200;
+	attack = 2;
+	respawnWaitingTime = 10000;
 }
 
 void BlackLeopard::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 {
-	DWORD now = NOW;
+	DWORD now = GetTickCount();
 
-	if (state == BLACK_LEOPARD_DESTROYED && isLastFame)
+	if (state == BLACK_LEOPARD_DESTROYED && animations[state]->IsOver(EFFECT_ANI_TIME_DELAY) == true)
 	{
 		SetState(BLACK_LEOPARD_INACTIVE);
 		return;
@@ -33,7 +38,7 @@ void BlackLeopard::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 		return;
 
 	vy += BLACK_LEOPARD_GRAVITY * dt;
-	GameObject::Update(dt);
+	Enemy::Update(dt);
 
 
 	// Check collision between zombie and ground (jumping on ground)
@@ -66,13 +71,13 @@ void BlackLeopard::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 		x += dx;
 		y += min_ty * dy + ny * 0.1f;
 
-		if (ny != 0)
+		if (ny == CDIR_BOTTOM)
 		{
 			vy = 0;
 
 			if (state == BLACK_LEOPARD_JUMP)
 			{
-				this->nx = 1;
+				(this->nx) *= -1;
 				SetState(BLACK_LEOPARD_ACTIVE);
 			}
 		}
@@ -85,31 +90,24 @@ void BlackLeopard::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 void BlackLeopard::Render()
 {
 	if (state != BLACK_LEOPARD_INACTIVE)
-	{
-		if (isRespawnWaiting == false)
-		{
-			animations[state]->Render(nx, x, y);
-			this->isLastFame = animations[state]->IsCompleted();
-		}
-	}
+		animations[state]->Render(1, nx, x, y);
 }
 
 void BlackLeopard::SetState(string state)
 {
-	GameObject::SetState(state);
+	Enemy::SetState(state);
 
 	if (state == BLACK_LEOPARD_ACTIVE)
 	{
 		if (nx > 0) vx = BLACK_LEOPARD_RUNNING_SPEED_X;
 		else vx = -BLACK_LEOPARD_RUNNING_SPEED_X;
 		vy = BLACK_LEOPARD_RUNNING_SPEED_Y;
-		isDroppedItem = false;
-		respawnTimeStart = 0;
-		isRespawnWaiting = false;
+		isJumping = false;
 	}
 	else if (state == BLACK_LEOPARD_DESTROYED)
 	{
 		vx = 0;
+		animations[state]->SetAniStartTime(GetTickCount());
 	}
 	else if (state == BLACK_LEOPARD_INACTIVE)
 	{
@@ -122,6 +120,9 @@ void BlackLeopard::SetState(string state)
 	else if (state == BLACK_LEOPARD_IDLE)
 	{
 		vx = 0;
+		respawnTime_Start = 0;
+		isRespawnWaiting = false;
+		isDroppedItem = false;
 	}
 	else if (state == BLACK_LEOPARD_JUMP)
 	{
@@ -145,14 +146,12 @@ void BlackLeopard::GetActiveBoundingBox(float& left, float& top, float& right, f
 	bottom = entryPosition.y + BLACK_LEOPARD_ACTIVE_BBOX_HEIGHT;
 }
 
-bool BlackLeopard::IsAbleToActivate()
+void BlackLeopard::LoseHP(int x)
 {
-	DWORD now = NOW;
+	Enemy::LoseHP(x);
 
-	if (isRespawnWaiting == true && now - respawnTimeStart >= BLACK_LEOPARD_RESPAWN_TIME)
-		return true;
-
-	return false;
+	if (HP == 0)
+		SetState(BLACK_LEOPARD_DESTROYED);
 }
 
 

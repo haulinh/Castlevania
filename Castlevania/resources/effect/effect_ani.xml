@@ -1,8 +1,8 @@
 <animations name="Effect">
-    <animation ID="EFFECT" defaultTime="15">
-        <frame spriteID="effect_1_1" time="15"/>
-        <frame spriteID="effect_1_2" time="15"/>
-        <frame spriteID="effect_1_3" time="15"/>
+    <animation ID="EFFECT" defaultTime="100">
+        <frame spriteID="effect_1_1" time="100"/>
+        <frame spriteID="effect_1_2" time="100"/>
+        <frame spriteID="effect_1_3" time="100"/>
     </animation>
 
      <animation ID="EFFECT_2" defaultTime="100">
