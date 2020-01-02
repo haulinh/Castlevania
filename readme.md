@@ -1,4 +1,9 @@
 * BC lần 1 (13/11/2019)
+- [x] Đánh roi làm gián đoạn nhảy
+- [x] Dao chưa hit nến
+- [ ] Tilemap OK - tính camera chỉ theo chiều X
+- [x] Bắn dao bằng phím riêng biệt (thay vì dùng UP + đánh)
+- [x] chưa tạo file scene resources duy nhất, vẫn còn hardcode list textures + ani.xml file
 * BC lần 2 (14/12/2019)
 - [x] ```Đang đi đánh không được```
 - [x] Bị hit ở cầu thang bị văng ra
