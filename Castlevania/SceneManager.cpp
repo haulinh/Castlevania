@@ -138,6 +138,7 @@ void SceneManager::LoadObjectsFromFile(LPCWSTR FilePath)
 			stair->SetEnable(isEnable);
 			stair->SetType(typeStair);
 			listStairs.push_back(stair);
+			grid->Add(stair);
 		}
 		else if (ID_Obj == DOOR)
 		{
@@ -229,6 +230,7 @@ void SceneManager::GetObjectFromGrid()
 	listDoors.clear();
 	listStaticObjectsToRender.clear();
 	listMovingObjectsToRender.clear();
+	listUnits.clear();
 
 	grid->Get(game->GetCamPos(), listUnits);
 
