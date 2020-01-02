@@ -33,9 +33,8 @@ class SceneManager
 
 	Game* game;
 	Grid* grid;
-	Unit* unit;
 
-	vector<Unit*> listUnits;
+	vector<LPGAMEOBJECT> listUnits;
 	vector<LPGAMEOBJECT> listObjects;
 	vector<LPGAMEOBJECT> listItems;
 	vector<LPGAMEOBJECT> listStairs;

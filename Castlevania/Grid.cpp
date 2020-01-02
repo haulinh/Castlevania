@@ -1,23 +1,6 @@
 ﻿#include "Grid.h"
 #include "debug.h"
 
-Unit::Unit(Grid* grid, LPGAMEOBJECT obj, float x, float y)
-{
-	this->grid = grid;
-	this->obj = obj;
-	this->x = x;
-	this->y = y;
-
-	this->prev = NULL;
-	this->next = NULL;
-
-	grid->Add(this);
-}
-
-void Unit::Move(float x, float y)
-{
-	grid->Move(this, x, y);
-}
 
 Grid::Grid(int map_width, int map_height, int cell_width, int cell_height)
 {
@@ -37,66 +20,54 @@ Grid::Grid(int map_width, int map_height, int cell_width, int cell_height)
 
 	for (int i = 0; i < nums_row; i++)
 		for (int j = 0; j < nums_col; j++)
-			cells[i][j] = NULL;
+			cells[i][j].clear();
 }
 
 Grid::~Grid()
 {
 }
 
-void Grid::Add(Unit* unit)
+void Grid::Add(LPGAMEOBJECT object)
 {
-	int row = (int)(unit->y / cell_height);
-	int col = (int)(unit->x / cell_width);
+	int row = (int)(object->y / cell_height);
+	int col = (int)(object->x / cell_width);
 
-	// thêm vào đầu cell - add head
-	unit->prev = NULL;
-	unit->next = cells[row][col];
-	cells[row][col] = unit;
+	if (row > nums_row)
+		return;
+	if (col > nums_col)
+		return;
 
-	if (unit->next != NULL)
-		unit->next->prev = unit;
+	cells[row][col].push_back(object);
 }
 
-void Grid::Move(Unit* unit, float x, float y)
+void Grid::Move(LPGAMEOBJECT object, float x, float y)
 {
 	// lấy chỉ số cell cũ
-	int old_row = (int)(unit->y / cell_height);
-	int old_col = (int)(unit->x / cell_width);
+	int old_row = (int)(object->y / cell_height);
+	int old_col = (int)(object->x / cell_width);
 
 	// lấy chỉ số cell mới
 	int new_row = (int)(y / cell_height);
 	int new_col = (int)(x / cell_width);
 
-	// cập nhật toạ độ mới
-	unit->x = x;
-	unit->y = y;
+	object->x = x;
+	object->y = y;
 
 	// cell không thay đổi
 	if (old_row == new_row && old_col == new_col)
 		return;
 
-	// huỷ liên kết với cell cũ
-	if (unit->prev != NULL)
-	{
-		unit->prev->next = unit->next;
-	}
-
-	if (unit->next != NULL)
-	{
-		unit->next->prev = unit->prev;
-	}
-
-	if (cells[old_row][old_col] == unit)
-	{
-		cells[old_row][old_col] = unit->next;
+	for (auto it = cells[old_row][old_row].begin(); it != cells[old_row][old_row].end(); ) {
+		if ((*it) == object) {
+			cells[old_row][old_row].erase(it--);
+		}
 	}
 
 	// thêm vào cell mới
-	Add(unit);
+	Add(object);
 }
 
-void Grid::Get(D3DXVECTOR2 camPosition, vector<Unit*>& listUnits)
+void Grid::Get(D3DXVECTOR2 camPosition, vector<LPGAMEOBJECT>& listUnits)
 {
 	int start_col = (int)(camPosition.x / cell_width);
 	int end_col = ceil((camPosition.x + SCREEN_WIDTH) / cell_width);
@@ -105,41 +76,16 @@ void Grid::Get(D3DXVECTOR2 camPosition, vector<Unit*>& listUnits)
 	{
 		for (int j = start_col; j < end_col; j++)
 		{
-			Unit* unit = cells[i][j];
-
-			while (unit != NULL)
+			for (auto unit : cells[i][j])
 			{
-				if (unit->GetObj()->IsEnable() == true)
-				{
-					listUnits.push_back(unit);
-				}
-
-				unit = unit->next;
+				if (unit->IsEnable() == false)
+					continue;
+				listUnits.push_back(unit);
 			}
 		}
 	}
 }
 
-void Grid::Out()
-{
-	for (int i = 0; i < nums_row; i++)
-	{
-		for (int j = 0; j < nums_col; j++)
-		{
-			int c = 0;
-			Unit* unit = cells[i][j];
 
-			while (unit)
-			{
-				c++;
-				unit = unit->next;
-			}
-
-			DebugOut(L"%d\t", c);
-		}
-
-		DebugOut(L"\n");
-	}
-}
 
 
