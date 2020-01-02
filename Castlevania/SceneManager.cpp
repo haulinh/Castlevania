@@ -120,7 +120,7 @@ void SceneManager::LoadObjectsFromFile(LPCWSTR FilePath)
 			candle->SetState(state);
 			candle->isEnable = isEnable;
 			candle->SetIdItem(nameItem);
-			unit = new Unit(grid, candle, pos_x, pos_y);
+			grid->Add(candle);
 		}
 		else if (ID_Obj == GROUND)
 		{
@@ -128,7 +128,7 @@ void SceneManager::LoadObjectsFromFile(LPCWSTR FilePath)
 			ground->SetPosition(pos_x, pos_y);
 			ground->SetState(state);
 			ground->isEnable = isEnable;
-			unit = new Unit(grid, ground, pos_x, pos_y);
+			grid->Add(ground);
 		}
 		else if (ID_Obj == STAIR)
 		{
@@ -138,7 +138,6 @@ void SceneManager::LoadObjectsFromFile(LPCWSTR FilePath)
 			stair->SetEnable(isEnable);
 			stair->SetType(typeStair);
 			listStairs.push_back(stair);
-			unit = new Unit(grid, stair, pos_x, pos_y);
 		}
 		else if (ID_Obj == DOOR)
 		{
@@ -146,49 +145,54 @@ void SceneManager::LoadObjectsFromFile(LPCWSTR FilePath)
 			door->SetPosition(pos_x, pos_y);
 			door->SetState(state);
 			door->SetEnable(isEnable);
-			unit = new Unit(grid, door, pos_x, pos_y);
+			grid->Add(door);
 		}
 		else if (ID_Obj == ZOMBIE)
 		{
 			zombie = new Zombie();
+			zombie->SetPosition(pos_x, pos_y);
 			zombie->SetEntryPosition(pos_x, pos_y);
 			zombie->SetState(state);
 			zombie->SetEnable(isEnable);
-			unit = new Unit(grid, zombie, pos_x, pos_y);
+			grid->Add(zombie);
 		}
 		else if (ID_Obj == BLACK_LEOPARD)
 		{
 			leopard = new BlackLeopard();
+			leopard->SetPosition(pos_x, pos_y);
 			leopard->SetEntryPosition(pos_x, pos_y);
 			leopard->SetState(INACTIVE);
 			leopard->SetEnable(true);
-			unit = new Unit(grid, leopard, pos_x, pos_y);
+			grid->Add(leopard);
 		}
 		else if (ID_Obj == VAMPIRE_BAT)
 		{
 			bat = new VampireBat();
+			bat->SetPosition(pos_x, pos_y);
 			bat->SetEntryPosition(pos_x, pos_y);
 			bat->SetState(VAMPIRE_BAT_INACTIVE);
 			bat->SetEnable(true);
-			unit = new Unit(grid, bat, pos_x, pos_y);
+			grid->Add(bat);
 		}
 		else if (ID_Obj == FISHMAN)
 		{
 			fishman = new FishMan();
+			fishman->SetPosition(pos_x, pos_y);
 			fishman->SetEntryPosition(pos_x, pos_y);
 			fishman->SetState(FISHMAN_INACTIVE);
 			fishman->SetEnable(true);
-			unit = new Unit(grid, fishman, pos_x, pos_y);
+			grid->Add(fishman);
 		}
 		else if (ID_Obj == BOSS)
 		{
 			boss = new Boss();
+			boss->SetPosition(pos_x, pos_y);
 			boss->SetEntryPosition(pos_x, pos_y);
 			boss->SetPosition(pos_x, pos_y);
 			boss->SetState(BOSS_INACTIVE);
 			boss->SetIdItem(nameItem);
 			boss->SetEnable(true);
-			unit = new Unit(grid, boss, pos_x, pos_y);
+			grid->Add(boss);
 		}
 		else if (ID_Obj == CHANGE_SCENE_OBJECT)
 		{
@@ -196,14 +200,14 @@ void SceneManager::LoadObjectsFromFile(LPCWSTR FilePath)
 			changeScene->SetPosition(pos_x, pos_y);
 			changeScene->SetIDNextScene(atoi(state.c_str()));
 			changeScene->SetEnable(true);
-			unit = new Unit(grid, changeScene, pos_x, pos_y);
+			grid->Add(changeScene);
 		}
 		else if (ID_Obj == WATER)
 		{
 			water = new Water();
 			water->SetPosition(pos_x, pos_y);
 			water->SetEnable(true);
-			unit = new Unit(grid, water, pos_x, pos_y);
+			grid->Add(water);
 		}
 		else if (ID_Obj == BREAKWALL)
 		{
@@ -212,7 +216,7 @@ void SceneManager::LoadObjectsFromFile(LPCWSTR FilePath)
 			breakwall->SetEnable(true);
 			breakwall->SetState(NORMAL);
 			breakwall->SetIdItem(nameItem);
-			unit = new Unit(grid, breakwall, pos_x, pos_y);
+			grid->Add(breakwall);
 		}
 	}
 	fs.close();
@@ -220,7 +224,6 @@ void SceneManager::LoadObjectsFromFile(LPCWSTR FilePath)
 
 void SceneManager::GetObjectFromGrid()
 {
-	listUnits.clear();
 	listObjects.clear();
 	listStairs.clear();
 	listDoors.clear();
@@ -229,11 +232,11 @@ void SceneManager::GetObjectFromGrid()
 
 	grid->Get(game->GetCamPos(), listUnits);
 
-	//DebugOut(L"%d \n", listUnits.size());
+	DebugOut(L"%d \n", listUnits.size());
 
 	for (UINT i = 0; i < listUnits.size(); i++)
 	{
-		LPGAMEOBJECT obj = listUnits[i]->GetObj();
+		LPGAMEOBJECT obj = listUnits[i];
 		listObjects.push_back(obj);
 
 		if (dynamic_cast<Ground*>(obj))
@@ -410,14 +413,14 @@ void SceneManager::UpdateGrid()
 {
 	for (int i = 0; i < listUnits.size(); i++)
 	{
-		LPGAMEOBJECT obj = listUnits[i]->GetObj();
+		LPGAMEOBJECT obj = listUnits[i];
 
 		if (obj->IsEnable() == false)
 			continue;
 
 		float newPos_x, newPos_y;
 		obj->GetPosition(newPos_x, newPos_y);
-		listUnits[i]->Move(newPos_x, newPos_y);
+		grid->Move(listUnits[i], newPos_x, newPos_y);
 	}
 }
 
@@ -572,7 +575,6 @@ void SceneManager::SetDropItems()
 			item->SetItem(idItem);
 
 			listItems.push_back(item);
-			unit = new Unit(grid, item, x, y);
 		}
 	}
 }
@@ -1032,7 +1034,7 @@ void SceneManager::FishMan_Update(DWORD dt, LPGAMEOBJECT& object)
 			fireball->SetState(FIREBALL);
 			fireball->SetEnable(true);
 
-			unit = new Unit(grid, fireball, fx, fy);
+			//unit = new Unit(grid, fireball, fx, fy);
 
 			// Đặt hướng quay mặt của Fishman sau khi bắn (quay về phía simon)
 			float sx, sy;
