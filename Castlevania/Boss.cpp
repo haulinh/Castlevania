@@ -18,41 +18,41 @@ Boss::Boss()
 		AddAnimation(animation);
 	}
 
-	SetState(BOSS_INACTIVE);
+	isFlyToTarget = false;
+	isFlyToSimon = false;
+
+	idTarget = 0;
+
+	startTimeWaiting = 0;
+	isStopWaiting = false;
+
+	dropItem = false;
+
+	HP = 16;
+	score = 3000;
+	attack = 3;
 }
 
-Boss::~Boss()
-{
-}
-
-void Boss::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject, bool stopMovement)
+void Boss::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 {
 	if (state == BOSS_DESTROYED)
 	{
-		if (isLastFame)
-		{
+		if (animations[state]->IsOver(EFFECT_2_ANI_TIME_DELAY) == true)
 			dropItem = true;
-		}
 
 		return;
-	}
-
-	if (state == BOSS_HURT && isLastFame)
-	{
-		SetState(BOSS_ACTIVE);
 	}
 
 	if (isStopWaiting == true)
 	{
 		if (GetTickCount() - startTimeWaiting > BOSS_STOP_TIME_WAITING)
 		{
+			vx = vy = 0;
 			isStopWaiting = false;
 			startTimeWaiting = 0;
 		}
 		else
-		{
 			return;
-		}
 	}
 
 	if (isFlyToTarget == false)
@@ -82,12 +82,11 @@ void Boss::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject, bool stopMovement)
 void Boss::Render()
 {
 	animations[state]->Render(nx, x, y);
-	isLastFame = animations[state]->IsCompleted();
 }
 
 void Boss::SetState(string state)
 {
-	GameObject::SetState(state);
+	Enemy::SetState(state);
 
 	if (state == BOSS_ACTIVE)
 	{
@@ -100,12 +99,10 @@ void Boss::SetState(string state)
 	}
 	else if (state == BOSS_INACTIVE)
 	{
+		x = entryPosition.x;
+		y = entryPosition.y;
 		vx = 0;
 		vy = 0;
-	}
-	else if (state == BOSS_HURT)
-	{
-		animations[state]->Reset();
 	}
 }
 
@@ -126,9 +123,6 @@ D3DXVECTOR2 Boss::GetRandomSpot()
 		float dx = abs(x - randomSpot.x);
 		float dy = abs(y - randomSpot.y);
 
-		if (max(dx, dy) / min(dx, dy) > 1.5)
-			continue;
-
 		distance = sqrt(pow(x - randomSpot.x, 2) + pow(y - randomSpot.y, 2));
 	} while (distance < 100.0f);
 
@@ -140,7 +134,7 @@ void Boss::FlyToTarget(DWORD dt)
 	x += vx * dt;
 	y += vy * dt;
 
-	if (abs(x - target.x) <= 2.0f)
+	if (abs(x - target.x) <= 1.0f)
 	{
 		isFlyToTarget = false;
 		this->SetPosition(target.x, target.y);
@@ -173,11 +167,16 @@ void Boss::GetVelocity()
 	else ny = -1;
 
 	// tính vận tốc
-	vx = BOSS_DEFAULT_VELOCITY;
-	vy = BOSS_DEFAULT_VELOCITY * (dy / dx);
-
-	vx *= nx;
-	vy *= ny;
+	if (isFlyToSimon == true)
+	{
+		vx = nx * dx / BOSS_FAST_TIME_TO_FLY;
+		vy = ny * dy / BOSS_FAST_TIME_TO_FLY;
+	}
+	else
+	{
+		vx = nx * dx / BOSS_DEFAULT_TIME_TO_FLY;
+		vy = ny * dy / BOSS_DEFAULT_TIME_TO_FLY;
+	}
 }
 
 void Boss::GetBoundingBox(float& left, float& top, float& right, float& bottom)
@@ -190,7 +189,7 @@ void Boss::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 
 void Boss::GetActiveBoundingBox(float& left, float& top, float& right, float& bottom)
 {
-	left = entryPosition.x + 100;
+	left = entryPosition.x + 120;
 	right = left + BOSS_ACTIVE_BBOX_WIDTH;
 	top = entryPosition.y;
 	bottom = entryPosition.y + BOSS_ACTIVE_BBOX_HEIGHT;
@@ -198,10 +197,8 @@ void Boss::GetActiveBoundingBox(float& left, float& top, float& right, float& bo
 
 void Boss::LoseHP(int x)
 {
-	HP -= x;
-	if (HP <= 0) {
-		HP = 0;
-		SetState(BOSS_DESTROYED);
-	}
-}
+	Enemy::LoseHP(x);
 
+	if (HP == 0)
+		SetState(BOSS_DESTROYED);
+}

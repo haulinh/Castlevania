@@ -55,7 +55,7 @@ class TileMaps
 	unordered_map<int, LPTILEMAP> tilemaps;
 
 public:
-	void Add(int ID, LPCWSTR filePath_tex, LPCWSTR filePath_data, int map_width, int map_height, int tile_width, int tile_height);
+	void Add(int ID, LPCWSTR filePath_tex, LPCWSTR filePath_data, int map_width, int map_height, int tile_width = 32, int tile_height = 32);
 	LPTILEMAP Get(int ID) { return tilemaps[ID]; }
 
 	static TileMaps* GetInstance();

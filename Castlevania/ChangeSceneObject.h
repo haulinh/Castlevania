@@ -1,19 +1,19 @@
 ﻿#pragma once
 
-#include "define.h"
+#include "GameObject.h"
 
 // Trigger object để nhận biết việc chuyển scene khi xét va chạm với Simon.
-class ChangeSceneObject
+class ChangeSceneObject : public GameObject
 {
-	float x;
-	float y;
-
 	int IDNextScene;
 
 public:
-	ChangeSceneObject(float x, float y, int IDNextScene);
-	void GetBoundingBox(float& l, float& t, float& r, float& b);
+	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObject = NULL) {}
+	virtual void Render() {}
 
+	virtual void GetBoundingBox(float& l, float& t, float& r, float& b);
+
+	void SetIDNextScene(int x) { this->IDNextScene = x; }
 	int GetIDNextScene() { return this->IDNextScene; }
 };
 

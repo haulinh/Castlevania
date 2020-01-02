@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include <string>
 
 #include <Windows.h>
@@ -65,6 +65,26 @@ const int ID_BBOX_2 = 9999;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma region define State
+
+// Game
+#define GAMESTATE_1		0   // SCENE_1
+#define GAMESTATE_2_1	1	// SCENE_2 - phòng 1
+#define GAMESTATE_2_2	2	// SCENE_2 - phòng 2
+#define GAMESTATE_2_2_1	3	// SCENE_2 - phòng 2 - cầu thang xuống 1
+#define GAMESTATE_2_2_2	4	// SCENE_2 - phòng 2 - cầu thang xuống 2
+#define GAMESTATE_2_3	5	// SCENE_2 - phòng 3 (Boss)
+#define GAMESTATE_3_1	6	// SCENE_3 - cầu thang lên 1
+#define GAMESTATE_3_2	7	// SCENE_3 - cầu thang lên 2
+
+// Orientation
+#define DIR_LEFT		-1
+#define DIR_RIGHT		1
+
+// Collision direction
+#define CDIR_LEFT		1.0f
+#define CDIR_RIGHT		-1.0f
+#define CDIR_TOP		1.0f
+#define	CDIR_BOTTOM		-1.0f	
 
 // Simon
 const string IDLE = "SIMON_IDLE";
@@ -175,6 +195,23 @@ const string FIREBALL = "FIREBALL";
 
 // Bubbles
 const string BUBBLES = "BUBBLES";
+
+// Break wall
+const string NORMAL = "NORMAL";
+const string BREAK = "BREAK";
+#pragma endregion
+
+#pragma region Animation 
+// Animation Delay
+#define SPARK_ANI_TIME_DELAY		100
+#define EFFECT_ANI_TIME_DELAY		300
+#define EFFECT_2_ANI_TIME_DELAY		1000
+#define POWER_ANI_TIME_DELAY		450
+#define STAIR_WALK_ANI_TIME_DELAY	200
+#define DEFLECT_ANI_TIME_DELAY		600
+#define HIT_ANI_TIME_DELAY			300
+#define DOOR_2_OPEN_ANI_TIME_DELAY	5000
+#define FISHMAN_HIT_ANI_TIME_DELAY	1000
 #pragma endregion
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -188,9 +225,11 @@ constexpr float SIMON_WALKING_SPEED_LOWER = 0.05f;
 constexpr float SIMON_JUMP_SPEED_Y = 0.55f;
 constexpr float SIMON_GRAVITY = 0.002f;
 constexpr float SIMON_GRAVITY_LOWER = 0.001f;
+constexpr float SIMON_SPEED_Y_LOWER_ZONE = 0.2f;
 constexpr float SIMON_STAIR_SPEED_X = 0.08f;
 constexpr float SIMON_STAIR_SPEED_Y = 0.08f;
 constexpr float SIMON_UNTOUCHABLE_TIME = 3000;
+constexpr float SIMON_INVISIBILITY_TIME = 4000;
 constexpr float SIMON_DEAD_TIME = 3000;
 constexpr float SIMON_DEFLECT_SPEED_X = 0.15f;
 constexpr float SIMON_DEFLECT_SPEED_Y = 0.3f;
@@ -242,6 +281,7 @@ constexpr float BUBBLES_SPEED_Y = 0.1f;
 constexpr float BUBBLES_SPEED_X2 = 0.03f;
 constexpr float BUBBLES_SPEED_Y2 = 0.2f;
 constexpr float BUBBLES_GRAVITY = 0.0005f;
+constexpr float BUBBLES_TIME = 1000;
 
 // Fire ball
 constexpr float FIREBALL_SPEED = 0.13f;
@@ -254,10 +294,13 @@ constexpr float FISHMAN_RESPAWN_TIME = 3000;
 
 // Boss
 constexpr float BOSS_HP = 16;
-constexpr float BOSS_DEFAULT_VELOCITY = 0.1f;
-constexpr float BOSS_MIN_VELOCITY = 0.7f;
-constexpr float BOSS_MAX_VELOCITY = 0.13f;
-constexpr float BOSS_STOP_TIME_WAITING = 2000;
+constexpr float BOSS_DEFAULT_TIME_TO_FLY = 1000;
+constexpr float BOSS_FAST_TIME_TO_FLY = 750;
+constexpr float BOSS_STOP_TIME_WAITING = 1500;
+
+// Wall pieces
+constexpr float	WALLPIECES_GRAVITY = 0.0005f;
+constexpr float WALLPIECES_TIME = 2000;
 
 #pragma endregion
 
@@ -356,6 +399,10 @@ constexpr float BOSS_STOP_TIME_WAITING = 2000;
 #define ENEMY_DEFAULT_BBOX_WIDTH			32
 #define ENEMY_DEFAULT_BBOX_HEIGHT			32
 
+// Water
+#define	WATER_BBOX_WIDTH			512
+#define WATER_BBOX_HEIGHT			32
+
 #pragma endregion
 
 #pragma region ID objects to load from file
@@ -368,6 +415,9 @@ const string BLACK_LEOPARD = "BLACK_LEOPARD";
 const string VAMPIRE_BAT = "VAMPIRE_BAT";
 const string FISHMAN = "FISHMAN";
 const string BOSS = "BOSS";
+const string CHANGE_SCENE_OBJECT = "CHANGE_SCENE_OBJECT";
+const string WATER = "WATER";
+const string BREAKWALL = "BREAKWALL";
 
 #pragma endregion
 

@@ -1,27 +1,20 @@
 #pragma once
 
-#include "GameObject.h"
+#include "Enemy.h"
 
-class BlackLeopard : public GameObject
+class BlackLeopard : public Enemy
 {
-	DWORD respawnTimeStart = 0;
-	bool isRespawnWaiting = false;
-	bool isJumping = false;
-
+	bool isJumping;
 public:
 	BlackLeopard();
 
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObject = NULL);
-	void Render();
-	void SetState(string state);
-
-	void StartRespawnTimeCounter() { isRespawnWaiting = true; respawnTimeStart = NOW; }
+	virtual void Render();
+	virtual void SetState(string state);
 
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
-	void GetActiveBoundingBox(float& left, float& top, float& right, float& bottom);
+	virtual void GetActiveBoundingBox(float& left, float& top, float& right, float& bottom);
 
-	void SetIsRespawnWaiting(bool x) { isRespawnWaiting = x; }
-	bool IsRespawnWaiting() { return isRespawnWaiting; }
-	bool IsAbleToActivate();
+	virtual void LoseHP(int x);
 };
 

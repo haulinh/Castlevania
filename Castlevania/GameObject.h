@@ -7,6 +7,7 @@
 #include "define.h"
 
 #include "Sprites.h"
+#include "Textures.h"
 #include "LoadResourceFile.h"
 
 using namespace std;
