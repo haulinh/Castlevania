@@ -37,6 +37,7 @@ void Grid::Add(LPGAMEOBJECT object)
 	if (col > nums_col)
 		return;
 
+	//DebugOut(L"add object: %d\n", i++);
 	cells[row][col].push_back(object);
 }
 
