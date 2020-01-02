@@ -2,8 +2,15 @@
 
 WallPiece::WallPiece()
 {
-	AddAnimation("wall_piece_ani");
-	SetState(0);
+	LoadResourceFile* loadResourceFile = LoadResourceFile::GetInstance();
+
+	vector<string> animationsBreakWall = loadResourceFile->GetAnimations("resources\\break_wall\\break_wall_ani.xml");
+	for each (string animation in animationsBreakWall)
+	{
+		AddAnimation(animation);
+	}
+
+	SetState("WALL_PIECE");
 }
 
 void WallPiece::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject, bool stopMovement)
@@ -17,7 +24,7 @@ void WallPiece::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject, bool stopMoveme
 
 void WallPiece::Render()
 {
-	animations[state]->Render(1, nx, x, y);
+	animations[state]->Render(nx, x, y);
 }
 
 WallPieces::WallPieces(float x, float y)

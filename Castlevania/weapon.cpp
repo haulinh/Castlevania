@@ -9,6 +9,7 @@
 #include "FishMan.h"
 #include "FireBall.h"
 #include "Boss.h"
+#include "BreakWall.h"
 
 Weapon::Weapon()
 {
@@ -97,6 +98,17 @@ void Weapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				{
 					e->vx = 0;
 					e->SetEnable(false);
+					e->isLastFame = false;
+				}
+			}
+
+			else if (dynamic_cast<BreakWall*>(obj))
+			{
+				BreakWall* e = dynamic_cast<BreakWall*>(obj);
+
+				if (this->AABBx(e) == true)
+				{
+					e->SetState(BREAK);
 					e->isLastFame = false;
 				}
 			}

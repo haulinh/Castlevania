@@ -36,7 +36,7 @@ Simon::Simon() : GameObject() {
 	item = "";
 	energy = 55;
 	life = 3;
-	HP = 2;
+	HP = 16;
 }
 
 void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
