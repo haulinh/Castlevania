@@ -1,4 +1,4 @@
-#include "Items.h"
+﻿#include "Items.h"
 #include "LoadResourceFile.h"
 
 Items::Items()
@@ -17,23 +17,30 @@ Items::Items()
 
 void Items::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 {
-	if (timeAppear == -1)
+	if (state != MAGIC_CRYSTAL)
 	{
-		timeAppear = GetTickCount();
-	}
-	else
-	{
-		DWORD now = GetTickCount();
-
-		if (now - timeAppear > ITEM_TIME_DESTROYED)
+		if (timeAppear == -1)
+			timeAppear = GetTickCount();
+		else
 		{
-			isEnable = false;
-			return;
+			DWORD now = GetTickCount();
+
+			if (now - timeAppear > ITEM_TIME_DESTROYED)
+			{
+				isEnable = false;
+				return;
+			}
 		}
 	}
 
 
 	GameObject::Update(dt);
+	if (state == SMALL_HEART && vy != 0)
+	{
+		vx += velocityVariation_x;
+		if (vx >= ITEM_FALLING_SPEED_X || vx <= -ITEM_FALLING_SPEED_X)
+			velocityVariation_x *= -1; // đổi chiều
+	}
 
 	// Check collision between item and ground (falling on ground)
 	vector<LPCOLLISIONEVENT> coEvents;
@@ -55,7 +62,11 @@ void Items::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
 
 		y += min_ty * dy + ny * 0.1f;
-		if (ny != 0) vy = 0;
+		if (ny != 0)
+		{
+			vx = 0;
+			vy = 0;
+		}
 	}
 
 	// clean up collision events
@@ -64,21 +75,29 @@ void Items::Update(DWORD dt, vector<LPGAMEOBJECT>* coObject)
 
 void Items::Render()
 {
-	animations[state]->Render(nx, x, y);
-	//RenderBoundingBox();
+	int alpha = 255;
+
+	if (state != MAGIC_CRYSTAL && GetTickCount() - timeAppear > ITEM_TIME_DESTROYED / 2)
+		alpha -= 100 * (rand() % 2);
+
+	animations[state]->Render(-1, x, y, alpha);
 }
 
 void Items::SetState(string state)
 {
 	GameObject::SetState(state);
-}
 
-
-void Items::GeneratorRandom()
-{
-	vector<string> listState = { "LargeHeart", "Chain", "Dagger" };
-	int randomState = rand() % 3;
-	state = listState[randomState];
+	if (state == SMALL_HEART)
+	{
+		velocityVariation_x = ITEM_FALLING_SPEED_X_VARIATION;
+		vx = 0;
+		vy = ITEM_SMALLHEART_FALLING_SPEED_Y;
+	}
+	else
+	{
+		vx = 0;
+		vy = ITEM_FALLING_SPEED_Y;
+	}
 }
 
 void Items::SetItem(string nameItem)

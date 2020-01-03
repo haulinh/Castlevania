@@ -22,6 +22,11 @@ void KeyBoardInput::KeyState(BYTE* state)
 	if (simon->isAutoWalk == true)
 		return;
 
+	// nếu simon đang nhảy và chưa chạm đất, tiếp tục render trạng thái nhảy
+	if ((simon->GetState() == JUMP || simon->GetState() == IDLE)
+		&& simon->isTouchGround == false)
+		return;
+
 	if (isNeedToWaitingAnimation == true)
 	{
 	/*	if (scene->GetSimon()->IsJumping())
@@ -43,11 +48,6 @@ void KeyBoardInput::KeyState(BYTE* state)
 			return;
 
 		if (scene->GetSimon()->isAutoWalk == true)
-			return;
-
-		// nếu simon đang nhảy và chưa chạm đất, tiếp tục render trạng thái nhảy
-		if ((simon->GetState() == JUMP || simon->GetState() == IDLE)
-			&& simon->isTouchGround == false)
 			return;
 	
 		if (scene->GetSimon()->GetState() == STAIR_UP && scene->GetSimon()->animations[STAIR_UP]->IsOver(200) == false)
@@ -115,6 +115,12 @@ void KeyBoardInput::KeyState(BYTE* state)
 		if (StairCollisionsDetection() == true)
 		{
 			Simon_Stair_Down();
+			return;
+		}
+
+		if (simon->isTouchGround == false || simon->isFalling == true)
+		{
+			simon->SetState(IDLE);
 			return;
 		}
 
@@ -241,7 +247,7 @@ void KeyBoardInput::Simon_Walk_Right()
 
 void KeyBoardInput::Simon_Jump()
 {
-	if (scene->GetSimon()->GetState() == JUMP ||
+	if (scene->GetSimon()->isTouchGround == false || scene->GetSimon()->GetState() == JUMP ||
 		scene->GetSimon()->GetState() == STAND_ATTACK ||
 		scene->GetSimon()->GetState() == SIT_ATTACK)
 		return;
