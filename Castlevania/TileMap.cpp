@@ -1,5 +1,6 @@
 ﻿#include "TileMap.h"
 #include "define.h"
+#include "LoadResourceFile.h"
 
 
 TileMap::TileMap(int ID, LPCWSTR filePathTex, LPCWSTR filePathData, int mapWidth, int mapHeight, int tileWidth, int tileHeight)
@@ -95,22 +96,41 @@ void TileMap::LoadMapData()
 
 void TileMap::CreateZoneToDraw()
 {
-	switch (ID)
-	{
-	case SCENE_1:
-		min_max_col_to_draw.push_back({ 0, 48 });
-		break;
-	case SCENE_2:
-		min_max_col_to_draw.push_back({ 0, 96 });
-		min_max_col_to_draw.push_back({ 96, 128 });
-		min_max_col_to_draw.push_back({ 128, 176 });
-		break;
-	case SCENE_3:
-		min_max_col_to_draw.push_back({ 0, 32 });
-		break;
-	default:
-		break;
+
+	rapidxml::file<> xmlFile("Scenes\\game.xml");
+	rapidxml::xml_document<> doc;
+	doc.parse<0>(xmlFile.data());
+	xml_node<>* rootNode = doc.first_node("scenes");
+
+	for (xml_node<>* sceneNode = rootNode->first_node(); sceneNode; sceneNode = sceneNode->next_sibling()) {
+		int sceneID = std::atoi(sceneNode->first_attribute("sceneID")->value());
+		if (ID == sceneID)
+		{
+			for (xml_node<>* mapLimitNode = sceneNode->first_node("mapLimit"); mapLimitNode; mapLimitNode = mapLimitNode->next_sibling())
+			{
+				int min_col = std::atoi(mapLimitNode->first_attribute("min_col")->value());
+				int max_col = std::atoi(mapLimitNode->first_attribute("max_col")->value());
+				min_max_col_to_draw.push_back({ min_col, max_col });
+			}
+		}
 	}
+
+	//switch (ID)
+	//{
+	//case SCENE_1:
+	//	min_max_col_to_draw.push_back({ 0, 48 });
+	//	break;
+	//case SCENE_2:
+	//	min_max_col_to_draw.push_back({ 0, 96 });
+	//	min_max_col_to_draw.push_back({ 96, 128 });
+	//	min_max_col_to_draw.push_back({ 128, 176 });
+	//	break;
+	//case SCENE_3:
+	//	min_max_col_to_draw.push_back({ 0, 32 });
+	//	break;
+	//default:
+	//	break;
+	//}
 }
 
 void TileMap::Draw(D3DXVECTOR2 camPosition, bool isCrossEffect)

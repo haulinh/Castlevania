@@ -8,6 +8,8 @@
 class Items : public GameObject
 {
 	DWORD timeAppear;   // thời gian bắt đầu xuất hiện của item, dùng để xét cho item tự huỷ
+	float velocityVariation_x;	// biến thiên vận tốc theo chiều x để cho smallheart bay lảo đảo
+
 public:
 
 	Items();
@@ -16,6 +18,5 @@ public:
 	void SetState(string state);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObject = NULL);
 
-	void GeneratorRandom();
 	void SetItem(string nameItem);
 };

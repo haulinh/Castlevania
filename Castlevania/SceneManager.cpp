@@ -574,7 +574,7 @@ void SceneManager::SetDropItems()
 			auto item = new Items();
 			item->SetEnable(true);
 			item->SetPosition(x, y);
-			item->SetItem(idItem);
+			item->SetState(idItem);
 			grid->Add(item);
 			listItems.push_back(item);
 		}
