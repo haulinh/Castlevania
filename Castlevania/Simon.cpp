@@ -655,7 +655,12 @@ void Simon::CheckCollisionWithEnemyActiveArea(vector<LPGAMEOBJECT>* listObjects)
 			continue;
 
 		// Không cần xét vùng active nữa khi nó đang active / destroyed
-		if (enemy->GetState() == ACTIVE || enemy->GetState() == DESTROYED)
+		if (enemy->GetState() == ZOMBIE_ACTIVE || 
+			enemy->GetState() == FISHMAN_ACTIVE ||
+			enemy->GetState() == BLACK_LEOPARD_ACTIVE ||
+			enemy->GetState() == VAMPIRE_BAT_ACTIVE ||
+			enemy->GetState() == BOSS_ACTIVE ||
+			enemy->GetState() == DESTROYED)
 			continue;
 
 		float enemy_l, enemy_t, enemy_r, enemy_b;

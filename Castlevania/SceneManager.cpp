@@ -330,7 +330,14 @@ void SceneManager::UpdateTimeCounter()
 {
 	// Stop Watch
 	if (stopWatchTimer->IsTimeUp() == true)
+	{
 		stopWatchTimer->Stop();
+		stopWatchMoment = false;
+	}
+	else
+	{
+		stopWatchMoment = true;
+	}
 
 	// Cross
 	if (crossEffectTimer->IsTimeUp() == true)
@@ -495,30 +502,30 @@ bool SceneManager::SimonWalkThroughDoor()
 
 string SceneManager::GetRandomItem()
 {
-	vector<string> listItems = { 
+	vector<string> listItems = {
 		STOP_WATCH,
 		DAGGER,
 		AXE,
 		BOOMERANG,
 		SMALL_HEART,
-		LARGE_HEART, 
-		INVISIBILITY_POTION, 
-		CHAIN, 
-		MONEY_BAG_RED, 
-		MONEY_BAG_BLUE, 
-		MONEY_BAG_WHITE, 
+		LARGE_HEART,
+		INVISIBILITY_POTION,
+		CHAIN,
+		MONEY_BAG_RED,
+		MONEY_BAG_BLUE,
+		MONEY_BAG_WHITE,
 		MONEY_BAG_FLASHING,
 		DOUBLE_SHOT,
 		TRIPLE_SHOT,
 		PORK_CHOP };
 
-	bool canDropItem = (rand() % 100) < 50? true : false; // tỉ lệ rớt item là 80/100
+	bool canDropItem = (rand() % 100) < 50 ? true : false; // tỉ lệ rớt item là 80/100
 
 	if (canDropItem == false)
 		return "";
 
 	int randomItem = rand() % 15;
-	
+
 	return listItems[randomItem];
 }
 
@@ -860,7 +867,7 @@ void SceneManager::Simon_Update(DWORD dt)
 
 void SceneManager::Weapon_Update(DWORD dt, int index)
 {
-	if (simon->GetSubWeapon() == STOP_WATCH)
+	if (simon->GetSubWeapon() == STOP_WATCH_SUB)
 		return;
 
 	if (subweaponList[index]->IsEnable() == false)
@@ -946,6 +953,7 @@ void SceneManager::Zombie_Update(DWORD dt, LPGAMEOBJECT& object)
 				coObjects.push_back(obj);
 		}
 
+		object->SetStopMovement(stopWatchMoment);
 		object->Update(dt, &coObjects);
 	}
 
@@ -976,6 +984,7 @@ void SceneManager::BlackLeopard_Update(DWORD dt, LPGAMEOBJECT& object)
 				coObjects.push_back(obj);
 		}
 
+		object->SetStopMovement(stopWatchMoment);
 		object->Update(dt, &coObjects);
 	}
 }
@@ -1011,6 +1020,7 @@ void SceneManager::VampireBat_Update(DWORD dt, LPGAMEOBJECT& object)
 			bat->SetState(VAMPIRE_BAT_ACTIVE);
 		}
 
+		bat->SetStopMovement(stopWatchMoment);
 		bat->Update(dt, NULL);
 	}
 }
@@ -1038,7 +1048,6 @@ void SceneManager::FishMan_Update(DWORD dt, LPGAMEOBJECT& object)
 			fireball->SetState(FIREBALL);
 			fireball->SetEnable(true);
 
-			//unit = new Unit(grid, fireball, fx, fy);
 			grid->Add(fireball);
 
 			// Đặt hướng quay mặt của Fishman sau khi bắn (quay về phía simon)
@@ -1082,7 +1091,8 @@ void SceneManager::FishMan_Update(DWORD dt, LPGAMEOBJECT& object)
 					coObjects.push_back(obj);
 			}
 
-			fishman->Update(dt, &coObjects, !stopWatchTimer->IsTimeUp());
+			fishman->SetStopMovement(stopWatchMoment);
+			fishman->Update(dt, &coObjects);
 		}
 	}
 }

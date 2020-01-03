@@ -282,8 +282,8 @@ void SubWeapon::GetBoundingBox(float& left, float& top, float& right, float& bot
 
 	else
 	{
-		right = left;
-		bottom = top;
+		right = left + WEAPONS_HOLY_WATER_BBOX_WIDTH;
+		bottom = top + WEAPONS_AXE_BBOX_HEIGHT;
 	}
 }
 

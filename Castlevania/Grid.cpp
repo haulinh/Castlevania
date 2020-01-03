@@ -60,7 +60,7 @@ void Grid::Move(LPGAMEOBJECT object, float x, float y)
 	for (auto it = cells[old_row][old_row].begin(); it != cells[old_row][old_row].end(); )
 	{
 		if ((*it) == object) {
-			cells[old_row][old_row].erase(it--);
+			cells[old_row][old_row].erase(it);
 		}
 	}
 
@@ -72,6 +72,15 @@ void Grid::Get(D3DXVECTOR2 camPosition, vector<LPGAMEOBJECT>& listUnits)
 {
 	int start_col = (int)(camPosition.x / cell_width);
 	int end_col = ceil((camPosition.x + SCREEN_WIDTH) / cell_width);
+
+	if (start_col > 1)
+	{
+		start_col--;
+	}
+	if (end_col < this->nums_col)
+	{
+		end_col++;
+	}
 
 	for (int i = 0; i < nums_row; i++)
 	{

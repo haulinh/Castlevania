@@ -66,6 +66,8 @@ class SceneManager
 	vector<LPGAMEOBJECT> listDoors;
 	vector<SubWeapon*> subweaponList;		// dùng mảng để sử dụng double shot, triple shot
 
+	bool stopWatchMoment = false;
+
 	bool isSetSimonAutoWalk = false;	//
 	bool isMovingCamera1 = false;
 	bool isMovingCamera2 = false;
@@ -135,7 +137,5 @@ public:
 	void VampireBat_Update(DWORD dt, LPGAMEOBJECT& object);
 	void FishMan_Update(DWORD dt, LPGAMEOBJECT& object);
 	void Boss_Update(DWORD dt, LPGAMEOBJECT& object);
-
-
 };
 
