@@ -265,9 +265,9 @@ constexpr float ZOMBIE_GRAVITY = 0.002f;
 
 // Black Leopard
 constexpr float BLACK_LEOPARD_RUNNING_SPEED_X = 0.3f;
-constexpr float  BLACK_LEOPARD_RUNNING_SPEED_Y = 0.2f;
+constexpr float BLACK_LEOPARD_RUNNING_SPEED_Y = 0.2f;
 constexpr float BLACK_LEOPARD_GRAVITY = 0.001f;
-constexpr float  BLACK_LEOPARD_RESPAWN_TIME = 20000;
+constexpr float BLACK_LEOPARD_RESPAWN_TIME = 20000;
 
 // Vampire Bat
 constexpr float VAMPIRE_BAT_FLYING_SPEED_X = 0.12f;
@@ -324,7 +324,7 @@ constexpr float WALLPIECES_TIME = 2000;
 
 // Whip
 #define LONG_CHAIN_BBOX_WIDTH 80
-#define WHIP_BBOX_WIDTH 50
+#define WHIP_BBOX_WIDTH 55
 #define WHIP_BBOX_HEIGHT 15
 
 // Large Heart
@@ -385,7 +385,7 @@ constexpr float WALLPIECES_TIME = 2000;
 // Fish man
 #define FISHMAN_BBOX_WIDTH			10
 #define FISHMAN_BBOX_HEIGHT			60
-#define FISHMAN_ACTIVE_BBOX_WIDTH			150
+#define FISHMAN_ACTIVE_BBOX_WIDTH			200
 #define FISHMAN_ACTIVE_BBOX_HEIGHT			200
 
 // Boss

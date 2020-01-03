@@ -15,7 +15,6 @@ class Grid
 	int nums_col;
 	int nums_row;
 
-	int i = 0;
 	vector<vector<listUnits>> cells;
 
 public:

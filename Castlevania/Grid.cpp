@@ -37,7 +37,6 @@ void Grid::Add(LPGAMEOBJECT object)
 	if (col > nums_col)
 		return;
 
-	//DebugOut(L"add object: %d\n", i++);
 	cells[row][col].push_back(object);
 }
 
@@ -58,7 +57,8 @@ void Grid::Move(LPGAMEOBJECT object, float x, float y)
 	if (old_row == new_row && old_col == new_col)
 		return;
 
-	for (auto it = cells[old_row][old_row].begin(); it != cells[old_row][old_row].end(); ) {
+	for (auto it = cells[old_row][old_row].begin(); it != cells[old_row][old_row].end(); )
+	{
 		if ((*it) == object) {
 			cells[old_row][old_row].erase(it--);
 		}

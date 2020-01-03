@@ -119,8 +119,7 @@ void Weapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 				if (this->AABBx(e) == true)
 				{
-					e->SetState(BOSS_HURT);
-					e->LoseHP(1);
+					e->LoseHP(2);
 				}
 			}
 		}

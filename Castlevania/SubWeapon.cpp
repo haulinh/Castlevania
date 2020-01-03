@@ -9,6 +9,7 @@
 #include "Ground.h"
 #include "simon.h"
 #include "Boss.h"
+#include "BreakWall.h"
 
 SubWeapon::SubWeapon()
 {
@@ -91,6 +92,7 @@ void SubWeapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					y += dy;
 				}
 			}
+
 			else if (dynamic_cast<FireBall*>(e->obj))
 			{
 				FireBall* fireball = dynamic_cast<FireBall*>(e->obj);
@@ -104,12 +106,11 @@ void SubWeapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					y += dy;
 				}
 			}
+
 			else if (dynamic_cast<Zombie*>(e->obj))
 			{
 				Zombie* zombie = dynamic_cast<Zombie*>(e->obj);
 				zombie->SetState(ZOMBIE_DESTROYED);
-
-				DebugOut(L"hit zombie \n");
 
 				if (state == DAGGER_SUB || state == AXE_SUB || state == BOOMERANG_SUB)
 				{

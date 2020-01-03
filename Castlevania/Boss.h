@@ -9,6 +9,7 @@ class Boss : public Enemy
 
 	int idTarget = 0;
 	D3DXVECTOR2 simonPostion;
+	D3DXVECTOR2 cam;
 	D3DXVECTOR2 target;
 
 	int startTimeWaiting = 0;
@@ -35,6 +36,7 @@ public:
 	void StartStopTimeCounter() { isStopWaiting = true; startTimeWaiting = GetTickCount(); }
 
 	void SetSimonPosition(float sx, float sy) { simonPostion.x = sx; simonPostion.y = sy; }
+	void SetCamPos(float camx, float camy) { cam.x = camx; cam.y = camx; }
 
 	int GetIdTarget() { return idTarget; }
 
