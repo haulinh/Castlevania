@@ -94,9 +94,9 @@ void Weapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			{
 				FireBall* e = dynamic_cast<FireBall*>(obj);
 
-				GetCoordinateObject(obj);
 				if (this->AABBx(e) == true)
 				{
+					GetCoordinateObject(obj);
 					e->vx = 0;
 					e->SetEnable(false);
 					e->isLastFame = false;
