@@ -1,4 +1,5 @@
 ﻿#include "Boss.h"
+#include "debug.h"
 
 
 Boss::Boss()
@@ -139,7 +140,8 @@ void Boss::FlyToTarget(DWORD dt)
 		isFlyToTarget = false;
 		this->SetPosition(target.x, target.y);
 
-		idTarget = (idTarget + 1) % 3;
+		//DebugOut(L"target %d\n", idTarget);
+		idTarget =  rand() % 2;
 
 		if (isFlyToSimon == true)
 		{
@@ -165,12 +167,6 @@ void Boss::GetVelocity()
 
 	if (y < target.y) ny = 1;
 	else ny = -1;
-
-	if (!(x >= cam.x && x < cam.x + SCREEN_WIDTH))
-		nx = -nx;
-
-	if (!(x >= cam.y && x < cam.y + SCREEN_HEIGHT))
-		ny = -ny;
 
 	// tính vận tốc
 	if (isFlyToSimon == true)
@@ -205,6 +201,6 @@ void Boss::LoseHP(int x)
 {
 	Enemy::LoseHP(x);
 
-	if (HP <= 0)
+	if (HP == 0)
 		SetState(BOSS_DESTROYED);
 }

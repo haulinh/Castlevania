@@ -82,6 +82,9 @@ void SubWeapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				Candle* candle = dynamic_cast<Candle*>(e->obj);
 				candle->SetState(CANDLE_DESTROYED);
 
+				targetTypeHit = CANDLE;
+				GetCoordinateObject(e->obj);
+
 				if (state == DAGGER_SUB || state == AXE_SUB || state == BOOMERANG_SUB)
 				{
 					this->isEnable = false;
@@ -98,6 +101,9 @@ void SubWeapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				FireBall* fireball = dynamic_cast<FireBall*>(e->obj);
 				fireball->SetEnable(false);
 
+				targetTypeHit = FIREBALL;
+				GetCoordinateObject(e->obj);
+
 				if (state == DAGGER_SUB || state == AXE_SUB || state == BOOMERANG_SUB)
 					this->isEnable = false;
 				else
@@ -111,6 +117,8 @@ void SubWeapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			{
 				Zombie* zombie = dynamic_cast<Zombie*>(e->obj);
 				zombie->SetState(ZOMBIE_DESTROYED);
+
+				targetTypeHit = ZOMBIE;
 
 				if (state == DAGGER_SUB || state == AXE_SUB || state == BOOMERANG_SUB)
 				{
@@ -127,6 +135,8 @@ void SubWeapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				BlackLeopard* blackLeopard = dynamic_cast<BlackLeopard*>(e->obj);
 				blackLeopard->SetState(BLACK_LEOPARD_DESTROYED);
 
+				targetTypeHit = BLACK_LEOPARD;
+
 				if (state == DAGGER_SUB || state == AXE_SUB || state == BOOMERANG_SUB)
 					this->isEnable = false;
 				else
@@ -139,6 +149,8 @@ void SubWeapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			{
 				VampireBat* vampirebat = dynamic_cast<VampireBat*>(e->obj);
 				vampirebat->SetState(VAMPIRE_BAT_DESTROYED);
+
+				targetTypeHit = VAMPIRE_BAT;
 
 				if (state == DAGGER_SUB || state == AXE_SUB || state == BOOMERANG_SUB)
 					this->isEnable = false;
@@ -165,6 +177,8 @@ void SubWeapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			{
 				Boss* boss = dynamic_cast<Boss*>(e->obj);
 				boss->LoseHP(2);
+				targetTypeHit = FISHMAN;
+				GetCoordinateObject(e->obj);
 
 				if (state == DAGGER_SUB || state == AXE_SUB || state == BOOMERANG_SUB)
 					this->isEnable = false;
@@ -196,10 +210,29 @@ void SubWeapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 void SubWeapon::Render()
 {
+	RenderSpark();
+
 	if (this->isEnable == true && state != STOP_WATCH_SUB)
 	{
 		animations[state]->Render(nx, x, y);
 		//RenderBoundingBox();
+	}
+}
+
+void SubWeapon::RenderSpark()
+{
+	if (sparkCoord.size() > 0)
+	{
+		if (startTimeRenderSpark == 0)
+			startTimeRenderSpark = GetTickCount();
+		else if (GetTickCount() - startTimeRenderSpark > SPARK_ANI_TIME_DELAY)
+		{
+			startTimeRenderSpark = 0;
+			sparkCoord.clear();
+		}
+
+		for (auto coord : sparkCoord)
+			spark->Render(-1, coord[0], coord[1]);
 	}
 }
 
@@ -245,6 +278,14 @@ void SubWeapon::SetState(string state)
 	}
 }
 
+void SubWeapon::GetCoordinateObject(LPGAMEOBJECT obj)
+{
+	float l, t, r, b;
+	obj->GetBoundingBox(l, t, r, b);
+
+	sparkCoord.push_back({ l, t });
+}
+
 void SubWeapon::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
 	left = x;
@@ -252,8 +293,8 @@ void SubWeapon::GetBoundingBox(float& left, float& top, float& right, float& bot
 
 	if (state == STOP_WATCH_SUB)
 	{
-		right = left + 26;
-		bottom = top + 28;
+		right = left;
+		bottom = top;
 	}
 
 	else if (state == DAGGER_SUB)

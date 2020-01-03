@@ -94,6 +94,7 @@ void Weapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			{
 				FireBall* e = dynamic_cast<FireBall*>(obj);
 
+				GetCoordinateObject(obj);
 				if (this->AABBx(e) == true)
 				{
 					e->vx = 0;
@@ -119,6 +120,7 @@ void Weapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 				if (this->AABBx(e) == true)
 				{
+					GetCoordinateObject(obj);
 					e->LoseHP(2);
 				}
 			}
@@ -129,8 +131,34 @@ void Weapon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 void Weapon::Render()
 {
+	RenderSpark();
 	animations[state]->Render(nx, x, y);
 	this->isLastFame = this->animations[state]->IsCompleted();
+}
+
+void Weapon::RenderSpark()
+{
+	if (sparkCoord.size() > 0)
+	{
+		if (startTimeRenderSpark == 0)
+			startTimeRenderSpark = GetTickCount();
+		else if (GetTickCount() - startTimeRenderSpark > SPARK_ANI_TIME_DELAY)
+		{
+			startTimeRenderSpark = 0;
+			sparkCoord.clear();
+		}
+
+		for (auto coord : sparkCoord)
+			spark->Render(-1, coord[0], coord[1]);
+	}
+}
+
+void Weapon::GetCoordinateObject(LPGAMEOBJECT obj)
+{
+	float l, t, r, b;
+	obj->GetBoundingBox(l, t, r, b);
+
+	sparkCoord.push_back({ l, t });
 }
 
 void Weapon::GetBoundingBox(float& left, float& top, float& right, float& bottom)

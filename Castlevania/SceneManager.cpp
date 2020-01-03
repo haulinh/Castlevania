@@ -558,9 +558,8 @@ void SceneManager::SetDropItems()
 			if (boss->DropItem() == true)
 			{
 				boss->SetEnable(false);
-				boss->SetIsDroppedItem(true);
-
 				idItem = MAGIC_CRYSTAL;
+				boss->SetIsDroppedItem(true);
 				x = game->GetCamPos().x + SCREEN_WIDTH / 2;
 				y = game->GetCamPos().y + SCREEN_HEIGHT / 2;
 			}
@@ -872,13 +871,14 @@ void SceneManager::Weapon_Update(DWORD dt, int index)
 
 	if (subweaponList[index]->IsEnable() == false)
 	{
+		subweaponList[index]->SetTargetTypeHit("");
 		return;
 	}
 
 	vector<LPGAMEOBJECT> coObjects;
 	coObjects.push_back(simon); // dùng để xét va chạm của Simon với boomerang
 
-	if (isBossFighting == true && boss->GetState() == BOSS_ACTIVE)
+	if (isBossFighting == true && boss->GetState() == BOSS_ACTIVE && subweaponList[index]->GetTargetTypeHit() != BOSS)
 		coObjects.push_back(boss);
 
 	for (auto obj : listObjects)
