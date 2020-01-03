@@ -91,7 +91,7 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			x += min_tx * dx + nx * 0.1f;
 			y += min_ty * dy + ny * 0.1f;
 		}
-	
+
 		for (UINT i = 0; i < coEventsResult.size(); i++)
 		{
 			LPCOLLISIONEVENT e = coEventsResult[i];
@@ -193,6 +193,12 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 			else if (e->obj->GetState() == DESTROYED) x += dx;
 
+			else if (e->obj->GetState() == BREAK)
+			{
+				x += dx;
+				y += dy;
+			}
+
 			else if (dynamic_cast<Zombie*>(e->obj) || dynamic_cast<BlackLeopard*>(e->obj)
 				|| dynamic_cast<VampireBat*>(e->obj) || dynamic_cast<FishMan*>(e->obj)
 				|| dynamic_cast<Boss*>(e->obj))
@@ -242,7 +248,7 @@ void Simon::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				}
 				else
 				{
-					if (e->nx != 0) x += dx;
+					if (e->nx != 0)	x + dx;
 					if (e->ny != 0) y += dy;
 				}
 			}

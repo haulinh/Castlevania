@@ -234,7 +234,7 @@ void SceneManager::GetObjectFromGrid()
 
 	grid->Get(game->GetCamPos(), listUnits);
 
-	DebugOut(L"%d \n", listUnits.size());
+	//DebugOut(L"%d \n", listUnits.size());
 
 	for (UINT i = 0; i < listUnits.size(); i++)
 	{
@@ -575,7 +575,7 @@ void SceneManager::SetDropItems()
 			item->SetEnable(true);
 			item->SetPosition(x, y);
 			item->SetItem(idItem);
-
+			grid->Add(item);
 			listItems.push_back(item);
 		}
 	}
@@ -722,6 +722,8 @@ void SceneManager::ResetGame()
 {
 	isGameReset = true; // flag variable for reset time in Player::Update()
 
+	isBossFighting = false;
+	boss->SetState(BOSS_INACTIVE);
 	simon->SetHP(16);
 	simon->SetSubWeapon("");
 	simon->GetWeapon()->SetState(MAGIC_WHIP);
@@ -869,7 +871,7 @@ void SceneManager::Weapon_Update(DWORD dt, int index)
 	vector<LPGAMEOBJECT> coObjects;
 	coObjects.push_back(simon); // dùng để xét va chạm của Simon với boomerang
 
-	if (isBossFighting == true && boss->GetState() == BOSS_ACTIVE /*&& subweaponList[index]->GetTargetTypeHit() != BOSS*/)
+	if (isBossFighting == true && boss->GetState() == BOSS_ACTIVE)
 		coObjects.push_back(boss);
 
 	for (auto obj : listObjects)
@@ -1037,6 +1039,7 @@ void SceneManager::FishMan_Update(DWORD dt, LPGAMEOBJECT& object)
 			fireball->SetEnable(true);
 
 			//unit = new Unit(grid, fireball, fx, fy);
+			grid->Add(fireball);
 
 			// Đặt hướng quay mặt của Fishman sau khi bắn (quay về phía simon)
 			float sx, sy;
@@ -1095,6 +1098,9 @@ void SceneManager::Boss_Update(DWORD dt, LPGAMEOBJECT& object)
 	float sx, sy;
 	simon->GetPosition(sx, sy);
 	boss->SetSimonPosition(sx, sy);
+
+	D3DXVECTOR2 camPosition = game->GetCamPos();
+	boss->SetCamPos(camPosition.x, camPosition.y);
 
 	boss->Update(dt);
 }
