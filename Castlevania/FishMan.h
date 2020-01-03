@@ -11,7 +11,7 @@ class FishMan :public Enemy
 public:
 	FishMan();
 
-	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObject = NULL, bool stopMovement = false);
+	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObject = NULL);
 	virtual void Render();
 	virtual void SetState(string state);
 
